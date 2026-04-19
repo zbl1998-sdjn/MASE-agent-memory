@@ -1,4 +1,4 @@
-# MASE 2.0 — Twitter / HN Launch Copy
+# MASE — Twitter / HN Launch Copy
 
 发布前把 `docs/assets/nolima_3way_lineplot.png` 作为主图。
 
@@ -11,7 +11,7 @@ We just lifted a 7B local model from 1.79% → 60.71% on NoLiMa-32k.
 
 No fine-tuning. No frontier model. Just a chunked-recall architecture that survives where context windows die.
 
-MASE 2.0 — schema-less SQLite memory, ~zero hallucination, 84.8% LongMemEval.
+MASE — schema-less SQLite memory, ~zero hallucination, 84.8% LongMemEval.
 github.com/<your-handle>/MASE-demo
 ```
 
@@ -23,7 +23,7 @@ github.com/<your-handle>/MASE-demo
 
 1. **Show HN: MASE — A 7B local model survives 32k NoLiMa at 60% with chunked recall**
 2. **Show HN: Schema-less SQLite memory for LLM agents — git-diffable, no vector DB**
-3. **MASE 2.0 — Lifting a 7B model from 1.79% to 60.71% on NoLiMa without fine-tuning**
+3. **MASE — Lifting a 7B model from 1.79% to 60.71% on NoLiMa without fine-tuning**
 
 **正文 (~150 词)**:
 
@@ -55,7 +55,7 @@ Repo, reproducible runs, all source: github.com/<your-handle>/MASE-demo
 
 ## 📌 Reddit r/LocalLLaMA — 标题 + TL;DR
 
-**标题**: `MASE 2.0 — chunked recall takes qwen2.5:7b from 1.79% → 60.71% on NoLiMa-32k (no fine-tuning)`
+**标题**: `MASE — chunked recall takes qwen2.5:7b from 1.79% → 60.71% on NoLiMa-32k (no fine-tuning)`
 
 **TL;DR**:
 - 本地 7B 模型 + SQLite 记忆层 + 分块召回

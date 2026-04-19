@@ -1,6 +1,6 @@
 <div align="center">
 
-# MASE 2.0 (Memory-Augmented Smart Entity)
+# MASE (Memory-Augmented Smart Entity)
 **Schema-less SQLite + per-day Markdown — dual-whitebox memory for LLM agents.**
 **Survives 256k adversarial context at 88% with a 7B local model.**
 
@@ -16,7 +16,7 @@
 ![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
 ![LongMemEval](https://img.shields.io/badge/LongMemEval--S-84.8%25-blueviolet)
 
-<b>中文</b> | <a href="docs/README_en.md">English</a> (WIP)
+<b>中文</b> | <a href="docs/README_en.md">English</a>
 
 ![MASE vs baseline on NoLiMa long-context (3-way comparison)](docs/assets/nolima_3way_lineplot.png)
 
@@ -28,7 +28,7 @@
 >
 > *The best AI memory isn't a black-box of floating-point vectors — it's structured facts you can `UPDATE` at 3 AM.*
 >
-> *— MASE 2.0, [read the full manifesto ↓](#️-为什么要重构-mase-20the-anti-rag-manifesto)*
+> *— MASE, [read the full manifesto ↓](#️-为什么要重构-mase-20the-anti-rag-manifesto)*
 
 ---
 
@@ -55,7 +55,7 @@
 
 ### 🪶 极简内核 (Zero-Bloat Architecture)
 
-> 告别动辄几百 MB、依赖错综复杂的"屎山框架"。MASE 2.0 跟踪源码体积 **2.72 MB / 266 个文件**——
+> 告别动辄几百 MB、依赖错综复杂的"屎山框架"。MASE 跟踪源码体积 **2.72 MB / 266 个文件**——
 > 不打包向量库，不带重型 ORM，全靠 Python 内置的 SQLite FTS5 + 原生数据结构。
 > 用最少的代码表面积，跑通 **256k 极限上下文调度** 与 **8 线程并发防弹** (`tests/test_audit_round2_fixes.py::test_tri_vault_concurrent_writes_no_collision`).
 >
@@ -118,7 +118,7 @@ MASE 同时把对话写入两层人类可读的存储:
 | Zep / cognee (知识图谱)    | Neo4j/KuzuDB  | 预设 schema + 学习曲线 | 几乎不晒            | ❌               |
 | basic-memory / Khoj (Obsidian / Markdown) | Markdown 文件 | 用户手写笔记结构 | 几乎不晒 | ❌ |
 | letta (ex-MemGPT)          | Postgres      | 整个 agent runtime 锁定 | 部分                | 部分             |
-| **MASE 2.0**               | **SQLite + Markdown** | **零** (schema-less, 双白盒) | **LV-Eval/LongMemEval 实测晒数** | ✅ iron-rule prompt |
+| **MASE**               | **SQLite + Markdown** | **零** (schema-less, 双白盒) | **LV-Eval/LongMemEval 实测晒数** | ✅ iron-rule prompt |
 
 ### 🔌 生态集成 (Integrations)
 
@@ -145,9 +145,9 @@ agent_executor.invoke({"input": "我上次说的预算是多少？"}, config={"m
 
 ### 🛡️ Battle-Tested: 工业级并发安全 (Round-2 Audit Cleared)
 
-市面上的 Memory 方案在 single-thread demo 里岁月静好,一上多并发就 file lock / 向量库锁死 / 后台线程吞异常. MASE 2.0 拒绝玩具架构,通过了两轮深度并发审计:
+市面上的 Memory 方案在 single-thread demo 里岁月静好,一上多并发就 file lock / 向量库锁死 / 后台线程吞异常. MASE 拒绝玩具架构,通过了两轮深度并发审计:
 
-| 隐患 | 业界常见症状 | MASE 2.0 防御 |
+| 隐患 | 业界常见症状 | MASE 防御 |
 |------|-------------|--------------|
 | **SQLite 句柄泄漏** | `database is locked` / `Too many open files` | `contextlib.closing` + `WAL` 全链路覆盖 |
 | **三库 (tri-vault) 写竞争** | 并发 `.tmp` 互踩, JSON 损坏 | `uuid4` 临时文件 + per-target `threading.Lock` + Windows `os.replace` 3 次重试 |
@@ -182,7 +182,7 @@ agent_executor.invoke({"input": "我上次说的预算是多少？"}, config={"m
 
 ---
 
-## ⚠️ 为什么要重构 MASE 2.0？(The Anti-RAG Manifesto)
+## ⚠️ 为什么要重构 MASE？(The Anti-RAG Manifesto)
 
 在 AI 智能体（Agent）爆发的今天，几乎所有的长文本记忆方案都在无脑堆砌 **向量数据库 (Vector DB) + RAG (检索增强生成)**。
 
@@ -191,7 +191,7 @@ agent_executor.invoke({"input": "我上次说的预算是多少？"}, config={"m
 2. **黑盒化与不可干预**：当 AI 记错了你的核心偏好，你对着一堆高维浮点数向量束手无策，只能通过不断地在对话里强调来试图“覆盖”它。
 3. **词汇孤岛**：由于过度依赖嵌入模型的语义空间，当表达发生微小跨度时，极易召回失败。
 
-**MASE 2.0 选择了最“反共识”但最有效的工业级架构**：我们彻底抛弃了向量数据库，转而拥抱最古老、最稳健的关系型数据库——**SQLite**，并结合 **LangGraph** 状态机，打造了一个 100% 透明、极速、且可物理干预的“白盒 AI 同事”。
+**MASE 选择了最“反共识”但最有效的工业级架构**：我们彻底抛弃了向量数据库，转而拥抱最古老、最稳健的关系型数据库——**SQLite**，并结合 **LangGraph** 状态机，打造了一个 100% 透明、极速、且可物理干预的“白盒 AI 同事”。
 
 ---
 
@@ -285,7 +285,7 @@ python langgraph_orchestrator.py
 
 ```text
 E:\MASE-demo\
-├── langgraph_orchestrator.py   # MASE 2.0 核心引擎（基于 LangGraph）
+├── langgraph_orchestrator.py   # MASE 核心引擎（基于 LangGraph）
 ├── notetaker_agent.py          # 负责 SQLite 事实与流水账的读写
 ├── planner_agent.py            # 负责根据记忆生成执行计划
 ├── executor.py                 # 终极节点：根据上下文生成最终回复
@@ -302,7 +302,7 @@ E:\MASE-demo\
 
 ---
 
-*“最好的 AI 记忆，不应该是黑盒里的向量浮点数，而是清晰可见、人类可读、随时可被修正的结构化事实。”* — **MASE 2.0**
+*“最好的 AI 记忆，不应该是黑盒里的向量浮点数，而是清晰可见、人类可读、随时可被修正的结构化事实。”* — **MASE**
 
 ---
 
@@ -321,12 +321,12 @@ E:\MASE-demo\
 
 ### Citation
 
-如果 MASE 2.0 帮到了你的研究，请引用：
+如果 MASE 帮到了你的研究，请引用：
 
 ```bibtex
 @software{mase2026,
   author = {zbl1998-sdjn},
-  title = {{MASE 2.0}: Memory-Augmented Smart Entity — Schema-less SQLite memory for LLM agents},
+  title = {{MASE}: Memory-Augmented Smart Entity — Schema-less SQLite memory for LLM agents},
   year = {2026},
   url = {https://github.com/zbl1998-sdjn/MASE-demo},
   note = {Lifts qwen2.5:7b from 1.79\% to 60.71\% on NoLiMa-32k; 84.8\% on LongMemEval-S}
@@ -349,7 +349,7 @@ E:\MASE-demo\
 
 在探索 AI 的过程中我深刻地意识到：当人们面对一个深不可测、强大到宛如黑盒的 AI 个体时，**内心的恐惧往往要大于惊喜**。我们害怕它悄悄篡改记忆，害怕它产生无法理解的幻觉，害怕失去控制权。
 
-这正是 MASE 2.0 放弃拥抱庞大黑盒、选择"双白盒"的初衷。在这个系统里：
+这正是 MASE 放弃拥抱庞大黑盒、选择"双白盒"的初衷。在这个系统里：
 
 > **没有无所不能的"个人英雄主义"，只有各司其职的"齐心协力"。**
 

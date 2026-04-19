@@ -1,4 +1,4 @@
-# MASE 2.0 — Ecosystem Integrations
+# MASE — Ecosystem Integrations
 
 把 MASE 接入主流 LLM 框架 / 客户端, 让用户**零改造**接入.
 

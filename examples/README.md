@@ -1,4 +1,4 @@
-# MASE 2.0 — Examples
+# MASE — Examples
 
 每个示例独立可跑, 无相互依赖. 默认走本地 Ollama, 需要云端模型的会在文件头注明.
 
