@@ -1,0 +1,114 @@
+{
+  "response": "Caleb",
+  "prompt_tokens": null,
+  "completion_tokens": null,
+  "total_tokens": null,
+  "finish_reason": "stop",
+  "cached_tokens": null,
+  "route_action": "search_memory",
+  "keywords": [
+    "__FULL_QUERY__"
+  ],
+  "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-043446-0010-7e2a875f3853",
+  "metrics": {
+    "call_count": 4,
+    "elapsed_seconds": 6.483034,
+    "usage_totals": {
+      "prompt_eval_count": 1969.0,
+      "eval_count": 777.0,
+      "total_duration": 6473490300.0,
+      "load_duration": 155289800.0,
+      "prompt_eval_duration": 140380500.0,
+      "eval_duration": 5707173000.0
+    },
+    "calls": [
+      {
+        "agent_type": "planner",
+        "mode": "retrieval_verification",
+        "provider": "ollama",
+        "model_name": "deepseek-r1:7b",
+        "elapsed_seconds": 3.580932,
+        "usage": {
+          "prompt_eval_count": 281,
+          "eval_count": 384,
+          "total_duration": 3578196400,
+          "load_duration": 54000200,
+          "prompt_eval_duration": 8542200,
+          "eval_duration": 3262673500
+        }
+      },
+      {
+        "agent_type": "notetaker",
+        "mode": "english_aux_ops",
+        "provider": "ollama",
+        "model_name": "lfm2.5-thinking:1.2b",
+        "elapsed_seconds": 0.586927,
+        "usage": {
+          "prompt_eval_count": 1409,
+          "eval_count": 192,
+          "total_duration": 585018700,
+          "load_duration": 30209900,
+          "prompt_eval_duration": 89471400,
+          "eval_duration": 450170100
+        }
+      },
+      {
+        "agent_type": "planner",
+        "mode": "session_summary",
+        "provider": "ollama",
+        "model_name": "deepseek-r1:7b",
+        "elapsed_seconds": 2.213411,
+        "usage": {
+          "prompt_eval_count": 119,
+          "eval_count": 192,
+          "total_duration": 2211025500,
+          "load_duration": 54503700,
+          "prompt_eval_duration": 15438100,
+          "eval_duration": 1944605400
+        }
+      },
+      {
+        "agent_type": "notetaker",
+        "mode": "english_summary",
+        "provider": "ollama",
+        "model_name": "ibm/granite3.3:2b",
+        "elapsed_seconds": 0.101764,
+        "usage": {
+          "prompt_eval_count": 160,
+          "eval_count": 9,
+          "total_duration": 99249700,
+          "load_duration": 16576000,
+          "prompt_eval_duration": 26928800,
+          "eval_duration": 49724000
+        }
+      }
+    ],
+    "by_agent": {
+      "planner": {
+        "call_count": 2,
+        "elapsed_seconds": 5.794343,
+        "usage_totals": {
+          "prompt_eval_count": 400.0,
+          "eval_count": 576.0,
+          "total_duration": 5789221900.0,
+          "load_duration": 108503900.0,
+          "prompt_eval_duration": 23980300.0,
+          "eval_duration": 5207278900.0
+        }
+      },
+      "notetaker": {
+        "call_count": 2,
+        "elapsed_seconds": 0.688691,
+        "usage_totals": {
+          "prompt_eval_count": 1569.0,
+          "eval_count": 201.0,
+          "total_duration": 684268400.0,
+          "load_duration": 46785900.0,
+          "prompt_eval_duration": 116400200.0,
+          "eval_duration": 499894100.0
+        }
+      }
+    },
+    "wall_clock_seconds": 11.730293
+  }
+}

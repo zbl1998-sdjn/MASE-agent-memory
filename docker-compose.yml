@@ -1,0 +1,22 @@
+services:
+  mase_core:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - MASE_CONFIG_PATH=/app/config.json
+    volumes:
+      - ./data:/app/data
+      - ./results:/app/results
+
+  # 可选：如果需要在 Compose 内一并带起本地模型服务
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama_data:/root/.ollama
+
+# volumes:
+#   ollama_data:

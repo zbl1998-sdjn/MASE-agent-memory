@@ -1,0 +1,20 @@
+{"id": "senhallu-001-Counterfactual_reasoning_Testing_language_models_understan", "task": "senhallu", "pred": "Yes.", "answer": false, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-002-Improving_Embedding-based_Unsupervised_Keyphrase_Extraction_", "task": "senhallu", "pred": "Yes.", "answer": true, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-003-DopplerBAS_Binaural_Audio_Synthesis_Addressing_Doppler_Effe", "task": "senhallu", "pred": "You did not mention this information.", "answer": false, "raw_pred": "You did not mention this information.", "error": null}
+{"id": "senhallu-004-Not_Enough_Data_to_Pre-train_Your_Language_Model_MT_to_the_", "task": "senhallu", "pred": "Yes.", "answer": true, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-005-ISLTranslate_Dataset_for_Translating_Indian_Sign_Language", "task": "senhallu", "pred": "Yes.", "answer": false, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-006-Multi-Dimensional_Evaluation_of_Text_Summarization_with_In-C", "task": "senhallu", "pred": "Yes.", "answer": true, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-007-Substitution-based_Semantic_Change_Detection_using_Contextua", "task": "senhallu", "pred": "You did not mention this information.", "answer": false, "raw_pred": "You did not mention this information.", "error": null}
+{"id": "senhallu-008-Curating_Datasets_for_Better_Performance_with_Example_Traini", "task": "senhallu", "pred": "You did not mention this information.", "answer": true, "raw_pred": "You did not mention this information.", "error": null}
+{"id": "senhallu-009-Table_and_Image_Generation_for_Investigating_Knowledge_of_En", "task": "senhallu", "pred": "Yes.", "answer": false, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-010-Towards_Robust_Personalized_Dialogue_Generation_via_Order-In", "task": "senhallu", "pred": "Yes.", "answer": true, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-011-Exploring_the_Impact_of_Layer_Normalization_for_Zero-shot_Ne", "task": "senhallu", "pred": "Yes.", "answer": false, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-012-An_Embarrassingly_Easy_but_Strong_Baseline_for_Nested_Named_", "task": "senhallu", "pred": "Yes.", "answer": true, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-013-Listener_Model_for_the_PhotoBook_Referential_Game_with_CLIPS", "task": "senhallu", "pred": "You did not mention this information.", "answer": false, "raw_pred": "You did not mention this information.", "error": null}
+{"id": "senhallu-014-AraMUS_Pushing_the_Limits_of_Data_and_Model_Scale_for_Arabi", "task": "senhallu", "pred": "529GB", "answer": true, "raw_pred": "529GB", "error": null}
+{"id": "senhallu-015-It_is_a_Bird_Therefore_it_is_a_Robin_On_BERTs_Internal_Con", "task": "senhallu", "pred": "Yes.", "answer": false, "raw_pred": "Yes.", "error": null}
+{"id": "senhallu-016-RAMP_Retrieval_and_Attribute-Marking_Enhanced_Prompting_for", "task": "senhallu", "pred": "Yes.", "answer": true, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-017-Do_GPTs_Produce_Less_Literal_Translations", "task": "senhallu", "pred": "You did not mention this information.", "answer": false, "raw_pred": "You did not mention this information.", "error": null}
+{"id": "senhallu-018-Text-to-SQL_Error_Correction_with_Language_Models_of_Code", "task": "senhallu", "pred": "Yes.", "answer": true, "raw_pred": "Yes", "error": null}
+{"id": "senhallu-019-Leveraging_Explicit_Procedural_Instructions_for_Data-Efficie", "task": "senhallu", "pred": "No.", "answer": false, "raw_pred": "No", "error": null}
+{"id": "senhallu-020-Improving_Factuality_of_Abstractive_Summarization_without_Sa", "task": "senhallu", "pred": "Yes.", "answer": true, "raw_pred": "Yes.", "error": null}

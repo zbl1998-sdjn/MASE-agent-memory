@@ -1,0 +1,139 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-035425-0007-495d709a8432\\2026-04-15\\03-54-45-150707.json",
+  "timestamp": "2026-04-15T03:54:45",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T03:54:45",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-5085b4ca20a9",
+    "thread_label": "character / Mauritshuis"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "Mauritshuis",
+    "not",
+    "mention",
+    "information",
+    "mention information",
+    "user",
+    "inquired",
+    "about",
+    "char",
+    "user inquired",
+    "about char"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "Mauritshuis",
+      "not",
+      "mention",
+      "information",
+      "mention information",
+      "user",
+      "inquired",
+      "about",
+      "char",
+      "user inquired",
+      "about char"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "Mauritshuis"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character has been to the Mauritshuis?",
+  "resolved_source_span": "Which character has been to the Mauritshuis?",
+  "event_segments": [
+    {
+      "text": "Which character has been to the Mauritshuis?",
+      "resolved_text": "Which character has been to the Mauritshuis?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "character",
+        "Mauritshuis",
+        "char",
+        "Which"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-035425-0007-495d709a8432\\2026-04-15\\03-54-45-150707.json::event_segment:0",
+      "logical_event_id": "generic|character|character,mauritshuis,mention,not|april",
+      "dedupe_key": "generic|character|character,mauritshuis,mention,not|april|which character has been to the mauritshuis|2026-04-15T03:54:45",
+      "source_signature": "which character has been to the mauritshuis",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-15T03:54:45",
+      "thread_id": "thread-5085b4ca20a9",
+      "thread_label": "character / Mauritshuis",
+      "entities": [
+        "character",
+        "Mauritshuis",
+        "not",
+        "mention",
+        "information",
+        "mention information",
+        "user",
+        "inquired",
+        "about",
+        "char",
+        "user inquired",
+        "about char"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Which character has been to the Mauritshuis?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-035425-0007-495d709a8432\\2026-04-15\\03-54-45-150707.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "E:\MASE-demo\benchmarks\external-benchmarks\BAMBOO\run_mase_official.py", line 22, in <module>
+    from benchmarks.runner import _aggregate_call_log
+  File "E:\MASE-demo\benchmarks\__init__.py", line 2, in <module>
+    from .runner import BenchmarkRunner
+  File "E:\MASE-demo\benchmarks\runner.py", line 44, in <module>
+    from mase import MASESystem
+ModuleNotFoundError: No module named 'mase'

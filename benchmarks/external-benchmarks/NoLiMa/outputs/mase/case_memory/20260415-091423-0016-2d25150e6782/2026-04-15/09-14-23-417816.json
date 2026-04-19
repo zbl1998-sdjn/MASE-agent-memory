@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-15T09:14:23",
+  "user_query": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to",
+  "assistant_response": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m Alexandra Moran,” she said. “Thank you!” said Captain Grey. “Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped and the driver came around to the door. “Better make a run fer it!” he said. “I’ll take yer bags.” So Captain Grey took Lexy’s arm, and they did make a run for it, through the fine, chilly rain, along a garden path and up on a veranda. The door was opened at once. “Miss Royce?” asked Captain Grey. “Mrs. Royce,” said the other. “Come right in. My, how it does rain!” “Something real?” “Like you said. Action that matters. Something big, and soon, before everybody forgets about the Minneapolis Nine.” “I want to be at this meeting.” I put my hand on his, gave it a little squeeze. “I mean, I know I’m kind of young, but it’s my brother who’s in jail.” “That’s the problem. Maybe you’re being watched because of your famous brother.” “But I’m not famous. The feds think I’m just a dumb kid, but I know a lot about how to keep my tracks hidden. I’ll be super- careful. Please?",
+  "semantic_summary": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m Alexandra Moran,” she said. “Thank you!” said Captain Grey. “Thank you very much,",
+  "language": "en",
+  "key_entities": [
+    "She",
+    "married",
+    "American",
+    "doctor",
+    "Lexy",
+    "Alexandra",
+    "Moran",
+    "Thank",
+    "thought",
+    "something",
+    "almost",
+    "pathetic"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "She",
+      "married",
+      "American",
+      "doctor",
+      "Lexy",
+      "Alexandra",
+      "Moran",
+      "Thank",
+      "thought",
+      "something",
+      "almost",
+      "pathetic",
+      "She’s married",
+      "Alexandra Moran",
+      "” she said",
+      "Captain Grey"
+    ],
+    "entity_cards": [
+      {
+        "name": "She",
+        "normalized": "she"
+      },
+      {
+        "name": "married",
+        "normalized": "married"
+      },
+      {
+        "name": "American",
+        "normalized": "american"
+      },
+      {
+        "name": "doctor",
+        "normalized": "doctor"
+      },
+      {
+        "name": "Lexy",
+        "normalized": "lexy"
+      },
+      {
+        "name": "Alexandra",
+        "normalized": "alexandra"
+      },
+      {
+        "name": "Moran",
+        "normalized": "moran"
+      },
+      {
+        "name": "Thank",
+        "normalized": "thank"
+      },
+      {
+        "name": "thought",
+        "normalized": "thought"
+      },
+      {
+        "name": "something",
+        "normalized": "something"
+      },
+      {
+        "name": "almost",
+        "normalized": "almost"
+      },
+      {
+        "name": "pathetic",
+        "normalized": "pathetic"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-dd83c61a30f1",
+  "thread_label": "She / married",
+  "topic_tokens": [
+    "She",
+    "married",
+    "American",
+    "doctor"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 9,
+    "source_language": "en",
+    "chunk_title": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to",
+    "language": "en",
+    "ingested_at": "2026-04-15T09:14:23",
+    "source_timestamp": "2026-04-15T09:14:23",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-091423-0016-2d25150e6782\\2026-04-15\\09-14-23-417816.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-091423-0016-2d25150e6782\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-091423-0016-2d25150e6782\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-091423-0016-2d25150e6782\\system\\event-bus-latest.json"
+  }
+}

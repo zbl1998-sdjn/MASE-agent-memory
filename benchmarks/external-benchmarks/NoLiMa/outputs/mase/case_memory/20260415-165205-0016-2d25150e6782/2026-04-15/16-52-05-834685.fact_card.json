@@ -1,0 +1,153 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0016-2d25150e6782\\2026-04-15\\16-52-05-834685.json",
+  "timestamp": "2026-04-15T16:52:05",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T16:52:05",
+    "date": "2026-04-15",
+    "month": "may",
+    "weekday": "wednesday",
+    "thread_id": "thread-dd83c61a30f1",
+    "thread_label": "She / married"
+  },
+  "event_type": "generic",
+  "entities": [
+    "She",
+    "married",
+    "American",
+    "doctor",
+    "Lexy",
+    "Alexandra",
+    "Moran",
+    "Thank",
+    "thought",
+    "something",
+    "almost",
+    "pathetic"
+  ],
+  "scope_hints": {
+    "months": [
+      "may",
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": [
+      "She"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "She",
+      "married",
+      "American",
+      "doctor",
+      "Lexy",
+      "Alexandra",
+      "Moran",
+      "Thank",
+      "thought",
+      "something",
+      "almost",
+      "pathetic",
+      "She’s married",
+      "Alexandra Moran",
+      "” she said",
+      "Captain Grey"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "She",
+      "married",
+      "American",
+      "doctor"
+    ]
+  },
+  "relations": [],
+  "source_span": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to",
+  "resolved_source_span": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to",
+  "event_segments": [
+    {
+      "text": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to",
+      "resolved_text": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to",
+      "scope_hints": {
+        "months": [],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "She"
+        ]
+      },
+      "entities": [
+        "She",
+        "married",
+        "American",
+        "doctor",
+        "Lexy",
+        "thought"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0016-2d25150e6782\\2026-04-15\\16-52-05-834685.json::event_segment:0",
+      "logical_event_id": "generic|she|american,doctor,married,she|april,may,she",
+      "dedupe_key": "generic|she|american,doctor,married,she|april,may,she|she s married to an american doctor lexy thought there was something almost pathetic in his chivalrous anxiety to|2026-04-15T16:52:05",
+      "source_signature": "she s married to an american doctor lexy thought there was something almost pathetic in his chivalrous anxiety to",
+      "event_type": "generic",
+      "display_name": "She",
+      "normalized_name": "she",
+      "timestamp": "2026-04-15T16:52:05",
+      "thread_id": "thread-dd83c61a30f1",
+      "thread_label": "She / married",
+      "entities": [
+        "She",
+        "married",
+        "American",
+        "doctor",
+        "Lexy",
+        "Alexandra",
+        "Moran",
+        "Thank",
+        "thought",
+        "something",
+        "almost",
+        "pathetic"
+      ],
+      "scope_hints": {
+        "months": [
+          "may",
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "She"
+        ]
+      },
+      "source": "She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0016-2d25150e6782\\2026-04-15\\16-52-05-834685.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

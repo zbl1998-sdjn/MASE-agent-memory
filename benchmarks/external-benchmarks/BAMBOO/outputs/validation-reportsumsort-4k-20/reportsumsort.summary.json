@@ -1,0 +1,10 @@
+{
+  "task": "reportsumsort",
+  "dataset": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\datasets\\reportsumsort_4k.jsonl",
+  "sample_count": 20,
+  "output_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-reportsumsort-4k-20\\reportsumsort.predictions.jsonl",
+  "details_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-reportsumsort-4k-20\\reportsumsort.details.json",
+  "executor_role": "auto",
+  "error_count": 0,
+  "sort_parse_fail_count": 0
+}

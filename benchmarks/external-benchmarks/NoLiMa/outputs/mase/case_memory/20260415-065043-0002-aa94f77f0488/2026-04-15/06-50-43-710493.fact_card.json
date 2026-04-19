@@ -1,0 +1,155 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065043-0002-aa94f77f0488\\2026-04-15\\06-50-43-710493.json",
+  "timestamp": "2026-04-15T06:50:43",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T06:50:43",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-1e593abc8c07",
+    "thread_label": "RAG / she"
+  },
+  "event_type": "generic",
+  "entities": [
+    "RAG",
+    "she",
+    "looked",
+    "back",
+    "Lexy",
+    "Since",
+    "upon",
+    "experiences",
+    "dreadful",
+    "night",
+    "seemed",
+    "both"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": [
+      "Lexy"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "RAG",
+      "she",
+      "looked",
+      "back",
+      "Lexy",
+      "Since",
+      "upon",
+      "experiences",
+      "dreadful",
+      "night",
+      "seemed",
+      "both",
+      "experiences of",
+      "it seemed",
+      "companion",
+      "companion displayed almost incredible endurance"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "RAG",
+      "she",
+      "looked",
+      "back"
+    ]
+  },
+  "relations": [],
+  "source_span": "When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion",
+  "resolved_source_span": "When she looked back upon the experiences of When dreadful night, When seemed to Lexy When both she and her companion",
+  "event_segments": [
+    {
+      "text": "When she looked back upon the experiences of When dreadful night, When seemed to Lexy When both she and her companion",
+      "resolved_text": "When she looked back upon the experiences of When dreadful night, When seemed to Lexy When both she and her companion",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "Lexy When",
+          "Lexy"
+        ]
+      },
+      "entities": [
+        "she",
+        "looked",
+        "back",
+        "Lexy",
+        "upon",
+        "experiences"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065043-0002-aa94f77f0488\\2026-04-15\\06-50-43-710493.json::event_segment:0",
+      "logical_event_id": "generic|rag|back,looked,rag,she|april,lexy,lexy when",
+      "dedupe_key": "generic|rag|back,looked,rag,she|april,lexy,lexy when|when she looked back upon the experiences of when dreadful night when seemed to lexy when both she and her companion|2026-04-15T06:50:43",
+      "source_signature": "when she looked back upon the experiences of when dreadful night when seemed to lexy when both she and her companion",
+      "event_type": "generic",
+      "display_name": "RAG",
+      "normalized_name": "rag",
+      "timestamp": "2026-04-15T06:50:43",
+      "thread_id": "thread-1e593abc8c07",
+      "thread_label": "RAG / she",
+      "entities": [
+        "RAG",
+        "she",
+        "looked",
+        "back",
+        "Lexy",
+        "Since",
+        "upon",
+        "experiences",
+        "dreadful",
+        "night",
+        "seemed",
+        "both"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "Lexy",
+          "Lexy When"
+        ]
+      },
+      "source": "When she looked back upon the experiences of When dreadful night, When seemed to Lexy When both she and her companion",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065043-0002-aa94f77f0488\\2026-04-15\\06-50-43-710493.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

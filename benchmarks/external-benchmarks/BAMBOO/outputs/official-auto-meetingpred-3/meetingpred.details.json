@@ -1,0 +1,245 @@
+[
+  {
+    "id": "meetingpred-001",
+    "task": "meetingpred",
+    "dataset_answer": "Janet Finch-Saunders AM",
+    "prediction": "No other speaker is mentioned at the end of the last sentence.",
+    "raw_prediction": "No other speaker is mentioned at the end of the last sentence.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 9.496139,
+      "usage_totals": {
+        "prompt_eval_count": 8501.0,
+        "eval_count": 275.0,
+        "total_duration": 9489671900.0,
+        "load_duration": 75024900.0,
+        "prompt_eval_duration": 2755088400.0,
+        "eval_duration": 6307771500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.661619,
+          "usage": {
+            "prompt_eval_count": 4350,
+            "eval_count": 10,
+            "total_duration": 1657603600,
+            "load_duration": 20134900,
+            "prompt_eval_duration": 1250100900,
+            "eval_duration": 360917400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.83452,
+          "usage": {
+            "prompt_eval_count": 4151,
+            "eval_count": 265,
+            "total_duration": 7832068300,
+            "load_duration": 54890000,
+            "prompt_eval_duration": 1504987500,
+            "eval_duration": 5946854100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 9.496139,
+          "usage_totals": {
+            "prompt_eval_count": 8501.0,
+            "eval_count": 275.0,
+            "total_duration": 9489671900.0,
+            "load_duration": 75024900.0,
+            "prompt_eval_duration": 2755088400.0,
+            "eval_duration": 6307771500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.517243
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-auto-meetingpred-3\\case_memory\\meetingpred-001"
+  },
+  {
+    "id": "meetingpred-002",
+    "task": "meetingpred",
+    "dataset_answer": "Heledd Fychan MS",
+    "prediction": "Heledd Fychan MS",
+    "raw_prediction": "Heledd Fychan MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 27.191541,
+      "usage_totals": {
+        "prompt_eval_count": 9656.0,
+        "eval_count": 533.0,
+        "total_duration": 27186525600.0,
+        "load_duration": 66141100.0,
+        "prompt_eval_duration": 2435827100.0,
+        "eval_duration": 9885275900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.21294,
+          "usage": {
+            "prompt_eval_count": 4957,
+            "eval_count": 5,
+            "total_duration": 1210250100,
+            "load_duration": 16393900,
+            "prompt_eval_duration": 1117645500,
+            "eval_duration": 55720800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 25.978601,
+          "usage": {
+            "prompt_eval_count": 4699,
+            "eval_count": 528,
+            "total_duration": 25976275500,
+            "load_duration": 49747200,
+            "prompt_eval_duration": 1318181600,
+            "eval_duration": 9829555100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 27.191541,
+          "usage_totals": {
+            "prompt_eval_count": 9656.0,
+            "eval_count": 533.0,
+            "total_duration": 27186525600.0,
+            "load_duration": 66141100.0,
+            "prompt_eval_duration": 2435827100.0,
+            "eval_duration": 9885275900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 27.205823
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-auto-meetingpred-3\\case_memory\\meetingpred-002"
+  },
+  {
+    "id": "meetingpred-003",
+    "task": "meetingpred",
+    "dataset_answer": "Luke Fletcher MS",
+    "prediction": "John Griffiths AM",
+    "raw_prediction": "John Griffiths AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 32.717307,
+      "usage_totals": {
+        "prompt_eval_count": 10088.0,
+        "eval_count": 437.0,
+        "total_duration": 32712168300.0,
+        "load_duration": 70613400.0,
+        "prompt_eval_duration": 2443539100.0,
+        "eval_duration": 9796847300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.388933,
+          "usage": {
+            "prompt_eval_count": 5214,
+            "eval_count": 7,
+            "total_duration": 1386631800,
+            "load_duration": 19446800,
+            "prompt_eval_duration": 1254039800,
+            "eval_duration": 91065500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 31.328374,
+          "usage": {
+            "prompt_eval_count": 4874,
+            "eval_count": 430,
+            "total_duration": 31325536500,
+            "load_duration": 51166600,
+            "prompt_eval_duration": 1189499300,
+            "eval_duration": 9705781800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 32.717307,
+          "usage_totals": {
+            "prompt_eval_count": 10088.0,
+            "eval_count": 437.0,
+            "total_duration": 32712168300.0,
+            "load_duration": 70613400.0,
+            "prompt_eval_duration": 2443539100.0,
+            "eval_duration": 9796847300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 32.732825
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-auto-meetingpred-3\\case_memory\\meetingpred-003"
+  }
+]

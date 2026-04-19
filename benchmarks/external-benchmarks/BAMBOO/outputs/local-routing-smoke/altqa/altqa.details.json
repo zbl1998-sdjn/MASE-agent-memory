@@ -1,0 +1,77 @@
+[
+  {
+    "id": "altqa-001",
+    "task": "altqa",
+    "dataset_answer": "1964",
+    "prediction": "1964",
+    "raw_prediction": "1964",
+    "question": "Answer the question based only on the document in the fact sheet.\nReturn only the final number, without any explanation.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "numeric",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "numeric",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 1.863067,
+      "usage_totals": {
+        "prompt_eval_count": 3650.0,
+        "eval_count": 5.0,
+        "total_duration": 1860043400.0,
+        "load_duration": 1308726400.0,
+        "prompt_eval_duration": 500548600.0,
+        "eval_duration": 24857100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 1.863067,
+          "usage": {
+            "prompt_eval_count": 3650,
+            "eval_count": 5,
+            "total_duration": 1860043400,
+            "load_duration": 1308726400,
+            "prompt_eval_duration": 500548600,
+            "eval_duration": 24857100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 1.863067,
+          "usage_totals": {
+            "prompt_eval_count": 3650.0,
+            "eval_count": 5.0,
+            "total_duration": 1860043400.0,
+            "load_duration": 1308726400.0,
+            "prompt_eval_duration": 500548600.0,
+            "eval_duration": 24857100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 1.877133
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\local-routing-smoke\\altqa\\case_memory\\altqa-001"
+  }
+]

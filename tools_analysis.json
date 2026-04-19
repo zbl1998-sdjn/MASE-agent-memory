@@ -1,0 +1,18 @@
+{
+  "functions_count": 372,
+  "classes_count": 1,
+  "constants_count": 39,
+  "imports_count": 18,
+  "functions_preview": [
+    "get_memory_dir",
+    "ensure_memory_dir",
+    "_split_memory_profile_sentences",
+    "_extract_memory_profile_numeric_cards",
+    "_extract_memory_profile_relation_cards",
+    "_extract_record_event_cards",
+    "build_structured_memory_profile",
+    "_memory_profile_search_text",
+    "_dedupe_terms",
+    "_record_language"
+  ]
+}

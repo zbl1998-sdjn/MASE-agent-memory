@@ -1,0 +1,150 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201622-0002-aa94f77f0488\\2026-04-14\\20-16-22-516937.json",
+  "timestamp": "2026-04-14T20:16:22",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T20:16:22",
+    "date": "2026-04-14",
+    "month": "april",
+    "weekday": "sunday",
+    "thread_id": "thread-76fb46677fac",
+    "thread_label": "RAG / telephone"
+  },
+  "event_type": "generic",
+  "entities": [
+    "RAG",
+    "telephone",
+    "Lexy",
+    "reflected",
+    "Perhaps",
+    "She",
+    "Caroline",
+    "Quiet",
+    "One",
+    "Suppose",
+    "Things",
+    "Mom"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "sunday",
+      "tuesday"
+    ],
+    "locations": [
+      "Minneapolis",
+      "Melbourne",
+      "Bangkok",
+      "Lexy"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "RAG",
+      "telephone",
+      "Lexy",
+      "reflected",
+      "Perhaps",
+      "She",
+      "Caroline",
+      "Quiet",
+      "One",
+      "Suppose",
+      "Things",
+      "Mom",
+      "Lexy reflected",
+      "own",
+      "he sounded",
+      "It was queer"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "RAG",
+      "telephone",
+      "Lexy",
+      "reflected"
+    ]
+  },
+  "relations": [],
+  "source_span": "基准上下文片段1",
+  "resolved_source_span": "基准上下文片段1",
+  "event_segments": [
+    {
+      "text": "基准上下文片段1",
+      "resolved_text": "基准上下文片段1",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [],
+        "locations": []
+      },
+      "entities": [],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201622-0002-aa94f77f0488\\2026-04-14\\20-16-22-516937.json::event_segment:0",
+      "logical_event_id": "generic|rag|lexy,rag,reflected,telephone|april,melbourne,minneapolis",
+      "dedupe_key": "generic|rag|lexy,rag,reflected,telephone|april,melbourne,minneapolis|1|2026-04-14T20:16:22",
+      "source_signature": "1",
+      "event_type": "generic",
+      "display_name": "RAG",
+      "normalized_name": "rag",
+      "timestamp": "2026-04-14T20:16:22",
+      "thread_id": "thread-76fb46677fac",
+      "thread_label": "RAG / telephone",
+      "entities": [
+        "RAG",
+        "telephone",
+        "Lexy",
+        "reflected",
+        "Perhaps",
+        "She",
+        "Caroline",
+        "Quiet",
+        "One",
+        "Suppose",
+        "Things",
+        "Mom"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "sunday",
+          "tuesday"
+        ],
+        "locations": [
+          "Minneapolis",
+          "Melbourne",
+          "Bangkok",
+          "Lexy"
+        ]
+      },
+      "source": "基准上下文片段1",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201622-0002-aa94f77f0488\\2026-04-14\\20-16-22-516937.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

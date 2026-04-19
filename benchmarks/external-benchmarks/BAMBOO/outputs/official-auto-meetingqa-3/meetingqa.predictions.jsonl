@@ -1,0 +1,3 @@
+{"id": "meetingqa-001-what_is_Mark_Thomass_attitude_towards_the_Ministers_behavi", "task": "meetingqa", "pred": "B", "answer": "B", "raw_pred": "B", "error": null}
+{"id": "meetingqa-002-What_measures_has_the_UK_Conservative_Government_announced_t", "task": "meetingqa", "pred": "You did not mention this information.", "answer": "A", "raw_pred": "You did not mention this information.", "error": null}
+{"id": "meetingqa-003-What_is_the_current_status_of_implementing_a_public_health_a", "task": "meetingqa", "pred": "C", "answer": "C", "raw_pred": "C", "error": null}

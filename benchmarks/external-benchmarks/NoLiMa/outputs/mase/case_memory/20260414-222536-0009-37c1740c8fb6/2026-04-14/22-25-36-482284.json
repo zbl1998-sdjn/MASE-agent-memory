@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-14T22:25:36",
+  "user_query": "An endless succession of franchise burger stands and interstate off -ramp staples. Most of these were permanent berths,",
+  "assistant_response": "An endless succession of franchise burger stands and interstate off -ramp staples. Most of these were permanent berths, as much a part of the Paraclete ecosystem as the engineers, officers, soldiers and crew. There were worse business propositions in the galaxy than having six or seven thousand guaranteed customers for six solid months. Check that: six or seven thousand reasonably wealthy customers, given that they could afford passage on a ship of Paraclete's class in the first place. “Captain of a ship?” asked Lexy, with interest. She thought she would like to talk about ships. “Oh, no!” said he, rather shocked. “Army—British army—stationed in India.” “I knew you were an Englishman.” “Did you really?” said he, as if surprised. “People do seem to know. My first visit to your country—six months’ leave—so I’ve come here to see my sister—Mrs. Quelton. She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m Alexandra Moran,” she said. “Thank you!” said Captain Grey.",
+  "semantic_summary": "An endless succession of franchise burger stands and interstate off -ramp staples. Most of these were permanent berths, as much a part of the Paraclete ecosystem as the engineers, officers, soldiers and crew. There were",
+  "language": "en",
+  "key_entities": [
+    "endless",
+    "succession",
+    "franchise",
+    "burger",
+    "Most",
+    "Paraclete",
+    "Check",
+    "Captain",
+    "stands",
+    "interstate",
+    "off",
+    "ramp"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "endless",
+      "succession",
+      "franchise",
+      "burger",
+      "Most",
+      "Paraclete",
+      "Check",
+      "Captain",
+      "stands",
+      "interstate",
+      "off",
+      "ramp",
+      "endless succession of franchise burger stands",
+      "interstate off -ramp staples",
+      "were permanent berths",
+      "Paraclete ecosystem as the engineers"
+    ],
+    "entity_cards": [
+      {
+        "name": "endless",
+        "normalized": "endless"
+      },
+      {
+        "name": "succession",
+        "normalized": "succession"
+      },
+      {
+        "name": "franchise",
+        "normalized": "franchise"
+      },
+      {
+        "name": "burger",
+        "normalized": "burger"
+      },
+      {
+        "name": "Most",
+        "normalized": "most"
+      },
+      {
+        "name": "Paraclete",
+        "normalized": "paraclete"
+      },
+      {
+        "name": "Check",
+        "normalized": "check"
+      },
+      {
+        "name": "Captain",
+        "normalized": "captain"
+      },
+      {
+        "name": "stands",
+        "normalized": "stands"
+      },
+      {
+        "name": "interstate",
+        "normalized": "interstate"
+      },
+      {
+        "name": "off",
+        "normalized": "off"
+      },
+      {
+        "name": "ramp",
+        "normalized": "ramp"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-c030ba2f6445",
+  "thread_label": "endless / succession",
+  "topic_tokens": [
+    "endless",
+    "succession",
+    "franchise",
+    "burger"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 8,
+    "source_language": "en",
+    "chunk_title": "An endless succession of franchise burger stands and interstate off -ramp staples. Most of these were permanent berths,",
+    "language": "en",
+    "ingested_at": "2026-04-14T22:25:36",
+    "source_timestamp": "2026-04-14T22:25:36",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-222536-0009-37c1740c8fb6\\2026-04-14\\22-25-36-482284.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-222536-0009-37c1740c8fb6\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-222536-0009-37c1740c8fb6\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-222536-0009-37c1740c8fb6\\system\\event-bus-latest.json"
+  }
+}

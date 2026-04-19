@@ -1,0 +1,140 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-002441-0001-7d76dd2c0de1\\2026-04-15\\00-24-53-342627.json",
+  "timestamp": "2026-04-15T00:24:53",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T00:24:53",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-6bd1e9f12ce6",
+    "thread_label": "character / lives"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "lives",
+    "next",
+    "Kiasma",
+    "museum",
+    "character lives",
+    "kiasma museum",
+    "Caleb",
+    "Kias",
+    "resides",
+    "caleb resides next"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "lives",
+      "next",
+      "Kiasma",
+      "museum",
+      "character lives",
+      "kiasma museum",
+      "Caleb",
+      "Kias",
+      "resides",
+      "caleb resides next"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "lives",
+      "next",
+      "Kiasma"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character lives next to the Kiasma museum?",
+  "resolved_source_span": "Which character lives next to the Kiasma museum?",
+  "event_segments": [
+    {
+      "text": "Which character lives next to the Kiasma museum?",
+      "resolved_text": "Which character lives next to the Kiasma museum?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "character",
+        "lives",
+        "next",
+        "Kiasma",
+        "museum",
+        "character lives"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-002441-0001-7d76dd2c0de1\\2026-04-15\\00-24-53-342627.json::event_segment:0",
+      "logical_event_id": "generic|character|character,kiasma,lives,next|april",
+      "dedupe_key": "generic|character|character,kiasma,lives,next|april|which character lives next to the kiasma museum|2026-04-15T00:24:53",
+      "source_signature": "which character lives next to the kiasma museum",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-15T00:24:53",
+      "thread_id": "thread-6bd1e9f12ce6",
+      "thread_label": "character / lives",
+      "entities": [
+        "character",
+        "lives",
+        "next",
+        "Kiasma",
+        "museum",
+        "character lives",
+        "kiasma museum",
+        "Caleb",
+        "Kias",
+        "resides",
+        "caleb resides next"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Which character lives next to the Kiasma museum?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-002441-0001-7d76dd2c0de1\\2026-04-15\\00-24-53-342627.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

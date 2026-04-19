@@ -1,0 +1,128 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065615-0004-8e112379aba5\\2026-04-15\\06-56-23-293739.json",
+  "timestamp": "2026-04-15T06:56:23",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T06:56:23",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-f7415c7f5593",
+    "thread_label": "character / lactose"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "lactose",
+    "intolerant",
+    "lactose intolerant",
+    "Veronica",
+    "veronica lactose",
+    "Veronica is lactose intolerant"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "lactose",
+      "intolerant",
+      "lactose intolerant",
+      "Veronica",
+      "veronica lactose",
+      "Veronica is lactose intolerant"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "lactose",
+      "intolerant",
+      "lactose intolerant"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character is lactose intolerant?",
+  "resolved_source_span": "Which character is lactose intolerant?",
+  "event_segments": [
+    {
+      "text": "Which character is lactose intolerant?",
+      "resolved_text": "Which character is lactose intolerant?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "character",
+        "lactose",
+        "intolerant",
+        "lactose intolerant",
+        "Which"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065615-0004-8e112379aba5\\2026-04-15\\06-56-23-293739.json::event_segment:0",
+      "logical_event_id": "generic|character|character,intolerant,lactose,lactose intolerant|april",
+      "dedupe_key": "generic|character|character,intolerant,lactose,lactose intolerant|april|which character is lactose intolerant|2026-04-15T06:56:23",
+      "source_signature": "which character is lactose intolerant",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-15T06:56:23",
+      "thread_id": "thread-f7415c7f5593",
+      "thread_label": "character / lactose",
+      "entities": [
+        "character",
+        "lactose",
+        "intolerant",
+        "lactose intolerant",
+        "Veronica",
+        "veronica lactose",
+        "Veronica is lactose intolerant",
+        "Which"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Which character is lactose intolerant?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065615-0004-8e112379aba5\\2026-04-15\\06-56-23-293739.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

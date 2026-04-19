@@ -1,0 +1,119 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-024638-0006-9fbe7adc6525\\2026-04-15\\02-46-46-106451.json",
+  "timestamp": "2026-04-15T02:46:46",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T02:46:46",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-3ee302d533a0",
+    "thread_label": "character / vegan"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "vegan",
+    "Melbourne",
+    "charact",
+    "vegan charact"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "vegan",
+      "Melbourne",
+      "charact",
+      "vegan charact"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "vegan"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character is vegan?",
+  "resolved_source_span": "Which character is vegan?",
+  "event_segments": [
+    {
+      "text": "Which character is vegan?",
+      "resolved_text": "Which character is vegan?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "character",
+        "vegan",
+        "charact",
+        "Which"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.56,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-024638-0006-9fbe7adc6525\\2026-04-15\\02-46-46-106451.json::event_segment:0",
+      "logical_event_id": "generic|character|charact,character,melbourne,vegan|april",
+      "dedupe_key": "generic|character|charact,character,melbourne,vegan|april|which character is vegan|2026-04-15T02:46:46",
+      "source_signature": "which character is vegan",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-15T02:46:46",
+      "thread_id": "thread-3ee302d533a0",
+      "thread_label": "character / vegan",
+      "entities": [
+        "character",
+        "vegan",
+        "Melbourne",
+        "charact",
+        "vegan charact",
+        "Which"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Which character is vegan?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-024638-0006-9fbe7adc6525\\2026-04-15\\02-46-46-106451.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

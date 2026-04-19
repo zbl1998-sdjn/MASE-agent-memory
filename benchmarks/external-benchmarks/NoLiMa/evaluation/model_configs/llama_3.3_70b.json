@@ -1,0 +1,11 @@
+{
+    "model": "meta-llama/Llama-3.3-70B-Instruct",
+    "api_key": "EMPTY",
+    "api_url": "http://localhost:8000/v1",
+    "api_provider": "vllm",
+    "max_tokens": 192,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "timeout": 200,
+    "max_retries": 3
+}

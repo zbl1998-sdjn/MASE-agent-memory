@@ -1,0 +1,144 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-014440-0010-7e2a875f3853\\2026-04-15\\01-44-41-156422.json",
+  "timestamp": "2026-04-15T01:44:41",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T01:44:41",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-5f7afff4e971",
+    "thread_label": "RAG / Simon"
+  },
+  "event_type": "generic",
+  "entities": [
+    "RAG",
+    "Simon",
+    "mean",
+    "everything",
+    "Give",
+    "Thanks",
+    "Facebook",
+    "Rebecca",
+    "see",
+    "number",
+    "reach"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "RAG",
+      "Simon",
+      "mean",
+      "everything",
+      "Give",
+      "Thanks",
+      "Facebook",
+      "Rebecca",
+      "see",
+      "can",
+      "number",
+      "reach",
+      "it would mean everything",
+      "whispered it",
+      "contact and"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "RAG",
+      "Simon",
+      "mean",
+      "everything"
+    ]
+  },
+  "relations": [],
+  "source_span": "Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned",
+  "resolved_source_span": "Simon, He would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned",
+  "event_segments": [
+    {
+      "text": "Simon, He would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned",
+      "resolved_text": "Simon, He would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "Simon",
+        "mean",
+        "everything",
+        "Give",
+        "see",
+        "number"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-014440-0010-7e2a875f3853\\2026-04-15\\01-44-41-156422.json::event_segment:0",
+      "logical_event_id": "generic|rag|everything,mean,rag,simon|april",
+      "dedupe_key": "generic|rag|everything,mean,rag,simon|april|simon he would mean everything to me i ll see what i can do give me your number so i can reach you he leaned|2026-04-15T01:44:41",
+      "source_signature": "simon he would mean everything to me i ll see what i can do give me your number so i can reach you he leaned",
+      "event_type": "generic",
+      "display_name": "RAG",
+      "normalized_name": "rag",
+      "timestamp": "2026-04-15T01:44:41",
+      "thread_id": "thread-5f7afff4e971",
+      "thread_label": "RAG / Simon",
+      "entities": [
+        "RAG",
+        "Simon",
+        "mean",
+        "everything",
+        "Give",
+        "Thanks",
+        "Facebook",
+        "Rebecca",
+        "see",
+        "number",
+        "reach"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Simon, He would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-014440-0010-7e2a875f3853\\2026-04-15\\01-44-41-156422.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

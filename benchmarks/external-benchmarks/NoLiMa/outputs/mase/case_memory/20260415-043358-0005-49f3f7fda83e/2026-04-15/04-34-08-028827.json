@@ -1,0 +1,260 @@
+{
+  "timestamp": "2026-04-15T04:34:08",
+  "user_query": "Which character is vegan?",
+  "assistant_response": "Stuart",
+  "semantic_summary": "Stuart is the vegan character.",
+  "language": "en",
+  "key_entities": [
+    "character",
+    "vegan",
+    "Stuart",
+    "vegan character"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "character",
+      "vegan",
+      "Stuart",
+      "vegan character"
+    ],
+    "entity_cards": [
+      {
+        "name": "character",
+        "normalized": "character"
+      },
+      {
+        "name": "vegan",
+        "normalized": "vegan"
+      },
+      {
+        "name": "Stuart",
+        "normalized": "stuart"
+      },
+      {
+        "name": "vegan character",
+        "normalized": "vegan character"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-3ee302d533a0",
+  "thread_label": "character / vegan",
+  "topic_tokens": [
+    "character",
+    "vegan"
+  ],
+  "metadata": {
+    "route_action": "search_memory",
+    "executor_mode": "grounded_disambiguation",
+    "executor_role": "reasoning",
+    "collaboration_mode": "verify",
+    "memory_heat": "hot",
+    "executor_target": {
+      "mode": "grounded_disambiguation_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 640,
+      "base_url": null,
+      "requested_mode": "grounded_disambiguation",
+      "resolved_mode": "grounded_disambiguation_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "hot"
+    },
+    "memory_result_count": 3,
+    "retrieval_iterations": 1,
+    "retrieval_queries": [
+      "Which character is vegan?",
+      "character is vegan",
+      "精确区分 character is vegan",
+      "experiences of",
+      "it seemed",
+      "companion displayed almost incredible endurance",
+      "very lifetime of emotion",
+      "companion"
+    ],
+    "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nEvidence anchors (SAKE-HEAD):\n- Since：Since morning they had lived through a very lifetime of emotion\n- Stay：Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be going to and they’d work…\n\n[1] Time：2026-04-15 04-33-58\nSummary：<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there.\nRelevant lines:\n- <ferret> Hey, I'm heading to Minneapolis for a few days\n- Then Stuart mentioned that he has been vegan for years. <Kadabra> There's a great brewpub near the conference site\nKey numbers:\n- 3 days\n- 3\nThread：ferret / Hey\n\n[2] Time：2026-04-15 04-33-58\nSummary：When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion,\nRelevant lines:\n- When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion\n- Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared\nThread：RAG / she\n\n[3] Time：2026-04-15 04-33-58\nSummary：Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be going to and they’d work out a plan to meet somewhere. “Stay there, please,” he told Lexy. “You have the\nRelevant lines:\n- Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be\n- With a violent effort Captain Grey lifted the doctor’s heavy shoulder, while Lexy covered her eyes\nThread：hackathon / fan\n\nStructured memory cards:\n- entity=ferret\n- entity=Hey\n- entity=I'm\n- entity=heading\n- entity=Minneapolis\n- entity=Kadabra\n- numeric=3 day | <ferret> Hey, I'm heading to Minneapolis for a few days.\n- entity=RAG\nMoney ledger:\n- money_ledger={\"amount\": 0.0, \"currency\": \"USD\", \"date_scope\": [], \"location_scope\": [\"lexy\"], \"purpose\": \"general\", \"source\": \"When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared. I didn't believe it for a second. There's no way a judge would say that all this stuff constituted any kind of real crime. It was free speech, it was technological tinkering. It wasn't a crime. But who said that these people would ever put me in front of a judge. \\\"We know where you live, we know who your friends are. We know how you operate and how you think.\\\" It dawned on me then. They were about to let me go. The room seemed to brighten. I heard myself breathing, short little breaths. \\\"We just want to know one thing: what was the delivery mechanism for the bombs on the bridge?\\\" I stopped breathing. The room darkened again. \\\"What?\\\"\", \"verb\": \"free\"}\nEvent ledger:\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"conference\", \"location\": [\"minneapolis\", \"melbourne\", \"bangkok\"], \"month\": [], \"source\": \"<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there. <inky> I wish - too far from Melbourne. <gargle> Count me in. <DoDec> Are you going to that cyberlaw thing? <ferret> Yep. Speaking on Tuesday. <callmecheese> I'm signed up! Lemme see if I can change my tickets. Then Stuart mentioned that he has been vegan for years. <Kadabra> There's a great brewpub near the conference site. Dinner on Tuesday? <ferret> Wait wait wait, what about Shad's brother? <Falstaff> Yep, we need to figure that shit out . <Gargle> Shad, does a meet-up sound good? I can fix us up with a safe place to get together . I was frozen for a minute, unsure how to respond. The day was catching up with me. It was nearly four in the morning, and my brain was feeling fuzzy. The Group had meet- ups regularly. Someone would say “hey, I’m going to be in Bangkok next week, anybody want to get together?” and people would figure out where to meet and hang out for a while.\"}\n\nEvidence chain assessment:\n\n- evidence_confidence=low\n\n- verifier_action=refuse\n\n- reason_codes=no_direct_match,insufficient_disambiguation_support\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=3\n\n- confidence_score=12\n\n- candidate_count=3\n\n- direct_match_count=0\n\n- top_candidate=Since\n\n- top_score=26\n\n- score_gap=20\n\nEvidence anchors (SAKE-TAIL):\n- Since：Since morning they had lived through a very lifetime of emotion\n- Stay：Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be going to and they’d work…\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=character; vegan\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=low\n- verifier_action=refuse\n- followup_needed=yes",
+    "evidence_layout": "gold_panning+dcr+sake",
+    "planner": {
+      "strategy": "disambiguation",
+      "query_variants": [
+        "Which character is vegan?",
+        "character is vegan",
+        "精确区分 character is vegan"
+      ],
+      "memory_limit": 3,
+      "collaboration_mode": "verify",
+      "active_date_scan": false,
+      "widen_search": true,
+      "min_results": 2,
+      "confusion_level": "medium",
+      "steps": [
+        {
+          "step_id": "plan-route",
+          "title": "Route request",
+          "details": "action=search_memory, keywords=['__FULL_QUERY__']",
+          "depends_on": []
+        },
+        {
+          "step_id": "plan-search",
+          "title": "Search memory",
+          "details": "Retrieve candidates with keywords, variants, synonyms, and semantic fallback.",
+          "depends_on": [
+            "plan-route"
+          ]
+        },
+        {
+          "step_id": "plan-compress",
+          "title": "Compress evidence",
+          "details": "Deduplicate results, highlight relevant snippets, and attach aggregation hints.",
+          "depends_on": [
+            "plan-search"
+          ]
+        },
+        {
+          "step_id": "plan-confusion-assess",
+          "title": "Assess confusion",
+          "details": "Detected medium confusion from similar entities or competing candidates.",
+          "depends_on": [
+            "plan-compress"
+          ]
+        },
+        {
+          "step_id": "plan-disambiguate",
+          "title": "Disambiguate evidence",
+          "details": "Route to grounded disambiguation so the reasoning executor can eliminate confusing candidates.",
+          "depends_on": [
+            "plan-confusion-assess"
+          ]
+        }
+      ],
+      "notes": [
+        "long_disambiguation_context",
+        "confusion_medium",
+        "disambiguation_reasoning"
+      ]
+    },
+    "planner_model_plan": {
+      "task_description": "Which character is vegan?",
+      "query_variants": [
+        "Which character is vegan?",
+        "character is vegan",
+        "精确区分 character is vegan"
+      ],
+      "topic_hints": [],
+      "recent_count": 0,
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [],
+        "relative_terms": [],
+        "strict": false
+      }
+    },
+    "instruction_package": {
+      "task_description": "Which character is vegan?",
+      "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nEvidence anchors (SAKE-HEAD):\n- Since：Since morning they had lived through a very lifetime of emotion\n- Stay：Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be going to and they’d work…\n\n[1] Time：2026-04-15 04-33-58\nSummary：<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there.\nRelevant lines:\n- <ferret> Hey, I'm heading to Minneapolis for a few days\n- Then Stuart mentioned that he has been vegan for years. <Kadabra> There's a great brewpub near the conference site\nKey numbers:\n- 3 days\n- 3\nThread：ferret / Hey\n\n[2] Time：2026-04-15 04-33-58\nSummary：When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion,\nRelevant lines:\n- When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion\n- Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared\nThread：RAG / she\n\n[3] Time：2026-04-15 04-33-58\nSummary：Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be going to and they’d work out a plan to meet somewhere. “Stay there, please,” he told Lexy. “You have the\nRelevant lines:\n- Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be\n- With a violent effort Captain Grey lifted the doctor’s heavy shoulder, while Lexy covered her eyes\nThread：hackathon / fan\n\nStructured memory cards:\n- entity=ferret\n- entity=Hey\n- entity=I'm\n- entity=heading\n- entity=Minneapolis\n- entity=Kadabra\n- numeric=3 day | <ferret> Hey, I'm heading to Minneapolis for a few days.\n- entity=RAG\nMoney ledger:\n- money_ledger={\"amount\": 0.0, \"currency\": \"USD\", \"date_scope\": [], \"location_scope\": [\"lexy\"], \"purpose\": \"general\", \"source\": \"When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared. I didn't believe it for a second. There's no way a judge would say that all this stuff constituted any kind of real crime. It was free speech, it was technological tinkering. It wasn't a crime. But who said that these people would ever put me in front of a judge. \\\"We know where you live, we know who your friends are. We know how you operate and how you think.\\\" It dawned on me then. They were about to let me go. The room seemed to brighten. I heard myself breathing, short little breaths. \\\"We just want to know one thing: what was the delivery mechanism for the bombs on the bridge?\\\" I stopped breathing. The room darkened again. \\\"What?\\\"\", \"verb\": \"free\"}\nEvent ledger:\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"conference\", \"location\": [\"minneapolis\", \"melbourne\", \"bangkok\"], \"month\": [], \"source\": \"<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there. <inky> I wish - too far from Melbourne. <gargle> Count me in. <DoDec> Are you going to that cyberlaw thing? <ferret> Yep. Speaking on Tuesday. <callmecheese> I'm signed up! Lemme see if I can change my tickets. Then Stuart mentioned that he has been vegan for years. <Kadabra> There's a great brewpub near the conference site. Dinner on Tuesday? <ferret> Wait wait wait, what about Shad's brother? <Falstaff> Yep, we need to figure that shit out . <Gargle> Shad, does a meet-up sound good? I can fix us up with a safe place to get together . I was frozen for a minute, unsure how to respond. The day was catching up with me. It was nearly four in the morning, and my brain was feeling fuzzy. The Group had meet- ups regularly. Someone would say “hey, I’m going to be in Bangkok next week, anybody want to get together?” and people would figure out where to meet and hang out for a while.\"}\n\nEvidence chain assessment:\n\n- evidence_confidence=low\n\n- verifier_action=refuse\n\n- reason_codes=no_direct_match,insufficient_disambiguation_support\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=3\n\n- confidence_score=12\n\n- candidate_count=3\n\n- direct_match_count=0\n\n- top_candidate=Since\n\n- top_score=26\n\n- score_gap=20\n\nEvidence anchors (SAKE-TAIL):\n- Since：Since morning they had lived through a very lifetime of emotion\n- Stay：Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be going to and they’d work…\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=character; vegan\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=low\n- verifier_action=refuse\n- followup_needed=yes",
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "background_summary": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [],
+        "relative_terms": [],
+        "strict": false
+      }
+    },
+    "reasoning_workspace": {
+      "operation": "disambiguation",
+      "focus_entities": [
+        "character",
+        "vegan"
+      ],
+      "target_unit": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness",
+        "direct evidence"
+      ],
+      "deterministic_answer": "",
+      "evidence_confidence": "low",
+      "verifier_action": "refuse",
+      "followup_needed": true
+    },
+    "evidence_assessment": {
+      "level": "low",
+      "verifier_action": "refuse",
+      "reason_codes": [
+        "no_direct_match",
+        "insufficient_disambiguation_support"
+      ],
+      "result_count": 3,
+      "candidate_count": 3,
+      "direct_match_count": 0,
+      "top_candidate": "Since",
+      "top_score": 26,
+      "score_gap": 20,
+      "threshold_profile": "external-generalization",
+      "confidence_score": 12,
+      "contract_type": "",
+      "failure_bucket": "",
+      "missing_slots": []
+    },
+    "evidence_thresholds": {
+      "profile_name": "external-generalization",
+      "general_pass_evidence_items_min": 1,
+      "general_pass_snippet_total_min": 2,
+      "general_verify_evidence_items_min": 1,
+      "disambiguation_pass_score_min": 130,
+      "disambiguation_pass_score_gap_min": 28,
+      "disambiguation_verify_score_min": 95,
+      "disambiguation_verify_score_gap_min": 16,
+      "allow_verify_on_multiple_direct_matches": true,
+      "multiple_direct_matches_verify_top_score_min": 190,
+      "multiple_direct_matches_verify_score_gap_min": 22
+    },
+    "session_summary_before": "",
+    "session_summary_after": "Which character is vegan? -> Stuart",
+    "language": "en",
+    "ingested_at": "2026-04-15T04:34:08",
+    "source_timestamp": "2026-04-15T04:34:08",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-043358-0005-49f3f7fda83e\\2026-04-15\\04-34-08-028827.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-043358-0005-49f3f7fda83e\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-043358-0005-49f3f7fda83e\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-043358-0005-49f3f7fda83e\\system\\event-bus-latest.json"
+  }
+}

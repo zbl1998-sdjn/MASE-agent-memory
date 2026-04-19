@@ -1,0 +1,698 @@
+[
+  {
+    "id": "meetingqa-001-What_is_the_current_health_of_the_creative_industries_workfo",
+    "task": "meetingqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the current health of the creative industries workforce?\nOptions:\nA. The workforce is thriving\nB. The workforce is facing challenges\nC. The workforce is shrinking\nD. The workforce is well-prepared\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 7.669637,
+      "usage_totals": {
+        "prompt_eval_count": 24576.0,
+        "eval_count": 319.0,
+        "total_duration": 7661099500.0,
+        "load_duration": 89327700.0,
+        "prompt_eval_duration": 4012561800.0,
+        "eval_duration": 3149302400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.157258,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1153791100,
+            "load_duration": 18574400,
+            "prompt_eval_duration": 1052313100,
+            "eval_duration": 17302400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.355948,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 315,
+            "total_duration": 5353230300,
+            "load_duration": 52247700,
+            "prompt_eval_duration": 1899046000,
+            "eval_duration": 3115279800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.156431,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1154078100,
+            "load_duration": 18505600,
+            "prompt_eval_duration": 1061202700,
+            "eval_duration": 16720200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 7.669637,
+          "usage_totals": {
+            "prompt_eval_count": 24576.0,
+            "eval_count": 319.0,
+            "total_duration": 7661099500.0,
+            "load_duration": 89327700.0,
+            "prompt_eval_duration": 4012561800.0,
+            "eval_duration": 3149302400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 7.716348
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-001-What_is_the_current_health_of_the_creative_industries_workfo"
+  },
+  {
+    "id": "meetingqa-002-Which_measure_is_not_metioned_Tata_has_taken_to_reduce_carbo",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which measure is not metioned Tata has taken to reduce carbon emission?\nOptions:\nA. Use new technology to be a net-zero emitter\nB. Significant investment in decarbonizing existing assets\nC. Study of options for the utilization of steel scrap\nD. Upgrading blast furnaces to reduce coal use\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 9.085931,
+      "usage_totals": {
+        "prompt_eval_count": 24054.0,
+        "eval_count": 347.0,
+        "total_duration": 9078817500.0,
+        "load_duration": 83752000.0,
+        "prompt_eval_duration": 4728722600.0,
+        "eval_duration": 3876875900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.141376,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1138917100,
+            "load_duration": 17355700,
+            "prompt_eval_duration": 1061883000,
+            "eval_duration": 17234600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.062805,
+          "usage": {
+            "prompt_eval_count": 7895,
+            "eval_count": 343,
+            "total_duration": 6060144100,
+            "load_duration": 48667600,
+            "prompt_eval_duration": 1848047900,
+            "eval_duration": 3844303700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.88175,
+          "usage": {
+            "prompt_eval_count": 7967,
+            "eval_count": 2,
+            "total_duration": 1879756300,
+            "load_duration": 17728700,
+            "prompt_eval_duration": 1818791700,
+            "eval_duration": 15337600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 9.085931,
+          "usage_totals": {
+            "prompt_eval_count": 24054.0,
+            "eval_count": 347.0,
+            "total_duration": 9078817500.0,
+            "load_duration": 83752000.0,
+            "prompt_eval_duration": 4728722600.0,
+            "eval_duration": 3876875900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.115737
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-002-Which_measure_is_not_metioned_Tata_has_taken_to_reduce_carbo"
+  },
+  {
+    "id": "meetingqa-003-How_has_the_creative_industries_workforce_been_affected_by_s",
+    "task": "meetingqa",
+    "dataset_answer": "C",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: How has the creative industries workforce been affected by shocks such as the pandemic, Brexit, and increased costs of living?\nOptions:\nA. The workforce has not been affected at all\nB. The pandemic had a positive impact on the workforce\nC. The workforce has been negatively affected by these shocks\nD. Brexit had no impact on the workforce\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.036196
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-003-How_has_the_creative_industries_workforce_been_affected_by_s"
+  },
+  {
+    "id": "meetingqa-004-What_is_the_main_reason_for_the_delay_in_taking_action_on_th",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the main reason for the delay in taking action on the legislative proposal?\nOptions:\nA. The COVID-19 pandemic's impact on government priorities.\nB. The ideological differences between the Welsh and UK governments.\nC. The need for Welsh Government to learn from UK Government's mistakes.\nD. The Member's legislative proposal introduced in 2018.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.037116
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-004-What_is_the_main_reason_for_the_delay_in_taking_action_on_th"
+  },
+  {
+    "id": "meetingqa-005-How_does_the_Minister_ensure_a_climate-focused_cross-Governm",
+    "task": "meetingqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: How does the Minister ensure a climate-focused cross-Government policy?\nOptions:\nA.  By moving everyone to electric heating.\nB.  By increasing energy prices.\nC.  By providing financial incentives to farmers.\nD.  By working closely with other government departments and ensuring a whole-Cabinet approach.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 8.170526,
+      "usage_totals": {
+        "prompt_eval_count": 24576.0,
+        "eval_count": 286.0,
+        "total_duration": 8162994300.0,
+        "load_duration": 83826300.0,
+        "prompt_eval_duration": 4852422900.0,
+        "eval_duration": 2861776500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.958994,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1956235400,
+            "load_duration": 17722000,
+            "prompt_eval_duration": 1862647300,
+            "eval_duration": 18532900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.051271,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 282,
+            "total_duration": 5049029900,
+            "load_duration": 47777700,
+            "prompt_eval_duration": 1927255000,
+            "eval_duration": 2824368300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.160261,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1157729000,
+            "load_duration": 18326600,
+            "prompt_eval_duration": 1062520600,
+            "eval_duration": 18875300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 8.170526,
+          "usage_totals": {
+            "prompt_eval_count": 24576.0,
+            "eval_count": 286.0,
+            "total_duration": 8162994300.0,
+            "load_duration": 83826300.0,
+            "prompt_eval_duration": 4852422900.0,
+            "eval_duration": 2861776500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 8.209522
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-005-How_does_the_Minister_ensure_a_climate-focused_cross-Governm"
+  },
+  {
+    "id": "meetingqa-006-What_is_the_key_point_of_disagreement_between_Lesley_Griffit",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the key point of disagreement between Lesley Griffiths and Food Sense Wales regarding the Food (Wales) Bill?\nOptions:\nA. The need for a comprehensive food policy.\nB. The importance of the well-being of future generations Act.\nC. The role of Food Sense Wales.\nD. The complexity of the Bill.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 12.417924,
+      "usage_totals": {
+        "prompt_eval_count": 24576.0,
+        "eval_count": 553.0,
+        "total_duration": 12409722300.0,
+        "load_duration": 124162700.0,
+        "prompt_eval_duration": 4279532600.0,
+        "eval_duration": 7294976400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.190017,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1187354900,
+            "load_duration": 18278200,
+            "prompt_eval_duration": 1083769000,
+            "eval_duration": 17072800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 10.016164,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 549,
+            "total_duration": 10013449200,
+            "load_duration": 76098800,
+            "prompt_eval_duration": 2111223700,
+            "eval_duration": 7260332500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.211743,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1208918200,
+            "load_duration": 29785700,
+            "prompt_eval_duration": 1084539900,
+            "eval_duration": 17571100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 12.417924,
+          "usage_totals": {
+            "prompt_eval_count": 24576.0,
+            "eval_count": 553.0,
+            "total_duration": 12409722300.0,
+            "load_duration": 124162700.0,
+            "prompt_eval_duration": 4279532600.0,
+            "eval_duration": 7294976400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 13.264024
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-006-What_is_the_key_point_of_disagreement_between_Lesley_Griffit"
+  },
+  {
+    "id": "meetingqa-007-What_are_the_key_factors_contributing_to_the_increase_in_fue",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What are the key factors contributing to the increase in fuel poverty in Wales, according to the Bevan Foundation's report?\nOptions:\nA. Rising energy prices and stagnant incomes\nB. Lack of government support programs\nC. Decreasing household sizes\nD. Improved energy efficiency in homes\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.058844
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-007-What_are_the_key_factors_contributing_to_the_increase_in_fue"
+  },
+  {
+    "id": "meetingqa-008-What_is_Marks_attitude_towards_community_endoscopy",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is Mark’s attitude towards community endoscopy?\nOptions:\nA. Supportive\nB. Ironical\nC. Prudent\nD. Worried\nDr Mark Jarvis: I agree. I agree, community endoscopy is very reasonable, it's very safe if it's properly done and the correct patients are selected. So, I have no real reservations, as long as it's done properly, that that's a safe and appropriate thing to do. We have many of them in England.&nbsp;\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 6.945475,
+      "usage_totals": {
+        "prompt_eval_count": 24576.0,
+        "eval_count": 227.0,
+        "total_duration": 6937534000.0,
+        "load_duration": 118767600.0,
+        "prompt_eval_duration": 4114258000.0,
+        "eval_duration": 2282325000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.192472,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1189666300,
+            "load_duration": 24890400,
+            "prompt_eval_duration": 1074764700,
+            "eval_duration": 16845200
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.557333,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 223,
+            "total_duration": 4554794300,
+            "load_duration": 68616200,
+            "prompt_eval_duration": 1959060400,
+            "eval_duration": 2248695900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.19567,
+          "usage": {
+            "prompt_eval_count": 8192,
+            "eval_count": 2,
+            "total_duration": 1193073400,
+            "load_duration": 25261000,
+            "prompt_eval_duration": 1080432900,
+            "eval_duration": 16783900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 6.945475,
+          "usage_totals": {
+            "prompt_eval_count": 24576.0,
+            "eval_count": 227.0,
+            "total_duration": 6937534000.0,
+            "load_duration": 118767600.0,
+            "prompt_eval_duration": 4114258000.0,
+            "eval_duration": 2282325000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.999497
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-008-What_is_Marks_attitude_towards_community_endoscopy"
+  },
+  {
+    "id": "meetingqa-009-what_is_Natasha_Asghar_MSs_concerns_towards_the_roll-out_of",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: what is Natasha Asghar MS’s concerns towards the roll-out of 20 mph speed limits?\nOptions:\nA. The price tag involved in rolling out 20 mph speed limits across Wales is too high.\nB. no one can improve the reality of the health service\nC. pumping money into this act will work but the influence is limited.\nD. Fixing the NHS is a top priority for all people.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 11.779683,
+      "usage_totals": {
+        "prompt_eval_count": 20013.0,
+        "eval_count": 681.0,
+        "total_duration": 11771738300.0,
+        "load_duration": 116363600.0,
+        "prompt_eval_duration": 3349811000.0,
+        "eval_duration": 7596637500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.97385,
+          "usage": {
+            "prompt_eval_count": 7125,
+            "eval_count": 2,
+            "total_duration": 970852300,
+            "load_duration": 22978800,
+            "prompt_eval_duration": 907936200,
+            "eval_duration": 7945000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 9.945857,
+          "usage": {
+            "prompt_eval_count": 6517,
+            "eval_count": 677,
+            "total_duration": 9943382500,
+            "load_duration": 69633900,
+            "prompt_eval_duration": 1647445200,
+            "eval_duration": 7580634400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.859976,
+          "usage": {
+            "prompt_eval_count": 6371,
+            "eval_count": 2,
+            "total_duration": 857503500,
+            "load_duration": 23750900,
+            "prompt_eval_duration": 794429600,
+            "eval_duration": 8058100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 11.779683,
+          "usage_totals": {
+            "prompt_eval_count": 20013.0,
+            "eval_count": 681.0,
+            "total_duration": 11771738300.0,
+            "load_duration": 116363600.0,
+            "prompt_eval_duration": 3349811000.0,
+            "eval_duration": 7596637500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 11.823226
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-009-what_is_Natasha_Asghar_MSs_concerns_towards_the_roll-out_of"
+  },
+  {
+    "id": "meetingqa-010-How_does_the_Welsh_Government_plan_to_encourage_employers_to",
+    "task": "meetingqa",
+    "dataset_answer": "B",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: How does the Welsh Government plan to encourage employers to support credit unions, and what impact has this had on credit union memberships?\nOptions:\nA. The Welsh Government provides direct funding to credit unions.\nB. The Welsh Government encourages employers to offer payroll deduction facilities to their employees.\nC. The Welsh Government offers tax incentives to credit unions.\nD. The Welsh Government operates its credit union.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.023869
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-16k-10\\case_memory\\meetingqa-010-How_does_the_Welsh_Government_plan_to_encourage_employers_to"
+  }
+]

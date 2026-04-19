@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-15T04:16:22",
+  "user_query": "When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion",
+  "assistant_response": "When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared. I didn't believe it for a second. There's no way a judge would say that all this stuff constituted any kind of real crime. It was free speech, it was technological tinkering. It wasn't a crime. But who said that these people would ever put me in front of a judge. \"We know where you live, we know who your friends are. We know how you operate and how you think.\" It dawned on me then. They were about to let me go. The room seemed to brighten. I heard myself breathing, short little breaths. \"We just want to know one thing: what was the delivery mechanism for the bombs on the bridge?\" I stopped breathing. The room darkened again. The Kiasma museum is next to where Caleb lives. \"What?\" \"There were ten charges on the bridge, all along its length. They weren't in car-trunks. They'd been placed there. Who placed them there, and how did they get there?\" \"What?\" I said it again.",
+  "semantic_summary": "When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion,",
+  "language": "en",
+  "key_entities": [
+    "RAG",
+    "she",
+    "looked",
+    "back",
+    "Lexy",
+    "Since",
+    "Kiasma",
+    "Caleb",
+    "upon",
+    "experiences",
+    "dreadful",
+    "night"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "RAG",
+      "she",
+      "looked",
+      "back",
+      "Lexy",
+      "Since",
+      "Kiasma",
+      "Caleb",
+      "upon",
+      "experiences",
+      "dreadful",
+      "night",
+      "experiences of",
+      "it seemed",
+      "companion",
+      "companion displayed almost incredible endurance"
+    ],
+    "entity_cards": [
+      {
+        "name": "RAG",
+        "normalized": "rag"
+      },
+      {
+        "name": "she",
+        "normalized": "she"
+      },
+      {
+        "name": "looked",
+        "normalized": "looked"
+      },
+      {
+        "name": "back",
+        "normalized": "back"
+      },
+      {
+        "name": "Lexy",
+        "normalized": "lexy"
+      },
+      {
+        "name": "Since",
+        "normalized": "since"
+      },
+      {
+        "name": "Kiasma",
+        "normalized": "kiasma"
+      },
+      {
+        "name": "Caleb",
+        "normalized": "caleb"
+      },
+      {
+        "name": "upon",
+        "normalized": "upon"
+      },
+      {
+        "name": "experiences",
+        "normalized": "experiences"
+      },
+      {
+        "name": "dreadful",
+        "normalized": "dreadful"
+      },
+      {
+        "name": "night",
+        "normalized": "night"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-1e593abc8c07",
+  "thread_label": "RAG / she",
+  "topic_tokens": [
+    "RAG",
+    "she",
+    "looked",
+    "back"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 5,
+    "source_language": "en",
+    "chunk_title": "When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion",
+    "language": "en",
+    "ingested_at": "2026-04-15T04:16:22",
+    "source_timestamp": "2026-04-15T04:16:22",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-041622-0002-7e2a875f3853\\2026-04-15\\04-16-22-970828.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-041622-0002-7e2a875f3853\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-041622-0002-7e2a875f3853\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-041622-0002-7e2a875f3853\\system\\event-bus-latest.json"
+  }
+}

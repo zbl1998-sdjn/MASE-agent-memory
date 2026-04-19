@@ -1,0 +1,89 @@
+[
+  {
+    "id": "showssort-001",
+    "task": "showssort",
+    "dataset_answer": [
+      2,
+      0,
+      1,
+      3,
+      4
+    ],
+    "prediction": [
+      0,
+      2,
+      1,
+      3,
+      4
+    ],
+    "raw_prediction": "[0] > [2] > [1] > [3] > [4]",
+    "question": "The fact sheet contains five shuffled items labeled with identifiers like [0], [1], [2], [3], [4].\nRecover the original order and return only the identifiers in the format:\n[0] > [2] > [1] > [3] > [4]",
+    "execution_plan": {
+      "task_kind": "ordering",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "ordering",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.488481,
+      "usage_totals": {
+        "prompt_eval_count": 2673.0,
+        "eval_count": 20.0,
+        "total_duration": 485140900.0,
+        "load_duration": 49708700.0,
+        "prompt_eval_duration": 306931500.0,
+        "eval_duration": 99190800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.488481,
+          "usage": {
+            "prompt_eval_count": 2673,
+            "eval_count": 20,
+            "total_duration": 485140900,
+            "load_duration": 49708700,
+            "prompt_eval_duration": 306931500,
+            "eval_duration": 99190800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.488481,
+          "usage_totals": {
+            "prompt_eval_count": 2673.0,
+            "eval_count": 20.0,
+            "total_duration": 485140900.0,
+            "load_duration": 49708700.0,
+            "prompt_eval_duration": 306931500.0,
+            "eval_duration": 99190800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.503226
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\local-routing-smoke\\showssort\\case_memory\\showssort-001"
+  }
+]

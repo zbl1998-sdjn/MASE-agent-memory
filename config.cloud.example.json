@@ -1,0 +1,65 @@
+{
+  "models": {
+    "router": {
+      "provider": "openai",
+      "model_name": "deepseek-chat",
+      "base_url": "https://api.deepseek.com/v1",
+      "api_key_env": "DEEPSEEK_API_KEY",
+      "temperature": 0.0,
+      "max_tokens": 128,
+      "system_prompt": "你是路由智能体。你的唯一职责是判断用户问题是否需要查询历史对话记忆，并提取检索关键词。\n\n### 决策规则（严格遵守）\n\n必须判定为 direct_answer 的情况：\n- 要求你执行任务：写代码、做数学题、翻译、总结当前文本、生成内容\n- 询问通用知识：什么是XX、如何做XX、XX的定义\n- 实时信息：今天天气、现在几点、最新新闻\n- 闲聊：你好、谢谢、再见\n\n必须判定为 search_memory 的情况：\n- 明确指向过去对话：之前聊的、上次说的、你刚才提到、还记得吗、我们讨论过\n- 询问具体已告知的信息：那个预算多少、端口号是什么、项目代号叫啥\n\n### 关键词提取规则（仅当 search_memory 时）\n1. 提取问题中最核心的中文名词短语，不超过3个。\n2. 优先提取：项目代号、数字相关短语、专有名词、配置项名称。\n3. 如果问题本身很模糊（如“那个方案”），直接使用原词作为关键词。\n\n### 输出格式（严格 JSON）\n{\"action\": \"search_memory\", \"keywords\": [\"关键词1\", \"关键词2\"]}\n或\n{\"action\": \"direct_answer\", \"keywords\": []}\n\n### 示例\n用户：\"写一个快速排序的Python代码\"\n输出：{\"action\": \"direct_answer\", \"keywords\": []}\n\n用户：\"我们之前聊的那个Q3预算，线上投放比例是多少？\"\n输出：{\"action\": \"search_memory\", \"keywords\": [\"Q3预算\", \"线上投放\"]}\n\n用户：\"服务器端口是多少？\"\n输出：{\"action\": \"search_memory\", \"keywords\": [\"服务器端口\"]}\n\n只返回 JSON。"
+    },
+    "notetaker": {
+      "provider": "openai",
+      "model_name": "glm-4-flash",
+      "base_url": "https://open.bigmodel.cn/api/paas/v4",
+      "api_key_env": "GLM_API_KEY",
+      "temperature": 0.1,
+      "max_tokens": 256,
+      "system_prompt": "你是记事智能体，负责管理外部记忆。\n- 需要保存记忆时，调用 write_interaction。\n- 需要查找历史记忆时，调用 search_memory。\n- 需要浏览日期、摘要或完整记录时，调用对应工具。\n- 你只负责结构化记忆操作，不负责面向用户的最终回答。",
+      "summary_system_prompt": "你是严格的事实记录员。你的唯一任务是将一段对话压缩为一句话摘要，不超过30个中文字符。\n\n铁律（违反即错误）：\n1. 只保留原文明确出现的信息。\n2. 禁止添加任何原文未提及的年份、日期、数字、人名、地名。\n3. 禁止推断、解释、补充背景。\n4. 禁止使用“可能”“大概”等不确定词汇。\n\n请只输出摘要文本，不要任何前缀或引号。"
+    },
+    "executor": {
+      "provider": "openai",
+      "model_name": "MiniMax-Text-01",
+      "base_url": "https://api.minimaxi.com/v1",
+      "api_key_env": "MINIMAX_API_KEY",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "system_prompt": "你是执行智能体，运行在一个具备外部记忆系统的AI架构中。",
+      "modes": {
+        "grounded_answer": {
+          "system_prompt": "你是执行智能体。你的任务是仅基于提供的“事实备忘录”回答用户问题。\n- 如果备忘录中有相关信息，请准确、简洁地回答。\n- 如果备忘录中没有相关信息，请回答：“我未找到相关记录。您可以换个关键词试试，或者告诉我更多信息。”\n- 绝对不要编造任何未在备忘录中提及的信息。"
+        },
+        "general_answer": {
+          "system_prompt": "你是执行智能体，运行在一个具备外部记忆系统的AI架构中。\n- 当用户要求你“记住”某些信息时，请回复：“好的，我已记录。后续你可以随时问我相关的问题。”\n- 当用户问及与历史记忆无关的问题时，请使用你自身的知识和能力直接回答。\n- 你不需要自行记忆任何信息，系统会自动将重要内容存入外部记忆库。"
+        },
+        "code_generation": {
+          "system_prompt": "你是执行智能体。当前任务是代码生成或代码草拟。\n- 优先输出可直接使用的代码。\n- 如需补充说明，保持简洁，只解释关键约束或用法。\n- 如果提供了事实备忘录，必须将其视为硬约束，不得与其冲突。"
+        },
+        "math_compute": {
+          "system_prompt": "你是执行智能体。当前任务是数学计算或定量推理。\n- 先确保结果正确，再给出简洁过程。\n- 如果提供了事实备忘录，先把备忘录中的数字和条件视为已知条件。\n- 不要编造不存在的数据。"
+        },
+        "structured_task": {
+          "system_prompt": "你是执行智能体。当前任务是结构化处理，例如总结、提取、改写、翻译、转换为 JSON 或表格。\n- 输出必须紧贴用户要求。\n- 如果提供了事实备忘录，优先以备忘录为依据完成任务。\n- 缺少关键信息时，直接说明缺少什么。"
+        }
+      }
+    }
+  },
+  "memory": {
+    "json_dir": "memory",
+    "log_dir": "logs",
+    "index_db": "memory/index.db"
+  },
+  "fallbacks": {
+    "router_parse_failed_action": "direct_answer",
+    "ollama_retry_count": 6,
+    "ollama_retry_delay": 3,
+    "ollama_wait_for_healthy": true,
+    "ollama_healthcheck_timeout": 20,
+    "ollama_healthcheck_poll_interval": 1.5,
+    "ollama_healthcheck_probe_timeout": 3,
+    "benchmark_sample_retry_count": 2,
+    "benchmark_sample_retry_delay": 6
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-043446-0010-7e2a875f3853\\2026-04-15\\04-34-58-620887.json",
+  "timestamp": "2026-04-15T04:34:58",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T04:34:58",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-472b293257c5",
+    "thread_label": "character / Helsinki"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "Helsinki",
+    "Caleb",
+    "visited",
+    "caleb visited helsinki"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": [
+      "Helsinki"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "Helsinki",
+      "Caleb",
+      "visited",
+      "caleb visited helsinki"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "Helsinki"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character has been to Helsinki?",
+  "resolved_source_span": "Which character has been to Helsinki?",
+  "event_segments": [
+    {
+      "text": "Which character has been to Helsinki?",
+      "resolved_text": "Which character has been to Helsinki?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "Helsinki"
+        ]
+      },
+      "entities": [
+        "character",
+        "Helsinki",
+        "Which"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.56,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-043446-0010-7e2a875f3853\\2026-04-15\\04-34-58-620887.json::event_segment:0",
+      "logical_event_id": "generic|character|caleb,character,helsinki,visited|april,helsinki",
+      "dedupe_key": "generic|character|caleb,character,helsinki,visited|april,helsinki|which character has been to helsinki|2026-04-15T04:34:58",
+      "source_signature": "which character has been to helsinki",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-15T04:34:58",
+      "thread_id": "thread-472b293257c5",
+      "thread_label": "character / Helsinki",
+      "entities": [
+        "character",
+        "Helsinki",
+        "Caleb",
+        "visited",
+        "caleb visited helsinki",
+        "Which"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "Helsinki"
+        ]
+      },
+      "source": "Which character has been to Helsinki?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-043446-0010-7e2a875f3853\\2026-04-15\\04-34-58-620887.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

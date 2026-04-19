@@ -1,0 +1,176 @@
+{
+    "eval_name": "mase_default_book_0401_T17_C02_direct_1776207557",
+    "test_name": "0401_T17_C02_direct",
+    "model_name": "mase_default",
+    "model_config_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\evaluation\\model_configs\\mase_default.json",
+    "retrieval_question": "Which character lives next to the Kiasma museum?",
+    "needle": "Actually, {CHAR} lives next to the Kiasma museum.",
+    "gold_answers": "",
+    "system_prompt": "",
+    "use_default_system_prompt": false,
+    "task_template": "You will answer a question based on the following book snippet:\n\n{haystack}\n\nUse the information provided in the book snippet to answer the question. Your answer should be short and based on either explicitly stated facts or strong, logical inferences.\n\nQuestion: {question}\n\n Return only the final answer with no additional explanation or reasoning.",
+    "haystack_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\data\\haystack\\rand_shuffle\\rand_book_1.txt",
+    "haystack_hash": "1f7bdc697141b888565c851e6c34dbd649aaf580280eae92199561c4f0e93dab",
+    "context_length": 1000,
+    "character_set": [
+        "Yuki",
+        "Stuart",
+        "Katie",
+        "Veronica",
+        "Gary",
+        "Megan",
+        "Calvin",
+        "Mandy",
+        "Diana",
+        "Caleb"
+    ],
+    "document_depth_percent_min": 50.0,
+    "document_depth_percent_max": 50.0,
+    "document_depth_percent_intervals": 1,
+    "shift": 0,
+    "static_depth": -1,
+    "metric": "contains",
+    "result_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\cloud_smoke_direct_1k_subset\\raw\\0401_T17_C02_direct_rand_book_1_cl1000",
+    "log_placements_dir": "",
+    "seed": 443,
+    "results": [
+        {
+            "selected_character": "Caleb",
+            "placement_metadata": {
+                "static_depth": -1,
+                "token_depth": 500,
+                "depth": 0.5,
+                "context_length_wo_needle": 1000
+            },
+            "metric": 1,
+            "response": "Caleb",
+            "prompt_tokens": null,
+            "completion_tokens": null,
+            "total_tokens": null,
+            "finish_reason": "stop",
+            "cached_tokens": null,
+            "route_action": "search_memory",
+            "keywords": [
+                "__FULL_QUERY__"
+            ],
+            "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065917-0001-7d76dd2c0de1",
+            "metrics": {
+                "call_count": 5,
+                "elapsed_seconds": 8.449758,
+                "usage_totals": {
+                    "prompt_eval_count": 3300.0,
+                    "eval_count": 976.0,
+                    "total_duration": 8397296400.0,
+                    "load_duration": 176192300.0,
+                    "prompt_eval_duration": 129016300.0,
+                    "eval_duration": 7708774300.0
+                },
+                "calls": [
+                    {
+                        "agent_type": "planner",
+                        "mode": "task_planning",
+                        "provider": "ollama",
+                        "model_name": "deepseek-r1:7b",
+                        "elapsed_seconds": 4.00031,
+                        "usage": {
+                            "prompt_eval_count": 299,
+                            "eval_count": 384,
+                            "total_duration": 3958567000,
+                            "load_duration": 49021200,
+                            "prompt_eval_duration": 9415500,
+                            "eval_duration": 3690530500
+                        }
+                    },
+                    {
+                        "agent_type": "notetaker",
+                        "mode": "english_aux_ops",
+                        "provider": "ollama",
+                        "model_name": "lfm2.5-thinking:1.2b",
+                        "elapsed_seconds": 1.059685,
+                        "usage": {
+                            "prompt_eval_count": 1355,
+                            "eval_count": 192,
+                            "total_duration": 1056753300,
+                            "load_duration": 26880700,
+                            "prompt_eval_duration": 36916300,
+                            "eval_duration": 964363800
+                        }
+                    },
+                    {
+                        "agent_type": "notetaker",
+                        "mode": "english_aux_ops",
+                        "provider": "ollama",
+                        "model_name": "lfm2.5-thinking:1.2b",
+                        "elapsed_seconds": 1.199529,
+                        "usage": {
+                            "prompt_eval_count": 1355,
+                            "eval_count": 192,
+                            "total_duration": 1196451400,
+                            "load_duration": 29401300,
+                            "prompt_eval_duration": 67686100,
+                            "eval_duration": 1072214100
+                        }
+                    },
+                    {
+                        "agent_type": "planner",
+                        "mode": "session_summary",
+                        "provider": "ollama",
+                        "model_name": "deepseek-r1:7b",
+                        "elapsed_seconds": 2.092231,
+                        "usage": {
+                            "prompt_eval_count": 127,
+                            "eval_count": 192,
+                            "total_duration": 2089814800,
+                            "load_duration": 51890700,
+                            "prompt_eval_duration": 10997800,
+                            "eval_duration": 1913480400
+                        }
+                    },
+                    {
+                        "agent_type": "notetaker",
+                        "mode": "english_summary",
+                        "provider": "ollama",
+                        "model_name": "ibm/granite3.3:2b",
+                        "elapsed_seconds": 0.098003,
+                        "usage": {
+                            "prompt_eval_count": 164,
+                            "eval_count": 16,
+                            "total_duration": 95709900,
+                            "load_duration": 18998400,
+                            "prompt_eval_duration": 4000600,
+                            "eval_duration": 68185500
+                        }
+                    }
+                ],
+                "by_agent": {
+                    "planner": {
+                        "call_count": 2,
+                        "elapsed_seconds": 6.092541,
+                        "usage_totals": {
+                            "prompt_eval_count": 426.0,
+                            "eval_count": 576.0,
+                            "total_duration": 6048381800.0,
+                            "load_duration": 100911900.0,
+                            "prompt_eval_duration": 20413300.0,
+                            "eval_duration": 5604010900.0
+                        }
+                    },
+                    "notetaker": {
+                        "call_count": 3,
+                        "elapsed_seconds": 2.357217,
+                        "usage_totals": {
+                            "prompt_eval_count": 2874.0,
+                            "eval_count": 400.0,
+                            "total_duration": 2348914600.0,
+                            "load_duration": 75280400.0,
+                            "prompt_eval_duration": 108603000.0,
+                            "eval_duration": 2104763400.0
+                        }
+                    }
+                },
+                "wall_clock_seconds": 13.687043
+            }
+        }
+    ],
+    "test_hash": "4580942ccd75979286b3398e25d634481ca4ee2f067cc969b7a5465b3519719b"
+}

@@ -1,0 +1,51 @@
+{
+  "suite_name": "cloud_smoke_direct_1k_subset",
+  "needle_set_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\data\\needlesets\\needle_set_ONLYDirect.json",
+  "question_types": [
+    "direct"
+  ],
+  "context_length": 1000,
+  "depth_percent": 50.0,
+  "haystack_files": [
+    "rand_book_1.txt"
+  ],
+  "model_name": "mase_default",
+  "sample_count": 2,
+  "adapter_error_count": 0,
+  "accuracy": 1.0,
+  "pass_count": 2,
+  "rows": [
+    {
+      "suite": "cloud_smoke_direct_1k_subset",
+      "haystack_file": "rand_book_1.txt",
+      "test_name": "0401_T17_C02_direct",
+      "question_type": "direct",
+      "status": "ok",
+      "metric": 1,
+      "response": "Caleb",
+      "selected_character": "Caleb",
+      "error": null,
+      "route_action": "search_memory",
+      "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065917-0001-7d76dd2c0de1",
+      "result_file": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\cloud_smoke_direct_1k_subset\\raw\\0401_T17_C02_direct_rand_book_1_cl1000\\mase_default_book_0401_T17_C02_direct_1776207557.json",
+      "question": "Which character lives next to the Kiasma museum?",
+      "needle": "Actually, {CHAR} lives next to the Kiasma museum."
+    },
+    {
+      "suite": "cloud_smoke_direct_1k_subset",
+      "haystack_file": "rand_book_1.txt",
+      "test_name": "0401Inv_T17_C02_direct",
+      "question_type": "direct",
+      "status": "ok",
+      "metric": 1,
+      "response": "Caleb",
+      "selected_character": "Caleb",
+      "error": null,
+      "route_action": "search_memory",
+      "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065931-0002-aa94f77f0488",
+      "result_file": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\cloud_smoke_direct_1k_subset\\raw\\0401Inv_T17_C02_direct_rand_book_1_cl1000\\mase_default_book_0401Inv_T17_C02_direct_1776207571.json",
+      "question": "Which character lives next to the Kiasma museum?",
+      "needle": "The Kiasma museum is next to where {CHAR} lives."
+    }
+  ]
+}

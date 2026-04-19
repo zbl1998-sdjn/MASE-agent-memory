@@ -1,0 +1,11 @@
+{
+  "mode": "memory_ingest",
+  "system_prompt": "",
+  "question": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+  "haystack_char_length": 5585,
+  "user_prompt_char_length": 5992,
+  "max_tokens": 64,
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "add_default_system_prompt": true
+}

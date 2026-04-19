@@ -1,0 +1,121 @@
+[project]
+name = "mase-demo"
+version = "0.4.0"
+description = "MASE: Memory-Augmented System Executor"
+authors = [
+    {name = "Developer", email = "dev@example.com"},
+]
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.25,<1.0",
+    "ollama>=0.1,<1.0",
+    "langgraph>=0.0.30,<1.0",
+    "langchain-core>=0.1,<1.0",
+    "pydantic>=2.0,<3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0,<9.0",
+    "pytest-xdist>=3.0,<4.0",
+    "ruff>=0.6,<1.0",
+    "mypy>=1.10,<2.0",
+    "pre-commit>=3.5,<5.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# -------- Hatch build (src/mase/ + legacy root shims) --------
+[tool.hatch.build.targets.wheel]
+# `mase` lives under src/. Root-level shim modules (executor.py, router.py, …)
+# remain at project root for backward-compat imports and are packaged via
+# `include`. See plan.md "src/mase/ 激进迁移（零破坏）".
+packages = ["src/mase", "mase_tools", "benchmarks"]
+include = [
+    "executor.py",
+    "planner_agent.py",
+    "router.py",
+    "reasoning_engine.py",
+    "langgraph_orchestrator.py",
+    "notetaker_agent.py",
+    "notetaker.py",
+    "event_versioning.py",
+    "model_interface.py",
+    "protocol.py",
+    "topic_threads.py",
+    "mase_cli.py",
+]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/mase" = "mase"
+
+# -------- Ruff --------
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+extend-exclude = [
+    "legacy_archive",
+    "run_artifacts",
+    "dist",
+    "build",
+    ".venv",
+    "venv",
+    "benchmarks/external-benchmarks",
+    "__pycache__",
+    ".pytest_cache",
+]
+
+[tool.ruff.lint]
+# F = pyflakes (unused/undefined), B = bugbear (real bugs), E9 = syntax errors,
+# BLE = blind except, TRY = try/except anti-patterns, I = import sorting, UP = pyupgrade.
+select = ["F", "B", "E9", "BLE", "TRY003", "TRY004", "TRY201", "I", "UP"]
+# E501 (line-too-long) intentionally not selected: Chinese benchmark prompts inflate column width.
+ignore = [
+    "B008",   # function call in default argument (common pytest/FastAPI pattern)
+    "B904",   # already fixed in langgraph_orchestrator; relax for existing code paths
+    "TRY003", # long messages inside raise ...
+    "UP007",  # Optional[X] vs X | None — keep tolerant
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Chinese-heavy benchmark case fixtures get a pass on everything style-related.
+"benchmarks/benchmark_cases.py" = ["E", "W"]
+# Benchmark adapters & runner wrap foreign dataset parsers; broad guards are intentional.
+"benchmarks/**" = ["BLE001"]
+# Runtime safety-nets that must never let an LLM/infra exception crash the agent.
+"executor.py" = ["BLE001"]
+"mase_tools/memory/gc_agent.py" = ["BLE001"]
+"tests/**" = ["BLE001"]     # tests frequently catch broadly on purpose
+"scripts/**" = ["BLE001"]   # entry scripts similarly
+# TODO(benchmarks/runner.py:678 — resolved): `baseline_infra_error` is now
+# persisted into attempt_rows; retry semantics unchanged. Still ignoring BLE001
+# for this file (intentional broad catches around benchmark adapters).
+"benchmarks/runner.py" = ["BLE001"]
+
+# -------- Mypy (gradual typing, opt-in per module) --------
+[tool.mypy]
+python_version = "3.10"
+files = ["executor.py", "planner_agent.py", "router.py", "model_interface.py", "protocol.py"]
+check_untyped_defs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+ignore_missing_imports = true
+# These modules have full type hints; enable strictness progressively for the rest.
+exclude = "(legacy_archive|run_artifacts|dist|build|benchmarks/external-benchmarks)"
+
+# -------- Pytest --------
+[tool.pytest.ini_options]
+minversion = "8.0"
+pythonpath = [".", "src"]
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
+markers = [
+    "integration: tests that require network access or a running model backend (deselect with '-m \"not integration\"')",
+    "slow: long-running benchmarks (deselect with '-m \"not slow\"')",
+]

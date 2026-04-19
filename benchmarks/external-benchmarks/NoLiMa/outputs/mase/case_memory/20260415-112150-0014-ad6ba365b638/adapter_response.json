@@ -1,0 +1,21 @@
+{
+  "response": "Stuart",
+  "prompt_tokens": null,
+  "completion_tokens": null,
+  "total_tokens": null,
+  "finish_reason": "stop",
+  "cached_tokens": null,
+  "route_action": "search_memory",
+  "keywords": [
+    "__FULL_QUERY__"
+  ],
+  "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-112150-0014-ad6ba365b638",
+  "metrics": {
+    "call_count": 0,
+    "elapsed_seconds": 0,
+    "usage_totals": {},
+    "calls": [],
+    "by_agent": {},
+    "wall_clock_seconds": 0.188392
+  }
+}

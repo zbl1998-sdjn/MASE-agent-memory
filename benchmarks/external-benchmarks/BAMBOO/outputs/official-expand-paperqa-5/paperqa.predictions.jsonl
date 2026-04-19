@@ -1,0 +1,5 @@
+{"id": "paperqa-001-How_to_get_additional_knowledge_for_entities", "task": "paperqa", "pred": "D", "answer": "B", "raw_pred": "D", "error": null}
+{"id": "paperqa-002-What_is_not_the_strengths_of_our_work_compared_with_Hos_wor", "task": "paperqa", "pred": "You did not mention this information.", "answer": "A", "raw_pred": "You did not mention this information.", "error": null}
+{"id": "paperqa-003-What_is_the_primary_purpose_of_introducing_the_ranking_loss_", "task": "paperqa", "pred": "You did not mention this information.", "answer": "C", "raw_pred": "You did not mention this information.", "error": null}
+{"id": "paperqa-004-What_is_the_primary_focus_of_the_error_detection_problem_dis", "task": "paperqa", "pred": "C", "answer": "C", "raw_pred": "C", "error": null}
+{"id": "paperqa-005-Regarding_the_description_of_the_statistical_indicators_of_t", "task": "paperqa", "pred": "You did not mention this information.", "answer": "B", "raw_pred": "You did not mention this information.", "error": null}

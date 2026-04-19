@@ -1,0 +1,254 @@
+[
+  {
+    "id": "paperqa-001-How_to_get_additional_knowledge_for_entities",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: How to get additional knowledge for entities?\nOptions:\nA. Making V&L model pre-trained.\nB. Supplementing image information.\nC. Build a bigger dataset.\nD. Supplementing textual information.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 17.899814,
+      "usage_totals": {
+        "prompt_eval_count": 8543.0,
+        "eval_count": 589.0,
+        "total_duration": 17894420900.0,
+        "load_duration": 72681500.0,
+        "prompt_eval_duration": 2416265400.0,
+        "eval_duration": 8505447300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 2.937861,
+          "usage": {
+            "prompt_eval_count": 4310,
+            "eval_count": 2,
+            "total_duration": 2934890000,
+            "load_duration": 19869800,
+            "prompt_eval_duration": 1361865100,
+            "eval_duration": 120115800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 14.961953,
+          "usage": {
+            "prompt_eval_count": 4233,
+            "eval_count": 587,
+            "total_duration": 14959530900,
+            "load_duration": 52811700,
+            "prompt_eval_duration": 1054400300,
+            "eval_duration": 8385331500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 17.899814,
+          "usage_totals": {
+            "prompt_eval_count": 8543.0,
+            "eval_count": 589.0,
+            "total_duration": 17894420900.0,
+            "load_duration": 72681500.0,
+            "prompt_eval_duration": 2416265400.0,
+            "eval_duration": 8505447300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 17.925668
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-expand-paperqa-5\\case_memory\\paperqa-001-How_to_get_additional_knowledge_for_entities"
+  },
+  {
+    "id": "paperqa-002-What_is_not_the_strengths_of_our_work_compared_with_Hos_wor",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is not the strengths of our work compared with Ho’s work?\nOptions:\nA:This work is inspired by the seminal work of Wei et al. (2022) on CoT prompting. They demonstrate that prefixing an input with 2-8 exemplars of CoT reasoning encourages LMs to do the same, reaching state-of-the-art performance on datasets such as GSM8K (Cobbe et al., 2021) .\nB\\C:Ho et al. (2022) and Li et al. (2022) also explore knowledge distillation with the difference of proposing diverse sampling and rationalization prompting, respectively. In contrast to their work, our work explores more teacher models and demonstrates both the effects of dataset and model size on accuracy.\nD:We also achieve a higher accuracy on common datasets, such as GSM8K, than Ho et al. (2022) .\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.024209
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-expand-paperqa-5\\case_memory\\paperqa-002-What_is_not_the_strengths_of_our_work_compared_with_Hos_wor"
+  },
+  {
+    "id": "paperqa-003-What_is_the_primary_purpose_of_introducing_the_ranking_loss_",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary purpose of introducing the ranking loss in the BalSum model?\nOptions:\nA. To maximize ROUGE scores\nB. To minimize the number of candidate summaries\nC. To reflect the quality measure during training\nD. To increase the instance weighting threshold\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.010851
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-expand-paperqa-5\\case_memory\\paperqa-003-What_is_the_primary_purpose_of_introducing_the_ranking_loss_"
+  },
+  {
+    "id": "paperqa-004-What_is_the_primary_focus_of_the_error_detection_problem_dis",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary focus of the error detection problem discussed in the paper?\nOptions:\nA. Identifying outliers in data.\nB. Detecting adversarial attacks on neural networks.\nC. Detecting data points with incorrect labels.\nD. Finding the optimal parameters for deep networks.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 20.362131,
+      "usage_totals": {
+        "prompt_eval_count": 9113.0,
+        "eval_count": 311.0,
+        "total_duration": 20356996700.0,
+        "load_duration": 69664100.0,
+        "prompt_eval_duration": 2153724300.0,
+        "eval_duration": 4972449900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.112776,
+          "usage": {
+            "prompt_eval_count": 4601,
+            "eval_count": 2,
+            "total_duration": 1110297000,
+            "load_duration": 18902900,
+            "prompt_eval_duration": 1046689300,
+            "eval_duration": 28064700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 19.249355,
+          "usage": {
+            "prompt_eval_count": 4512,
+            "eval_count": 309,
+            "total_duration": 19246699700,
+            "load_duration": 50761200,
+            "prompt_eval_duration": 1107035000,
+            "eval_duration": 4944385200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 20.362131,
+          "usage_totals": {
+            "prompt_eval_count": 9113.0,
+            "eval_count": 311.0,
+            "total_duration": 20356996700.0,
+            "load_duration": 69664100.0,
+            "prompt_eval_duration": 2153724300.0,
+            "eval_duration": 4972449900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 20.381333
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-expand-paperqa-5\\case_memory\\paperqa-004-What_is_the_primary_focus_of_the_error_detection_problem_dis"
+  },
+  {
+    "id": "paperqa-005-Regarding_the_description_of_the_statistical_indicators_of_t",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Regarding the description of the statistical indicators of the STT4SG-350 dataset, which of the following is accurate？\nOptions:\nA. The age groups eighties and above are represented well.\nB. 51% identified as female and 49% as male in 316 different speakers.\nC. The age groups of twenties are well represented.\nD. The groups from the thirties to the sixties are overrepresented and the teens as well as seventies are underrepresented.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015032
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-expand-paperqa-5\\case_memory\\paperqa-005-Regarding_the_description_of_the_statistical_indicators_of_t"
+  }
+]

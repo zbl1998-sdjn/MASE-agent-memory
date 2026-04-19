@@ -1,0 +1,210 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0015-495d709a8432\\2026-04-15\\16-52-05-540847.json",
+  "timestamp": "2026-04-15T16:52:05",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T16:52:05",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-5d4d54cb4758",
+    "thread_label": "placed / get"
+  },
+  "event_type": "generic",
+  "entities": [
+    "placed",
+    "get",
+    "again",
+    "chance",
+    "Marcus",
+    "She",
+    "Tell",
+    "Max",
+    "said",
+    "last",
+    "last chance",
+    "Huldah"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "placed",
+      "get",
+      "again",
+      "chance",
+      "Marcus",
+      "She",
+      "Tell",
+      "Max",
+      "said",
+      "last",
+      "last chance",
+      "Huldah",
+      "is your last chance",
+      "she said",
+      "She looked sad",
+      "Tell us this"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "placed",
+      "get",
+      "again",
+      "chance"
+    ]
+  },
+  "relations": [],
+  "source_span": "Who placed them there, and how did they get there?\" \"What?\" I said it again. \"This is your last chance, Marcus,\" she",
+  "resolved_source_span": "Who placed said there, and how did said get there?\" \"What?\" I said said again. \"said is your last chance, Marcus,\" she",
+  "event_segments": [
+    {
+      "text": "Who placed said there, and how did said get there?\" \"What?\" I said said again.",
+      "resolved_text": "Who placed said there, and how did said get there?\" \"What?\" I said said again.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "placed",
+        "get",
+        "again",
+        "said"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "\"said is your last chance, Marcus,\" she",
+      "resolved_text": "\"said is your last chance, Marcus,\" she",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "chance",
+        "Marcus",
+        "She",
+        "said",
+        "last",
+        "last chance"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.62,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0015-495d709a8432\\2026-04-15\\16-52-05-540847.json::event_segment:0",
+      "logical_event_id": "generic|placed|again,chance,get,placed|april",
+      "dedupe_key": "generic|placed|again,chance,get,placed|april|who placed said there and how did said get there what i said said again|2026-04-15T16:52:05",
+      "source_signature": "who placed said there and how did said get there what i said said again",
+      "event_type": "generic",
+      "display_name": "placed",
+      "normalized_name": "placed",
+      "timestamp": "2026-04-15T16:52:05",
+      "thread_id": "thread-5d4d54cb4758",
+      "thread_label": "placed / get",
+      "entities": [
+        "placed",
+        "get",
+        "again",
+        "chance",
+        "Marcus",
+        "She",
+        "Tell",
+        "Max",
+        "said",
+        "last",
+        "last chance",
+        "Huldah"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Who placed said there, and how did said get there?\" \"What?\" I said said again.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0015-495d709a8432\\2026-04-15\\16-52-05-540847.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0015-495d709a8432\\2026-04-15\\16-52-05-540847.json::event_segment:1",
+      "logical_event_id": "generic|placed|again,chance,get,placed|april",
+      "dedupe_key": "generic|placed|again,chance,get,placed|april|said is your last chance marcus she|2026-04-15T16:52:05",
+      "source_signature": "said is your last chance marcus she",
+      "event_type": "generic",
+      "display_name": "placed",
+      "normalized_name": "placed",
+      "timestamp": "2026-04-15T16:52:05",
+      "thread_id": "thread-5d4d54cb4758",
+      "thread_label": "placed / get",
+      "entities": [
+        "placed",
+        "get",
+        "again",
+        "chance",
+        "Marcus",
+        "She",
+        "Tell",
+        "Max",
+        "said",
+        "last",
+        "last chance",
+        "Huldah"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "\"said is your last chance, Marcus,\" she",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0015-495d709a8432\\2026-04-15\\16-52-05-540847.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

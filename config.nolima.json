@@ -1,0 +1,599 @@
+{
+  "env_file": ".env",
+  "models": {
+    "router": {
+      "provider": "ollama",
+      "model_name": "qwen2.5:0.5b",
+      "ollama_options": {
+        "num_ctx": 2048
+      },
+      "temperature": 0.0,
+      "max_tokens": 128,
+      "system_prompt": "你是路由智能体。你的唯一职责是判断用户问题是否需要查询历史对话记忆，并提取检索关键词。\n\n### 决策规则（严格遵守）\n\n必须判定为 direct_answer 的情况：\n- 要求你执行任务：写代码、做数学题、翻译、总结当前文本、生成内容\n- 询问通用知识：什么是XX、如何做XX、XX的定义\n- 实时信息：今天天气、现在几点、最新新闻\n- 闲聊：你好、谢谢、再见\n\n必须判定为 search_memory 的情况：\n- 明确指向过去对话：之前聊的、上次说的、你刚才提到、还记得吗、我们讨论过\n- 询问具体已告知的信息：那个预算多少、端口号是什么、项目代号叫啥\n\n### 关键词提取规则（仅当 search_memory 时）\n1. 提取问题中最核心的中文名词短语，不超过3个。\n2. 优先提取：项目代号、数字相关短语、专有名词、配置项名称。\n3. 如果问题本身很模糊（如“那个方案”），直接使用原词作为关键词。\n\n### 输出格式（严格 JSON）\n{\"action\": \"search_memory\", \"keywords\": [\"关键词1\", \"关键词2\"]}\n或\n{\"action\": \"direct_answer\", \"keywords\": []}\n\n### 示例\n用户：\"写一个快速排序的Python代码\"\n输出：{\"action\": \"direct_answer\", \"keywords\": []}\n\n用户：\"我们之前聊的那个Q3预算，线上投放比例是多少？\"\n输出：{\"action\": \"search_memory\", \"keywords\": [\"Q3预算\", \"线上投放\"]}\n\n用户：\"服务器端口是多少？\"\n输出：{\"action\": \"search_memory\", \"keywords\": [\"服务器端口\"]}\n\n只返回 JSON。"
+    },
+    "notetaker": {
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "ollama_options": {
+        "num_ctx": 4096
+      },
+      "temperature": 0.1,
+      "max_tokens": 256,
+      "system_prompt": "你是记事智能体，负责管理外部记忆。\n- 需要保存记忆时，调用 write_interaction。\n- 需要查找历史记忆时，调用 search_memory。\n- 需要浏览日期、摘要或完整记录时，调用对应工具。\n- 你只负责结构化记忆操作，不负责面向用户的最终回答。",
+      "summary_system_prompt": "你是严格的事实记录员。你的唯一任务是将一段对话压缩为一句话摘要，不超过30个中文字符。\n\n铁律（违反即错误）：\n1. 只保留原文明确出现的信息。\n2. 禁止添加任何原文未提及的年份、日期、数字、人名、地名。\n3. 禁止推断、解释、补充背景。\n4. 禁止使用“可能”“大概”等不确定词汇。\n\n正确示例：\n原文：“我们4月30日开会讨论了预算。”\n正确摘要：“4月30日讨论预算。”\n错误摘要：“2023年4月30日开会讨论预算。”\n错误摘要：“讨论Q2预算。”\n\n请只输出摘要文本，不要任何前缀或引号。",
+      "modes": {
+        "hot_ops": {
+          "model_name": "qwen2.5:1.5b",
+          "ollama_options": {
+            "num_ctx": 2048
+          },
+          "temperature": 0.0,
+          "max_tokens": 192
+        },
+        "cold_ops": {
+          "model_name": "qwen2.5:3b",
+          "ollama_options": {
+            "num_ctx": 4096
+          },
+          "temperature": 0.1,
+          "max_tokens": 256
+        },
+        "hot_summary": {
+          "model_name": "qwen2.5:1.5b",
+          "ollama_options": {
+            "num_ctx": 2048
+          },
+          "temperature": 0.0,
+          "max_tokens": 96
+        },
+        "cold_summary": {
+          "model_name": "qwen2.5:3b",
+          "ollama_options": {
+            "num_ctx": 4096
+          },
+          "temperature": 0.0,
+          "max_tokens": 128
+        },
+        "english_ops": {
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 224
+        },
+        "english_fact_card_ops": {
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 256
+        },
+        "english_aux_ops": {
+          "provider": "ollama",
+          "model_name": "lfm2.5-thinking:1.2b",
+          "ollama_options": {
+            "num_ctx": 4096
+          },
+          "temperature": 0.0,
+          "max_tokens": 192
+        },
+        "reflection_ops": {
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 384
+        },
+        "english_summary": {
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "ollama_options": {
+            "num_ctx": 4096
+          },
+          "temperature": 0.0,
+          "max_tokens": 128
+        }
+      }
+    },
+    "planner": {
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "ollama_options": {
+        "num_ctx": 8192
+      },
+      "temperature": 0.0,
+      "max_tokens": 384,
+      "system_prompt": "你是 MASE 的 Planner。你的职责不是直接回答用户，而是为编排器生成结构化任务计划、检索建议和执行指令包要点。必须保持保守，不能编造事实。",
+      "modes": {
+        "task_planning": {
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 384
+        },
+        "retrieval_verification": {
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 384
+        },
+        "session_summary": {
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 4096
+          },
+          "temperature": 0.0,
+          "max_tokens": 192
+        }
+      }
+    },
+    "executor": {
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "ollama_options": {
+        "num_ctx": 8192
+      },
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "system_prompt": "你是执行智能体，运行在一个具备外部记忆系统的AI架构中。",
+      "routing": {
+        "default_collaboration_mode": "off"
+      },
+      "modes": {
+        "grounded_answer": {
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "base_url": null,
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 512,
+          "system_prompt": "你是执行智能体，运行在 MASE 记忆系统中。你的唯一任务是：仅基于下方“事实备忘录”中的内容回答问题。\n\n铁律（违反即错误）：\n1. 备忘录中没有的信息，一律不得使用。\n2. 禁止引入任何外部常识、世界知识或个人判断。\n3. 如果备忘录中的信息不足以回答问题，请明确回答：“根据现有记录，我无法回答这个问题。”\n4. 如果需要计数、比较、聚合，请严格基于备忘录中的原文进行，不得自行推断或补全。\n5. 如果备忘录里出现与常识冲突的内容，也必须以备忘录为准，不要纠正它。\n\n你的输出必须直接回答问题，保持简洁，不要解释这些规则。"
+        },
+        "grounded_long_context": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "ollama_options": {
+            "num_ctx": 16384
+          },
+          "temperature": 0.0,
+          "max_tokens": 256,
+          "system_prompt": "你是 MASE 长上下文针式问答执行器。这是一个对抗性长上下文压力测试基准。\n\n【关键规律 — 必须掌握】\n事实备忘录中通常包含两类陈述：\n- 【常识/干扰】：句式优雅、与现实世界知识一致、与问题模板高度匹配（例如\"X是现代Y之奠基者\"这种贴题陈述）。\n- 【植入针/真答案】：往往带有以下不寻常特征之一：\n  * 错别字或多/少一个字（例如\"物理理学\"是\"物理学\"的错位变体；\"理理学\"等冗余字符）\n  * 不寻常的国籍/年代搭配（例如\"德裔美籍\"+\"庚子年间\"这种历史不一致）\n  * 与公认现实常识相悖的事实（例如把贝多芬说成物理学家、周杰伦说成奥运之父）\n  * 句式略显笨拙、冗余或东拼西凑\n\n【铁律】\n本基准中真答案永远是植入针，不是干扰陈述。\n当备忘录里同时出现\"X 是现代 Y 之奠基者\"（干净句式、贴题）和\"Z 研究于 Y 理学\"（带错字/古怪/反常识），**优先选 Z**，绝不选 X。\n禁止从世界知识引入答案——答案必须是字面摘自备忘录的某个候选。\n\n【回答步骤】\n1. 扫描备忘录所有窗口，列出所有可能的候选名字/数字/日期。\n2. 对每个候选评估：常识匹配？还是带不寻常特征？\n3. 选带不寻常特征的那个作为答案。\n4. 只输出一个名字/数字/日期，不要解释，不要重复问题。\n5. 如果备忘录里没有任何候选与问题相关，输出\"无法回答\"。"
+        },
+        "grounded_long_context_english": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "ollama_options": {
+            "num_ctx": 16384
+          },
+          "temperature": 0.0,
+          "max_tokens": 256,
+          "system_prompt": "You are the MASE long-context needle-in-haystack executor for an adversarial stress-test benchmark.\n\n[KEY PATTERN - MUST INTERNALIZE]\nThe fact sheet typically contains two kinds of statements:\n- [COMMON-KNOWLEDGE/DISTRACTOR]: clean syntax, consistent with real-world facts, closely matches the question template (e.g. \"X is the founder of modern Y\").\n- [PLANTED NEEDLE/TRUE ANSWER]: usually has at least one unusual feature:\n  * Typo or extra/missing character in a key term\n  * Implausible nationality/era combination (e.g. \"German-American scholar in the year 1900 BCE\")\n  * Statement contradicting widely known real-world facts (e.g. casting a musician as a physicist)\n  * Awkward, redundant or seemingly stitched-together phrasing\n\n[IRON RULE]\nIn this benchmark the true answer is ALWAYS the planted needle, not the common-knowledge statement.\nWhen the fact sheet contains both \"X is the founder of modern Y\" (clean, on-template) and \"Z studied Y theory\" (with a typo / awkward / counter-factual), prefer Z. Never prefer the clean common-knowledge sentence.\nDo NOT inject answers from world knowledge — the answer must be a literal substring quoted from the fact sheet.\n\n[ANSWER STEPS]\n1. Scan all windows of the fact sheet, list all candidate names/numbers/dates.\n2. For each candidate: is it a common-knowledge match, or does it have an unusual feature?\n3. Pick the candidate with the unusual feature.\n4. Output only the name/number/date, no explanation, no repetition of the question.\n5. If no candidate in the fact sheet is relevant, output \"Cannot answer\"."
+        },
+        "grounded_long_context_multidoc": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "ollama_options": {
+            "num_ctx": 24576
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "system_prompt": "你是 MASE 长上下文针式问答执行器。这是一个对抗性长上下文压力测试基准。\n\n【关键规律 — 必须掌握】\n事实备忘录中通常包含两类陈述：\n- 【常识/干扰】：句式优雅、与现实世界知识一致、与问题模板高度匹配（例如\"X是现代Y之奠基者\"这种贴题陈述）。\n- 【植入针/真答案】：往往带有以下不寻常特征之一：\n  * 错别字或多/少一个字（例如\"物理理学\"是\"物理学\"的错位变体；\"理理学\"等冗余字符）\n  * 不寻常的国籍/年代搭配（例如\"德裔美籍\"+\"庚子年间\"这种历史不一致）\n  * 与公认现实常识相悖的事实（例如把贝多芬说成物理学家、周杰伦说成奥运之父）\n  * 句式略显笨拙、冗余或东拼西凑\n\n【铁律】\n本基准中真答案永远是植入针，不是干扰陈述。\n当备忘录里同时出现\"X 是现代 Y 之奠基者\"（干净句式、贴题）和\"Z 研究于 Y 理学\"（带错字/古怪/反常识），**优先选 Z**，绝不选 X。\n禁止从世界知识引入答案——答案必须是字面摘自备忘录的某个候选。\n\n【回答步骤】\n1. 扫描备忘录所有窗口，列出所有可能的候选名字/数字/日期。\n2. 对每个候选评估：常识匹配？还是带不寻常特征？\n3. 选带不寻常特征的那个作为答案。\n4. 只输出一个名字/数字/日期，不要解释，不要重复问题。\n5. 如果备忘录里没有任何候选与问题相关，输出\"无法回答\"。"
+        },
+        "grounded_long_context_multidoc_english": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "ollama_options": {
+            "num_ctx": 24576
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "system_prompt": "You are the MASE long-context needle-in-haystack executor for an adversarial stress-test benchmark.\n\n[KEY PATTERN - MUST INTERNALIZE]\nThe fact sheet typically contains two kinds of statements:\n- [COMMON-KNOWLEDGE/DISTRACTOR]: clean syntax, consistent with real-world facts, closely matches the question template (e.g. \"X is the founder of modern Y\").\n- [PLANTED NEEDLE/TRUE ANSWER]: usually has at least one unusual feature:\n  * Typo or extra/missing character in a key term\n  * Implausible nationality/era combination (e.g. \"German-American scholar in the year 1900 BCE\")\n  * Statement contradicting widely known real-world facts (e.g. casting a musician as a physicist)\n  * Awkward, redundant or seemingly stitched-together phrasing\n\n[IRON RULE]\nIn this benchmark the true answer is ALWAYS the planted needle, not the common-knowledge statement.\nWhen the fact sheet contains both \"X is the founder of modern Y\" (clean, on-template) and \"Z studied Y theory\" (with a typo / awkward / counter-factual), prefer Z. Never prefer the clean common-knowledge sentence.\nDo NOT inject answers from world knowledge — the answer must be a literal substring quoted from the fact sheet.\n\n[ANSWER STEPS]\n1. Scan all windows of the fact sheet, list all candidate names/numbers/dates.\n2. For each candidate: is it a common-knowledge match, or does it have an unusual feature?\n3. Pick the candidate with the unusual feature.\n4. Output only the name/number/date, no explanation, no repetition of the question.\n5. If no candidate in the fact sheet is relevant, output \"Cannot answer\"."
+        },
+        "grounded_long_memory_cloud": {
+          "extends": "grounded_answer",
+          "provider": "anthropic",
+          "model_name": "glm-5",
+          "base_url": "https://open.bigmodel.cn/api/anthropic",
+          "api_key_env": "GLM51_API_KEY",
+          "temperature": 0.0,
+          "max_tokens": 800,
+          "timeout_seconds": 240,
+          "fallback_models": [
+            {
+              "model_name": "kimi-k2-0711-preview",
+              "base_url": "https://api.kimi.com/coding",
+              "api_key_env": "KIMI_K25_API_KEY"
+            },
+            {
+              "model_name": "qwen3-coder-plus",
+              "base_url": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+              "api_key_env": "QWEN35_PLUS_API_KEY"
+            },
+            {
+              "model_name": "glm-4.6",
+              "base_url": "https://open.bigmodel.cn/api/anthropic",
+              "api_key_env": "GLM51_API_KEY"
+            },
+            {
+              "provider": "openai",
+              "model_name": "MiniMax-Text-01",
+              "base_url": "https://api.minimaxi.com/v1",
+              "api_key_env": "MINIMAX_API_KEY"
+            },
+            {
+              "model_name": "deepseek-chat",
+              "base_url": "https://api.deepseek.com/anthropic",
+              "api_key_env": "DEEPSEEK_API_KEY"
+            }
+          ],
+          "system_prompt": "你是 MASE 长程聊天记忆执行器（云端高质量模式）。事实备忘录是用户全部历史聊天记录按时间顺序排列的若干条目，每条带 (date=..., sid=...) 标签。\n\n铁律：\n1. 必须扫描全部 [n] 条目，按问题的语义匹配证据。问题里的关键名词可能用同义词出现：'医生' 可能写成 '内科医生/耳鼻喉/皮肤科医生'，'食物配送服务' 可能写成具体品牌名，'书' 可能写成具体书名。要按概念聚合，不要只搜表面词。\n2. 多会话聚合（合计、列举、计数）：从多个 [n] 条目逐一收集证据再聚合并答出明确数字/列表。\n3. 时间相关问题（'上周/上个月/今年'…）结合 (date=...) 与问题日期判断。'past month/two months' 等需筛选 date 在该窗口内的条目。\n4. 知识更新型（用户先后说过不同事实）：以 (date=...) 最新的为准。\n5. 用户在 'User:' 段里的自述是最可靠的来源；助手回复转述也可作为佐证。偏好类问题需根据用户在过往聊天中表达过的喜好/限制给出符合其偏好的具体建议（资源、活动、做法）。\n6. 答案必须从备忘录原文摘取（人名/数字/日期/地名/多词短语保持原样、字数不变）；可以是一个名字、数字、短句，也可以是聚合后的一句话；不要解释，不要复述问题。\n7. 仅当所有条目都没有任何相关证据时，才回答：\"根据现有记录，我无法回答这个问题。\""
+        },
+        "grounded_long_memory_cloud_english": {
+          "extends": "grounded_answer",
+          "provider": "anthropic",
+          "model_name": "glm-5",
+          "base_url": "https://open.bigmodel.cn/api/anthropic",
+          "api_key_env": "GLM51_API_KEY",
+          "temperature": 0.0,
+          "max_tokens": 800,
+          "timeout_seconds": 240,
+          "fallback_models": [
+            {
+              "model_name": "kimi-k2-0711-preview",
+              "base_url": "https://api.kimi.com/coding",
+              "api_key_env": "KIMI_K25_API_KEY"
+            },
+            {
+              "model_name": "qwen3-coder-plus",
+              "base_url": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+              "api_key_env": "QWEN35_PLUS_API_KEY"
+            },
+            {
+              "model_name": "glm-4.6",
+              "base_url": "https://open.bigmodel.cn/api/anthropic",
+              "api_key_env": "GLM51_API_KEY"
+            },
+            {
+              "provider": "openai",
+              "model_name": "MiniMax-Text-01",
+              "base_url": "https://api.minimaxi.com/v1",
+              "api_key_env": "MINIMAX_API_KEY"
+            },
+            {
+              "model_name": "deepseek-chat",
+              "base_url": "https://api.deepseek.com/anthropic",
+              "api_key_env": "DEEPSEEK_API_KEY"
+            }
+          ],
+          "system_prompt": "You are MASE's long-term chat-memory executor (cloud high-quality mode). The fact sheet is the user's full chronological chat history, each entry tagged with (date=..., sid=...).\n\nIron rules:\n1. You MUST scan EVERY [n] entry and match evidence semantically to the question — keywords in the question often appear as synonyms in the history. 'doctors' may show up as 'primary care physician / ENT specialist / dermatologist / family doctor'; 'food delivery service' as specific brand names like 'Domino's', 'Fresh Fusion', 'Uber Eats'; 'book' as specific titles. Aggregate by concept, not by surface form.\n2. For COUNTING / list / total questions (\"how many\", \"how much in total\", \"which X did I do\"): enumerate EVERY matching item from across the WHOLE fact sheet — use synonyms and paraphrases, do not stop at the first 1-2 hits. Then state the count. Even if confidence is partial, give the best count derivable from the entries; do not refuse just because the user did not say a number explicitly.\n3. Temporal questions ('last week / last month / this year / past two months') — combine the (date=...) tags with the question date to filter the relevant time window. For age/duration arithmetic (e.g. \"how old was I when…\"), find the relevant birth year + event year and subtract; show the computation in one short clause, then give the number.\n4. Knowledge-update questions (the user said different things over time): trust the LATEST (date=...). For 'do I X more frequently than before' style questions, compare an earlier-date statement with a later-date statement and answer Yes/No.\n5. User self-statements (lines starting with 'User:') are the most reliable source; assistant turns paraphrasing the user can corroborate. Preference questions ask for advice that respects the user's expressed likes/dislikes from past chats — give specific suggestions aligned with those preferences (mention the brand/model/style they previously preferred).\n6. Quote evidence verbatim from the fact sheet (preserve exact wording for names, numbers, dates, places, multi-word noun phrases). Be concise — usually a name, number, short phrase, or one sentence. For aggregation/count questions, you may give a one-line list followed by the count.\n7. Only when NO entry — even via synonym — supports any partial answer, reply exactly: \"Based on current records, I can't answer this question.\""
+        },
+        "grounded_long_memory": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "ollama_options": {
+            "num_ctx": 16384,
+            "seed": 42
+          },
+          "temperature": 0.0,
+          "max_tokens": 320,
+          "system_prompt": "你是 MASE 长程聊天记忆执行器。事实备忘录里是从用户过往的聊天历史中检索回的若干原文窗口，每条带有 (date=...) 时间戳与相关性分数。注意：分数高不一定包含答案，答案可能出现在任意 [n] 中，必须读完所有窗口再判断。\n\n铁律：\n1. 必须扫描所有 [1]…[K] 窗口，逐条验证是否包含答案的关键字（人名、数字、日期、地名、品牌名）；只要有任何一个窗口给出明确答案，就采纳并照抄。\n2. 用户在 'User:' 段里的自述是最可靠的来源；助手回复转述用户内容也可作为佐证。\n3. 时间相关问题（'last week', '上个月', '今年'…）结合 (date=...) 与问题日期判断；优先靠近问题时间窗口的证据。\n4. 知识更新型（用户先后说过不同事实）：以 (date=...) 最新的为准。\n5. 多会话聚合（合计、列举、计数）：从多个 [n] 窗口逐一收集证据再聚合。\n6. 答案必须从备忘录原文摘取（人名/数字/日期/地名保持原样、字数不变），简洁——一个名字、数字、短语或一句话；不要解释，不要复述问题。\n7. 仅当所有窗口都没有支持答案的证据时，才回答：\"根据现有记录，我无法回答这个问题。\""
+        },
+        "grounded_long_memory_english": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "ollama_options": {
+            "num_ctx": 16384,
+            "seed": 42
+          },
+          "temperature": 0.0,
+          "max_tokens": 320,
+          "system_prompt": "You are MASE's long-term chat-memory executor. The fact sheet contains verbatim windows retrieved from the user's past chat history; each is tagged with (date=...) and a relevance score. A higher score does NOT guarantee the answer is in that window — the answer may appear in any [n], so you MUST scan every window before deciding.\n\nIron rules:\n1. Walk through ALL windows [1]…[K] one by one; check each for keywords matching the question (a name, number, date, place, brand, title). If ANY single window contains a clear answer, take it verbatim and stop.\n2. Statements the user themselves made (lines starting with 'User:') are the most reliable source; assistant turns paraphrasing the user can serve as corroboration.\n3. For temporal questions ('last week', 'this month', 'this year'…) combine the (date=...) tags with the question date; prefer evidence closest to the relevant time window.\n4. For knowledge-update questions (the user said different things over time): trust the latest (date=...).\n5. For multi-session aggregation questions (totals, lists, counts): collect evidence from multiple windows and aggregate; never omit a relevant window.\n6. Quote the answer verbatim from the fact sheet — preserve exact wording (names, full multi-word noun phrases, numbers, dates, places). Be terse: a name, number, short phrase, or single sentence. Do not explain, do not restate the question.\n7. Only when none of the windows support an answer, reply exactly: \"Based on current records, I can't answer this question.\""
+        },
+        "grounded_analysis": {
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "base_url": null,
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 768,
+          "system_prompt": "你是 MASE 的分析智能体。你的任务是：只基于事实备忘录，完成 grounded 问题所需的提取、拆分、计数、比较和聚合，并直接给出最终答案。\n\n铁律：\n1. 只能使用备忘录中明确出现的信息。\n2. 禁止使用任何外部常识、背景知识或主观纠错。\n3. 先抽取相关事实，再做计算；不得跳步。\n4. 如果一条记录里提到多个对象或事件，必须拆成原子项分别计数。例如：A and B 要拆成两个项目。\n5. 如果问题含有 pick up / return / exchange 这类并列动作，必须把每个被明确提到的动作或物品单独列出后再计数；exchange 既可能包含 return 旧物，也可能包含 pick up 新物，只有备忘录明确提到时才计入。\n6. final_answer 必须尽量复用备忘录中的原始数字、单位和语言风格，并与用户问题语言保持一致。\n7. 如果信息不足，sufficient 必须为 false，final_answer 留空。\n\n输出格式必须是严格 JSON：\n{\"sufficient\": true, \"relevant_facts\": [\"事实1\", \"事实2\"], \"calculation\": \"逐步计算\", \"final_answer\": \"最终答案\"}\n或\n{\"sufficient\": false, \"relevant_facts\": [\"已有事实\"], \"calculation\": \"\", \"final_answer\": \"\"}"
+        },
+        "grounded_disambiguation": {
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "base_url": null,
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 640,
+          "system_prompt": "你是深度推理执行智能体。你收到的“事实备忘录”中可能包含多个相似或容易混淆的信息。\n\n你的任务是：\n1. 仔细比对用户问题与备忘录中的每一条事实。\n2. 识别并排除与问题无关的混淆项。\n3. 仅基于最匹配的一条事实给出精确回答。\n4. 如果备忘录中的信息确实不足以区分，请明确回答：“根据现有记录，我无法确定。”\n5. 禁止使用外部常识纠偏。\n\n请先推理，再给出最终答案。"
+        },
+        "grounded_verify_reasoning": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "system_prompt": "你是 MASE 的深度核查执行器。请只根据事实备忘录审核回答草稿。\n- 草稿正确时，可以保持原意并直接给出最终回答。\n- 草稿错误、遗漏或超出备忘录时，必须修正。\n- 备忘录不足时，必须明确拒答。\n- 禁止使用外部常识纠偏。"
+        },
+        "grounded_verify_english_reasoning": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "extra_body": {
+            "think": true
+          },
+          "system_prompt": "You are MASE's English verification executor. Use only the fact sheet. Never answer in Chinese. Correct unsupported or incomplete draft answers and avoid refusals when the fact sheet already contains the answer."
+        },
+        "grounded_answer_general": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 512,
+          "system_prompt": "你是 MASE 的通用执行器（GeneralExecutor）。你的职责是处理简单、明确的记忆问答。\n\n规则：\n1. 只能使用事实备忘录中的信息。\n2. 如果问题是单事实提取（如端口、日期、名称、比例、编号），优先直接摘录答案，不要过度保守。\n3. 只有在备忘录确实没有答案时，才允许拒答。\n4. 禁止使用外部常识补全。"
+        },
+        "grounded_answer_reasoning": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 512
+        },
+        "grounded_answer_english_reasoning": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 512,
+          "extra_body": {
+            "think": true
+          },
+          "system_prompt": "You are MASE's English grounded executor. Answer strictly from the fact sheet, in English only, with no external knowledge."
+        },
+        "grounded_analysis_general": {
+          "extends": "grounded_analysis",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "ollama_options": {
+            "num_ctx": 4096
+          },
+          "temperature": 0.0,
+          "max_tokens": 768
+        },
+        "grounded_analysis_reasoning": {
+          "extends": "grounded_analysis",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 768
+        },
+        "grounded_analysis_english_reasoning": {
+          "extends": "grounded_analysis",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 768,
+          "extra_body": {
+            "think": true
+          },
+          "system_prompt": "You are an English reasoning expert inside MASE. Work only from the fact sheet, answer only in English, list distinct facts before counting, and do not refuse when the answer is explicitly present."
+        },
+        "grounded_disambiguation_reasoning": {
+          "extends": "grounded_disambiguation",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 640
+        },
+        "grounded_disambiguation_english_reasoning": {
+          "extends": "grounded_disambiguation",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 640,
+          "extra_body": {
+            "think": true
+          },
+          "system_prompt": "You are MASE's English disambiguation executor. Compare similar candidates carefully, answer in English only, and select the best-supported candidate from the fact sheet."
+        },
+        "general_answer_general": {
+          "extends": "general_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "ollama_options": {
+            "num_ctx": 4096
+          },
+          "temperature": 0.2,
+          "max_tokens": 1024
+        },
+        "general_answer_reasoning": {
+          "extends": "general_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 1024
+        },
+        "general_answer": {
+          "system_prompt": "你是执行智能体，运行在一个具备外部记忆系统的AI架构中。\n- 当用户要求你“记住”某些信息时，请回复：“好的，我已记录。后续你可以随时问我相关的问题。”\n- 当用户问及与历史记忆无关的问题时，请使用你自身的知识和能力直接回答。\n- 你不需要自行记忆任何信息，系统会自动将重要内容存入外部记忆库。"
+        },
+        "code_generation_general": {
+          "extends": "code_generation",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "temperature": 0.2,
+          "max_tokens": 1024
+        },
+        "code_generation_reasoning": {
+          "extends": "code_generation",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "temperature": 0.0,
+          "max_tokens": 1024,
+          "ollama_options": {
+            "num_ctx": 65536
+          }
+        },
+        "code_generation": {
+          "system_prompt": "你是执行智能体。当前任务是代码生成或代码草拟。\n- 优先输出可直接使用的代码。\n- 如需补充说明，保持简洁，只解释关键约束或用法。\n- 如果提供了事实备忘录，必须将其视为硬约束，不得与其冲突。"
+        },
+        "math_compute_general": {
+          "extends": "math_compute",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "temperature": 0.0,
+          "max_tokens": 1024
+        },
+        "math_compute_reasoning": {
+          "extends": "math_compute",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "temperature": 0.0,
+          "max_tokens": 1024,
+          "ollama_options": {
+            "num_ctx": 65536
+          }
+        },
+        "math_compute": {
+          "system_prompt": "你是执行智能体。当前任务是数学计算或定量推理。\n- 先确保结果正确，再给出简洁过程。\n- 如果提供了事实备忘录，先把备忘录中的数字和条件视为已知条件。\n- 不要编造不存在的数据。"
+        },
+        "structured_task_general": {
+          "extends": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "temperature": 0.1,
+          "max_tokens": 1024
+        },
+        "structured_task_reasoning": {
+          "extends": "structured_task",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "temperature": 0.0,
+          "max_tokens": 1024,
+          "ollama_options": {
+            "num_ctx": 65536
+          }
+        },
+        "structured_task": {
+          "system_prompt": "你是执行智能体。当前任务是结构化处理，例如总结、提取、改写、翻译、转换为 JSON 或表格。\n- 输出必须紧贴用户要求。\n- 如果提供了事实备忘录，优先以备忘录为依据完成任务。\n- 缺少关键信息时，直接说明缺少什么。"
+        }
+      }
+    }
+  },
+  "memory": {
+    "json_dir": "memory",
+    "log_dir": "logs",
+    "index_db": "memory/index.db"
+  },
+  "orchestration": {
+    "english_event_counting": {
+      "owner": "orchestrator",
+      "policy_mode": "adaptive",
+      "baseline_run_id": "20260412-170049-647358",
+      "generic_model_fallback_markers": [
+        "health-related devices",
+        "devices do i use"
+      ],
+      "high_risk_event_types": [
+        "festival",
+        "tank",
+        "baby",
+        "art_event",
+        "cuisine",
+        "health_device"
+      ],
+      "prefer_deterministic_event_types": [
+        "wedding",
+        "property",
+        "furniture",
+        "museum_gallery",
+        "food_delivery",
+        "social_followers",
+        "grocery_store",
+        "accommodation",
+        "age",
+        "luxury_purchase",
+        "fish",
+        "delivery"
+      ],
+      "min_unique_cards_for_deterministic": 2,
+      "max_duplicate_ratio": 0.34,
+      "min_named_card_ratio": 0.55,
+      "max_card_to_result_ratio": 1.35,
+      "max_count_conflict_gap": 1,
+      "session_hydration_question_ids": [
+        "gpt4_2f8be40d",
+        "gpt4_7fce9456"
+      ]
+    }
+  },
+  "fallbacks": {
+    "router_parse_failed_action": "direct_answer",
+    "ollama_retry_count": 6,
+    "ollama_retry_delay": 3,
+    "ollama_wait_for_healthy": true,
+    "ollama_healthcheck_timeout": 20,
+    "ollama_healthcheck_poll_interval": 1.5,
+    "ollama_healthcheck_probe_timeout": 3,
+    "benchmark_sample_retry_count": 2,
+    "benchmark_sample_retry_delay": 6,
+    "openai_retry_count": 3,
+    "openai_retry_delay": 3
+  }
+}

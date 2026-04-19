@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-15T07:00:31",
+  "user_query": "\"This is your last chance, Marcus,\" she said. She looked sad. \"You were doing so well until now. Tell us this and you",
+  "assistant_response": "\"This is your last chance, Marcus,\" she said. She looked sad. \"You were doing so well until now. Tell us this and you can go home. You can get a lawyer and defend yourself in a court of law. There are doubtless extenuating circumstances that you can use to explain your actions. Just tell us this thing, and you're gone.\" \"The great and only Max is more stiff and standoffish than ever this year,\" said Huldah. \"I've simply given up trying to please her, for there's no justice in her; she is good to her favorites, but she doesn't pay the least attention to anybody else, except to make sarcastic speeches about things that are none of her business. I wanted to tell her yesterday it was her place to teach me Latin, not manners.\" \"I wish you wouldn't talk against Miss Maxwell to me,\" said Rebecca hotly. \"You know how I feel.\" \"I know; but I can't understand how you can abide her.\" \"I not only abide, I love her!\" exclaimed Rebecca. \"I wouldn't let the sun shine too hot on her, or the wind blow too cold. I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well, don't have a fit!—because she can sit where she likes for all of me;",
+  "semantic_summary": "\"This is your last chance, Marcus,\" she said. She looked sad. \"You were doing so well until now. Tell us this and you can go home. You can get a lawyer and defend yourself in a court of law. There are doubtless",
+  "language": "en",
+  "key_entities": [
+    "chance",
+    "Marcus",
+    "she",
+    "looked",
+    "Tell",
+    "Max",
+    "Huldah",
+    "Latin",
+    "last",
+    "said",
+    "sad",
+    "doing"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "chance",
+      "Marcus",
+      "she",
+      "looked",
+      "Tell",
+      "Max",
+      "Huldah",
+      "Latin",
+      "last",
+      "said",
+      "sad",
+      "doing",
+      "is your last chance",
+      "\" she said",
+      "She looked sad",
+      "\"You were doing"
+    ],
+    "entity_cards": [
+      {
+        "name": "chance",
+        "normalized": "chance"
+      },
+      {
+        "name": "Marcus",
+        "normalized": "marcus"
+      },
+      {
+        "name": "she",
+        "normalized": "she"
+      },
+      {
+        "name": "looked",
+        "normalized": "looked"
+      },
+      {
+        "name": "Tell",
+        "normalized": "tell"
+      },
+      {
+        "name": "Max",
+        "normalized": "max"
+      },
+      {
+        "name": "Huldah",
+        "normalized": "huldah"
+      },
+      {
+        "name": "Latin",
+        "normalized": "latin"
+      },
+      {
+        "name": "last",
+        "normalized": "last"
+      },
+      {
+        "name": "said",
+        "normalized": "said"
+      },
+      {
+        "name": "sad",
+        "normalized": "sad"
+      },
+      {
+        "name": "doing",
+        "normalized": "doing"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-02fc51a50b61",
+  "thread_label": "chance / Marcus",
+  "topic_tokens": [
+    "chance",
+    "Marcus",
+    "she",
+    "looked"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 6,
+    "source_language": "en",
+    "chunk_title": "\"This is your last chance, Marcus,\" she said. She looked sad. \"You were doing so well until now. Tell us this and you",
+    "language": "en",
+    "ingested_at": "2026-04-15T07:00:31",
+    "source_timestamp": "2026-04-15T07:00:31",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-070031-0009-37c1740c8fb6\\2026-04-15\\07-00-31-685674.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-070031-0009-37c1740c8fb6\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-070031-0009-37c1740c8fb6\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-070031-0009-37c1740c8fb6\\system\\event-bus-latest.json"
+  }
+}

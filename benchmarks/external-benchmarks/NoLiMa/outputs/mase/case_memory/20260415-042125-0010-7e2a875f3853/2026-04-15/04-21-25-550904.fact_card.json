@@ -1,0 +1,205 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042125-0010-7e2a875f3853\\2026-04-15\\04-21-25-550904.json",
+  "timestamp": "2026-04-15T04:21:25",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T04:21:25",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-8350839ae074",
+    "thread_label": "I've / got"
+  },
+  "event_type": "generic",
+  "entities": [
+    "got",
+    "something",
+    "better",
+    "Huldah",
+    "Isn",
+    "Emma",
+    "Jane",
+    "tossed",
+    "her",
+    "head"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "I've",
+      "got",
+      "something",
+      "better",
+      "Huldah",
+      "Isn",
+      "Emma",
+      "Jane",
+      "think",
+      "tossed",
+      "her",
+      "head",
+      "something better",
+      "\"",
+      "Emma Jane",
+      "to"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "I've",
+      "got",
+      "something",
+      "better"
+    ]
+  },
+  "relations": [],
+  "source_span": "I've got something better to think of,\" and Huldah tossed her head. \"Isn't this your study hour?\" asked Emma Jane, to",
+  "resolved_source_span": "I've got something better to think of,\" and Huldah tossed her head. \"Isn't Emma Jane your study hour?\" asked Emma Jane, to",
+  "event_segments": [
+    {
+      "text": "I've got something better to think of,\" and Huldah tossed her head.",
+      "resolved_text": "I've got something better to think of,\" and Huldah tossed her head.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "got",
+        "something",
+        "better",
+        "Huldah",
+        "tossed",
+        "her"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "\"Isn't Emma Jane your study hour?\" asked Emma Jane, to",
+      "resolved_text": "\"Isn't Emma Jane your study hour?\" asked Emma Jane, to",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "Isn",
+        "Emma",
+        "Jane",
+        "Emma Jane"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.62,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042125-0010-7e2a875f3853\\2026-04-15\\04-21-25-550904.json::event_segment:0",
+      "logical_event_id": "generic|got|better,got,huldah,something|april",
+      "dedupe_key": "generic|got|better,got,huldah,something|april|i ve got something better to think of and huldah tossed her head|2026-04-15T04:21:25",
+      "source_signature": "i ve got something better to think of and huldah tossed her head",
+      "event_type": "generic",
+      "display_name": "got",
+      "normalized_name": "got",
+      "timestamp": "2026-04-15T04:21:25",
+      "thread_id": "thread-8350839ae074",
+      "thread_label": "I've / got",
+      "entities": [
+        "got",
+        "something",
+        "better",
+        "Huldah",
+        "Isn",
+        "Emma",
+        "Jane",
+        "tossed",
+        "her",
+        "head"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "I've got something better to think of,\" and Huldah tossed her head.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042125-0010-7e2a875f3853\\2026-04-15\\04-21-25-550904.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042125-0010-7e2a875f3853\\2026-04-15\\04-21-25-550904.json::event_segment:1",
+      "logical_event_id": "generic|got|better,got,huldah,something|april",
+      "dedupe_key": "generic|got|better,got,huldah,something|april|isn t emma jane your study hour asked emma jane to|2026-04-15T04:21:25",
+      "source_signature": "isn t emma jane your study hour asked emma jane to",
+      "event_type": "generic",
+      "display_name": "got",
+      "normalized_name": "got",
+      "timestamp": "2026-04-15T04:21:25",
+      "thread_id": "thread-8350839ae074",
+      "thread_label": "I've / got",
+      "entities": [
+        "got",
+        "something",
+        "better",
+        "Huldah",
+        "Isn",
+        "Emma",
+        "Jane",
+        "tossed",
+        "her",
+        "head",
+        "Emma Jane"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "\"Isn't Emma Jane your study hour?\" asked Emma Jane, to",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042125-0010-7e2a875f3853\\2026-04-15\\04-21-25-550904.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

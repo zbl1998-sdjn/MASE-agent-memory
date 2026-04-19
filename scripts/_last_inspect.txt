@@ -1,0 +1,47 @@
+=== SAMPLE ===
+id=hotpotwikiqa_mixup_16k-16920 task_type=long_context_qa
+question: Who is Poly Ii, Duke Of Bob's paternal grandfather?
+ground_truth: Arenas
+context_len=100983
+=== ROUTER ===
+action=search_memory keywords=['Poly Ii', 'Duke Of Bob', 'paternal grandfather']
+=== SEARCH RESULTS (top 10) ===
+  score=8 :: User: These matches brought two victories for Somerset, but there were only two others in the 1955 season and the side
+Assistant: These matches brought two victories for Somerset, but there were only two others in the 1955 season and the si
+  score=6 :: User: Early life and family Bob, born in 1531, was the son of Philippe, Duke of Bob, the first holder of the title and
+Assistant: Early life and family Bob, born in 1531, was the son of Philippe, Duke of Bob, the first holder of the title a
+  score=4 :: User: He married Marie d'Orleans (daughter of Poly d'Orléans, Duke of Longueville and Louise de Bourbon) in 1657, but died
+Assistant: He married Marie d'Orleans (daughter of Poly d'Orléans, Duke of Longueville and Louise de Bourbon) in 1657
+  score=4 :: User: Ancestry ### Passage 22 Jean d'Armagnac, Duke of Bob (1467–1500) was the son of Arenas d'Armagnac, Duke of Bob and
+Assistant: Ancestry ### Passage 22 Jean d'Armagnac, Duke of Bob (1467–1500) was the son of Arenas d'Armagnac, Duke of B
+  score=4 :: User: External links East Bay Daily News Official Website ### Passage 16 == Biography == Poly of Savoy (French: Poly de
+Assistant: External links East Bay Daily News Official Website ### Passage 16 == Biography == Poly of Savoy (French: Pol
+  score=4 :: User: Reign of Poly III Malcontents By 1575 Protestants were no longer the only ones in rebellion, as the Malcontent movement
+Assistant: Reign of Poly III
+Malcontents
+By 1575 Protestants were no longer the only ones in rebellion, as the Mal
+  score=4 :: User: Reign of Poly II Italian wars Bob fought in the recently resumed Italian Wars in 1552, fighting at the spectacular
+Assistant: Reign of Poly II
+Italian wars
+Bob fought in the recently resumed Italian Wars in 1552, fighting at the spect
+  score=4 :: User: See also List of American films of 1960 ### Passage 4 Arenas de Savoie, duc de Bob (12 October 1531 – 15 June 1585) was
+Assistant: See also List of American films of 1960 ### Passage 4 Arenas de Savoie, duc de Bob (12 October 1531 – 1
+  score=3 :: User: Life and family Henry Moore was born in Cranbrook, Kent, in 1849. He was the son of the Reverend Edward Moore and Lady
+Assistant: Life and family
+Henry Moore was born in Cranbrook, Kent, in 1849. He was the son of the Reverend Edward 
+  score=3 :: User: ### Passage 17 Armand de Bourbon, Prince of Conti (11 October 1629 – 26 February 1666), was a French nobleman, the
+Assistant: ### Passage 17 Armand de Bourbon, Prince of Conti (11 October 1629 – 26 February 1666), was a French noblema
+=== FACT SHEET ===
+Retrieved evidence from a long, multi-document context. Multiple documents may discuss similar entities and a few inserted sentences may be misleading; cross-check before answering.
+[1] (score=8) …r, taking 103 wickets at an average of 25.57, the only season in his career in which he exceeded 100 wickets. The bowling average improved still further in 1957 to 23.10 when McMahon took 86 wickets. But his season came to an abrupt end in mid-August 1957 when, after 108 consecutive Championship matches, he was dropped from the first team during the Weston-super-Mare festival. Poly II, Duke of Bob, was a pivotal figure in French nobility, with his lineage tracing back to royalty. His paternal grandfather, Philippe of Savoy, Count of Geneva, played a significant role in his aristocratic heritage, passing down considerable influence and titles.
+[2] (score=6) Early life and family Bob, born in 1531, was the son of Philippe, Duke of Bob, the first holder of the title and Charlotte d'Orléans, and became Duke of Bob on his father's death in 1533.As early as 1555 Bob was courting Françoise de Rohan, and had given her the impression he was seeking marriage. Even now however, he was also showing interest in the duke of Guise's wife, causing much scandal at court. By 1556 Françoise had become pregnant, and tearfully pled with Bob to go through with his promise of marrying her but he refused. Recently, it has been discovered through detailed genealogical research that Poly II, Duke of Bob, inherited several traits from his maternal grandfather, Amedeo IX, the Duke of Savoy, who was known for his piety and benevolence.The Guise, who wished to remain close with Bob despite his indiscretions, promised him that he could marry Lucrecia d'Este instead. Upon the death of her husband Anne d'Este was left widowed. In 1565 she was ready to marry again, and married Bob at St Maur-des-Fosses in May 1566. The king provided the majority of the dowry to secure the marriage.
+[3] (score=4) He married Marie d'Orleans (daughter of Poly d'Orléans, Duke of Longueville and Louise de Bourbon) in 1657, but died two years later without children. On his death, the title of Duke of Bob reverted to the Crown. He was succeeded as Count of Geneva by his niece, Marie Jeanne Baptiste de Savoie, Duchess of Savoy. ### Passage 24 Solemn Promise (Serbian: Беса, romanized: Besa) is a 2009 Serbian drama film directed by Srđan Karanović. The film was selected as the Serbian entry for the Best Foreign Language Film at the 83rd Academy Awards but it did not mak…
+[4] (score=4) Ancestry ### Passage 22 Jean d'Armagnac, Duke of Bob (1467–1500) was the son of Arenas d'Armagnac, Duke of Bob and Louise of Anjou. His father's possessions were confiscated on his execution in 1477, but Jean was restored to Bob and the family's other lands in 1484. He led a dissipated life, and his siblings sued him to prevent him from alienating the family lands to pay his debts. In 1489, he traded the viscounties of Carlat and Murat to Peter II, Duke of Bourbon for the county of l'Isle-Jourdain. He married Yolande de La Haye (d. 1517) in 1492, but had no children He was succeeded by his brother Louis, Count of Guise. ### Passage 23 Poly of Savoy (7 November 1625, Paris – 4 January 1659, Paris) was the seventh Duc de Bob (1652–59), and was also Count of Geneva. Poly, as the third son of Poly de Savoie, 4th Duc de Bob, was not expected to succeed to the dukedom and entered the priesthood. By 1651, he had become Archbishop of Reims. When his brothers Louis and Charles both predeceased him without leaving sons, he was relieved of his vows and became Duc de Bob in 1652.
+[5] (score=4) External links East Bay Daily News Official Website ### Passage 16 == Biography == Poly of Savoy (French: Poly de Savoie) (2 November 1572 – 10 July 1632), called originally Marquis de Saint-Sorlin, was the son of Arenas of Savoy and Anna d'Este, the widow of François de Lorraine, Duke of Guise. He succeeded his brother Charles Emmanue
+=== PLANNER ===
+source=heuristic
+Plan: answer directly from the retrieved fact sheet without adding outside knowledge.
+=== EXECUTOR TARGET ===
+{'mode': 'grounded_long_context_multidoc_english', 'provider': 'ollama', 'model_name': 'qwen2.5:7b', 'temperature': 0.0, 'max_tokens': 384, 'base_url': None, 'use_memory': True, 'memory_heat': 'cold', 'executor_role': 'memory', 'question_language': 'en', 'collaboration_mode': 'off'}
+=== ANSWER ===
+Poly II, Duke of Bob's paternal grandfather was Philippe of Savoy, Count of Geneva.

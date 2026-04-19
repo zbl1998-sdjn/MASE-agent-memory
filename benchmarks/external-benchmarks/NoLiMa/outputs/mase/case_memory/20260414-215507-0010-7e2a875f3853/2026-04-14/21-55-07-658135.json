@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-14T21:55:07",
+  "user_query": "I've got something better to think of,\" and Huldah tossed her head. \"Isn't this your study hour?\" asked Emma Jane, to",
+  "assistant_response": "I've got something better to think of,\" and Huldah tossed her head. \"Isn't this your study hour?\" asked Emma Jane, to stop possible discussion. This somewhat flagrant misnomer might be considered an obscene breach of language usage if one neglected to take into account two critical facts: first, that the ship's schematics actually labeled it as Gamma Level, since it happened to fit comfortably between Beta Level and Delta Level; and second, that Gamma Level was the primary repository of paying passengers— folks who either should not be expected to carry a working knowledge of the Greek alphabet in their neural networks, or who considered such a sterile reference system to be vaguely chilling and gauche and hopelessly neo-militaristic. Even in the quasi-federal deep space shipping business, it was important to maintain the illusion that the customer was always right. No garden, but there was food— from the basic federal protein paste dispenser available to all passengers and crew at no cost, to the private vendors who had leased ship space and paid a tonnage fee for their business stock of supplies. Mr. Wu's Taste of the Orient. Li Nan's Old American Cuisine. The Poultry Hut.",
+  "semantic_summary": "I've got something better to think of,\" and Huldah tossed her head. \"Isn't this your study hour?\" asked Emma Jane, to stop possible discussion. This somewhat flagrant misnomer might be considered an obscene breach of",
+  "language": "en",
+  "key_entities": [
+    "I've",
+    "got",
+    "something",
+    "better",
+    "Huldah",
+    "Isn",
+    "Emma",
+    "Jane",
+    "think",
+    "tossed",
+    "her",
+    "head"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "I've",
+      "got",
+      "something",
+      "better",
+      "Huldah",
+      "Isn",
+      "Emma",
+      "Jane",
+      "think",
+      "tossed",
+      "her",
+      "head",
+      "something better",
+      "\"",
+      "Emma Jane",
+      "to"
+    ],
+    "entity_cards": [
+      {
+        "name": "I've",
+        "normalized": "i ve"
+      },
+      {
+        "name": "got",
+        "normalized": "got"
+      },
+      {
+        "name": "something",
+        "normalized": "something"
+      },
+      {
+        "name": "better",
+        "normalized": "better"
+      },
+      {
+        "name": "Huldah",
+        "normalized": "huldah"
+      },
+      {
+        "name": "Isn",
+        "normalized": "isn"
+      },
+      {
+        "name": "Emma",
+        "normalized": "emma"
+      },
+      {
+        "name": "Jane",
+        "normalized": "jane"
+      },
+      {
+        "name": "think",
+        "normalized": "think"
+      },
+      {
+        "name": "tossed",
+        "normalized": "tossed"
+      },
+      {
+        "name": "her",
+        "normalized": "her"
+      },
+      {
+        "name": "head",
+        "normalized": "head"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-8350839ae074",
+  "thread_label": "I've / got",
+  "topic_tokens": [
+    "I've",
+    "got",
+    "something",
+    "better"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 7,
+    "source_language": "en",
+    "chunk_title": "I've got something better to think of,\" and Huldah tossed her head. \"Isn't this your study hour?\" asked Emma Jane, to",
+    "language": "en",
+    "ingested_at": "2026-04-14T21:55:07",
+    "source_timestamp": "2026-04-14T21:55:07",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-215507-0010-7e2a875f3853\\2026-04-14\\21-55-07-658135.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-215507-0010-7e2a875f3853\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-215507-0010-7e2a875f3853\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-215507-0010-7e2a875f3853\\system\\event-bus-latest.json"
+  }
+}

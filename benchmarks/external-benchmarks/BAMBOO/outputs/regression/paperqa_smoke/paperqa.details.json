@@ -1,0 +1,227 @@
+[
+  {
+    "id": "paperqa-001-How_to_get_additional_knowledge_for_entities",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\nPay close attention to negation, comparison, and purpose clues in the question stem.\nPrefer the option that is most directly supported by the fact sheet.\n\nQuestion: How to get additional knowledge for entities?\nOptions:\nA. Making V&L model pre-trained.\nB. Supplementing image information.\nC. Build a bigger dataset.\nD. Supplementing textual information.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.43206,
+      "usage_totals": {
+        "prompt_eval_count": 3413.0,
+        "eval_count": 2.0,
+        "total_duration": 428684500.0,
+        "load_duration": 47137100.0,
+        "prompt_eval_duration": 351355000.0,
+        "eval_duration": 5723300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.43206,
+          "usage": {
+            "prompt_eval_count": 3413,
+            "eval_count": 2,
+            "total_duration": 428684500,
+            "load_duration": 47137100,
+            "prompt_eval_duration": 351355000,
+            "eval_duration": 5723300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.43206,
+          "usage_totals": {
+            "prompt_eval_count": 3413.0,
+            "eval_count": 2.0,
+            "total_duration": 428684500.0,
+            "load_duration": 47137100.0,
+            "prompt_eval_duration": 351355000.0,
+            "eval_duration": 5723300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.456258
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\paperqa_smoke\\case_memory\\paperqa-001-How_to_get_additional_knowledge_for_entities"
+  },
+  {
+    "id": "paperqa-002-What_is_not_the_strengths_of_our_work_compared_with_Hos_wor",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\nPay close attention to negation, comparison, and purpose clues in the question stem.\nPrefer the option that is most directly supported by the fact sheet.\n\nQuestion: What is not the strengths of our work compared with Ho’s work?\nOptions:\nA:This work is inspired by the seminal work of Wei et al. (2022) on CoT prompting. They demonstrate that prefixing an input with 2-8 exemplars of CoT reasoning encourages LMs to do the same, reaching state-of-the-art performance on datasets such as GSM8K (Cobbe et al., 2021) .\nB\\C:Ho et al. (2022) and Li et al. (2022) also explore knowledge distillation with the difference of proposing diverse sampling and rationalization prompting, respectively. In contrast to their work, our work explores more teacher models and demonstrates both the effects of dataset and model size on accuracy.\nD:We also achieve a higher accuracy on common datasets, such as GSM8K, than Ho et al. (2022) .\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.478853,
+      "usage_totals": {
+        "prompt_eval_count": 3861.0,
+        "eval_count": 2.0,
+        "total_duration": 476275600.0,
+        "load_duration": 47124700.0,
+        "prompt_eval_duration": 400865900.0,
+        "eval_duration": 5729300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.478853,
+          "usage": {
+            "prompt_eval_count": 3861,
+            "eval_count": 2,
+            "total_duration": 476275600,
+            "load_duration": 47124700,
+            "prompt_eval_duration": 400865900,
+            "eval_duration": 5729300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.478853,
+          "usage_totals": {
+            "prompt_eval_count": 3861.0,
+            "eval_count": 2.0,
+            "total_duration": 476275600.0,
+            "load_duration": 47124700.0,
+            "prompt_eval_duration": 400865900.0,
+            "eval_duration": 5729300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.506392
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\paperqa_smoke\\case_memory\\paperqa-002-What_is_not_the_strengths_of_our_work_compared_with_Hos_wor"
+  },
+  {
+    "id": "paperqa-003-What_is_the_primary_purpose_of_introducing_the_ranking_loss_",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\nPay close attention to negation, comparison, and purpose clues in the question stem.\nPrefer the option that is most directly supported by the fact sheet.\n\nQuestion: What is the primary purpose of introducing the ranking loss in the BalSum model?\nOptions:\nA. To maximize ROUGE scores\nB. To minimize the number of candidate summaries\nC. To reflect the quality measure during training\nD. To increase the instance weighting threshold\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.381958,
+      "usage_totals": {
+        "prompt_eval_count": 2986.0,
+        "eval_count": 2.0,
+        "total_duration": 380304800.0,
+        "load_duration": 54109600.0,
+        "prompt_eval_duration": 300051500.0,
+        "eval_duration": 5161400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.381958,
+          "usage": {
+            "prompt_eval_count": 2986,
+            "eval_count": 2,
+            "total_duration": 380304800,
+            "load_duration": 54109600,
+            "prompt_eval_duration": 300051500,
+            "eval_duration": 5161400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.381958,
+          "usage_totals": {
+            "prompt_eval_count": 2986.0,
+            "eval_count": 2.0,
+            "total_duration": 380304800.0,
+            "load_duration": 54109600.0,
+            "prompt_eval_duration": 300051500.0,
+            "eval_duration": 5161400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.396443
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\paperqa_smoke\\case_memory\\paperqa-003-What_is_the_primary_purpose_of_introducing_the_ranking_loss_"
+  }
+]

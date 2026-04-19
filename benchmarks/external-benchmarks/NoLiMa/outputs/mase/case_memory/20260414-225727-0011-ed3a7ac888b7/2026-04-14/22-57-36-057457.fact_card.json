@@ -1,0 +1,143 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225727-0011-ed3a7ac888b7\\2026-04-14\\22-57-36-057457.json",
+  "timestamp": "2026-04-14T22:57:36",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T22:57:36",
+    "date": "2026-04-14",
+    "month": "april",
+    "weekday": "tuesday",
+    "thread_id": "thread-f879c0cc6fa6",
+    "thread_label": "character / cannot"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "cannot",
+    "drink",
+    "milk",
+    "character cannot",
+    "drink milk",
+    "not",
+    "mention",
+    "information",
+    "mention information",
+    "user",
+    "asked"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "tuesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "cannot",
+      "drink",
+      "milk",
+      "character cannot",
+      "drink milk",
+      "not",
+      "mention",
+      "information",
+      "mention information",
+      "user",
+      "asked"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "cannot",
+      "drink",
+      "milk"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character cannot drink milk?",
+  "resolved_source_span": "Which character cannot drink milk?",
+  "event_segments": [
+    {
+      "text": "Which character cannot drink milk?",
+      "resolved_text": "Which character cannot drink milk?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "character",
+        "cannot",
+        "drink",
+        "milk",
+        "character cannot",
+        "drink milk"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225727-0011-ed3a7ac888b7\\2026-04-14\\22-57-36-057457.json::event_segment:0",
+      "logical_event_id": "generic|character|cannot,character,drink,milk|april",
+      "dedupe_key": "generic|character|cannot,character,drink,milk|april|which character cannot drink milk|2026-04-14T22:57:36",
+      "source_signature": "which character cannot drink milk",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-14T22:57:36",
+      "thread_id": "thread-f879c0cc6fa6",
+      "thread_label": "character / cannot",
+      "entities": [
+        "character",
+        "cannot",
+        "drink",
+        "milk",
+        "character cannot",
+        "drink milk",
+        "not",
+        "mention",
+        "information",
+        "mention information",
+        "user",
+        "asked"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "source": "Which character cannot drink milk?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225727-0011-ed3a7ac888b7\\2026-04-14\\22-57-36-057457.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

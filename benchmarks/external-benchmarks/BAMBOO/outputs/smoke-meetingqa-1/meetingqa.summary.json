@@ -1,0 +1,10 @@
+{
+  "task": "meetingqa",
+  "dataset": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\datasets\\meetingqa_4k.jsonl",
+  "sample_count": 1,
+  "output_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\smoke-meetingqa-1\\meetingqa.predictions.jsonl",
+  "details_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\smoke-meetingqa-1\\meetingqa.details.json",
+  "executor_role": "reasoning",
+  "error_count": 0,
+  "sort_parse_fail_count": 0
+}

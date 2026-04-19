@@ -1,0 +1,259 @@
+{
+  "generated_at": "2026-04-14T20:16:49",
+  "nodes": [
+    {
+      "id": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "event",
+      "label": "generic",
+      "timestamp": "2026-04-14T20:16:43"
+    },
+    {
+      "id": "entity:rag",
+      "kind": "entity",
+      "label": "RAG"
+    },
+    {
+      "id": "entity:telephone",
+      "kind": "entity",
+      "label": "telephone"
+    },
+    {
+      "id": "entity:lexy",
+      "kind": "entity",
+      "label": "Lexy"
+    },
+    {
+      "id": "entity:reflected",
+      "kind": "entity",
+      "label": "reflected"
+    },
+    {
+      "id": "entity:perhaps",
+      "kind": "entity",
+      "label": "Perhaps"
+    },
+    {
+      "id": "entity:she",
+      "kind": "entity",
+      "label": "She"
+    },
+    {
+      "id": "entity:caroline",
+      "kind": "entity",
+      "label": "Caroline"
+    },
+    {
+      "id": "entity:quiet",
+      "kind": "entity",
+      "label": "Quiet"
+    },
+    {
+      "id": "entity:one",
+      "kind": "entity",
+      "label": "One"
+    },
+    {
+      "id": "entity:suppose",
+      "kind": "entity",
+      "label": "Suppose"
+    },
+    {
+      "id": "entity:things",
+      "kind": "entity",
+      "label": "Things"
+    },
+    {
+      "id": "entity:mom",
+      "kind": "entity",
+      "label": "Mom"
+    },
+    {
+      "id": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "event",
+      "label": "generic",
+      "timestamp": "2026-04-14T20:16:49"
+    },
+    {
+      "id": "entity:character",
+      "kind": "entity",
+      "label": "character"
+    },
+    {
+      "id": "entity:vegan",
+      "kind": "entity",
+      "label": "vegan"
+    },
+    {
+      "id": "entity:not",
+      "kind": "entity",
+      "label": "not"
+    },
+    {
+      "id": "entity:mention",
+      "kind": "entity",
+      "label": "mention"
+    },
+    {
+      "id": "entity:information",
+      "kind": "entity",
+      "label": "information"
+    },
+    {
+      "id": "entity:mention information",
+      "kind": "entity",
+      "label": "mention information"
+    },
+    {
+      "id": "entity:user",
+      "kind": "entity",
+      "label": "user"
+    },
+    {
+      "id": "entity:question",
+      "kind": "entity",
+      "label": "question"
+    },
+    {
+      "id": "entity:about",
+      "kind": "entity",
+      "label": "about"
+    },
+    {
+      "id": "entity:user question",
+      "kind": "entity",
+      "label": "user question"
+    },
+    {
+      "id": "entity:about ve",
+      "kind": "entity",
+      "label": "about ve"
+    },
+    {
+      "id": "entity:user's question about a ve",
+      "kind": "entity",
+      "label": "user's question about a ve"
+    }
+  ],
+  "edges": [
+    {
+      "source": "entity:rag",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:telephone",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:lexy",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:reflected",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:perhaps",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:she",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:caroline",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:quiet",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:one",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:suppose",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:things",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:mom",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-43-036304.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:character",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:vegan",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:not",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:mention",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:information",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:mention information",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:user",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:question",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:about",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:user question",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:about ve",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:user's question about a ve",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-201643-0005-49f3f7fda83e\\2026-04-14\\20-16-49-947808.json",
+      "kind": "mentions"
+    }
+  ]
+}

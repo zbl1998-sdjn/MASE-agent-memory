@@ -1,0 +1,263 @@
+[
+  {
+    "id": "showssort-001",
+    "task": "showssort",
+    "dataset_answer": [
+      2,
+      0,
+      1,
+      3,
+      4
+    ],
+    "prediction": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "raw_prediction": "[0] > [1] > [2] > [3] > [4]",
+    "question": "The fact sheet contains five shuffled items labeled with identifiers like [0], [1], [2], [3], [4].\nRecover the original order and return only the identifiers separated by ' > '.\nDo not add any extra words.",
+    "execution_plan": {
+      "task_kind": "ordering",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "ordering",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.491352,
+      "usage_totals": {
+        "prompt_eval_count": 2687.0,
+        "eval_count": 20.0,
+        "total_duration": 488038300.0,
+        "load_duration": 48220600.0,
+        "prompt_eval_duration": 310064800.0,
+        "eval_duration": 102119400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.491352,
+          "usage": {
+            "prompt_eval_count": 2687,
+            "eval_count": 20,
+            "total_duration": 488038300,
+            "load_duration": 48220600,
+            "prompt_eval_duration": 310064800,
+            "eval_duration": 102119400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.491352,
+          "usage_totals": {
+            "prompt_eval_count": 2687.0,
+            "eval_count": 20.0,
+            "total_duration": 488038300.0,
+            "load_duration": 48220600.0,
+            "prompt_eval_duration": 310064800.0,
+            "eval_duration": 102119400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.503422
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\showssort_smoke2\\case_memory\\showssort-001"
+  },
+  {
+    "id": "showssort-002",
+    "task": "showssort",
+    "dataset_answer": [
+      2,
+      1,
+      3,
+      4,
+      0
+    ],
+    "prediction": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "raw_prediction": "[0] > [1] > [2] > [3] > [4]",
+    "question": "The fact sheet contains five shuffled items labeled with identifiers like [0], [1], [2], [3], [4].\nRecover the original order and return only the identifiers separated by ' > '.\nDo not add any extra words.",
+    "execution_plan": {
+      "task_kind": "ordering",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "ordering",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.540893,
+      "usage_totals": {
+        "prompt_eval_count": 3157.0,
+        "eval_count": 20.0,
+        "total_duration": 538650200.0,
+        "load_duration": 54052000.0,
+        "prompt_eval_duration": 350873600.0,
+        "eval_duration": 103201700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.540893,
+          "usage": {
+            "prompt_eval_count": 3157,
+            "eval_count": 20,
+            "total_duration": 538650200,
+            "load_duration": 54052000,
+            "prompt_eval_duration": 350873600,
+            "eval_duration": 103201700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.540893,
+          "usage_totals": {
+            "prompt_eval_count": 3157.0,
+            "eval_count": 20.0,
+            "total_duration": 538650200.0,
+            "load_duration": 54052000.0,
+            "prompt_eval_duration": 350873600.0,
+            "eval_duration": 103201700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.542781
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\showssort_smoke2\\case_memory\\showssort-002"
+  },
+  {
+    "id": "showssort-003",
+    "task": "showssort",
+    "dataset_answer": [
+      2,
+      3,
+      1,
+      4,
+      0
+    ],
+    "prediction": [
+      1,
+      0,
+      2,
+      4,
+      3
+    ],
+    "raw_prediction": "1 > 0 > 2 > 4 > 3",
+    "question": "The fact sheet contains five shuffled items labeled with identifiers like [0], [1], [2], [3], [4].\nRecover the original order and return only the identifiers separated by ' > '.\nDo not add any extra words.",
+    "execution_plan": {
+      "task_kind": "ordering",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "ordering",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.584234,
+      "usage_totals": {
+        "prompt_eval_count": 3707.0,
+        "eval_count": 14.0,
+        "total_duration": 581623800.0,
+        "load_duration": 52251200.0,
+        "prompt_eval_duration": 430504300.0,
+        "eval_duration": 70198100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.584234,
+          "usage": {
+            "prompt_eval_count": 3707,
+            "eval_count": 14,
+            "total_duration": 581623800,
+            "load_duration": 52251200,
+            "prompt_eval_duration": 430504300,
+            "eval_duration": 70198100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.584234,
+          "usage_totals": {
+            "prompt_eval_count": 3707.0,
+            "eval_count": 14.0,
+            "total_duration": 581623800.0,
+            "load_duration": 52251200.0,
+            "prompt_eval_duration": 430504300.0,
+            "eval_duration": 70198100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.586181
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\showssort_smoke2\\case_memory\\showssort-003"
+  }
+]

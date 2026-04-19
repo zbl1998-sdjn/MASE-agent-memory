@@ -1,0 +1,10 @@
+{
+  "task": "showssort",
+  "dataset": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\datasets\\showssort_16k.jsonl",
+  "sample_count": 100,
+  "output_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-showssort-16k\\showssort.predictions.jsonl",
+  "details_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-showssort-16k\\showssort.details.json",
+  "executor_role": "auto",
+  "error_count": 0,
+  "sort_parse_fail_count": 0
+}

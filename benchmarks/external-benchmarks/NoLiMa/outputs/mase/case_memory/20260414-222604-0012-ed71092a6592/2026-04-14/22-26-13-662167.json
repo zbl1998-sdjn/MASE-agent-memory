@@ -1,0 +1,311 @@
+{
+  "timestamp": "2026-04-14T22:26:13",
+  "user_query": "Which character cannot drink milk?",
+  "assistant_response": "You did not mention this information.",
+  "semantic_summary": "The user asked about a charact",
+  "language": "en",
+  "key_entities": [
+    "character",
+    "cannot",
+    "drink",
+    "milk",
+    "character cannot",
+    "drink milk",
+    "not",
+    "mention",
+    "information",
+    "mention information",
+    "user",
+    "asked"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "character",
+      "cannot",
+      "drink",
+      "milk",
+      "character cannot",
+      "drink milk",
+      "not",
+      "mention",
+      "information",
+      "mention information",
+      "user",
+      "asked"
+    ],
+    "entity_cards": [
+      {
+        "name": "character",
+        "normalized": "character"
+      },
+      {
+        "name": "cannot",
+        "normalized": "cannot"
+      },
+      {
+        "name": "drink",
+        "normalized": "drink"
+      },
+      {
+        "name": "milk",
+        "normalized": "milk"
+      },
+      {
+        "name": "character cannot",
+        "normalized": "character cannot"
+      },
+      {
+        "name": "drink milk",
+        "normalized": "drink milk"
+      },
+      {
+        "name": "not",
+        "normalized": "not"
+      },
+      {
+        "name": "mention",
+        "normalized": "mention"
+      },
+      {
+        "name": "information",
+        "normalized": "information"
+      },
+      {
+        "name": "mention information",
+        "normalized": "mention information"
+      },
+      {
+        "name": "user",
+        "normalized": "user"
+      },
+      {
+        "name": "asked",
+        "normalized": "asked"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-f879c0cc6fa6",
+  "thread_label": "character / cannot",
+  "topic_tokens": [
+    "character",
+    "cannot",
+    "drink",
+    "milk"
+  ],
+  "metadata": {
+    "route_action": "search_memory",
+    "executor_mode": "grounded_disambiguation",
+    "executor_role": "reasoning",
+    "collaboration_mode": "verify",
+    "memory_heat": "hot",
+    "executor_target": {
+      "mode": "grounded_disambiguation_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 640,
+      "base_url": null,
+      "requested_mode": "grounded_disambiguation",
+      "resolved_mode": "grounded_disambiguation_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "memory_result_count": 3,
+    "retrieval_iterations": 1,
+    "retrieval_queries": [
+      "Which character cannot drink milk?",
+      "character cannot drink milk",
+      "精确区分 character cannot drink",
+      "Simon",
+      "it would mean everything",
+      "whispered it",
+      "contact and",
+      "contact"
+    ],
+    "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nEvidence anchors (SAKE-HEAD):\n- RAG：Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered i…\n- Most：Most of these were permanent berths, as much a part of the Paraclete ecosystem as the engineers, officers, soldiers and crew\n\n[1] Time：2026-04-14 22-26-04\nSummary：“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped and the driver came around to the door. “Better make a run fer it!” he said. “I’ll take yer bags.” So\nRelevant lines:\n- “Thank you very much, Miss Moran\n- The door was opened at once. “Miss Royce\nKey numbers:\n- 1 time\n- 1\nThread：Thank / very\n\n[2] Time：2026-04-14 22-26-04\nSummary：Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered it to me as if he was a spy passing vital information. I saved the contact and\nRelevant lines:\n- Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned\n- I saved the contact and smiled at him. “Thanks, Simon\nThread：RAG / Simon\n\n[3] Time：2026-04-14 22-26-04\nSummary：An endless succession of franchise burger stands and interstate off -ramp staples. Most of these were permanent berths, as much a part of the Paraclete ecosystem as the engineers, officers, soldiers and crew. There were\nRelevant lines:\n- An endless succession of franchise burger stands and interstate off -ramp staples\n- Most of these were permanent berths\nThread：endless / succession\n\nStructured memory cards:\n- entity=Thank\n- entity=very\n- entity=much\n- entity=Miss\n- entity=Moran\n- entity=Better\n- entity=RAG\n- entity=Simon\n\nEvidence chain assessment:\n\n- evidence_confidence=low\n\n- verifier_action=refuse\n\n- reason_codes=no_direct_match,insufficient_disambiguation_support\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=3\n\n- confidence_score=1\n\n- candidate_count=3\n\n- direct_match_count=0\n\n- top_candidate=RAG\n\n- top_score=6\n\n- score_gap=2\n\nEvidence anchors (SAKE-TAIL):\n- RAG：Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered i…\n- Most：Most of these were permanent berths, as much a part of the Paraclete ecosystem as the engineers, officers, soldiers and crew\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=character; cannot; drink; milk\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=low\n- verifier_action=refuse\n- followup_needed=yes",
+    "evidence_layout": "gold_panning+dcr+sake",
+    "planner": {
+      "strategy": "disambiguation",
+      "query_variants": [
+        "Which character cannot drink milk?",
+        "character cannot drink milk",
+        "精确区分 character cannot drink"
+      ],
+      "memory_limit": 3,
+      "collaboration_mode": "verify",
+      "active_date_scan": false,
+      "widen_search": true,
+      "min_results": 2,
+      "confusion_level": "high",
+      "steps": [
+        {
+          "step_id": "plan-route",
+          "title": "Route request",
+          "details": "action=search_memory, keywords=['__FULL_QUERY__']",
+          "depends_on": []
+        },
+        {
+          "step_id": "plan-search",
+          "title": "Search memory",
+          "details": "Retrieve candidates with keywords, variants, synonyms, and semantic fallback.",
+          "depends_on": [
+            "plan-route"
+          ]
+        },
+        {
+          "step_id": "plan-compress",
+          "title": "Compress evidence",
+          "details": "Deduplicate results, highlight relevant snippets, and attach aggregation hints.",
+          "depends_on": [
+            "plan-search"
+          ]
+        },
+        {
+          "step_id": "plan-confusion-assess",
+          "title": "Assess confusion",
+          "details": "Detected high confusion from similar entities or competing candidates.",
+          "depends_on": [
+            "plan-compress"
+          ]
+        },
+        {
+          "step_id": "plan-disambiguate",
+          "title": "Disambiguate evidence",
+          "details": "Route to grounded disambiguation so the reasoning executor can eliminate confusing candidates.",
+          "depends_on": [
+            "plan-confusion-assess"
+          ]
+        }
+      ],
+      "notes": [
+        "similar_entities",
+        "confusion_high",
+        "disambiguation_reasoning"
+      ]
+    },
+    "planner_model_plan": {
+      "task_description": "Which character cannot drink milk?",
+      "query_variants": [
+        "Which character cannot drink milk?",
+        "character cannot drink milk",
+        "精确区分 character cannot drink"
+      ],
+      "topic_hints": [],
+      "recent_count": 0,
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [],
+        "relative_terms": [],
+        "strict": false
+      }
+    },
+    "instruction_package": {
+      "task_description": "Which character cannot drink milk?",
+      "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nEvidence anchors (SAKE-HEAD):\n- RAG：Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered i…\n- Most：Most of these were permanent berths, as much a part of the Paraclete ecosystem as the engineers, officers, soldiers and crew\n\n[1] Time：2026-04-14 22-26-04\nSummary：“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped and the driver came around to the door. “Better make a run fer it!” he said. “I’ll take yer bags.” So\nRelevant lines:\n- “Thank you very much, Miss Moran\n- The door was opened at once. “Miss Royce\nKey numbers:\n- 1 time\n- 1\nThread：Thank / very\n\n[2] Time：2026-04-14 22-26-04\nSummary：Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered it to me as if he was a spy passing vital information. I saved the contact and\nRelevant lines:\n- Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned\n- I saved the contact and smiled at him. “Thanks, Simon\nThread：RAG / Simon\n\n[3] Time：2026-04-14 22-26-04\nSummary：An endless succession of franchise burger stands and interstate off -ramp staples. Most of these were permanent berths, as much a part of the Paraclete ecosystem as the engineers, officers, soldiers and crew. There were\nRelevant lines:\n- An endless succession of franchise burger stands and interstate off -ramp staples\n- Most of these were permanent berths\nThread：endless / succession\n\nStructured memory cards:\n- entity=Thank\n- entity=very\n- entity=much\n- entity=Miss\n- entity=Moran\n- entity=Better\n- entity=RAG\n- entity=Simon\n\nEvidence chain assessment:\n\n- evidence_confidence=low\n\n- verifier_action=refuse\n\n- reason_codes=no_direct_match,insufficient_disambiguation_support\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=3\n\n- confidence_score=1\n\n- candidate_count=3\n\n- direct_match_count=0\n\n- top_candidate=RAG\n\n- top_score=6\n\n- score_gap=2\n\nEvidence anchors (SAKE-TAIL):\n- RAG：Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered i…\n- Most：Most of these were permanent berths, as much a part of the Paraclete ecosystem as the engineers, officers, soldiers and crew\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=character; cannot; drink; milk\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=low\n- verifier_action=refuse\n- followup_needed=yes",
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "background_summary": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [],
+        "relative_terms": [],
+        "strict": false
+      }
+    },
+    "reasoning_workspace": {
+      "operation": "disambiguation",
+      "focus_entities": [
+        "character",
+        "cannot",
+        "drink",
+        "milk"
+      ],
+      "target_unit": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness",
+        "direct evidence"
+      ],
+      "deterministic_answer": "",
+      "evidence_confidence": "low",
+      "verifier_action": "refuse",
+      "followup_needed": true
+    },
+    "evidence_assessment": {
+      "level": "low",
+      "verifier_action": "refuse",
+      "reason_codes": [
+        "no_direct_match",
+        "insufficient_disambiguation_support"
+      ],
+      "result_count": 3,
+      "candidate_count": 3,
+      "direct_match_count": 0,
+      "top_candidate": "RAG",
+      "top_score": 6,
+      "score_gap": 2,
+      "threshold_profile": "external-generalization",
+      "confidence_score": 1,
+      "contract_type": "",
+      "failure_bucket": "",
+      "missing_slots": []
+    },
+    "evidence_thresholds": {
+      "profile_name": "external-generalization",
+      "general_pass_evidence_items_min": 1,
+      "general_pass_snippet_total_min": 2,
+      "general_verify_evidence_items_min": 1,
+      "disambiguation_pass_score_min": 130,
+      "disambiguation_pass_score_gap_min": 28,
+      "disambiguation_verify_score_min": 95,
+      "disambiguation_verify_score_gap_min": 16,
+      "allow_verify_on_multiple_direct_matches": true,
+      "multiple_direct_matches_verify_top_score_min": 190,
+      "multiple_direct_matches_verify_score_gap_min": 22
+    },
+    "session_summary_before": "",
+    "session_summary_after": "Which character cannot drink milk? -> You did not mention this information.",
+    "language": "en",
+    "ingested_at": "2026-04-14T22:26:13",
+    "source_timestamp": "2026-04-14T22:26:13",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-222604-0012-ed71092a6592\\2026-04-14\\22-26-13-662167.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-222604-0012-ed71092a6592\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-222604-0012-ed71092a6592\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-222604-0012-ed71092a6592\\system\\event-bus-latest.json"
+  }
+}

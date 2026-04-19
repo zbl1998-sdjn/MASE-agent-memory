@@ -1,0 +1,152 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-214424-0015-495d709a8432\\2026-04-14\\21-44-24-421943.json",
+  "timestamp": "2026-04-14T21:44:24",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T21:44:24",
+    "date": "2026-04-14",
+    "month": "april",
+    "weekday": "tuesday",
+    "thread_id": "thread-1bee2d9cb4a8",
+    "thread_label": "garden / food"
+  },
+  "event_type": "generic",
+  "entities": [
+    "garden",
+    "food",
+    "basic",
+    "federal",
+    "Taste",
+    "Orient",
+    "Nan",
+    "Old",
+    "protein",
+    "paste",
+    "dispenser",
+    "available"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "tuesday"
+    ],
+    "locations": [
+      "No",
+      "India"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "garden",
+      "food",
+      "basic",
+      "federal",
+      "Taste",
+      "Orient",
+      "Nan",
+      "Old",
+      "protein",
+      "paste",
+      "dispenser",
+      "available",
+      "No garden",
+      "crew",
+      "tonnage fee for their business"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "garden",
+      "food",
+      "basic",
+      "federal"
+    ]
+  },
+  "relations": [],
+  "source_span": "No garden, but there was food— from the basic federal protein paste dispenser available to all passengers and crew at",
+  "resolved_source_span": "No garden, but there was food— from the basic federal protein paste dispenser available to all passengers and crew at",
+  "event_segments": [
+    {
+      "text": "No garden, but there was food— from the basic federal protein paste dispenser available to all passengers and crew at",
+      "resolved_text": "No garden, but there was food— from the basic federal protein paste dispenser available to all passengers and crew at",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "garden",
+        "food",
+        "basic",
+        "federal",
+        "protein",
+        "paste"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-214424-0015-495d709a8432\\2026-04-14\\21-44-24-421943.json::event_segment:0",
+      "logical_event_id": "generic|garden|basic,federal,food,garden|april,india,no",
+      "dedupe_key": "generic|garden|basic,federal,food,garden|april,india,no|no garden but there was food from the basic federal protein paste dispenser available to all passengers and crew at|2026-04-14T21:44:24",
+      "source_signature": "no garden but there was food from the basic federal protein paste dispenser available to all passengers and crew at",
+      "event_type": "generic",
+      "display_name": "garden",
+      "normalized_name": "garden",
+      "timestamp": "2026-04-14T21:44:24",
+      "thread_id": "thread-1bee2d9cb4a8",
+      "thread_label": "garden / food",
+      "entities": [
+        "garden",
+        "food",
+        "basic",
+        "federal",
+        "Taste",
+        "Orient",
+        "Nan",
+        "Old",
+        "protein",
+        "paste",
+        "dispenser",
+        "available"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": [
+          "No",
+          "India"
+        ]
+      },
+      "source": "No garden, but there was food— from the basic federal protein paste dispenser available to all passengers and crew at",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-214424-0015-495d709a8432\\2026-04-14\\21-44-24-421943.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

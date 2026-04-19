@@ -1,0 +1,217 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042148-0012-ed71092a6592\\2026-04-15\\04-21-48-169926.json",
+  "timestamp": "2026-04-15T04:21:48",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T04:21:48",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-c030ba2f6445",
+    "thread_label": "endless / succession"
+  },
+  "event_type": "generic",
+  "entities": [
+    "endless",
+    "succession",
+    "franchise",
+    "burger",
+    "Most",
+    "Paraclete",
+    "Check",
+    "Captain",
+    "stands",
+    "interstate",
+    "off",
+    "ramp"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": [
+      "India"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "endless",
+      "succession",
+      "franchise",
+      "burger",
+      "Most",
+      "Paraclete",
+      "Check",
+      "Captain",
+      "stands",
+      "interstate",
+      "off",
+      "ramp",
+      "endless succession of franchise burger stands",
+      "interstate off -ramp staples",
+      "were permanent berths",
+      "Paraclete ecosystem as the engineers"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "endless",
+      "succession",
+      "franchise",
+      "burger"
+    ]
+  },
+  "relations": [],
+  "source_span": "An endless succession of franchise burger stands and interstate off -ramp staples. Most of these were permanent berths,",
+  "resolved_source_span": "An endless succession of franchise burger stands and interstate off -ramp staples. Most of Most were permanent berths,",
+  "event_segments": [
+    {
+      "text": "An endless succession of franchise burger stands and interstate off -ramp staples.",
+      "resolved_text": "An endless succession of franchise burger stands and interstate off -ramp staples.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "India"
+        ]
+      },
+      "entities": [
+        "endless",
+        "succession",
+        "franchise",
+        "burger",
+        "stands",
+        "interstate"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "Most of Most were permanent berths",
+      "resolved_text": "Most of Most were permanent berths",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "India"
+        ]
+      },
+      "entities": [
+        "Most"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.62,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042148-0012-ed71092a6592\\2026-04-15\\04-21-48-169926.json::event_segment:0",
+      "logical_event_id": "generic|endless|burger,endless,franchise,succession|april,india",
+      "dedupe_key": "generic|endless|burger,endless,franchise,succession|april,india|an endless succession of franchise burger stands and interstate off ramp staples|2026-04-15T04:21:48",
+      "source_signature": "an endless succession of franchise burger stands and interstate off ramp staples",
+      "event_type": "generic",
+      "display_name": "endless",
+      "normalized_name": "endless",
+      "timestamp": "2026-04-15T04:21:48",
+      "thread_id": "thread-c030ba2f6445",
+      "thread_label": "endless / succession",
+      "entities": [
+        "endless",
+        "succession",
+        "franchise",
+        "burger",
+        "Most",
+        "Paraclete",
+        "Check",
+        "Captain",
+        "stands",
+        "interstate",
+        "off",
+        "ramp"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "India"
+        ]
+      },
+      "source": "An endless succession of franchise burger stands and interstate off -ramp staples.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042148-0012-ed71092a6592\\2026-04-15\\04-21-48-169926.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042148-0012-ed71092a6592\\2026-04-15\\04-21-48-169926.json::event_segment:1",
+      "logical_event_id": "generic|endless|burger,endless,franchise,succession|april,india",
+      "dedupe_key": "generic|endless|burger,endless,franchise,succession|april,india|most of most were permanent berths|2026-04-15T04:21:48",
+      "source_signature": "most of most were permanent berths",
+      "event_type": "generic",
+      "display_name": "endless",
+      "normalized_name": "endless",
+      "timestamp": "2026-04-15T04:21:48",
+      "thread_id": "thread-c030ba2f6445",
+      "thread_label": "endless / succession",
+      "entities": [
+        "endless",
+        "succession",
+        "franchise",
+        "burger",
+        "Most",
+        "Paraclete",
+        "Check",
+        "Captain",
+        "stands",
+        "interstate",
+        "off",
+        "ramp"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": [
+          "India"
+        ]
+      },
+      "source": "Most of Most were permanent berths",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042148-0012-ed71092a6592\\2026-04-15\\04-21-48-169926.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

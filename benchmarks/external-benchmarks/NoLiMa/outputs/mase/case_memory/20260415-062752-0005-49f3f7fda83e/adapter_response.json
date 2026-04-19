@@ -1,0 +1,10 @@
+{
+  "response": "",
+  "prompt_tokens": null,
+  "completion_tokens": null,
+  "total_tokens": null,
+  "finish_reason": "error",
+  "cached_tokens": null,
+  "error": "NameError: name 'instruction_package' is not defined",
+  "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-062752-0005-49f3f7fda83e"
+}

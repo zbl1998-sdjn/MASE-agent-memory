@@ -1,0 +1,41 @@
+[
+  {
+    "id": "meetingpred-001",
+    "task": "meetingpred",
+    "dataset_answer": "Janet Finch-Saunders AM",
+    "prediction": "Janet Finch-Saunders AM",
+    "raw_prediction": "Janet Finch-Saunders AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "general",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "general",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015778
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\local-routing-smoke\\meetingpred\\case_memory\\meetingpred-001"
+  }
+]

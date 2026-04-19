@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-15T03:10:44",
+  "user_query": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well,",
+  "assistant_response": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well, don't have a fit!—because she can sit where she likes for all of me; I've got something better to think of,\" and Huldah tossed her head. \"Isn't this your study hour?\" asked Emma Jane, to stop possible discussion. This somewhat flagrant misnomer might be considered an obscene breach of language usage if one neglected to take into account two critical facts: first, that the ship's schematics actually labeled it as Gamma Level, since it happened to fit comfortably between Beta Level and Delta Level; and second, that Gamma Level was the primary repository of paying passengers— folks who either should not be expected to carry a working knowledge of the Greek alphabet in their neural networks, or who considered such a sterile reference system to be vaguely chilling and gauche and hopelessly neo-militaristic. Even in the quasi-federal deep space shipping business, it was important to maintain the illusion that the customer was always right.",
+  "semantic_summary": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well, don't have a fit!—because she can sit where she likes for all of me; I've got something better to",
+  "language": "en",
+  "key_entities": [
+    "I'd",
+    "like",
+    "put",
+    "marble",
+    "Well",
+    "Huldah",
+    "Isn",
+    "Emma",
+    "platform",
+    "her",
+    "class-room",
+    "sit"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "I'd",
+      "like",
+      "put",
+      "marble",
+      "Well",
+      "Huldah",
+      "Isn",
+      "Emma",
+      "platform",
+      "her",
+      "class-room",
+      "sit",
+      "I'd like",
+      "chair behind a golden table!\" \"Well",
+      "don't have a fit!—",
+      "something better to"
+    ],
+    "entity_cards": [
+      {
+        "name": "I'd",
+        "normalized": "i day"
+      },
+      {
+        "name": "like",
+        "normalized": "like"
+      },
+      {
+        "name": "put",
+        "normalized": "put"
+      },
+      {
+        "name": "marble",
+        "normalized": "marble"
+      },
+      {
+        "name": "Well",
+        "normalized": "well"
+      },
+      {
+        "name": "Huldah",
+        "normalized": "huldah"
+      },
+      {
+        "name": "Isn",
+        "normalized": "isn"
+      },
+      {
+        "name": "Emma",
+        "normalized": "emma"
+      },
+      {
+        "name": "platform",
+        "normalized": "platform"
+      },
+      {
+        "name": "her",
+        "normalized": "her"
+      },
+      {
+        "name": "class-room",
+        "normalized": "class-room"
+      },
+      {
+        "name": "sit",
+        "normalized": "sit"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-f709d38d5758",
+  "thread_label": "I'd / like",
+  "topic_tokens": [
+    "I'd",
+    "like",
+    "put",
+    "marble"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 7,
+    "source_language": "en",
+    "chunk_title": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well,",
+    "language": "en",
+    "ingested_at": "2026-04-15T03:10:44",
+    "source_timestamp": "2026-04-15T03:10:44",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-031044-0016-2d25150e6782\\2026-04-15\\03-10-44-279361.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-031044-0016-2d25150e6782\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-031044-0016-2d25150e6782\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-031044-0016-2d25150e6782\\system\\event-bus-latest.json"
+  }
+}

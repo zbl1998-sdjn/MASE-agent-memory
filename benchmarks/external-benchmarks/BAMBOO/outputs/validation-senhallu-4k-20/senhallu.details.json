@@ -1,0 +1,1388 @@
+[
+  {
+    "id": "senhallu-001-Counterfactual_reasoning_Testing_language_models_understan",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: We introduce a set of tests from psycholinguistic experiments, as well as larger-scale controlled datasets, to probe counterfactual predictions from five pre-trained language models.  We find that models are consistently able to override real-world knowledge in counterfactual scenarios, and that this effect is more robust in case of stronger baseline world knowledge-however, we also find that for most models this effect appears largely to be driven by complex semantic cues.  When we mitigate effects of both world knowledge and semantic cues to test knowledge of linguistic nuances of counterfactuals, we find that only GPT-3 shows sensitivity to these nuances, though this sensitivity is also non-trivially impacted by semantic factors.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 10.490673,
+      "usage_totals": {
+        "prompt_eval_count": 9998.0,
+        "eval_count": 699.0,
+        "total_duration": 10484649500.0,
+        "load_duration": 72330200.0,
+        "prompt_eval_duration": 1650972200.0,
+        "eval_duration": 8049879200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.703287,
+          "usage": {
+            "prompt_eval_count": 5121,
+            "eval_count": 161,
+            "total_duration": 1699996100,
+            "load_duration": 18932900,
+            "prompt_eval_duration": 526593300,
+            "eval_duration": 1076434500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 8.787386,
+          "usage": {
+            "prompt_eval_count": 4877,
+            "eval_count": 538,
+            "total_duration": 8784653400,
+            "load_duration": 53397300,
+            "prompt_eval_duration": 1124378900,
+            "eval_duration": 6973444700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 10.490673,
+          "usage_totals": {
+            "prompt_eval_count": 9998.0,
+            "eval_count": 699.0,
+            "total_duration": 10484649500.0,
+            "load_duration": 72330200.0,
+            "prompt_eval_duration": 1650972200.0,
+            "eval_duration": 8049879200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 10.906683
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-001-Counterfactual_reasoning_Testing_language_models_understan"
+  },
+  {
+    "id": "senhallu-002-Improving_Embedding-based_Unsupervised_Keyphrase_Extraction_",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Specifically, HGUKE first models the phrasedocument relevance via the highlights of the documents.  Next, HGUKE calculates the crossphrase relevance between all candidate phrases.  Finally, HGUKE aggregates the above two relevance as the importance score of each candidate to rank and extract keyphrases.  The experimental results on three benchmarks demonstrate that HGUKE outperforms the state-of-the-art unsupervised keyphrase extraction baselines..\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 5.779455,
+      "usage_totals": {
+        "prompt_eval_count": 7344.0,
+        "eval_count": 416.0,
+        "total_duration": 5774202000.0,
+        "load_duration": 75145600.0,
+        "prompt_eval_duration": 994521100.0,
+        "eval_duration": 4360710800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.480532,
+          "usage": {
+            "prompt_eval_count": 3706,
+            "eval_count": 3,
+            "total_duration": 477421000,
+            "load_duration": 19001800,
+            "prompt_eval_duration": 416079800,
+            "eval_duration": 26895700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.298923,
+          "usage": {
+            "prompt_eval_count": 3638,
+            "eval_count": 413,
+            "total_duration": 5296781000,
+            "load_duration": 56143800,
+            "prompt_eval_duration": 578441300,
+            "eval_duration": 4333815100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 5.779455,
+          "usage_totals": {
+            "prompt_eval_count": 7344.0,
+            "eval_count": 416.0,
+            "total_duration": 5774202000.0,
+            "load_duration": 75145600.0,
+            "prompt_eval_duration": 994521100.0,
+            "eval_duration": 4360710800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.802955
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-002-Improving_Embedding-based_Unsupervised_Keyphrase_Extraction_"
+  },
+  {
+    "id": "senhallu-003-DopplerBAS_Binaural_Audio_Synthesis_Addressing_Doppler_Effe",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: However, existing BAS methods are limited in terms of phase estimation, which is crucial for spatial hearing.  In this paper, we propose the DopplerBAS method to explicitly address the Doppler effect of the moving sound source.  Specifically, we calculate the radial relative velocity of the moving speaker in Cartesian coordinates, which further guides the synthesis of binaural audio.  This complex method introduces additional hyperparameters and modifies the loss functions, but achieves superior performance compared to existing methods.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015914
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-003-DopplerBAS_Binaural_Audio_Synthesis_Addressing_Doppler_Effe"
+  },
+  {
+    "id": "senhallu-004-Not_Enough_Data_to_Pre-train_Your_Language_Model_MT_to_the_",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: In this paper, we study the use of machinetranslated corpora for pre-training LMs.  We answer the following research questions: RQ1: Is MT-based data an alternative to real data for learning a LM?; RQ2: Can real data be complemented with translated data and improve the resulting LM? In order to validate these two questions, several BERT models for Basque have been trained, combining real data and synthetic data translated from Spanish.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 6.473932,
+      "usage_totals": {
+        "prompt_eval_count": 8212.0,
+        "eval_count": 392.0,
+        "total_duration": 6469198800.0,
+        "load_duration": 67798800.0,
+        "prompt_eval_duration": 1065928000.0,
+        "eval_duration": 4882146000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.449807,
+          "usage": {
+            "prompt_eval_count": 4168,
+            "eval_count": 3,
+            "total_duration": 447169700,
+            "load_duration": 17904500,
+            "prompt_eval_duration": 396193700,
+            "eval_duration": 14285500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.024125,
+          "usage": {
+            "prompt_eval_count": 4044,
+            "eval_count": 389,
+            "total_duration": 6022029100,
+            "load_duration": 49894300,
+            "prompt_eval_duration": 669734300,
+            "eval_duration": 4867860500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 6.473932,
+          "usage_totals": {
+            "prompt_eval_count": 8212.0,
+            "eval_count": 392.0,
+            "total_duration": 6469198800.0,
+            "load_duration": 67798800.0,
+            "prompt_eval_duration": 1065928000.0,
+            "eval_duration": 4882146000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.495578
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-004-Not_Enough_Data_to_Pre-train_Your_Language_Model_MT_to_the_"
+  },
+  {
+    "id": "senhallu-005-ISLTranslate_Dataset_for_Translating_Indian_Sign_Language",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: This resource paper introduces ISLTranslate, a translation dataset for continuous Indian Sign Language (ISL) consisting of 31k ISL-English sentence/phrase pairs. The dataset covers a wide range of daily communication words with a vocabulary size of 10,000. The paper also proposes a novel model for end-to-end ISL-English translation based on a modified sign language transformer architecture that achieves state-of-the-art performance on the task. The dataset and the model will greatly facilitate research in sign language translation and have a significant societal impact.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 8.808408,
+      "usage_totals": {
+        "prompt_eval_count": 9196.0,
+        "eval_count": 489.0,
+        "total_duration": 8803532900.0,
+        "load_duration": 82212500.0,
+        "prompt_eval_duration": 1946119800.0,
+        "eval_duration": 6473692300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.916086,
+          "usage": {
+            "prompt_eval_count": 4703,
+            "eval_count": 3,
+            "total_duration": 913634200,
+            "load_duration": 20611500,
+            "prompt_eval_duration": 842673700,
+            "eval_duration": 30248500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.892322,
+          "usage": {
+            "prompt_eval_count": 4493,
+            "eval_count": 486,
+            "total_duration": 7889898700,
+            "load_duration": 61601000,
+            "prompt_eval_duration": 1103446100,
+            "eval_duration": 6443443800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 8.808408,
+          "usage_totals": {
+            "prompt_eval_count": 9196.0,
+            "eval_count": 489.0,
+            "total_duration": 8803532900.0,
+            "load_duration": 82212500.0,
+            "prompt_eval_duration": 1946119800.0,
+            "eval_duration": 6473692300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 8.832207
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-005-ISLTranslate_Dataset_for_Translating_Indian_Sign_Language"
+  },
+  {
+    "id": "senhallu-006-Multi-Dimensional_Evaluation_of_Text_Summarization_with_In-C",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Most frameworks that perform such multi-dimensional evaluation require training on large manually or synthetically generated datasets.  In this paper, we study the efficacy of large language models as multi-dimensional evaluators using in-context learning, obviating the need for large training datasets.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 19.68565,
+      "usage_totals": {
+        "prompt_eval_count": 8792.0,
+        "eval_count": 284.0,
+        "total_duration": 19680404200.0,
+        "load_duration": 66666200.0,
+        "prompt_eval_duration": 2670158900.0,
+        "eval_duration": 5826618200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 2.747751,
+          "usage": {
+            "prompt_eval_count": 4482,
+            "eval_count": 3,
+            "total_duration": 2745048600,
+            "load_duration": 17035700,
+            "prompt_eval_duration": 1305655500,
+            "eval_duration": 48437400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 16.937899,
+          "usage": {
+            "prompt_eval_count": 4310,
+            "eval_count": 281,
+            "total_duration": 16935355600,
+            "load_duration": 49630500,
+            "prompt_eval_duration": 1364503400,
+            "eval_duration": 5778180800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 19.68565,
+          "usage_totals": {
+            "prompt_eval_count": 8792.0,
+            "eval_count": 284.0,
+            "total_duration": 19680404200.0,
+            "load_duration": 66666200.0,
+            "prompt_eval_duration": 2670158900.0,
+            "eval_duration": 5826618200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 19.706486
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-006-Multi-Dimensional_Evaluation_of_Text_Summarization_with_In-C"
+  },
+  {
+    "id": "senhallu-007-Substitution-based_Semantic_Change_Detection_using_Contextua",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Moreover, many of the previously proposed approaches suffer from downsides related to scalability and ease of interpretation. We present a complex approach to measuring semantic change using contextual embeddings, relying only on the least probable substitutes for masked terms.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "cold"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.013549
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-007-Substitution-based_Semantic_Change_Detection_using_Contextua"
+  },
+  {
+    "id": "senhallu-008-Curating_Datasets_for_Better_Performance_with_Example_Traini",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Finally, we suggest an active learning approach for computing ETD during training rather than as a preprocessing step-an approach that is not as effective, but dramatically reduces the extra computational costs..\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 29.811096,
+      "usage_totals": {
+        "prompt_eval_count": 8951.0,
+        "eval_count": 186.0,
+        "total_duration": 29806013700.0,
+        "load_duration": 69996600.0,
+        "prompt_eval_duration": 1617371600.0,
+        "eval_duration": 4925852400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.844701,
+          "usage": {
+            "prompt_eval_count": 4496,
+            "eval_count": 3,
+            "total_duration": 842297800,
+            "load_duration": 16300300,
+            "prompt_eval_duration": 780295600,
+            "eval_duration": 25269300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 28.966395,
+          "usage": {
+            "prompt_eval_count": 4455,
+            "eval_count": 183,
+            "total_duration": 28963715900,
+            "load_duration": 53696300,
+            "prompt_eval_duration": 837076000,
+            "eval_duration": 4900583100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 29.811096,
+          "usage_totals": {
+            "prompt_eval_count": 8951.0,
+            "eval_count": 186.0,
+            "total_duration": 29806013700.0,
+            "load_duration": 69996600.0,
+            "prompt_eval_duration": 1617371600.0,
+            "eval_duration": 4925852400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 29.824729
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-008-Curating_Datasets_for_Better_Performance_with_Example_Traini"
+  },
+  {
+    "id": "senhallu-009-Table_and_Image_Generation_for_Investigating_Knowledge_of_En",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: We created the Wikipedia Table and Image Generation (WikiTIG) dataset from about 200,000 infoboxes in English Wikipedia articles to perform the proposed tasks. Our evaluation of the table generation revealed that part of the knowledge in the V&L model acquired from natural language is enhanced when the V&L model is pre-trained. We also found that additional knowledge for entities was acquired by supplementing image information, which was not possible solely from textual data.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 24.980237,
+      "usage_totals": {
+        "prompt_eval_count": 8647.0,
+        "eval_count": 200.0,
+        "total_duration": 24975698200.0,
+        "load_duration": 67784500.0,
+        "prompt_eval_duration": 2117008800.0,
+        "eval_duration": 4071774800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.822533,
+          "usage": {
+            "prompt_eval_count": 4358,
+            "eval_count": 3,
+            "total_duration": 820135900,
+            "load_duration": 17893800,
+            "prompt_eval_duration": 754169700,
+            "eval_duration": 29327500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 24.157704,
+          "usage": {
+            "prompt_eval_count": 4289,
+            "eval_count": 197,
+            "total_duration": 24155562300,
+            "load_duration": 49890700,
+            "prompt_eval_duration": 1362839100,
+            "eval_duration": 4042447300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 24.980237,
+          "usage_totals": {
+            "prompt_eval_count": 8647.0,
+            "eval_count": 200.0,
+            "total_duration": 24975698200.0,
+            "load_duration": 67784500.0,
+            "prompt_eval_duration": 2117008800.0,
+            "eval_duration": 4071774800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 25.003755
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-009-Table_and_Image_Generation_for_Investigating_Knowledge_of_En"
+  },
+  {
+    "id": "senhallu-010-Towards_Robust_Personalized_Dialogue_Generation_via_Order-In",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Experiments on Persona-Chat dataset justify the effectiveness and superiority of our method with two dominant pre-trained models (GPT2 and BART).\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 6.809307,
+      "usage_totals": {
+        "prompt_eval_count": 7741.0,
+        "eval_count": 257.0,
+        "total_duration": 6805550400.0,
+        "load_duration": 65834200.0,
+        "prompt_eval_duration": 1352233000.0,
+        "eval_duration": 5063975600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.780042,
+          "usage": {
+            "prompt_eval_count": 3926,
+            "eval_count": 7,
+            "total_duration": 778269300,
+            "load_duration": 18002600,
+            "prompt_eval_duration": 657937800,
+            "eval_duration": 85137900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.029265,
+          "usage": {
+            "prompt_eval_count": 3815,
+            "eval_count": 250,
+            "total_duration": 6027281100,
+            "load_duration": 47831600,
+            "prompt_eval_duration": 694295200,
+            "eval_duration": 4978837700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 6.809307,
+          "usage_totals": {
+            "prompt_eval_count": 7741.0,
+            "eval_count": 257.0,
+            "total_duration": 6805550400.0,
+            "load_duration": 65834200.0,
+            "prompt_eval_duration": 1352233000.0,
+            "eval_duration": 5063975600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.824154
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-010-Towards_Robust_Personalized_Dialogue_Generation_via_Order-In"
+  },
+  {
+    "id": "senhallu-011-Exploring_the_Impact_of_Layer_Normalization_for_Zero-shot_Ne",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: However, Xu et al.  ( 2019) has revealed that PreNorm carries the risk of overfitting the training data.  Based on this, we hypothesize that PostNorm may overfit supervised directions and thus have low generalizability for ZST.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 9.149293,
+      "usage_totals": {
+        "prompt_eval_count": 9286.0,
+        "eval_count": 376.0,
+        "total_duration": 9143687700.0,
+        "load_duration": 73561800.0,
+        "prompt_eval_duration": 1950676300.0,
+        "eval_duration": 6881970700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.795045,
+          "usage": {
+            "prompt_eval_count": 4691,
+            "eval_count": 66,
+            "total_duration": 1792606300,
+            "load_duration": 18651300,
+            "prompt_eval_duration": 840839000,
+            "eval_duration": 892004400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.354248,
+          "usage": {
+            "prompt_eval_count": 4595,
+            "eval_count": 310,
+            "total_duration": 7351081400,
+            "load_duration": 54910500,
+            "prompt_eval_duration": 1109837300,
+            "eval_duration": 5989966300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 9.149293,
+          "usage_totals": {
+            "prompt_eval_count": 9286.0,
+            "eval_count": 376.0,
+            "total_duration": 9143687700.0,
+            "load_duration": 73561800.0,
+            "prompt_eval_duration": 1950676300.0,
+            "eval_duration": 6881970700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.169042
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-011-Exploring_the_Impact_of_Layer_Normalization_for_Zero-shot_Ne"
+  },
+  {
+    "id": "senhallu-012-An_Embarrassingly_Easy_but_Strong_Baseline_for_Nested_Named_",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Despite being simple, experiments in three commonly used nested NER datasets show that our model surpasses several recently proposed methods with the same pre-trained encoders.  Further analysis shows that using CNN can help the model find more nested entities.  Besides, we find that different papers use different sentence tokenizations for the three nested NER datasets, which will influence the comparison.  Thus, we release a pre-processing script to facilitate future comparison.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 9.128799,
+      "usage_totals": {
+        "prompt_eval_count": 7879.0,
+        "eval_count": 401.0,
+        "total_duration": 9123689900.0,
+        "load_duration": 73434500.0,
+        "prompt_eval_duration": 1388361700.0,
+        "eval_duration": 7398299500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.749068,
+          "usage": {
+            "prompt_eval_count": 3961,
+            "eval_count": 3,
+            "total_duration": 746565900,
+            "load_duration": 18511100,
+            "prompt_eval_duration": 686565900,
+            "eval_duration": 26259600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 8.379731,
+          "usage": {
+            "prompt_eval_count": 3918,
+            "eval_count": 398,
+            "total_duration": 8377124000,
+            "load_duration": 54923400,
+            "prompt_eval_duration": 701795800,
+            "eval_duration": 7372039900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 9.128799,
+          "usage_totals": {
+            "prompt_eval_count": 7879.0,
+            "eval_count": 401.0,
+            "total_duration": 9123689900.0,
+            "load_duration": 73434500.0,
+            "prompt_eval_duration": 1388361700.0,
+            "eval_duration": 7398299500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.150006
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-012-An_Embarrassingly_Easy_but_Strong_Baseline_for_Nested_Named_"
+  },
+  {
+    "id": "senhallu-013-Listener_Model_for_the_PhotoBook_Referential_Game_with_CLIPS",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Methods developed in the literature can be effectively deployed for real gameplay since they address all aspects of the game and incorporate reference chains inputs for accurate predictions. Therefore, we propose a reference chain-based listener model that outperforms previous models in predicting shared images.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "cold"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 8.648326,
+      "usage_totals": {
+        "prompt_eval_count": 8727.0,
+        "eval_count": 533.0,
+        "total_duration": 8643252900.0,
+        "load_duration": 70792800.0,
+        "prompt_eval_duration": 1497300600.0,
+        "eval_duration": 6548413400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 2.33713,
+          "usage": {
+            "prompt_eval_count": 4412,
+            "eval_count": 134,
+            "total_duration": 2334389400,
+            "load_duration": 16999900,
+            "prompt_eval_duration": 758610300,
+            "eval_duration": 1496718800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.311196,
+          "usage": {
+            "prompt_eval_count": 4315,
+            "eval_count": 399,
+            "total_duration": 6308863500,
+            "load_duration": 53792900,
+            "prompt_eval_duration": 738690300,
+            "eval_duration": 5051694600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 8.648326,
+          "usage_totals": {
+            "prompt_eval_count": 8727.0,
+            "eval_count": 533.0,
+            "total_duration": 8643252900.0,
+            "load_duration": 70792800.0,
+            "prompt_eval_duration": 1497300600.0,
+            "eval_duration": 6548413400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 8.661924
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-013-Listener_Model_for_the_PhotoBook_Referential_Game_with_CLIPS"
+  },
+  {
+    "id": "senhallu-014-AraMUS_Pushing_the_Limits_of_Data_and_Model_Scale_for_Arabi",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "529GB",
+    "raw_prediction": "529GB",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: AraMUS achieves state-of-the-art performances on a diverse set of Arabic classification and generative tasks.  Moreover, AraMUS shows impressive few-shot learning abilities compared with the best existing Arabic PLMs.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.023336
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-014-AraMUS_Pushing_the_Limits_of_Data_and_Model_Scale_for_Arabi"
+  },
+  {
+    "id": "senhallu-015-It_is_a_Bird_Therefore_it_is_a_Robin_On_BERTs_Internal_Con",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes.",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Our results show impressive strengths of BERT-like models on these semantic tasks.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 4.165486,
+      "usage_totals": {
+        "prompt_eval_count": 4642.0,
+        "eval_count": 192.0,
+        "total_duration": 4162977700.0,
+        "load_duration": 16903600.0,
+        "prompt_eval_duration": 924164900.0,
+        "eval_duration": 3141350600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 4.165486,
+          "usage": {
+            "prompt_eval_count": 4642,
+            "eval_count": 192,
+            "total_duration": 4162977700,
+            "load_duration": 16903600,
+            "prompt_eval_duration": 924164900,
+            "eval_duration": 3141350600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 4.165486,
+          "usage_totals": {
+            "prompt_eval_count": 4642.0,
+            "eval_count": 192.0,
+            "total_duration": 4162977700.0,
+            "load_duration": 16903600.0,
+            "prompt_eval_duration": 924164900.0,
+            "eval_duration": 3141350600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.1808
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-015-It_is_a_Bird_Therefore_it_is_a_Robin_On_BERTs_Internal_Con"
+  },
+  {
+    "id": "senhallu-016-RAMP_Retrieval_and_Attribute-Marking_Enhanced_Prompting_for",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Our comprehensive experiments show that RAMP is a viable approach in both zero-shot and few-shot settings.\n* Work conducted during an internship at Amazon.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 11.611502,
+      "usage_totals": {
+        "prompt_eval_count": 8500.0,
+        "eval_count": 477.0,
+        "total_duration": 11606886100.0,
+        "load_duration": 72761200.0,
+        "prompt_eval_duration": 2447620600.0,
+        "eval_duration": 6727147300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 3.953954,
+          "usage": {
+            "prompt_eval_count": 4308,
+            "eval_count": 139,
+            "total_duration": 3951525900,
+            "load_duration": 17492700,
+            "prompt_eval_duration": 1244693900,
+            "eval_duration": 2602536800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.657548,
+          "usage": {
+            "prompt_eval_count": 4192,
+            "eval_count": 338,
+            "total_duration": 7655360200,
+            "load_duration": 55268500,
+            "prompt_eval_duration": 1202926700,
+            "eval_duration": 4124610500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 11.611502,
+          "usage_totals": {
+            "prompt_eval_count": 8500.0,
+            "eval_count": 477.0,
+            "total_duration": 11606886100.0,
+            "load_duration": 72761200.0,
+            "prompt_eval_duration": 2447620600.0,
+            "eval_duration": 6727147300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 11.634376
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-016-RAMP_Retrieval_and_Attribute-Marking_Enhanced_Prompting_for"
+  },
+  {
+    "id": "senhallu-017-Do_GPTs_Produce_Less_Literal_Translations",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: However, there has been relatively little investigation on how such translations differ qualitatively from the translations generated by standard Neural Machine Translation (NMT) models.  In this work, we investigate these differences in terms of the creativity of translations produced by the two systems.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.013551
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-017-Do_GPTs_Produce_Less_Literal_Translations"
+  },
+  {
+    "id": "senhallu-018-Text-to-SQL_Error_Correction_with_Language_Models_of_Code",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Our error correction model improves the exact set match accuracy of different parsers by 2.4-6.5 and obtains up to 4.3 point absolute improvement over two strong baselines.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 9.040079,
+      "usage_totals": {
+        "prompt_eval_count": 7804.0,
+        "eval_count": 386.0,
+        "total_duration": 9035296600.0,
+        "load_duration": 70572200.0,
+        "prompt_eval_duration": 1671868900.0,
+        "eval_duration": 5188946500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.77176,
+          "usage": {
+            "prompt_eval_count": 3935,
+            "eval_count": 8,
+            "total_duration": 769089200,
+            "load_duration": 19049300,
+            "prompt_eval_duration": 645439000,
+            "eval_duration": 85763200
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 8.268319,
+          "usage": {
+            "prompt_eval_count": 3869,
+            "eval_count": 378,
+            "total_duration": 8266207400,
+            "load_duration": 51522900,
+            "prompt_eval_duration": 1026429900,
+            "eval_duration": 5103183300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 9.040079,
+          "usage_totals": {
+            "prompt_eval_count": 7804.0,
+            "eval_count": 386.0,
+            "total_duration": 9035296600.0,
+            "load_duration": 70572200.0,
+            "prompt_eval_duration": 1671868900.0,
+            "eval_duration": 5188946500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.056754
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-018-Text-to-SQL_Error_Correction_with_Language_Models_of_Code"
+  },
+  {
+    "id": "senhallu-019-Leveraging_Explicit_Procedural_Instructions_for_Data-Efficie",
+    "task": "senhallu",
+    "dataset_answer": false,
+    "prediction": "No.",
+    "raw_prediction": "No",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: We evaluate the effectiveness of our approach on prominent task-oriented dialogue datasets, Action-Based Conversations Dataset and Schema-Guided Dialogue, for two dialogue tasks: action state tracking and workflow discovery. Our results demonstrate that procedural knowledge augmentation improves accuracy predicting in-and out-of-distribution actions while preserving high performance in settings with high or dense data.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 12.755732,
+      "usage_totals": {
+        "prompt_eval_count": 8722.0,
+        "eval_count": 551.0,
+        "total_duration": 12751144100.0,
+        "load_duration": 65661300.0,
+        "prompt_eval_duration": 1964019000.0,
+        "eval_duration": 7537991200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 2.119412,
+          "usage": {
+            "prompt_eval_count": 4432,
+            "eval_count": 99,
+            "total_duration": 2116968500,
+            "load_duration": 17406900,
+            "prompt_eval_duration": 756824300,
+            "eval_duration": 1294345100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 10.63632,
+          "usage": {
+            "prompt_eval_count": 4290,
+            "eval_count": 452,
+            "total_duration": 10634175600,
+            "load_duration": 48254400,
+            "prompt_eval_duration": 1207194700,
+            "eval_duration": 6243646100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 12.755732,
+          "usage_totals": {
+            "prompt_eval_count": 8722.0,
+            "eval_count": 551.0,
+            "total_duration": 12751144100.0,
+            "load_duration": 65661300.0,
+            "prompt_eval_duration": 1964019000.0,
+            "eval_duration": 7537991200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 12.7773
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-019-Leveraging_Explicit_Procedural_Instructions_for_Data-Efficie"
+  },
+  {
+    "id": "senhallu-020-Improving_Factuality_of_Abstractive_Summarization_without_Sa",
+    "task": "senhallu",
+    "dataset_answer": true,
+    "prediction": "Yes.",
+    "raw_prediction": "Yes.",
+    "question": "You are given a paper in the fact sheet and a hypothesis below.\nReturn exactly \"Yes.\" if the hypothesis is entailed, otherwise return exactly \"No.\".\n\nHypothesis: Models trained using our approach show up to 6 points of absolute improvement over the base model with respect to FactCC on XSUM and 11 points on CNN/DM, without negatively affecting either similarity-based metrics or absractiveness.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 3.88401,
+      "usage_totals": {
+        "prompt_eval_count": 4712.0,
+        "eval_count": 195.0,
+        "total_duration": 3881521200.0,
+        "load_duration": 16999800.0,
+        "prompt_eval_duration": 1095276300.0,
+        "eval_duration": 2691137800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 3.88401,
+          "usage": {
+            "prompt_eval_count": 4712,
+            "eval_count": 195,
+            "total_duration": 3881521200,
+            "load_duration": 16999800,
+            "prompt_eval_duration": 1095276300,
+            "eval_duration": 2691137800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 3.88401,
+          "usage_totals": {
+            "prompt_eval_count": 4712.0,
+            "eval_count": 195.0,
+            "total_duration": 3881521200.0,
+            "load_duration": 16999800.0,
+            "prompt_eval_duration": 1095276300.0,
+            "eval_duration": 2691137800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.902702
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-senhallu-4k-20\\case_memory\\senhallu-020-Improving_Factuality_of_Abstractive_Summarization_without_Sa"
+  }
+]

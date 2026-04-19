@@ -1,0 +1,10 @@
+{
+  "task": "meetingpred",
+  "dataset": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\datasets\\meetingpred_16k.jsonl",
+  "sample_count": 5,
+  "output_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_reasoning_patch\\meetingpred.predictions.jsonl",
+  "details_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_reasoning_patch\\meetingpred.details.json",
+  "executor_role": "auto",
+  "error_count": 0,
+  "sort_parse_fail_count": 0
+}

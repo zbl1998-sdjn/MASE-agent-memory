@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-15T18:55:19",
+  "user_query": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped",
+  "assistant_response": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped and the driver came around to the door. “Better make a run fer it!” he said. “I’ll take yer bags.” So Captain Grey took Lexy’s arm, and they did make a run for it, through the fine, chilly rain, along a garden path and up on a veranda. The door was opened at once. “Miss Royce?” asked Captain Grey. “Mrs. Royce,” said the other. “Come right in. My, how it does rain!” “Something real?” “Like you said. Action that matters. Something big, and soon, before everybody forgets about the Minneapolis Nine.” “I want to be at this meeting.” I put my hand on his, gave it a little squeeze. “I mean, I know I’m kind of young, but it’s my brother who’s in jail.” “That’s the problem. Maybe you’re being watched because of your famous brother.” “But I’m not famous. The feds think I’m just a dumb kid, but I know a lot about how to keep my tracks hidden. I’ll be super- careful. Please? This matters to me.” “I’ll have to check, but it’ll probably be okay.” He tried to sound sure of himself but just sounded nervous. “I have to be at this meeting.",
+  "semantic_summary": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped and the driver came around to the door. “Better make a run fer it!” he said. “I’ll take yer bags.” So",
+  "language": "en",
+  "key_entities": [
+    "Thank",
+    "very",
+    "much",
+    "Miss",
+    "Moran",
+    "Better",
+    "Captain",
+    "Grey",
+    "opportunity",
+    "further",
+    "polite",
+    "conversation"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "Thank",
+      "very",
+      "much",
+      "Miss",
+      "Moran",
+      "Better",
+      "Captain",
+      "Grey",
+      "opportunity",
+      "further",
+      "polite",
+      "conversation",
+      "“Thank you very much",
+      "no opportunity for further polite conversation",
+      "taxi had stopped",
+      "driver came around"
+    ],
+    "entity_cards": [
+      {
+        "name": "Thank",
+        "normalized": "thank"
+      },
+      {
+        "name": "very",
+        "normalized": "very"
+      },
+      {
+        "name": "much",
+        "normalized": "much"
+      },
+      {
+        "name": "Miss",
+        "normalized": "miss"
+      },
+      {
+        "name": "Moran",
+        "normalized": "moran"
+      },
+      {
+        "name": "Better",
+        "normalized": "better"
+      },
+      {
+        "name": "Captain",
+        "normalized": "captain"
+      },
+      {
+        "name": "Grey",
+        "normalized": "grey"
+      },
+      {
+        "name": "opportunity",
+        "normalized": "opportunity"
+      },
+      {
+        "name": "further",
+        "normalized": "further"
+      },
+      {
+        "name": "polite",
+        "normalized": "polite"
+      },
+      {
+        "name": "conversation",
+        "normalized": "conversation"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-e4dd0d425c7b",
+  "thread_label": "Thank / very",
+  "topic_tokens": [
+    "Thank",
+    "very",
+    "much",
+    "Miss"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 9,
+    "source_language": "en",
+    "chunk_title": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped",
+    "language": "en",
+    "ingested_at": "2026-04-15T18:55:19",
+    "source_timestamp": "2026-04-15T18:55:19",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-185519-0010-7e2a875f3853\\2026-04-15\\18-55-19-320418.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-185519-0010-7e2a875f3853\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-185519-0010-7e2a875f3853\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-185519-0010-7e2a875f3853\\system\\event-bus-latest.json"
+  }
+}

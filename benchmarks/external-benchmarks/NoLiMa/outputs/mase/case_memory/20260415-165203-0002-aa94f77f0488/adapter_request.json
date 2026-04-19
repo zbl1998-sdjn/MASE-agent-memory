@@ -1,0 +1,11 @@
+{
+  "mode": "memory_ingest",
+  "system_prompt": "",
+  "question": "Which character lives next to the Kiasma museum?",
+  "haystack_char_length": 5504,
+  "user_prompt_char_length": 5884,
+  "max_tokens": 64,
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "add_default_system_prompt": true
+}

@@ -1,0 +1,410 @@
+{
+  "needle_set_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\data\\needlesets\\needle_set.json",
+  "haystack_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\data\\haystack\\rand_shuffle",
+  "context_length": 2000,
+  "document_depth_percent_min": 50.0,
+  "document_depth_percent_max": 50.0,
+  "document_depth_percent_intervals": 1,
+  "metric": "contains",
+  "encoding_name": "approx_words",
+  "executor_role": "reasoning",
+  "test_count": 58,
+  "haystack_count": 5,
+  "results_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\official-max-needle_set_2000_depth50\\nolima.results.json",
+  "summary": {
+    "processed": 290,
+    "passed": 80,
+    "failed": 210,
+    "accuracy": 0.2759,
+    "by_test": {
+      "0401_T17_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0401_T15_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0401_T16_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0401_T17_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0401_T15_C02_twohop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0401_T16_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0401Inv_T17_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0401Inv_T15_C02_onehop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0401Inv_T16_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0401Inv_T17_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0401Inv_T15_C02_twohop": {
+        "processed": 5,
+        "passed": 3,
+        "failed": 2,
+        "accuracy": 0.6
+      },
+      "0401Inv_T16_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0402_T01_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0402_T04_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0402_T01_C02_twohop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0402_T04_C02_twohop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0402Inv_T01_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0402Inv_T04_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0402Inv_T01_C02_twohop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0402Inv_T04_C02_twohop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0405_T01_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0405_T04_C02_onehop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0405_T01_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0405_T04_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0405Inv_T01_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0405Inv_T04_C02_onehop": {
+        "processed": 5,
+        "passed": 2,
+        "failed": 3,
+        "accuracy": 0.4
+      },
+      "0405Inv_T01_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0405Inv_T04_C02_twohop": {
+        "processed": 5,
+        "passed": 3,
+        "failed": 2,
+        "accuracy": 0.6
+      },
+      "0408_T01_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0408_T04_C02_onehop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0408_T05_C02_onehop": {
+        "processed": 5,
+        "passed": 2,
+        "failed": 3,
+        "accuracy": 0.4
+      },
+      "0408_T01_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0408_T04_C02_twohop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0408_T05_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0408_T01_C02_twohop2": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0408_T04_C02_twohop2": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0408_T05_C02_twohop2": {
+        "processed": 5,
+        "passed": 2,
+        "failed": 3,
+        "accuracy": 0.4
+      },
+      "0408Inv_T01_C02_onehop": {
+        "processed": 5,
+        "passed": 5,
+        "failed": 0,
+        "accuracy": 1.0
+      },
+      "0408Inv_T04_C02_onehop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0408Inv_T05_C02_onehop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0408Inv_T01_C02_twohop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0408Inv_T04_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0408Inv_T05_C02_twohop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0408Inv_T01_C02_twohop2": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0408Inv_T04_C02_twohop2": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0408Inv_T05_C02_twohop2": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409Inv_T09_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409Inv_T10_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409Inv_T04_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409Inv_T05_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409Inv_T07_C02_onehop": {
+        "processed": 5,
+        "passed": 2,
+        "failed": 3,
+        "accuracy": 0.4
+      },
+      "0409Inv_T08_C02_onehop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0409_T09_C02_onehop": {
+        "processed": 5,
+        "passed": 1,
+        "failed": 4,
+        "accuracy": 0.2
+      },
+      "0409_T10_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409_T04_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409_T05_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409_T07_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      },
+      "0409_T08_C02_onehop": {
+        "processed": 5,
+        "passed": 0,
+        "failed": 5,
+        "accuracy": 0.0
+      }
+    },
+    "by_haystack": {
+      "rand_book_1.txt": {
+        "processed": 58,
+        "passed": 12,
+        "failed": 46,
+        "accuracy": 0.2069
+      },
+      "rand_book_2.txt": {
+        "processed": 58,
+        "passed": 17,
+        "failed": 41,
+        "accuracy": 0.2931
+      },
+      "rand_book_3.txt": {
+        "processed": 58,
+        "passed": 23,
+        "failed": 35,
+        "accuracy": 0.3966
+      },
+      "rand_book_4.txt": {
+        "processed": 58,
+        "passed": 12,
+        "failed": 46,
+        "accuracy": 0.2069
+      },
+      "rand_book_5.txt": {
+        "processed": 58,
+        "passed": 16,
+        "failed": 42,
+        "accuracy": 0.2759
+      }
+    },
+    "by_depth": {
+      "50.0": {
+        "processed": 290,
+        "passed": 80,
+        "failed": 210,
+        "accuracy": 0.2759
+      }
+    }
+  }
+}

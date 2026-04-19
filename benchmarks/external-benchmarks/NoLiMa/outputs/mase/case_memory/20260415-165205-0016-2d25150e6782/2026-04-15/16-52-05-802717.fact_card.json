@@ -1,0 +1,147 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0016-2d25150e6782\\2026-04-15\\16-52-05-802717.json",
+  "timestamp": "2026-04-15T16:52:05",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T16:52:05",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-f709d38d5758",
+    "thread_label": "I'd / like"
+  },
+  "event_type": "generic",
+  "entities": [
+    "I'd",
+    "like",
+    "put",
+    "marble",
+    "Well",
+    "Huldah",
+    "Isn",
+    "Emma",
+    "platform",
+    "her",
+    "class-room",
+    "sit"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "I'd",
+      "like",
+      "put",
+      "marble",
+      "Well",
+      "Huldah",
+      "Isn",
+      "Emma",
+      "platform",
+      "her",
+      "class-room",
+      "sit",
+      "I'd like",
+      "chair behind a golden table!\" \"Well",
+      "don't have a fit!—",
+      "something better to"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "I'd",
+      "like",
+      "put",
+      "marble"
+    ]
+  },
+  "relations": [],
+  "source_span": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well,",
+  "resolved_source_span": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well,",
+  "event_segments": [
+    {
+      "text": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well",
+      "resolved_text": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "I'd",
+        "like",
+        "put",
+        "marble",
+        "Well",
+        "platform"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0016-2d25150e6782\\2026-04-15\\16-52-05-802717.json::event_segment:0",
+      "logical_event_id": "generic|i d|i d,like,marble,put|april",
+      "dedupe_key": "generic|i d|i d,like,marble,put|april|i d like to put a marble platform in her class room and have her sit in a velvet chair behind a golden table well|2026-04-15T16:52:05",
+      "source_signature": "i d like to put a marble platform in her class room and have her sit in a velvet chair behind a golden table well",
+      "event_type": "generic",
+      "display_name": "I'd",
+      "normalized_name": "i d",
+      "timestamp": "2026-04-15T16:52:05",
+      "thread_id": "thread-f709d38d5758",
+      "thread_label": "I'd / like",
+      "entities": [
+        "I'd",
+        "like",
+        "put",
+        "marble",
+        "Well",
+        "Huldah",
+        "Isn",
+        "Emma",
+        "platform",
+        "her",
+        "class-room",
+        "sit"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "I'd like to put a marble platform in her class-room and have her sit in a velvet chair behind a golden table!\" \"Well",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-165205-0016-2d25150e6782\\2026-04-15\\16-52-05-802717.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

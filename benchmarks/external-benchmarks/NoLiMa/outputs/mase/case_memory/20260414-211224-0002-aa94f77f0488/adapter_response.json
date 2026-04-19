@@ -1,0 +1,10 @@
+{
+  "response": "",
+  "prompt_tokens": null,
+  "completion_tokens": null,
+  "total_tokens": null,
+  "finish_reason": "error",
+  "cached_tokens": null,
+  "error": "NameError: name '_SAFER_QUOTE_PATTERN' is not defined",
+  "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-211224-0002-aa94f77f0488"
+}

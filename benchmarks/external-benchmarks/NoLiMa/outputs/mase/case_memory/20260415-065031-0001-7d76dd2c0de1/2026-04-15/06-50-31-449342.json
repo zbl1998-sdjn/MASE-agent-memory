@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-15T06:50:31",
+  "user_query": "the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own.",
+  "assistant_response": "the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing oppression. The influence of Caroline’s room was beginning to tell upon her. Caroline didn’t understand about larks. She wasn’t that sort of girl. Quiet, shy, and patient, she had never shown any trace of resentment against her restricted life, or any desire for the good times that other girls of her age enjoyed. The more Lexy thought about it, the more clearly she realized the strangeness of all this, and the more uneasy she became. ... mantelpiece struck one, it came as a shock. Lexy sprang to her feet and looked about the room, filled with unreasoning fear. One o’clock, and Caroline hadn’t come back! Suppose—suppose she never came back? Lexy dismissed that idea with healthy scorn. Things like that didn’t happen; and yet—what was it that gave to the pink and white lamplit room such an air of being deserted? He swallowed. “The robot—” “That’s not Mom. She’s got a few of those, they can change their faces when they need to. Configurable matter.",
+  "semantic_summary": "the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing oppression.",
+  "language": "en",
+  "key_entities": [
+    "telephone",
+    "Lexy",
+    "reflected",
+    "queer",
+    "Perhaps",
+    "She",
+    "Caroline",
+    "Quiet",
+    "only",
+    "night",
+    "her",
+    "life"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "telephone",
+      "Lexy",
+      "reflected",
+      "queer",
+      "Perhaps",
+      "She",
+      "Caroline",
+      "Quiet",
+      "only",
+      "night",
+      "her",
+      "life",
+      "Lexy reflected",
+      "own",
+      "he sounded",
+      "It was queer"
+    ],
+    "entity_cards": [
+      {
+        "name": "telephone",
+        "normalized": "telephone"
+      },
+      {
+        "name": "Lexy",
+        "normalized": "lexy"
+      },
+      {
+        "name": "reflected",
+        "normalized": "reflected"
+      },
+      {
+        "name": "queer",
+        "normalized": "queer"
+      },
+      {
+        "name": "Perhaps",
+        "normalized": "perhaps"
+      },
+      {
+        "name": "She",
+        "normalized": "she"
+      },
+      {
+        "name": "Caroline",
+        "normalized": "caroline"
+      },
+      {
+        "name": "Quiet",
+        "normalized": "quiet"
+      },
+      {
+        "name": "only",
+        "normalized": "only"
+      },
+      {
+        "name": "night",
+        "normalized": "night"
+      },
+      {
+        "name": "her",
+        "normalized": "her"
+      },
+      {
+        "name": "life",
+        "normalized": "life"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-85297e95bfd2",
+  "thread_label": "telephone / Lexy",
+  "topic_tokens": [
+    "telephone",
+    "Lexy",
+    "reflected",
+    "queer"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 1,
+    "source_language": "en",
+    "chunk_title": "the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own.",
+    "language": "en",
+    "ingested_at": "2026-04-15T06:50:31",
+    "source_timestamp": "2026-04-15T06:50:31",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065031-0001-7d76dd2c0de1\\2026-04-15\\06-50-31-449342.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065031-0001-7d76dd2c0de1\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065031-0001-7d76dd2c0de1\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065031-0001-7d76dd2c0de1\\system\\event-bus-latest.json"
+  }
+}

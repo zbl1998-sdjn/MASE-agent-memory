@@ -1,0 +1,35 @@
+{
+  "suite_name": "probe_direct_1k",
+  "needle_set_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\data\\needlesets\\needle_set_ONLYDirect.json",
+  "question_types": [
+    "direct"
+  ],
+  "context_length": 1000,
+  "depth_percent": 50.0,
+  "haystack_files": [
+    "rand_book_1.txt"
+  ],
+  "model_name": "mase_default",
+  "sample_count": 1,
+  "adapter_error_count": 0,
+  "accuracy": 0.0,
+  "pass_count": 0,
+  "rows": [
+    {
+      "suite": "probe_direct_1k",
+      "haystack_file": "rand_book_1.txt",
+      "test_name": "0401_T17_C02_direct",
+      "question_type": "direct",
+      "status": "ok",
+      "metric": 0,
+      "response": "You did not mention this information.",
+      "selected_character": "Caleb",
+      "error": null,
+      "route_action": "search_memory",
+      "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-173615-0001-7d76dd2c0de1",
+      "result_file": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\probe_direct_1k\\raw\\0401_T17_C02_direct_rand_book_1_cl1000\\mase_default_book_0401_T17_C02_direct_1776159375.json",
+      "question": "Which character lives next to the Kiasma museum?",
+      "needle": "Actually, {CHAR} lives next to the Kiasma museum."
+    }
+  ]
+}

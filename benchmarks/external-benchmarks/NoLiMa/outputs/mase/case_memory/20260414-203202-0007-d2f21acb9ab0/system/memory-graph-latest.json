@@ -1,0 +1,259 @@
+{
+  "generated_at": "2026-04-14T20:32:11",
+  "nodes": [
+    {
+      "id": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "event",
+      "label": "generic",
+      "timestamp": "2026-04-14T20:32:02"
+    },
+    {
+      "id": "entity:rag",
+      "kind": "entity",
+      "label": "RAG"
+    },
+    {
+      "id": "entity:telephone",
+      "kind": "entity",
+      "label": "telephone"
+    },
+    {
+      "id": "entity:lexy",
+      "kind": "entity",
+      "label": "Lexy"
+    },
+    {
+      "id": "entity:reflected",
+      "kind": "entity",
+      "label": "reflected"
+    },
+    {
+      "id": "entity:perhaps",
+      "kind": "entity",
+      "label": "Perhaps"
+    },
+    {
+      "id": "entity:she",
+      "kind": "entity",
+      "label": "She"
+    },
+    {
+      "id": "entity:caroline",
+      "kind": "entity",
+      "label": "Caroline"
+    },
+    {
+      "id": "entity:quiet",
+      "kind": "entity",
+      "label": "Quiet"
+    },
+    {
+      "id": "entity:one",
+      "kind": "entity",
+      "label": "One"
+    },
+    {
+      "id": "entity:suppose",
+      "kind": "entity",
+      "label": "Suppose"
+    },
+    {
+      "id": "entity:things",
+      "kind": "entity",
+      "label": "Things"
+    },
+    {
+      "id": "entity:mom",
+      "kind": "entity",
+      "label": "Mom"
+    },
+    {
+      "id": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "event",
+      "label": "generic",
+      "timestamp": "2026-04-14T20:32:11"
+    },
+    {
+      "id": "entity:character",
+      "kind": "entity",
+      "label": "character"
+    },
+    {
+      "id": "entity:seen",
+      "kind": "entity",
+      "label": "seen"
+    },
+    {
+      "id": "entity:original",
+      "kind": "entity",
+      "label": "original"
+    },
+    {
+      "id": "entity:girl",
+      "kind": "entity",
+      "label": "Girl"
+    },
+    {
+      "id": "entity:pearl",
+      "kind": "entity",
+      "label": "Pearl"
+    },
+    {
+      "id": "entity:earring",
+      "kind": "entity",
+      "label": "Earring"
+    },
+    {
+      "id": "entity:painting",
+      "kind": "entity",
+      "label": "painting"
+    },
+    {
+      "id": "entity:seen original",
+      "kind": "entity",
+      "label": "seen original"
+    },
+    {
+      "id": "entity:pearl earring painting",
+      "kind": "entity",
+      "label": "pearl earring painting"
+    },
+    {
+      "id": "entity:not",
+      "kind": "entity",
+      "label": "not"
+    },
+    {
+      "id": "entity:mention",
+      "kind": "entity",
+      "label": "mention"
+    },
+    {
+      "id": "entity:information",
+      "kind": "entity",
+      "label": "information"
+    }
+  ],
+  "edges": [
+    {
+      "source": "entity:rag",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:telephone",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:lexy",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:reflected",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:perhaps",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:she",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:caroline",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:quiet",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:one",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:suppose",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:things",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:mom",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-02-651352.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:character",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:seen",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:original",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:girl",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:pearl",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:earring",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:painting",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:seen original",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:pearl earring painting",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:not",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:mention",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    },
+    {
+      "source": "entity:information",
+      "target": "event:E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-203202-0007-d2f21acb9ab0\\2026-04-14\\20-32-11-303377.json",
+      "kind": "mentions"
+    }
+  ]
+}

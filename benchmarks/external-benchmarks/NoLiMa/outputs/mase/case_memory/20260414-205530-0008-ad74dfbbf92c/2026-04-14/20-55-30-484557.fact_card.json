@@ -1,0 +1,314 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json",
+  "timestamp": "2026-04-14T20:55:30",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T20:55:30",
+    "date": "2026-04-14",
+    "month": "april",
+    "weekday": "tuesday",
+    "thread_id": "thread-c08cd1f08859",
+    "thread_label": "ferret / Hey"
+  },
+  "event_type": "generic",
+  "entities": [
+    "ferret",
+    "Hey",
+    "heading",
+    "Minneapolis",
+    "Kadabra",
+    "Sunday",
+    "Melbourne",
+    "few",
+    "days",
+    "about",
+    "meet-up"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "tuesday",
+      "sunday"
+    ],
+    "locations": [
+      "Minneapolis",
+      "Melbourne",
+      "Bangkok"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "ferret",
+      "Hey",
+      "I'm",
+      "heading",
+      "Minneapolis",
+      "Kadabra",
+      "Sunday",
+      "Melbourne",
+      "few",
+      "days",
+      "about",
+      "meet-up",
+      "<ferret> Hey",
+      "I'm heading",
+      "<Kadabra> When will you be there",
+      "Sunday flight"
+    ],
+    "numeric_cards": [
+      {
+        "kind": "duration",
+        "value": "3 day",
+        "normalized_value": 3.0,
+        "unit": "day",
+        "source": "<ferret> Hey, I'm heading to Minneapolis for a few days."
+      }
+    ],
+    "event_cards": [],
+    "topic_tokens": [
+      "ferret",
+      "Hey",
+      "I'm",
+      "heading"
+    ]
+  },
+  "relations": [],
+  "source_span": "<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret?",
+  "resolved_source_span": "<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret?",
+  "event_segments": [
+    {
+      "text": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+      "resolved_text": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [],
+        "locations": [
+          "Minneapolis",
+          "Melbourne",
+          "Bangkok"
+        ]
+      },
+      "entities": [
+        "ferret",
+        "Hey",
+        "heading",
+        "Minneapolis",
+        "few",
+        "days"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "How about a meet-up?",
+      "resolved_text": "How about a meet-up?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [],
+        "locations": []
+      },
+      "entities": [
+        "about",
+        "meet-up",
+        "How"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "<Kadabra> When will you be there, ferret?",
+      "resolved_text": "<Kadabra> When will you be there, ferret?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [],
+        "locations": []
+      },
+      "entities": [
+        "ferret",
+        "Kadabra",
+        "When"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.66,
+    "reason_codes": [
+      "entities",
+      "numeric_cards"
+    ]
+  },
+  "current_state": [
+    {
+      "entity": "ferret",
+      "attribute": "duration",
+      "value": "3 day",
+      "source": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+      "timestamp": "2026-04-14T20:55:30",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json"
+    }
+  ],
+  "state_history": [
+    {
+      "entity": "ferret",
+      "attribute": "duration",
+      "value": "3 day",
+      "source": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+      "timestamp": "2026-04-14T20:55:30",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json"
+    }
+  ],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json::event_segment:0",
+      "logical_event_id": "generic|ferret|ferret,heading,hey,minneapolis|april,melbourne,minneapolis",
+      "dedupe_key": "generic|ferret|ferret,heading,hey,minneapolis|april,melbourne,minneapolis|ferret hey i m heading to minneapolis for a few days|2026-04-14T20:55:30",
+      "source_signature": "ferret hey i m heading to minneapolis for a few days",
+      "event_type": "generic",
+      "display_name": "ferret",
+      "normalized_name": "ferret",
+      "timestamp": "2026-04-14T20:55:30",
+      "thread_id": "thread-c08cd1f08859",
+      "thread_label": "ferret / Hey",
+      "entities": [
+        "ferret",
+        "Hey",
+        "heading",
+        "Minneapolis",
+        "Kadabra",
+        "Sunday",
+        "Melbourne",
+        "few",
+        "days",
+        "about",
+        "meet-up"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday",
+          "sunday"
+        ],
+        "locations": [
+          "Minneapolis",
+          "Melbourne",
+          "Bangkok"
+        ]
+      },
+      "source": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json::event_segment:1",
+      "logical_event_id": "generic|ferret|ferret,heading,hey,minneapolis|april,melbourne,minneapolis",
+      "dedupe_key": "generic|ferret|ferret,heading,hey,minneapolis|april,melbourne,minneapolis|how about a meet up|2026-04-14T20:55:30",
+      "source_signature": "how about a meet up",
+      "event_type": "generic",
+      "display_name": "ferret",
+      "normalized_name": "ferret",
+      "timestamp": "2026-04-14T20:55:30",
+      "thread_id": "thread-c08cd1f08859",
+      "thread_label": "ferret / Hey",
+      "entities": [
+        "ferret",
+        "Hey",
+        "heading",
+        "Minneapolis",
+        "Kadabra",
+        "Sunday",
+        "Melbourne",
+        "few",
+        "days",
+        "about",
+        "meet-up",
+        "How"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday",
+          "sunday"
+        ],
+        "locations": [
+          "Minneapolis",
+          "Melbourne",
+          "Bangkok"
+        ]
+      },
+      "source": "How about a meet-up?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json::event_segment:2",
+      "logical_event_id": "generic|ferret|ferret,heading,hey,minneapolis|april,melbourne,minneapolis",
+      "dedupe_key": "generic|ferret|ferret,heading,hey,minneapolis|april,melbourne,minneapolis|kadabra when will you be there ferret|2026-04-14T20:55:30",
+      "source_signature": "kadabra when will you be there ferret",
+      "event_type": "generic",
+      "display_name": "ferret",
+      "normalized_name": "ferret",
+      "timestamp": "2026-04-14T20:55:30",
+      "thread_id": "thread-c08cd1f08859",
+      "thread_label": "ferret / Hey",
+      "entities": [
+        "ferret",
+        "Hey",
+        "heading",
+        "Minneapolis",
+        "Kadabra",
+        "Sunday",
+        "Melbourne",
+        "few",
+        "days",
+        "about",
+        "meet-up",
+        "When"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday",
+          "sunday"
+        ],
+        "locations": [
+          "Minneapolis",
+          "Melbourne",
+          "Bangkok"
+        ]
+      },
+      "source": "<Kadabra> When will you be there, ferret?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205530-0008-ad74dfbbf92c\\2026-04-14\\20-55-30-484557.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

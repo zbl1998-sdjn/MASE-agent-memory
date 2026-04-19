@@ -1,0 +1,158 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-235828-0011-ed3a7ac888b7\\2026-04-14\\23-58-28-914540.json",
+  "timestamp": "2026-04-14T23:58:28",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T23:58:28",
+    "date": "2026-04-14",
+    "month": "april",
+    "weekday": "tuesday",
+    "thread_id": "thread-1e593abc8c07",
+    "thread_label": "RAG / she"
+  },
+  "event_type": "generic",
+  "entities": [
+    "RAG",
+    "she",
+    "looked",
+    "back",
+    "Lexy",
+    "Since",
+    "Veronica",
+    "upon",
+    "experiences",
+    "dreadful",
+    "night",
+    "seemed"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "tuesday"
+    ],
+    "locations": [
+      "Lexy",
+      "Veronica"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "RAG",
+      "she",
+      "looked",
+      "back",
+      "Lexy",
+      "Since",
+      "Veronica",
+      "upon",
+      "experiences",
+      "dreadful",
+      "night",
+      "seemed",
+      "experiences of",
+      "it seemed",
+      "companion",
+      "companion displayed almost incredible endurance"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "RAG",
+      "she",
+      "looked",
+      "back"
+    ]
+  },
+  "relations": [],
+  "source_span": "When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion",
+  "resolved_source_span": "When she looked back upon the experiences of When dreadful night, When seemed to Lexy When both she and her companion",
+  "event_segments": [
+    {
+      "text": "When she looked back upon the experiences of When dreadful night, When seemed to Lexy When both she and her companion",
+      "resolved_text": "When she looked back upon the experiences of When dreadful night, When seemed to Lexy When both she and her companion",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": [
+          "Lexy When",
+          "Lexy",
+          "Veronica"
+        ]
+      },
+      "entities": [
+        "she",
+        "looked",
+        "back",
+        "Lexy",
+        "upon",
+        "experiences"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-235828-0011-ed3a7ac888b7\\2026-04-14\\23-58-28-914540.json::event_segment:0",
+      "logical_event_id": "generic|rag|back,looked,rag,she|april,lexy,veronica",
+      "dedupe_key": "generic|rag|back,looked,rag,she|april,lexy,veronica|when she looked back upon the experiences of when dreadful night when seemed to lexy when both she and her companion|2026-04-14T23:58:28",
+      "source_signature": "when she looked back upon the experiences of when dreadful night when seemed to lexy when both she and her companion",
+      "event_type": "generic",
+      "display_name": "RAG",
+      "normalized_name": "rag",
+      "timestamp": "2026-04-14T23:58:28",
+      "thread_id": "thread-1e593abc8c07",
+      "thread_label": "RAG / she",
+      "entities": [
+        "RAG",
+        "she",
+        "looked",
+        "back",
+        "Lexy",
+        "Since",
+        "Veronica",
+        "upon",
+        "experiences",
+        "dreadful",
+        "night",
+        "seemed"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": [
+          "Lexy",
+          "Veronica",
+          "Lexy When"
+        ]
+      },
+      "source": "When she looked back upon the experiences of When dreadful night, When seemed to Lexy When both she and her companion",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-235828-0011-ed3a7ac888b7\\2026-04-14\\23-58-28-914540.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

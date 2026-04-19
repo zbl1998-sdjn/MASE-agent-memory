@@ -1,0 +1,20 @@
+{"id": "reportsumsort-001", "task": "reportsumsort", "pred": [0, 1, 2, 3, 4], "answer": [4, 3, 2, 1, 0], "raw_pred": "[0] > [1] > [2] > [3] > [4]", "error": null}
+{"id": "reportsumsort-002", "task": "reportsumsort", "pred": [], "answer": [2, 0, 3, 4, 1], "raw_pred": "You did not mention this information.", "error": null}
+{"id": "reportsumsort-003", "task": "reportsumsort", "pred": [4, 2, 1, 3, 0], "answer": [3, 0, 2, 1, 4], "raw_pred": "[4] > [2] > [1] > [3] > [0]", "error": null}
+{"id": "reportsumsort-004", "task": "reportsumsort", "pred": [0, 3, 4, 1, 2], "answer": [1, 2, 0, 4, 3], "raw_pred": "[0] > [3] > [4] > [1] > [2]", "error": null}
+{"id": "reportsumsort-005", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [0, 1, 4, 2, 3], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "reportsumsort-006", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [1, 3, 0, 2, 4], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "reportsumsort-007", "task": "reportsumsort", "pred": [0, 3, 2, 4, 1], "answer": [3, 2, 0, 1, 4], "raw_pred": "[0] > [3] > [2] > [4] > [1]", "error": null}
+{"id": "reportsumsort-008", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [3, 4, 1, 0, 2], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "reportsumsort-009", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [3, 1, 0, 4, 2], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "reportsumsort-010", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [0, 1, 4, 2, 3], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "reportsumsort-011", "task": "reportsumsort", "pred": [0, 1, 2, 3, 4], "answer": [2, 3, 0, 1, 4], "raw_pred": "[0] > [1] > [2] > [3] > [4]", "error": null}
+{"id": "reportsumsort-012", "task": "reportsumsort", "pred": [], "answer": [3, 0, 4, 1, 2], "raw_pred": "You did not mention this information.", "error": null}
+{"id": "reportsumsort-013", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [3, 1, 2, 4, 0], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "reportsumsort-014", "task": "reportsumsort", "pred": [3, 4, 1, 2, 0], "answer": [4, 3, 1, 2, 0], "raw_pred": "[3] > [4] > [1] > [2] > [0]", "error": null}
+{"id": "reportsumsort-015", "task": "reportsumsort", "pred": [], "answer": [2, 1, 0, 4, 3], "raw_pred": "You did not mention this information.", "error": null}
+{"id": "reportsumsort-016", "task": "reportsumsort", "pred": [0, 4, 2, 1, 3], "answer": [0, 4, 2, 3, 1], "raw_pred": "[0] > [4] > [2] > [1] > [3]", "error": null}
+{"id": "reportsumsort-017", "task": "reportsumsort", "pred": [4, 1, 2, 3, 0], "answer": [0, 2, 1, 4, 3], "raw_pred": "[4] > [1] > [2] > [3] > [0]", "error": null}
+{"id": "reportsumsort-018", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [1, 0, 3, 2, 4], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "reportsumsort-019", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [3, 1, 0, 2, 4], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "reportsumsort-020", "task": "reportsumsort", "pred": [0, 2, 1, 3, 4], "answer": [4, 0, 3, 1, 2], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}

@@ -1,0 +1,11 @@
+{
+    "model": "gpt-4o-2024-11-20",
+    "api_key": "[[YOUR_API_KEY_HERE]]",
+    "api_url": "[[API_URL]]",
+    "azure_api_version": "2024-10-21",
+    "api_provider": "azure-openai",
+    "max_tokens": 192,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "tokenizer_model": "gpt-4o"
+}

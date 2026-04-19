@@ -1,0 +1,143 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065645-0008-ad74dfbbf92c\\2026-04-15\\06-56-53-239665.json",
+  "timestamp": "2026-04-15T06:56:53",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T06:56:53",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-d7becba52bb7",
+    "thread_label": "character / seen"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "seen",
+    "original",
+    "Girl",
+    "Pearl",
+    "Earring",
+    "painting",
+    "seen original",
+    "pearl earring painting",
+    "named",
+    "character named",
+    "The character named \"It\" has s"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "seen",
+      "original",
+      "Girl",
+      "Pearl",
+      "Earring",
+      "painting",
+      "seen original",
+      "pearl earring painting",
+      "named",
+      "character named",
+      "The character named \"It\" has s"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "seen",
+      "original",
+      "Girl"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+  "resolved_source_span": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+  "event_segments": [
+    {
+      "text": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+      "resolved_text": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "character",
+        "seen",
+        "original",
+        "Girl",
+        "Pearl",
+        "Earring"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065645-0008-ad74dfbbf92c\\2026-04-15\\06-56-53-239665.json::event_segment:0",
+      "logical_event_id": "generic|character|character,girl,original,seen|april",
+      "dedupe_key": "generic|character|character,girl,original,seen|april|which character has seen the original girl with a pearl earring painting|2026-04-15T06:56:53",
+      "source_signature": "which character has seen the original girl with a pearl earring painting",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-15T06:56:53",
+      "thread_id": "thread-d7becba52bb7",
+      "thread_label": "character / seen",
+      "entities": [
+        "character",
+        "seen",
+        "original",
+        "Girl",
+        "Pearl",
+        "Earring",
+        "painting",
+        "seen original",
+        "pearl earring painting",
+        "named",
+        "character named",
+        "The character named \"It\" has s"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065645-0008-ad74dfbbf92c\\2026-04-15\\06-56-53-239665.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

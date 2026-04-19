@@ -1,0 +1,329 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json",
+  "timestamp": "2026-04-15T04:27:33",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T04:27:33",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-02fc51a50b61",
+    "thread_label": "chance / Marcus"
+  },
+  "event_type": "generic",
+  "entities": [
+    "chance",
+    "Marcus",
+    "she",
+    "looked",
+    "Tell",
+    "Max",
+    "Huldah",
+    "Latin",
+    "last",
+    "said",
+    "sad",
+    "doing"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "chance",
+      "Marcus",
+      "she",
+      "looked",
+      "Tell",
+      "Max",
+      "Huldah",
+      "Latin",
+      "last",
+      "said",
+      "sad",
+      "doing",
+      "is your last chance",
+      "\" she said",
+      "She looked sad",
+      "\"You were doing"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "chance",
+      "Marcus",
+      "she",
+      "looked"
+    ]
+  },
+  "relations": [],
+  "source_span": "\"This is your last chance, Marcus,\" she said. She looked sad. \"You were doing so well until now. Tell us this and you",
+  "resolved_source_span": "\"chance is your last chance, Marcus,\" she said. She looked sad. \"You were doing so well until now. Tell us Tell and you",
+  "event_segments": [
+    {
+      "text": "\"chance is your last chance, Marcus,\" she said.",
+      "resolved_text": "\"chance is your last chance, Marcus,\" she said.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "chance",
+        "Marcus",
+        "she",
+        "last",
+        "said"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "She looked sad.",
+      "resolved_text": "She looked sad.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "she",
+        "looked",
+        "sad"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "\"You were doing so well until now.",
+      "resolved_text": "\"You were doing so well until now.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "doing",
+        "You"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "Tell us Tell and you",
+      "resolved_text": "Tell us Tell and you",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "Tell"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.64,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json::event_segment:0",
+      "logical_event_id": "generic|chance|chance,looked,marcus,she|april",
+      "dedupe_key": "generic|chance|chance,looked,marcus,she|april|chance is your last chance marcus she said|2026-04-15T04:27:33",
+      "source_signature": "chance is your last chance marcus she said",
+      "event_type": "generic",
+      "display_name": "chance",
+      "normalized_name": "chance",
+      "timestamp": "2026-04-15T04:27:33",
+      "thread_id": "thread-02fc51a50b61",
+      "thread_label": "chance / Marcus",
+      "entities": [
+        "chance",
+        "Marcus",
+        "she",
+        "looked",
+        "Tell",
+        "Max",
+        "Huldah",
+        "Latin",
+        "last",
+        "said",
+        "sad",
+        "doing"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "\"chance is your last chance, Marcus,\" she said.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json::event_segment:1",
+      "logical_event_id": "generic|chance|chance,looked,marcus,she|april",
+      "dedupe_key": "generic|chance|chance,looked,marcus,she|april|she looked sad|2026-04-15T04:27:33",
+      "source_signature": "she looked sad",
+      "event_type": "generic",
+      "display_name": "chance",
+      "normalized_name": "chance",
+      "timestamp": "2026-04-15T04:27:33",
+      "thread_id": "thread-02fc51a50b61",
+      "thread_label": "chance / Marcus",
+      "entities": [
+        "chance",
+        "Marcus",
+        "she",
+        "looked",
+        "Tell",
+        "Max",
+        "Huldah",
+        "Latin",
+        "last",
+        "said",
+        "sad",
+        "doing"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "She looked sad.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json::event_segment:2",
+      "logical_event_id": "generic|chance|chance,looked,marcus,she|april",
+      "dedupe_key": "generic|chance|chance,looked,marcus,she|april|you were doing so well until now|2026-04-15T04:27:33",
+      "source_signature": "you were doing so well until now",
+      "event_type": "generic",
+      "display_name": "chance",
+      "normalized_name": "chance",
+      "timestamp": "2026-04-15T04:27:33",
+      "thread_id": "thread-02fc51a50b61",
+      "thread_label": "chance / Marcus",
+      "entities": [
+        "chance",
+        "Marcus",
+        "she",
+        "looked",
+        "Tell",
+        "Max",
+        "Huldah",
+        "Latin",
+        "last",
+        "said",
+        "sad",
+        "doing"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "\"You were doing so well until now.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json::event_segment:3",
+      "logical_event_id": "generic|chance|chance,looked,marcus,she|april",
+      "dedupe_key": "generic|chance|chance,looked,marcus,she|april|tell us tell and you|2026-04-15T04:27:33",
+      "source_signature": "tell us tell and you",
+      "event_type": "generic",
+      "display_name": "chance",
+      "normalized_name": "chance",
+      "timestamp": "2026-04-15T04:27:33",
+      "thread_id": "thread-02fc51a50b61",
+      "thread_label": "chance / Marcus",
+      "entities": [
+        "chance",
+        "Marcus",
+        "she",
+        "looked",
+        "Tell",
+        "Max",
+        "Huldah",
+        "Latin",
+        "last",
+        "said",
+        "sad",
+        "doing"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Tell us Tell and you",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042733-0004-ed71092a6592\\2026-04-15\\04-27-33-552959.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

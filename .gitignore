@@ -1,0 +1,58 @@
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# MASE runtime artifacts (anchored to project root so we don't accidentally
+# exclude `mase_tools/memory/` source code).
+/memory/
+/data/
+results/
+event-bus-latest.json
+*.log
+
+# === Added 2026-04-19 for public publish ===
+# MASE runtime artifacts (must NOT be committed)
+data/mase_memory.db
+data/mase_memory.db-wal
+data/mase_memory.db-shm
+memory_runs/
+memory/
+results/*.json
+results/external/
+scripts/_*.log
+scripts/_*.json
+*.log
+
+# Large benchmark datasets (download separately, see docs/)
+data/longmemeval-official/
+data/longmemeval_official/
+data/longmemeval/
+data/lveval/
+data/bamboo/
+data/nolima/
+data/**/*.json
+data/**/*.jsonl
+!data/.gitkeep
+

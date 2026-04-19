@@ -1,0 +1,10 @@
+{
+  "task": "altqa",
+  "dataset": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\datasets\\altqa_4k.jsonl",
+  "sample_count": 1,
+  "output_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\local-routing-smoke\\altqa\\altqa.predictions.jsonl",
+  "details_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\local-routing-smoke\\altqa\\altqa.details.json",
+  "executor_role": "auto",
+  "error_count": 0,
+  "sort_parse_fail_count": 0
+}

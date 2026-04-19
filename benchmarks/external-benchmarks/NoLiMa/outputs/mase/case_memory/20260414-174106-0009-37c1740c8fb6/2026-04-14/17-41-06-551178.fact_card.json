@@ -1,0 +1,146 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-174106-0009-37c1740c8fb6\\2026-04-14\\17-41-06-551178.json",
+  "timestamp": "2026-04-14T17:41:06",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T17:41:06",
+    "date": "2026-04-14",
+    "month": "may",
+    "weekday": "sunday",
+    "thread_id": "thread-d2d283e34c08",
+    "thread_label": "基准上下文片段"
+  },
+  "event_type": "generic",
+  "entities": [
+    "Lexy",
+    "Perhaps",
+    "She",
+    "Caroline",
+    "Quiet",
+    "One",
+    "Suppose",
+    "Things",
+    "Mom",
+    "Configurable",
+    "CAFTA",
+    "Dad"
+  ],
+  "scope_hints": {
+    "months": [
+      "may",
+      "april"
+    ],
+    "weekdays": [
+      "sunday",
+      "tuesday"
+    ],
+    "locations": [
+      "Minneapolis",
+      "Melbourne",
+      "Bangkok",
+      "Lexy",
+      "India"
+    ]
+  },
+  "attributes": {
+    "keywords": [
+      "Lexy",
+      "Perhaps",
+      "She",
+      "Caroline",
+      "Quiet",
+      "One",
+      "Suppose",
+      "Things",
+      "Mom",
+      "Configurable",
+      "CAFTA",
+      "Dad",
+      "telepho"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "基准上下文片段"
+    ]
+  },
+  "relations": [],
+  "source_span": "基准上下文片段1",
+  "resolved_source_span": "基准上下文片段1",
+  "event_segments": [
+    {
+      "text": "基准上下文片段1",
+      "resolved_text": "基准上下文片段1",
+      "scope_hints": {
+        "months": [],
+        "weekdays": [],
+        "locations": []
+      },
+      "entities": [],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-174106-0009-37c1740c8fb6\\2026-04-14\\17-41-06-551178.json::event_segment:0",
+      "logical_event_id": "generic|lexy|caroline,lexy,perhaps,she|april,may,melbourne,minneapolis",
+      "dedupe_key": "generic|lexy|caroline,lexy,perhaps,she|april,may,melbourne,minneapolis|1|2026-04-14T17:41:06",
+      "source_signature": "1",
+      "event_type": "generic",
+      "display_name": "Lexy",
+      "normalized_name": "lexy",
+      "timestamp": "2026-04-14T17:41:06",
+      "thread_id": "thread-d2d283e34c08",
+      "thread_label": "基准上下文片段",
+      "entities": [
+        "Lexy",
+        "Perhaps",
+        "She",
+        "Caroline",
+        "Quiet",
+        "One",
+        "Suppose",
+        "Things",
+        "Mom",
+        "Configurable",
+        "CAFTA",
+        "Dad"
+      ],
+      "scope_hints": {
+        "months": [
+          "may",
+          "april"
+        ],
+        "weekdays": [
+          "sunday",
+          "tuesday"
+        ],
+        "locations": [
+          "Minneapolis",
+          "Melbourne",
+          "Bangkok",
+          "Lexy",
+          "India"
+        ]
+      },
+      "source": "基准上下文片段1",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-174106-0009-37c1740c8fb6\\2026-04-14\\17-41-06-551178.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

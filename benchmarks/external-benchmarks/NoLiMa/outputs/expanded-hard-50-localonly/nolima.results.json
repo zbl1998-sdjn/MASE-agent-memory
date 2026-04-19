@@ -1,0 +1,5227 @@
+[
+  {
+    "test_name": "0401Inv_T15_C02_twohop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "The European Central Bank is next to where Caleb lives.",
+    "retrieval_question": "Which character has been to Germany?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "Marcus has been to Germany as he resides near the European Central Bank in Germany.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 5.462899,
+      "usage_totals": {
+        "prompt_eval_count": 7946.0,
+        "eval_count": 418.0,
+        "total_duration": 5457689000.0,
+        "load_duration": 284167900.0,
+        "prompt_eval_duration": 1361892600.0,
+        "eval_duration": 3551705000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.823773,
+          "usage": {
+            "prompt_eval_count": 4158,
+            "eval_count": 18,
+            "total_duration": 820970800,
+            "load_duration": 190764300,
+            "prompt_eval_duration": 518606100,
+            "eval_duration": 86445600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.639126,
+          "usage": {
+            "prompt_eval_count": 3788,
+            "eval_count": 400,
+            "total_duration": 4636718200,
+            "load_duration": 93403600,
+            "prompt_eval_duration": 843286500,
+            "eval_duration": 3465259400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 5.462899,
+          "usage_totals": {
+            "prompt_eval_count": 7946.0,
+            "eval_count": 418.0,
+            "total_duration": 5457689000.0,
+            "load_duration": 284167900.0,
+            "prompt_eval_duration": 1361892600.0,
+            "eval_duration": 3551705000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.4835
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T01_C02_twohop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Megan finally saw the original 'Girl with a Pearl Earring' painting up close.",
+    "retrieval_question": "Which character has been to The Hague?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "Megan has been to The Hague",
+    "metric": "contains",
+    "metric_value": 1,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.798685,
+      "usage_totals": {
+        "prompt_eval_count": 7992.0,
+        "eval_count": 454.0,
+        "total_duration": 4759353900.0,
+        "load_duration": 68828900.0,
+        "prompt_eval_duration": 550759600.0,
+        "eval_duration": 3874363300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.314093,
+          "usage": {
+            "prompt_eval_count": 4183,
+            "eval_count": 5,
+            "total_duration": 275483300,
+            "load_duration": 18536900,
+            "prompt_eval_duration": 219281700,
+            "eval_duration": 21919600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.484592,
+          "usage": {
+            "prompt_eval_count": 3809,
+            "eval_count": 449,
+            "total_duration": 4483870600,
+            "load_duration": 50292000,
+            "prompt_eval_duration": 331477900,
+            "eval_duration": 3852443700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.798685,
+          "usage_totals": {
+            "prompt_eval_count": 7992.0,
+            "eval_count": 454.0,
+            "total_duration": 4759353900.0,
+            "load_duration": 68828900.0,
+            "prompt_eval_duration": 550759600.0,
+            "eval_duration": 3874363300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.807923
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T04_C02_twohop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Megan finally saw the original 'Garden of Earthly Delights' painting up close.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "The provided text does not contain any information about characters having visited Madrid. Therefore, I cannot provide an accurate answer based on the given evidence memo.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 3.663471,
+      "usage_totals": {
+        "prompt_eval_count": 11415.0,
+        "eval_count": 299.0,
+        "total_duration": 3656893000.0,
+        "load_duration": 84937900.0,
+        "prompt_eval_duration": 937578300.0,
+        "eval_duration": 2449808300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.258919,
+          "usage": {
+            "prompt_eval_count": 4180,
+            "eval_count": 2,
+            "total_duration": 256439800,
+            "load_duration": 15885700,
+            "prompt_eval_duration": 216664800,
+            "eval_duration": 7797500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.816476,
+          "usage": {
+            "prompt_eval_count": 3809,
+            "eval_count": 266,
+            "total_duration": 2814109700,
+            "load_duration": 49051000,
+            "prompt_eval_duration": 326169600,
+            "eval_duration": 2288460500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.588076,
+          "usage": {
+            "prompt_eval_count": 3426,
+            "eval_count": 31,
+            "total_duration": 586343500,
+            "load_duration": 20001200,
+            "prompt_eval_duration": 394743900,
+            "eval_duration": 153550300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 3.663471,
+          "usage_totals": {
+            "prompt_eval_count": 11415.0,
+            "eval_count": 299.0,
+            "total_duration": 3656893000.0,
+            "load_duration": 84937900.0,
+            "prompt_eval_duration": 937578300.0,
+            "eval_duration": 2449808300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.67388
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T05_C02_twohop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Megan finally saw the original 'Impression, Sunrise' painting up close.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "Megan",
+    "metric": "contains",
+    "metric_value": 1,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 4,
+      "elapsed_seconds": 6.642909,
+      "usage_totals": {
+        "prompt_eval_count": 14441.0,
+        "eval_count": 522.0,
+        "total_duration": 6633853600.0,
+        "load_duration": 135742200.0,
+        "prompt_eval_duration": 1862901400.0,
+        "eval_duration": 4316017000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.603024,
+          "usage": {
+            "prompt_eval_count": 4178,
+            "eval_count": 14,
+            "total_duration": 600898700,
+            "load_duration": 15999000,
+            "prompt_eval_duration": 494748700,
+            "eval_duration": 71723000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.515463,
+          "usage": {
+            "prompt_eval_count": 3806,
+            "eval_count": 342,
+            "total_duration": 3513146500,
+            "load_duration": 51062800,
+            "prompt_eval_duration": 330146400,
+            "eval_duration": 2943430700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.582081,
+          "usage": {
+            "prompt_eval_count": 3424,
+            "eval_count": 30,
+            "total_duration": 580365800,
+            "load_duration": 17999400,
+            "prompt_eval_duration": 392099700,
+            "eval_duration": 147843700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 1.942341,
+          "usage": {
+            "prompt_eval_count": 3033,
+            "eval_count": 136,
+            "total_duration": 1939442600,
+            "load_duration": 50681000,
+            "prompt_eval_duration": 645906600,
+            "eval_duration": 1153019600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 4,
+          "elapsed_seconds": 6.642909,
+          "usage_totals": {
+            "prompt_eval_count": 14441.0,
+            "eval_count": 522.0,
+            "total_duration": 6633853600.0,
+            "load_duration": 135742200.0,
+            "prompt_eval_duration": 1862901400.0,
+            "eval_duration": 4316017000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.653958
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Megan, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "The provided text does not contain any information about characters having visited Madrid. Therefore, I cannot provide an accurate response based on the given evidence memo.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 5.436427,
+      "usage_totals": {
+        "prompt_eval_count": 11424.0,
+        "eval_count": 409.0,
+        "total_duration": 5430007100.0,
+        "load_duration": 82050900.0,
+        "prompt_eval_duration": 1713903200.0,
+        "eval_duration": 3384285200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.537804,
+          "usage": {
+            "prompt_eval_count": 4183,
+            "eval_count": 2,
+            "total_duration": 535881600,
+            "load_duration": 16999900,
+            "prompt_eval_duration": 494660100,
+            "eval_duration": 7356100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.308771,
+          "usage": {
+            "prompt_eval_count": 3812,
+            "eval_count": 376,
+            "total_duration": 4306438300,
+            "load_duration": 47731000,
+            "prompt_eval_duration": 823644900,
+            "eval_duration": 3225728300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.589852,
+          "usage": {
+            "prompt_eval_count": 3429,
+            "eval_count": 31,
+            "total_duration": 587687200,
+            "load_duration": 17320000,
+            "prompt_eval_duration": 395598200,
+            "eval_duration": 151200800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 5.436427,
+          "usage_totals": {
+            "prompt_eval_count": 11424.0,
+            "eval_count": 409.0,
+            "total_duration": 5430007100.0,
+            "load_duration": 82050900.0,
+            "prompt_eval_duration": 1713903200.0,
+            "eval_duration": 3384285200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.446991
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Megan, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "Neither Dr. Quelton nor Benny have been to Paris.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 3.330894,
+      "usage_totals": {
+        "prompt_eval_count": 7990.0,
+        "eval_count": 266.0,
+        "total_duration": 3289319300.0,
+        "load_duration": 63327600.0,
+        "prompt_eval_duration": 828895800.0,
+        "eval_duration": 2233463000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.634472,
+          "usage": {
+            "prompt_eval_count": 4181,
+            "eval_count": 13,
+            "total_duration": 595301400,
+            "load_duration": 16327700,
+            "prompt_eval_duration": 497942800,
+            "eval_duration": 62200000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.696422,
+          "usage": {
+            "prompt_eval_count": 3809,
+            "eval_count": 253,
+            "total_duration": 2694017900,
+            "load_duration": 46999900,
+            "prompt_eval_duration": 330953000,
+            "eval_duration": 2171263000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 3.330894,
+          "usage_totals": {
+            "prompt_eval_count": 7990.0,
+            "eval_count": 266.0,
+            "total_duration": 3289319300.0,
+            "load_duration": 63327600.0,
+            "prompt_eval_duration": 828895800.0,
+            "eval_duration": 2233463000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.341026
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop2",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Megan, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Spain?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "The provided text does not contain any information about characters visiting Spain. Therefore, I cannot provide an accurate response based on the given evidence memo.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.039396,
+      "usage_totals": {
+        "prompt_eval_count": 11424.0,
+        "eval_count": 345.0,
+        "total_duration": 4032794400.0,
+        "load_duration": 87794700.0,
+        "prompt_eval_duration": 948756500.0,
+        "eval_duration": 2786614400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.351245,
+          "usage": {
+            "prompt_eval_count": 4183,
+            "eval_count": 19,
+            "total_duration": 348852500,
+            "load_duration": 16378400,
+            "prompt_eval_duration": 220026200,
+            "eval_duration": 94893900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.096806,
+          "usage": {
+            "prompt_eval_count": 3812,
+            "eval_count": 295,
+            "total_duration": 3094719700,
+            "load_duration": 51207600,
+            "prompt_eval_duration": 331552300,
+            "eval_duration": 2546883100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.591345,
+          "usage": {
+            "prompt_eval_count": 3429,
+            "eval_count": 31,
+            "total_duration": 589222200,
+            "load_duration": 20208700,
+            "prompt_eval_duration": 397178000,
+            "eval_duration": 144837400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.039396,
+          "usage_totals": {
+            "prompt_eval_count": 11424.0,
+            "eval_count": 345.0,
+            "total_duration": 4032794400.0,
+            "load_duration": 87794700.0,
+            "prompt_eval_duration": 948756500.0,
+            "eval_duration": 2786614400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.050098
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop2",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Megan, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "There is no information in the provided fact sheet indicating that any of the characters have been to France. Therefore, based on the given evidence, I cannot provide an accurate answer to this question.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 5.204454,
+      "usage_totals": {
+        "prompt_eval_count": 11415.0,
+        "eval_count": 442.0,
+        "total_duration": 5197905900.0,
+        "load_duration": 85074300.0,
+        "prompt_eval_duration": 1225415700.0,
+        "eval_duration": 3638824200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.593258,
+          "usage": {
+            "prompt_eval_count": 4180,
+            "eval_count": 12,
+            "total_duration": 590767600,
+            "load_duration": 17414600,
+            "prompt_eval_duration": 495725000,
+            "eval_duration": 56996400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.977271,
+          "usage": {
+            "prompt_eval_count": 3809,
+            "eval_count": 391,
+            "total_duration": 3975485700,
+            "load_duration": 49224400,
+            "prompt_eval_duration": 332439600,
+            "eval_duration": 3390070600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.633925,
+          "usage": {
+            "prompt_eval_count": 3426,
+            "eval_count": 39,
+            "total_duration": 631652600,
+            "load_duration": 18435300,
+            "prompt_eval_duration": 397251100,
+            "eval_duration": 191757200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 5.204454,
+          "usage_totals": {
+            "prompt_eval_count": 11415.0,
+            "eval_count": 442.0,
+            "total_duration": 5197905900.0,
+            "load_duration": 85074300.0,
+            "prompt_eval_duration": 1225415700.0,
+            "eval_duration": 3638824200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.21485
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T10_C02_onehop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Calvinia, named Megan.",
+    "retrieval_question": "Which character has been to South Africa?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "The provided text does not contain any information about characters having visited South Africa. Therefore, I cannot provide an accurate response based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.880639,
+      "usage_totals": {
+        "prompt_eval_count": 11358.0,
+        "eval_count": 401.0,
+        "total_duration": 4873690000.0,
+        "load_duration": 90732100.0,
+        "prompt_eval_duration": 1221332500.0,
+        "eval_duration": 3323415200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.559893,
+          "usage": {
+            "prompt_eval_count": 4161,
+            "eval_count": 5,
+            "total_duration": 557426700,
+            "load_duration": 22180400,
+            "prompt_eval_duration": 494700800,
+            "eval_duration": 24990000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.729975,
+          "usage": {
+            "prompt_eval_count": 3790,
+            "eval_count": 365,
+            "total_duration": 3727547500,
+            "load_duration": 50789900,
+            "prompt_eval_duration": 331279600,
+            "eval_duration": 3144263000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.590771,
+          "usage": {
+            "prompt_eval_count": 3407,
+            "eval_count": 31,
+            "total_duration": 588715800,
+            "load_duration": 17761800,
+            "prompt_eval_duration": 395352100,
+            "eval_duration": 154162200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.880639,
+          "usage_totals": {
+            "prompt_eval_count": 11358.0,
+            "eval_count": 401.0,
+            "total_duration": 4873690000.0,
+            "load_duration": 90732100.0,
+            "prompt_eval_duration": 1221332500.0,
+            "eval_duration": 3323415200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.891663
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T04_C02_onehop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Firminy, named Megan.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "Megan has been to Firminy, suggesting she has visited France.",
+    "metric": "contains",
+    "metric_value": 1,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 3.735668,
+      "usage_totals": {
+        "prompt_eval_count": 7950.0,
+        "eval_count": 312.0,
+        "total_duration": 3732551800.0,
+        "load_duration": 66852500.0,
+        "prompt_eval_duration": 829029900.0,
+        "eval_duration": 2639500800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.591371,
+          "usage": {
+            "prompt_eval_count": 4160,
+            "eval_count": 12,
+            "total_duration": 589073800,
+            "load_duration": 18017600,
+            "prompt_eval_duration": 496416300,
+            "eval_duration": 58846000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.144297,
+          "usage": {
+            "prompt_eval_count": 3790,
+            "eval_count": 300,
+            "total_duration": 3143478000,
+            "load_duration": 48834900,
+            "prompt_eval_duration": 332613600,
+            "eval_duration": 2580654800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 3.735668,
+          "usage_totals": {
+            "prompt_eval_count": 7950.0,
+            "eval_count": 312.0,
+            "total_duration": 3732551800.0,
+            "load_duration": 66852500.0,
+            "prompt_eval_duration": 829029900.0,
+            "eval_duration": 2639500800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.745009
+    },
+    "error": null
+  },
+  {
+    "test_name": "0401Inv_T15_C02_twohop",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "The European Central Bank is next to where Veronica lives.",
+    "retrieval_question": "Which character has been to Germany?",
+    "gold_answers": [
+      "Veronica"
+    ],
+    "selected_character": "Veronica",
+    "response": "Mrs. Royce has been to Germany as her husband died in a car accident and she is moving there for his funeral.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.269503,
+      "usage_totals": {
+        "prompt_eval_count": 8045.0,
+        "eval_count": 347.0,
+        "total_duration": 4228056400.0,
+        "load_duration": 65778500.0,
+        "prompt_eval_duration": 1020576000.0,
+        "eval_duration": 2922430000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.568524,
+          "usage": {
+            "prompt_eval_count": 4232,
+            "eval_count": 18,
+            "total_duration": 529406800,
+            "load_duration": 17510500,
+            "prompt_eval_duration": 403951700,
+            "eval_duration": 87934000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.700979,
+          "usage": {
+            "prompt_eval_count": 3813,
+            "eval_count": 329,
+            "total_duration": 3698649600,
+            "load_duration": 48268000,
+            "prompt_eval_duration": 616624300,
+            "eval_duration": 2834496000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.269503,
+          "usage_totals": {
+            "prompt_eval_count": 8045.0,
+            "eval_count": 347.0,
+            "total_duration": 4228056400.0,
+            "load_duration": 65778500.0,
+            "prompt_eval_duration": 1020576000.0,
+            "eval_duration": 2922430000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.279847
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T01_C02_twohop",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Megan finally saw the original 'Girl with a Pearl Earring' painting up close.",
+    "retrieval_question": "Which character has been to The Hague?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "None of the characters in the provided text have been mentioned as having visited The Hague.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.187429,
+      "usage_totals": {
+        "prompt_eval_count": 11594.0,
+        "eval_count": 348.0,
+        "total_duration": 4181069700.0,
+        "load_duration": 87111800.0,
+        "prompt_eval_duration": 956468500.0,
+        "eval_duration": 2922751200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.268955,
+          "usage": {
+            "prompt_eval_count": 4257,
+            "eval_count": 3,
+            "total_duration": 267273400,
+            "load_duration": 19000900,
+            "prompt_eval_duration": 221781400,
+            "eval_duration": 12999900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.38767,
+          "usage": {
+            "prompt_eval_count": 3834,
+            "eval_count": 326,
+            "total_duration": 3385504100,
+            "load_duration": 51110800,
+            "prompt_eval_duration": 334721300,
+            "eval_duration": 2818114700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.530804,
+          "usage": {
+            "prompt_eval_count": 3503,
+            "eval_count": 19,
+            "total_duration": 528292200,
+            "load_duration": 17000100,
+            "prompt_eval_duration": 399965800,
+            "eval_duration": 91636600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.187429,
+          "usage_totals": {
+            "prompt_eval_count": 11594.0,
+            "eval_count": 348.0,
+            "total_duration": 4181069700.0,
+            "load_duration": 87111800.0,
+            "prompt_eval_duration": 956468500.0,
+            "eval_duration": 2922751200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.197778
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T04_C02_twohop",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Megan finally saw the original 'Garden of Earthly Delights' painting up close.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "No character has been explicitly stated to have visited Madrid based on the provided information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.622425,
+      "usage_totals": {
+        "prompt_eval_count": 8088.0,
+        "eval_count": 408.0,
+        "total_duration": 4617485400.0,
+        "load_duration": 67240600.0,
+        "prompt_eval_duration": 824650600.0,
+        "eval_duration": 3493723200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.610047,
+          "usage": {
+            "prompt_eval_count": 4254,
+            "eval_count": 14,
+            "total_duration": 607682600,
+            "load_duration": 17292200,
+            "prompt_eval_duration": 504686900,
+            "eval_duration": 68279900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.012378,
+          "usage": {
+            "prompt_eval_count": 3834,
+            "eval_count": 394,
+            "total_duration": 4009802800,
+            "load_duration": 49948400,
+            "prompt_eval_duration": 319963700,
+            "eval_duration": 3425443300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.622425,
+          "usage_totals": {
+            "prompt_eval_count": 8088.0,
+            "eval_count": 408.0,
+            "total_duration": 4617485400.0,
+            "load_duration": 67240600.0,
+            "prompt_eval_duration": 824650600.0,
+            "eval_duration": 3493723200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.631518
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T05_C02_twohop",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Megan finally saw the original 'Impression, Sunrise' painting up close.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "No character has been explicitly mentioned as having visited Paris in the provided text.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 4,
+      "elapsed_seconds": 9.482408,
+      "usage_totals": {
+        "prompt_eval_count": 14639.0,
+        "eval_count": 857.0,
+        "total_duration": 9472891900.0,
+        "load_duration": 134209000.0,
+        "prompt_eval_duration": 1584502000.0,
+        "eval_duration": 7251437100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.349646,
+          "usage": {
+            "prompt_eval_count": 4252,
+            "eval_count": 19,
+            "total_duration": 347331800,
+            "load_duration": 18455600,
+            "prompt_eval_duration": 215860200,
+            "eval_duration": 94127800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.348025,
+          "usage": {
+            "prompt_eval_count": 3831,
+            "eval_count": 433,
+            "total_duration": 4345860500,
+            "load_duration": 48118400,
+            "prompt_eval_duration": 318620100,
+            "eval_duration": 3748061600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.593966,
+          "usage": {
+            "prompt_eval_count": 3498,
+            "eval_count": 30,
+            "total_duration": 591507400,
+            "load_duration": 19494200,
+            "prompt_eval_duration": 402465700,
+            "eval_duration": 151428300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.190771,
+          "usage": {
+            "prompt_eval_count": 3058,
+            "eval_count": 375,
+            "total_duration": 4188192200,
+            "load_duration": 48140800,
+            "prompt_eval_duration": 647556000,
+            "eval_duration": 3257819400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 4,
+          "elapsed_seconds": 9.482408,
+          "usage_totals": {
+            "prompt_eval_count": 14639.0,
+            "eval_count": 857.0,
+            "total_duration": 9472891900.0,
+            "load_duration": 134209000.0,
+            "prompt_eval_duration": 1584502000.0,
+            "eval_duration": 7251437100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.493565
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Megan, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "None of the characters in the provided text have been to Madrid. The narrative focuses on various interactions and dialogues among a group of individuals but does not include any character traveling to Madrid.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 5.602415,
+      "usage_totals": {
+        "prompt_eval_count": 11597.0,
+        "eval_count": 403.0,
+        "total_duration": 5594693700.0,
+        "load_duration": 100163300.0,
+        "prompt_eval_duration": 1755476800.0,
+        "eval_duration": 3420347200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.566249,
+          "usage": {
+            "prompt_eval_count": 4257,
+            "eval_count": 2,
+            "total_duration": 563967100,
+            "load_duration": 19409700,
+            "prompt_eval_duration": 509681300,
+            "eval_duration": 6998700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.353736,
+          "usage": {
+            "prompt_eval_count": 3837,
+            "eval_count": 358,
+            "total_duration": 4350882000,
+            "load_duration": 59754300,
+            "prompt_eval_duration": 837479900,
+            "eval_duration": 3190015400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.68243,
+          "usage": {
+            "prompt_eval_count": 3503,
+            "eval_count": 43,
+            "total_duration": 679844600,
+            "load_duration": 20999300,
+            "prompt_eval_duration": 408315600,
+            "eval_duration": 223333100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 5.602415,
+          "usage_totals": {
+            "prompt_eval_count": 11597.0,
+            "eval_count": 403.0,
+            "total_duration": 5594693700.0,
+            "load_duration": 100163300.0,
+            "prompt_eval_duration": 1755476800.0,
+            "eval_duration": 3420347200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.614506
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Megan, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "There is no information in the provided fact sheet about any character having been to Paris. Therefore, I cannot provide an answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.534017,
+      "usage_totals": {
+        "prompt_eval_count": 11590.0,
+        "eval_count": 351.0,
+        "total_duration": 4525458500.0,
+        "load_duration": 96260100.0,
+        "prompt_eval_duration": 1235460500.0,
+        "eval_duration": 2927182500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.653587,
+          "usage": {
+            "prompt_eval_count": 4255,
+            "eval_count": 19,
+            "total_duration": 650395000,
+            "load_duration": 19641800,
+            "prompt_eval_duration": 508383900,
+            "eval_duration": 100669000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.262814,
+          "usage": {
+            "prompt_eval_count": 3834,
+            "eval_count": 300,
+            "total_duration": 3260438900,
+            "load_duration": 57220600,
+            "prompt_eval_duration": 321852100,
+            "eval_duration": 2660453000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.617616,
+          "usage": {
+            "prompt_eval_count": 3501,
+            "eval_count": 32,
+            "total_duration": 614624600,
+            "load_duration": 19397700,
+            "prompt_eval_duration": 405224500,
+            "eval_duration": 166060500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.534017,
+          "usage_totals": {
+            "prompt_eval_count": 11590.0,
+            "eval_count": 351.0,
+            "total_duration": 4525458500.0,
+            "load_duration": 96260100.0,
+            "prompt_eval_duration": 1235460500.0,
+            "eval_duration": 2927182500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.54695
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop2",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Megan, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Spain?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "None of the characters in the provided text have been to Spain.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 5.128417,
+      "usage_totals": {
+        "prompt_eval_count": 11597.0,
+        "eval_count": 396.0,
+        "total_duration": 5120096500.0,
+        "load_duration": 98681600.0,
+        "prompt_eval_duration": 1255558300.0,
+        "eval_duration": 3444792800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.634776,
+          "usage": {
+            "prompt_eval_count": 4257,
+            "eval_count": 15,
+            "total_duration": 632074300,
+            "load_duration": 22682800,
+            "prompt_eval_duration": 511428200,
+            "eval_duration": 81791900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.970352,
+          "usage": {
+            "prompt_eval_count": 3837,
+            "eval_count": 366,
+            "total_duration": 3967226000,
+            "load_duration": 54999200,
+            "prompt_eval_duration": 341523700,
+            "eval_duration": 3287289500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.523289,
+          "usage": {
+            "prompt_eval_count": 3503,
+            "eval_count": 15,
+            "total_duration": 520796200,
+            "load_duration": 20999600,
+            "prompt_eval_duration": 402606400,
+            "eval_duration": 75711400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 5.128417,
+          "usage_totals": {
+            "prompt_eval_count": 11597.0,
+            "eval_count": 396.0,
+            "total_duration": 5120096500.0,
+            "load_duration": 98681600.0,
+            "prompt_eval_duration": 1255558300.0,
+            "eval_duration": 3444792800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.142119
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop2",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Megan, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "You did not mention this information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 4,
+      "elapsed_seconds": 8.321112,
+      "usage_totals": {
+        "prompt_eval_count": 14649.0,
+        "eval_count": 688.0,
+        "total_duration": 8272210500.0,
+        "load_duration": 150762100.0,
+        "prompt_eval_duration": 1882134700.0,
+        "eval_duration": 5786555700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.651852,
+          "usage": {
+            "prompt_eval_count": 4254,
+            "eval_count": 18,
+            "total_duration": 647730300,
+            "load_duration": 22945800,
+            "prompt_eval_duration": 507825600,
+            "eval_duration": 93669700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.150196,
+          "usage": {
+            "prompt_eval_count": 3834,
+            "eval_count": 291,
+            "total_duration": 3148424100,
+            "load_duration": 58999500,
+            "prompt_eval_duration": 321046700,
+            "eval_duration": 2552084800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.62787,
+          "usage": {
+            "prompt_eval_count": 3500,
+            "eval_count": 30,
+            "total_duration": 587841900,
+            "load_duration": 16859100,
+            "prompt_eval_duration": 401218200,
+            "eval_duration": 145701100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.891194,
+          "usage": {
+            "prompt_eval_count": 3061,
+            "eval_count": 349,
+            "total_duration": 3888214200,
+            "load_duration": 51957700,
+            "prompt_eval_duration": 652044200,
+            "eval_duration": 2995100100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 4,
+          "elapsed_seconds": 8.321112,
+          "usage_totals": {
+            "prompt_eval_count": 14649.0,
+            "eval_count": 688.0,
+            "total_duration": 8272210500.0,
+            "load_duration": 150762100.0,
+            "prompt_eval_duration": 1882134700.0,
+            "eval_duration": 5786555700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 8.338856
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T10_C02_onehop",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Calvinia, named Yuki.",
+    "retrieval_question": "Which character has been to South Africa?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "None of the characters in the provided text have been to South Africa.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.838536,
+      "usage_totals": {
+        "prompt_eval_count": 11532.0,
+        "eval_count": 333.0,
+        "total_duration": 4832590800.0,
+        "load_duration": 85829500.0,
+        "prompt_eval_duration": 1747919600.0,
+        "eval_duration": 2786494500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.596312,
+          "usage": {
+            "prompt_eval_count": 4235,
+            "eval_count": 8,
+            "total_duration": 594602500,
+            "load_duration": 21131500,
+            "prompt_eval_duration": 516643500,
+            "eval_duration": 39687200
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.722148,
+          "usage": {
+            "prompt_eval_count": 3816,
+            "eval_count": 309,
+            "total_duration": 3720033900,
+            "load_duration": 48549000,
+            "prompt_eval_duration": 826876000,
+            "eval_duration": 2670373400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.520076,
+          "usage": {
+            "prompt_eval_count": 3481,
+            "eval_count": 16,
+            "total_duration": 517954400,
+            "load_duration": 16149000,
+            "prompt_eval_duration": 404400100,
+            "eval_duration": 76433900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.838536,
+          "usage_totals": {
+            "prompt_eval_count": 11532.0,
+            "eval_count": 333.0,
+            "total_duration": 4832590800.0,
+            "load_duration": 85829500.0,
+            "prompt_eval_duration": 1747919600.0,
+            "eval_duration": 2786494500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.84969
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T04_C02_onehop",
+    "haystack_name": "rand_book_2.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Firminy, named Yuki.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "None of the characters have visited",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 4,
+      "elapsed_seconds": 9.14612,
+      "usage_totals": {
+        "prompt_eval_count": 14573.0,
+        "eval_count": 800.0,
+        "total_duration": 9138036700.0,
+        "load_duration": 143038000.0,
+        "prompt_eval_duration": 1873320700.0,
+        "eval_duration": 6663548700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.633704,
+          "usage": {
+            "prompt_eval_count": 4234,
+            "eval_count": 18,
+            "total_duration": 631453200,
+            "load_duration": 18305000,
+            "prompt_eval_duration": 505172100,
+            "eval_duration": 86090700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.526899,
+          "usage": {
+            "prompt_eval_count": 3816,
+            "eval_count": 234,
+            "total_duration": 2525294400,
+            "load_duration": 52750100,
+            "prompt_eval_duration": 318393600,
+            "eval_duration": 2022582700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.622356,
+          "usage": {
+            "prompt_eval_count": 3480,
+            "eval_count": 36,
+            "total_duration": 620275600,
+            "load_duration": 19283600,
+            "prompt_eval_duration": 399631500,
+            "eval_duration": 181040300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.363161,
+          "usage": {
+            "prompt_eval_count": 3043,
+            "eval_count": 512,
+            "total_duration": 5361013500,
+            "load_duration": 52699300,
+            "prompt_eval_duration": 650123500,
+            "eval_duration": 4373835000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 4,
+          "elapsed_seconds": 9.14612,
+          "usage_totals": {
+            "prompt_eval_count": 14573.0,
+            "eval_count": 800.0,
+            "total_duration": 9138036700.0,
+            "load_duration": 143038000.0,
+            "prompt_eval_duration": 1873320700.0,
+            "eval_duration": 6663548700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.156916
+    },
+    "error": null
+  },
+  {
+    "test_name": "0401Inv_T15_C02_twohop",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "The European Central Bank is next to where Veronica lives.",
+    "retrieval_question": "Which character has been to Germany?",
+    "gold_answers": [
+      "Veronica"
+    ],
+    "selected_character": "Veronica",
+    "response": "None of the characters mentioned in the fact sheet have been explicitly stated to have visited Germany.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.16464,
+      "usage_totals": {
+        "prompt_eval_count": 8040.0,
+        "eval_count": 300.0,
+        "total_duration": 4160262400.0,
+        "load_duration": 72331600.0,
+        "prompt_eval_duration": 1356956100.0,
+        "eval_duration": 2539997900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.623442,
+          "usage": {
+            "prompt_eval_count": 4218,
+            "eval_count": 16,
+            "total_duration": 621476100,
+            "load_duration": 18429500,
+            "prompt_eval_duration": 504492900,
+            "eval_duration": 78384200
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.541198,
+          "usage": {
+            "prompt_eval_count": 3822,
+            "eval_count": 284,
+            "total_duration": 3538786300,
+            "load_duration": 53902100,
+            "prompt_eval_duration": 852463200,
+            "eval_duration": 2461613700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.16464,
+          "usage_totals": {
+            "prompt_eval_count": 8040.0,
+            "eval_count": 300.0,
+            "total_duration": 4160262400.0,
+            "load_duration": 72331600.0,
+            "prompt_eval_duration": 1356956100.0,
+            "eval_duration": 2539997900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.174318
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T01_C02_twohop",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Yuki finally saw the original 'Girl with a Pearl Earring' painting up close.",
+    "retrieval_question": "Which character has been to The Hague?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "The provided text does not mention any character having been to The Hague. Therefore, based on the given evidence, I cannot provide an accurate answer to this question.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 5.27342,
+      "usage_totals": {
+        "prompt_eval_count": 11576.0,
+        "eval_count": 424.0,
+        "total_duration": 5229918500.0,
+        "load_duration": 108730700.0,
+        "prompt_eval_duration": 1047745400.0,
+        "eval_duration": 3823143400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.336514,
+          "usage": {
+            "prompt_eval_count": 4243,
+            "eval_count": 3,
+            "total_duration": 297809500,
+            "load_duration": 24905800,
+            "prompt_eval_duration": 244906100,
+            "eval_duration": 12999500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.242128,
+          "usage": {
+            "prompt_eval_count": 3844,
+            "eval_count": 387,
+            "total_duration": 4239849200,
+            "load_duration": 56823300,
+            "prompt_eval_duration": 346138700,
+            "eval_duration": 3622509000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.694778,
+          "usage": {
+            "prompt_eval_count": 3489,
+            "eval_count": 34,
+            "total_duration": 692259800,
+            "load_duration": 27001600,
+            "prompt_eval_duration": 456700600,
+            "eval_duration": 187634900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 5.27342,
+          "usage_totals": {
+            "prompt_eval_count": 11576.0,
+            "eval_count": 424.0,
+            "total_duration": 5229918500.0,
+            "load_duration": 108730700.0,
+            "prompt_eval_duration": 1047745400.0,
+            "eval_duration": 3823143400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.28905
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T04_C02_twohop",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Yuki finally saw the original 'Garden of Earthly Delights' painting up close.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "Yuki has been to Madrid as she viewed the 'Garden of Earthly Delights' painting there.",
+    "metric": "contains",
+    "metric_value": 1,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.719101,
+      "usage_totals": {
+        "prompt_eval_count": 8084.0,
+        "eval_count": 339.0,
+        "total_duration": 4714475600.0,
+        "load_duration": 74468500.0,
+        "prompt_eval_duration": 968759800.0,
+        "eval_duration": 3472256200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.704532,
+          "usage": {
+            "prompt_eval_count": 4240,
+            "eval_count": 13,
+            "total_duration": 702079000,
+            "load_duration": 23470100,
+            "prompt_eval_duration": 586491400,
+            "eval_duration": 71402000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.014569,
+          "usage": {
+            "prompt_eval_count": 3844,
+            "eval_count": 326,
+            "total_duration": 4012396600,
+            "load_duration": 50998400,
+            "prompt_eval_duration": 382268400,
+            "eval_duration": 3400854200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.719101,
+          "usage_totals": {
+            "prompt_eval_count": 8084.0,
+            "eval_count": 339.0,
+            "total_duration": 4714475600.0,
+            "load_duration": 74468500.0,
+            "prompt_eval_duration": 968759800.0,
+            "eval_duration": 3472256200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.730677
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T05_C02_twohop",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Yuki finally saw the original 'Impression, Sunrise' painting up close.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "Sarah has been to Paris.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.430338,
+      "usage_totals": {
+        "prompt_eval_count": 8079.0,
+        "eval_count": 378.0,
+        "total_duration": 4425849400.0,
+        "load_duration": 72017200.0,
+        "prompt_eval_duration": 637232400.0,
+        "eval_duration": 3494007100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.376178,
+          "usage": {
+            "prompt_eval_count": 4238,
+            "eval_count": 13,
+            "total_duration": 373960400,
+            "load_duration": 18102800,
+            "prompt_eval_duration": 262801200,
+            "eval_duration": 74932600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.05416,
+          "usage": {
+            "prompt_eval_count": 3841,
+            "eval_count": 365,
+            "total_duration": 4051889000,
+            "load_duration": 53914400,
+            "prompt_eval_duration": 374431200,
+            "eval_duration": 3419074500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.430338,
+          "usage_totals": {
+            "prompt_eval_count": 8079.0,
+            "eval_count": 378.0,
+            "total_duration": 4425849400.0,
+            "load_duration": 72017200.0,
+            "prompt_eval_duration": 637232400.0,
+            "eval_duration": 3494007100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.441896
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Yuki, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "You did not mention this information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 4,
+      "elapsed_seconds": 9.073376,
+      "usage_totals": {
+        "prompt_eval_count": 14653.0,
+        "eval_count": 790.0,
+        "total_duration": 9062094600.0,
+        "load_duration": 195315700.0,
+        "prompt_eval_duration": 1635478200.0,
+        "eval_duration": 6757847000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.341396,
+          "usage": {
+            "prompt_eval_count": 4243,
+            "eval_count": 13,
+            "total_duration": 338856000,
+            "load_duration": 25124100,
+            "prompt_eval_duration": 227980500,
+            "eval_duration": 66545800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.66651,
+          "usage": {
+            "prompt_eval_count": 3847,
+            "eval_count": 239,
+            "total_duration": 2663771000,
+            "load_duration": 71549700,
+            "prompt_eval_duration": 335892200,
+            "eval_duration": 2110063600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.60452,
+          "usage": {
+            "prompt_eval_count": 3489,
+            "eval_count": 30,
+            "total_duration": 601690700,
+            "load_duration": 25538300,
+            "prompt_eval_duration": 406073400,
+            "eval_duration": 143445000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.46095,
+          "usage": {
+            "prompt_eval_count": 3074,
+            "eval_count": 508,
+            "total_duration": 5457776900,
+            "load_duration": 73103600,
+            "prompt_eval_duration": 665532100,
+            "eval_duration": 4437792600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 4,
+          "elapsed_seconds": 9.073376,
+          "usage_totals": {
+            "prompt_eval_count": 14653.0,
+            "eval_count": 790.0,
+            "total_duration": 9062094600.0,
+            "load_duration": 195315700.0,
+            "prompt_eval_duration": 1635478200.0,
+            "eval_duration": 6757847000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.099568
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Yuki, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "Sean's father has been to Paris as he attended a wedding in France.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.141491,
+      "usage_totals": {
+        "prompt_eval_count": 8085.0,
+        "eval_count": 294.0,
+        "total_duration": 4135555400.0,
+        "load_duration": 102476300.0,
+        "prompt_eval_duration": 1351737600.0,
+        "eval_duration": 2498029800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.635525,
+          "usage": {
+            "prompt_eval_count": 4241,
+            "eval_count": 14,
+            "total_duration": 632604700,
+            "load_duration": 26270200,
+            "prompt_eval_duration": 514060300,
+            "eval_duration": 69872900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.505966,
+          "usage": {
+            "prompt_eval_count": 3844,
+            "eval_count": 280,
+            "total_duration": 3502950700,
+            "load_duration": 76206100,
+            "prompt_eval_duration": 837677300,
+            "eval_duration": 2428156900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.141491,
+          "usage_totals": {
+            "prompt_eval_count": 8085.0,
+            "eval_count": 294.0,
+            "total_duration": 4135555400.0,
+            "load_duration": 102476300.0,
+            "prompt_eval_duration": 1351737600.0,
+            "eval_duration": 2498029800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.157021
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop2",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Yuki, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Spain?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "None of the characters mentioned have been to Spain based on the provided facts.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 3.792976,
+      "usage_totals": {
+        "prompt_eval_count": 8090.0,
+        "eval_count": 341.0,
+        "total_duration": 3789374800.0,
+        "load_duration": 95871600.0,
+        "prompt_eval_duration": 558641600.0,
+        "eval_duration": 2923694700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.365588,
+          "usage": {
+            "prompt_eval_count": 4243,
+            "eval_count": 19,
+            "total_duration": 363733000,
+            "load_duration": 24677300,
+            "prompt_eval_duration": 224847400,
+            "eval_duration": 90089100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.427388,
+          "usage": {
+            "prompt_eval_count": 3847,
+            "eval_count": 322,
+            "total_duration": 3425641800,
+            "load_duration": 71194300,
+            "prompt_eval_duration": 333794200,
+            "eval_duration": 2833605600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 3.792976,
+          "usage_totals": {
+            "prompt_eval_count": 8090.0,
+            "eval_count": 341.0,
+            "total_duration": 3789374800.0,
+            "load_duration": 95871600.0,
+            "prompt_eval_duration": 558641600.0,
+            "eval_duration": 2923694700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.80797
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop2",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Yuki, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "None of the characters mentioned have been explicitly stated to have visited France based on the provided information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 5.097468,
+      "usage_totals": {
+        "prompt_eval_count": 8084.0,
+        "eval_count": 481.0,
+        "total_duration": 5092421900.0,
+        "load_duration": 88829300.0,
+        "prompt_eval_duration": 557714800.0,
+        "eval_duration": 4179722600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.352878,
+          "usage": {
+            "prompt_eval_count": 4240,
+            "eval_count": 17,
+            "total_duration": 350280000,
+            "load_duration": 24456000,
+            "prompt_eval_duration": 224853300,
+            "eval_duration": 81088100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.74459,
+          "usage": {
+            "prompt_eval_count": 3844,
+            "eval_count": 464,
+            "total_duration": 4742141900,
+            "load_duration": 64373300,
+            "prompt_eval_duration": 332861500,
+            "eval_duration": 4098634500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 5.097468,
+          "usage_totals": {
+            "prompt_eval_count": 8084.0,
+            "eval_count": 481.0,
+            "total_duration": 5092421900.0,
+            "load_duration": 88829300.0,
+            "prompt_eval_duration": 557714800.0,
+            "eval_duration": 4179722600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.112642
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T10_C02_onehop",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Calvinia, named Katie.",
+    "retrieval_question": "Which character has been to South Africa?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "None of the main characters have explicitly stated that they've visited South Africa based on the provided facts.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.57997,
+      "usage_totals": {
+        "prompt_eval_count": 8045.0,
+        "eval_count": 423.0,
+        "total_duration": 4574740900.0,
+        "load_duration": 99972800.0,
+        "prompt_eval_duration": 561125100.0,
+        "eval_duration": 3664396400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.342555,
+          "usage": {
+            "prompt_eval_count": 4221,
+            "eval_count": 14,
+            "total_duration": 340052600,
+            "load_duration": 25082400,
+            "prompt_eval_duration": 226304800,
+            "eval_duration": 67953600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.237415,
+          "usage": {
+            "prompt_eval_count": 3824,
+            "eval_count": 409,
+            "total_duration": 4234688300,
+            "load_duration": 74890400,
+            "prompt_eval_duration": 334820300,
+            "eval_duration": 3596442800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.57997,
+          "usage_totals": {
+            "prompt_eval_count": 8045.0,
+            "eval_count": 423.0,
+            "total_duration": 4574740900.0,
+            "load_duration": 99972800.0,
+            "prompt_eval_duration": 561125100.0,
+            "eval_duration": 3664396400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.594988
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T04_C02_onehop",
+    "haystack_name": "rand_book_3.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Firminy, named Katie.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "Lee-Daniel has been to France.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 3.82715,
+      "usage_totals": {
+        "prompt_eval_count": 8044.0,
+        "eval_count": 347.0,
+        "total_duration": 3780556000.0,
+        "load_duration": 73155000.0,
+        "prompt_eval_duration": 559172500.0,
+        "eval_duration": 2953308200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.38503,
+          "usage": {
+            "prompt_eval_count": 4220,
+            "eval_count": 16,
+            "total_duration": 340149100,
+            "load_duration": 18341100,
+            "prompt_eval_duration": 225319100,
+            "eval_duration": 81088300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.44212,
+          "usage": {
+            "prompt_eval_count": 3824,
+            "eval_count": 331,
+            "total_duration": 3440406900,
+            "load_duration": 54813900,
+            "prompt_eval_duration": 333853400,
+            "eval_duration": 2872219900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 3.82715,
+          "usage_totals": {
+            "prompt_eval_count": 8044.0,
+            "eval_count": 347.0,
+            "total_duration": 3780556000.0,
+            "load_duration": 73155000.0,
+            "prompt_eval_duration": 559172500.0,
+            "eval_duration": 2953308200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.836488
+    },
+    "error": null
+  },
+  {
+    "test_name": "0401Inv_T15_C02_twohop",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "The European Central Bank is next to where Katie lives.",
+    "retrieval_question": "Which character has been to Germany?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "The information provided in the fact sheet does not mention any characters having been to Germany. Therefore, based on the given evidence, I cannot provide an accurate answer to this question.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.998928,
+      "usage_totals": {
+        "prompt_eval_count": 11060.0,
+        "eval_count": 404.0,
+        "total_duration": 4991606600.0,
+        "load_duration": 90209700.0,
+        "prompt_eval_duration": 1372843300.0,
+        "eval_duration": 3294495000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.513229,
+          "usage": {
+            "prompt_eval_count": 4041,
+            "eval_count": 18,
+            "total_duration": 510548300,
+            "load_duration": 17998700,
+            "prompt_eval_duration": 387947200,
+            "eval_duration": 87148700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.882144,
+          "usage": {
+            "prompt_eval_count": 3732,
+            "eval_count": 350,
+            "total_duration": 3879945200,
+            "load_duration": 51453900,
+            "prompt_eval_duration": 602240400,
+            "eval_duration": 3034199000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.603555,
+          "usage": {
+            "prompt_eval_count": 3287,
+            "eval_count": 36,
+            "total_duration": 601113100,
+            "load_duration": 20757100,
+            "prompt_eval_duration": 382655700,
+            "eval_duration": 173147300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.998928,
+          "usage_totals": {
+            "prompt_eval_count": 11060.0,
+            "eval_count": 404.0,
+            "total_duration": 4991606600.0,
+            "load_duration": 90209700.0,
+            "prompt_eval_duration": 1372843300.0,
+            "eval_duration": 3294495000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.009565
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T01_C02_twohop",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Katie finally saw the original 'Girl with a Pearl Earring' painting up close.",
+    "retrieval_question": "Which character has been to The Hague?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "The provided text does not contain information about any character visiting The Hague. Therefore, I cannot provide an accurate answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.96702,
+      "usage_totals": {
+        "prompt_eval_count": 11133.0,
+        "eval_count": 413.0,
+        "total_duration": 4959704800.0,
+        "load_duration": 89556100.0,
+        "prompt_eval_duration": 1188303500.0,
+        "eval_duration": 3425147300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.520003,
+          "usage": {
+            "prompt_eval_count": 4067,
+            "eval_count": 3,
+            "total_duration": 517581800,
+            "load_duration": 19001500,
+            "prompt_eval_duration": 468983800,
+            "eval_duration": 12204900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.856657,
+          "usage": {
+            "prompt_eval_count": 3753,
+            "eval_count": 379,
+            "total_duration": 3854137000,
+            "load_duration": 51998400,
+            "prompt_eval_duration": 331192900,
+            "eval_duration": 3256659400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.59036,
+          "usage": {
+            "prompt_eval_count": 3313,
+            "eval_count": 31,
+            "total_duration": 587986000,
+            "load_duration": 18556200,
+            "prompt_eval_duration": 388126800,
+            "eval_duration": 156283000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.96702,
+          "usage_totals": {
+            "prompt_eval_count": 11133.0,
+            "eval_count": 413.0,
+            "total_duration": 4959704800.0,
+            "load_duration": 89556100.0,
+            "prompt_eval_duration": 1188303500.0,
+            "eval_duration": 3425147300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.977705
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T04_C02_twohop",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Katie finally saw the original 'Garden of Earthly Delights' painting up close.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "The provided text does not contain any information about characters visiting Madrid. Therefore, I cannot provide an accurate answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.91622,
+      "usage_totals": {
+        "prompt_eval_count": 11127.0,
+        "eval_count": 412.0,
+        "total_duration": 4909952400.0,
+        "load_duration": 94122200.0,
+        "prompt_eval_duration": 1193051000.0,
+        "eval_duration": 3378635900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.604447,
+          "usage": {
+            "prompt_eval_count": 4064,
+            "eval_count": 18,
+            "total_duration": 602428600,
+            "load_duration": 21144800,
+            "prompt_eval_duration": 473902800,
+            "eval_duration": 90030500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.723193,
+          "usage": {
+            "prompt_eval_count": 3753,
+            "eval_count": 364,
+            "total_duration": 3721185000,
+            "load_duration": 52248800,
+            "prompt_eval_duration": 320006400,
+            "eval_duration": 3142998700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.58858,
+          "usage": {
+            "prompt_eval_count": 3310,
+            "eval_count": 30,
+            "total_duration": 586338800,
+            "load_duration": 20728600,
+            "prompt_eval_duration": 399141800,
+            "eval_duration": 145606700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.91622,
+          "usage_totals": {
+            "prompt_eval_count": 11127.0,
+            "eval_count": 412.0,
+            "total_duration": 4909952400.0,
+            "load_duration": 94122200.0,
+            "prompt_eval_duration": 1193051000.0,
+            "eval_duration": 3378635900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.926571
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T05_C02_twohop",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Katie finally saw the original 'Impression, Sunrise' painting up close.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "The provided text does not contain any information about characters visiting Paris. Therefore, I cannot provide an accurate answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 5.170767,
+      "usage_totals": {
+        "prompt_eval_count": 11120.0,
+        "eval_count": 435.0,
+        "total_duration": 5162465700.0,
+        "load_duration": 121573200.0,
+        "prompt_eval_duration": 1179728500.0,
+        "eval_duration": 3614779100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.614239,
+          "usage": {
+            "prompt_eval_count": 4062,
+            "eval_count": 19,
+            "total_duration": 611564600,
+            "load_duration": 18204600,
+            "prompt_eval_duration": 479456000,
+            "eval_duration": 96420700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.97106,
+          "usage": {
+            "prompt_eval_count": 3750,
+            "eval_count": 386,
+            "total_duration": 3968052900,
+            "load_duration": 74720200,
+            "prompt_eval_duration": 315750800,
+            "eval_duration": 3373196000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.585468,
+          "usage": {
+            "prompt_eval_count": 3308,
+            "eval_count": 30,
+            "total_duration": 582848200,
+            "load_duration": 28648400,
+            "prompt_eval_duration": 384521700,
+            "eval_duration": 145162400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 5.170767,
+          "usage_totals": {
+            "prompt_eval_count": 11120.0,
+            "eval_count": 435.0,
+            "total_duration": 5162465700.0,
+            "load_duration": 121573200.0,
+            "prompt_eval_duration": 1179728500.0,
+            "eval_duration": 3614779100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.184914
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Katie, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "None of the characters mentioned have been to Madrid.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 3.46808,
+      "usage_totals": {
+        "prompt_eval_count": 7823.0,
+        "eval_count": 282.0,
+        "total_duration": 3462565600.0,
+        "load_duration": 108023000.0,
+        "prompt_eval_duration": 813073500.0,
+        "eval_duration": 2365319400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.613112,
+          "usage": {
+            "prompt_eval_count": 4067,
+            "eval_count": 18,
+            "total_duration": 609348900,
+            "load_duration": 25981600,
+            "prompt_eval_duration": 472471800,
+            "eval_duration": 90127500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.854968,
+          "usage": {
+            "prompt_eval_count": 3756,
+            "eval_count": 264,
+            "total_duration": 2853216700,
+            "load_duration": 82041400,
+            "prompt_eval_duration": 340601700,
+            "eval_duration": 2275191900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 3.46808,
+          "usage_totals": {
+            "prompt_eval_count": 7823.0,
+            "eval_count": 282.0,
+            "total_duration": 3462565600.0,
+            "load_duration": 108023000.0,
+            "prompt_eval_duration": 813073500.0,
+            "eval_duration": 2365319400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.481337
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Katie, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "The provided text does not contain any information about characters visiting Paris. Therefore, I cannot provide an accurate answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 5.35195,
+      "usage_totals": {
+        "prompt_eval_count": 11129.0,
+        "eval_count": 480.0,
+        "total_duration": 5343648400.0,
+        "load_duration": 121330300.0,
+        "prompt_eval_duration": 923777500.0,
+        "eval_duration": 4007032300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.338716,
+          "usage": {
+            "prompt_eval_count": 4065,
+            "eval_count": 15,
+            "total_duration": 335734900,
+            "load_duration": 27529800,
+            "prompt_eval_duration": 217900800,
+            "eval_duration": 70575900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.433416,
+          "usage": {
+            "prompt_eval_count": 3753,
+            "eval_count": 435,
+            "total_duration": 4430256600,
+            "load_duration": 71798700,
+            "prompt_eval_duration": 318261400,
+            "eval_duration": 3790502200
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.579818,
+          "usage": {
+            "prompt_eval_count": 3311,
+            "eval_count": 30,
+            "total_duration": 577656900,
+            "load_duration": 22001800,
+            "prompt_eval_duration": 387615300,
+            "eval_duration": 145954200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 5.35195,
+          "usage_totals": {
+            "prompt_eval_count": 11129.0,
+            "eval_count": 480.0,
+            "total_duration": 5343648400.0,
+            "load_duration": 121330300.0,
+            "prompt_eval_duration": 923777500.0,
+            "eval_duration": 4007032300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.367243
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop2",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Katie, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Spain?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "The provided text does not contain any information about characters visiting Spain. Therefore, I cannot provide an accurate answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 3.530223,
+      "usage_totals": {
+        "prompt_eval_count": 11136.0,
+        "eval_count": 255.0,
+        "total_duration": 3522736000.0,
+        "load_duration": 119971700.0,
+        "prompt_eval_duration": 1196321200.0,
+        "eval_duration": 2042920800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.614938,
+          "usage": {
+            "prompt_eval_count": 4067,
+            "eval_count": 19,
+            "total_duration": 612616600,
+            "load_duration": 24029100,
+            "prompt_eval_duration": 474953800,
+            "eval_duration": 94700300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.338292,
+          "usage": {
+            "prompt_eval_count": 3756,
+            "eval_count": 206,
+            "total_duration": 2336168600,
+            "load_duration": 77953500,
+            "prompt_eval_duration": 334201400,
+            "eval_duration": 1798631600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.576993,
+          "usage": {
+            "prompt_eval_count": 3313,
+            "eval_count": 30,
+            "total_duration": 573950800,
+            "load_duration": 17989100,
+            "prompt_eval_duration": 387166000,
+            "eval_duration": 149588900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 3.530223,
+          "usage_totals": {
+            "prompt_eval_count": 11136.0,
+            "eval_count": 255.0,
+            "total_duration": 3522736000.0,
+            "load_duration": 119971700.0,
+            "prompt_eval_duration": 1196321200.0,
+            "eval_duration": 2042920800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.543022
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop2",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Katie, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Katie"
+    ],
+    "selected_character": "Katie",
+    "response": "None of the characters have been to France based on the information provided.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 5.385774,
+      "usage_totals": {
+        "prompt_eval_count": 7817.0,
+        "eval_count": 498.0,
+        "total_duration": 5380810000.0,
+        "load_duration": 72945700.0,
+        "prompt_eval_duration": 791064600.0,
+        "eval_duration": 4225591300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.601614,
+          "usage": {
+            "prompt_eval_count": 4064,
+            "eval_count": 18,
+            "total_duration": 599221600,
+            "load_duration": 22947300,
+            "prompt_eval_duration": 470226100,
+            "eval_duration": 87313500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.78416,
+          "usage": {
+            "prompt_eval_count": 3753,
+            "eval_count": 480,
+            "total_duration": 4781588400,
+            "load_duration": 49998400,
+            "prompt_eval_duration": 320838500,
+            "eval_duration": 4138277800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 5.385774,
+          "usage_totals": {
+            "prompt_eval_count": 7817.0,
+            "eval_count": 498.0,
+            "total_duration": 5380810000.0,
+            "load_duration": 72945700.0,
+            "prompt_eval_duration": 791064600.0,
+            "eval_duration": 4225591300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.394823
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T10_C02_onehop",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Calvinia, named Caleb.",
+    "retrieval_question": "Which character has been to South Africa?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "The provided text does not contain information about any characters having visited South Africa. Therefore, I cannot provide an accurate answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 8.308108,
+      "usage_totals": {
+        "prompt_eval_count": 11072.0,
+        "eval_count": 802.0,
+        "total_duration": 8265263600.0,
+        "load_duration": 93121200.0,
+        "prompt_eval_duration": 920306800.0,
+        "eval_duration": 6810419500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.265967,
+          "usage": {
+            "prompt_eval_count": 4046,
+            "eval_count": 3,
+            "total_duration": 263616400,
+            "load_duration": 19054300,
+            "prompt_eval_duration": 218423000,
+            "eval_duration": 11961800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.464275,
+          "usage": {
+            "prompt_eval_count": 3734,
+            "eval_count": 768,
+            "total_duration": 7426563300,
+            "load_duration": 56069700,
+            "prompt_eval_duration": 320314000,
+            "eval_duration": 6648927000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.577866,
+          "usage": {
+            "prompt_eval_count": 3292,
+            "eval_count": 31,
+            "total_duration": 575083900,
+            "load_duration": 17997200,
+            "prompt_eval_duration": 381569800,
+            "eval_duration": 149530700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 8.308108,
+          "usage_totals": {
+            "prompt_eval_count": 11072.0,
+            "eval_count": 802.0,
+            "total_duration": 8265263600.0,
+            "load_duration": 93121200.0,
+            "prompt_eval_duration": 920306800.0,
+            "eval_duration": 6810419500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 8.318872
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T04_C02_onehop",
+    "haystack_name": "rand_book_4.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Firminy, named Caleb.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "The provided text does not contain information about any characters having visited France. Therefore, I cannot provide an accurate answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.626581,
+      "usage_totals": {
+        "prompt_eval_count": 11070.0,
+        "eval_count": 380.0,
+        "total_duration": 4618754800.0,
+        "load_duration": 87358400.0,
+        "prompt_eval_duration": 1167760600.0,
+        "eval_duration": 3131107900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.521533,
+          "usage": {
+            "prompt_eval_count": 4045,
+            "eval_count": 4,
+            "total_duration": 518527600,
+            "load_duration": 18881900,
+            "prompt_eval_duration": 469277700,
+            "eval_duration": 16033700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.542624,
+          "usage": {
+            "prompt_eval_count": 3734,
+            "eval_count": 347,
+            "total_duration": 3540283300,
+            "load_duration": 50999000,
+            "prompt_eval_duration": 317548400,
+            "eval_duration": 2974564200
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.562424,
+          "usage": {
+            "prompt_eval_count": 3291,
+            "eval_count": 29,
+            "total_duration": 559943900,
+            "load_duration": 17477500,
+            "prompt_eval_duration": 380934500,
+            "eval_duration": 140510000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.626581,
+          "usage_totals": {
+            "prompt_eval_count": 11070.0,
+            "eval_count": 380.0,
+            "total_duration": 4618754800.0,
+            "load_duration": 87358400.0,
+            "prompt_eval_duration": 1167760600.0,
+            "eval_duration": 3131107900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.63711
+    },
+    "error": null
+  },
+  {
+    "test_name": "0401Inv_T15_C02_twohop",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "The European Central Bank is next to where Stuart lives.",
+    "retrieval_question": "Which character has been to Germany?",
+    "gold_answers": [
+      "Stuart"
+    ],
+    "selected_character": "Stuart",
+    "response": "You did not mention this information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 4,
+      "elapsed_seconds": 11.061369,
+      "usage_totals": {
+        "prompt_eval_count": 14271.0,
+        "eval_count": 977.0,
+        "total_duration": 11052720900.0,
+        "load_duration": 141072700.0,
+        "prompt_eval_duration": 2116553200.0,
+        "eval_duration": 8243036400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.587692,
+          "usage": {
+            "prompt_eval_count": 4140,
+            "eval_count": 11,
+            "total_duration": 585025700,
+            "load_duration": 19061600,
+            "prompt_eval_duration": 490618300,
+            "eval_duration": 52518600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.039575,
+          "usage": {
+            "prompt_eval_count": 3759,
+            "eval_count": 590,
+            "total_duration": 6038035400,
+            "load_duration": 54040900,
+            "prompt_eval_duration": 599315500,
+            "eval_duration": 5080500900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.571188,
+          "usage": {
+            "prompt_eval_count": 3386,
+            "eval_count": 28,
+            "total_duration": 568766400,
+            "load_duration": 17780300,
+            "prompt_eval_duration": 391192300,
+            "eval_duration": 134304100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.862914,
+          "usage": {
+            "prompt_eval_count": 2986,
+            "eval_count": 348,
+            "total_duration": 3860893400,
+            "load_duration": 50189900,
+            "prompt_eval_duration": 635427100,
+            "eval_duration": 2975712800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 4,
+          "elapsed_seconds": 11.061369,
+          "usage_totals": {
+            "prompt_eval_count": 14271.0,
+            "eval_count": 977.0,
+            "total_duration": 11052720900.0,
+            "load_duration": 141072700.0,
+            "prompt_eval_duration": 2116553200.0,
+            "eval_duration": 8243036400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 11.077842
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T01_C02_twohop",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Caleb finally saw the original 'Girl with a Pearl Earring' painting up close.",
+    "retrieval_question": "Which character has been to The Hague?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "The character associated with the painting is not explicitly mentioned as having visited The Hague.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.264697,
+      "usage_totals": {
+        "prompt_eval_count": 7947.0,
+        "eval_count": 312.0,
+        "total_duration": 4260263700.0,
+        "load_duration": 66872600.0,
+        "prompt_eval_duration": 1315735900.0,
+        "eval_duration": 2680518600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.549196,
+          "usage": {
+            "prompt_eval_count": 4167,
+            "eval_count": 4,
+            "total_duration": 547252400,
+            "load_duration": 18000700,
+            "prompt_eval_duration": 496505500,
+            "eval_duration": 18409900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.715501,
+          "usage": {
+            "prompt_eval_count": 3780,
+            "eval_count": 308,
+            "total_duration": 3713011300,
+            "load_duration": 48871900,
+            "prompt_eval_duration": 819230400,
+            "eval_duration": 2662108700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.264697,
+          "usage_totals": {
+            "prompt_eval_count": 7947.0,
+            "eval_count": 312.0,
+            "total_duration": 4260263700.0,
+            "load_duration": 66872600.0,
+            "prompt_eval_duration": 1315735900.0,
+            "eval_duration": 2680518600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.274206
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T04_C02_twohop",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Caleb finally saw the original 'Garden of Earthly Delights' painting up close.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "Sarah and Rachel have visited Madrid.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 2.815486,
+      "usage_totals": {
+        "prompt_eval_count": 7944.0,
+        "eval_count": 243.0,
+        "total_duration": 2810863300.0,
+        "load_duration": 71151600.0,
+        "prompt_eval_duration": 537014500.0,
+        "eval_duration": 2041408100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.313936,
+          "usage": {
+            "prompt_eval_count": 4164,
+            "eval_count": 12,
+            "total_duration": 311409900,
+            "load_duration": 18561300,
+            "prompt_eval_duration": 218248100,
+            "eval_duration": 58934500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.50155,
+          "usage": {
+            "prompt_eval_count": 3780,
+            "eval_count": 231,
+            "total_duration": 2499453400,
+            "load_duration": 52590300,
+            "prompt_eval_duration": 318766400,
+            "eval_duration": 1982473600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 2.815486,
+          "usage_totals": {
+            "prompt_eval_count": 7944.0,
+            "eval_count": 243.0,
+            "total_duration": 2810863300.0,
+            "load_duration": 71151600.0,
+            "prompt_eval_duration": 537014500.0,
+            "eval_duration": 2041408100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 2.826233
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408_T05_C02_twohop",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, after waiting in line for hours, Caleb finally saw the original 'Impression, Sunrise' painting up close.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "No character is explicitly mentioned as having visited Paris in the provided text.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 3.865197,
+      "usage_totals": {
+        "prompt_eval_count": 7939.0,
+        "eval_count": 358.0,
+        "total_duration": 3860223200.0,
+        "load_duration": 70867900.0,
+        "prompt_eval_duration": 536030400.0,
+        "eval_duration": 3042019000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.32114,
+          "usage": {
+            "prompt_eval_count": 4162,
+            "eval_count": 13,
+            "total_duration": 319037500,
+            "load_duration": 18000100,
+            "prompt_eval_duration": 219275800,
+            "eval_duration": 62009700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.544057,
+          "usage": {
+            "prompt_eval_count": 3777,
+            "eval_count": 345,
+            "total_duration": 3541185700,
+            "load_duration": 52867800,
+            "prompt_eval_duration": 316754600,
+            "eval_duration": 2980009300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 3.865197,
+          "usage_totals": {
+            "prompt_eval_count": 7939.0,
+            "eval_count": 358.0,
+            "total_duration": 3860223200.0,
+            "load_duration": 70867900.0,
+            "prompt_eval_duration": 536030400.0,
+            "eval_duration": 3042019000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.874252
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Caleb, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Madrid?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "The provided text does not contain any information about characters visiting Madrid. Therefore, I cannot provide an accurate answer based on the given evidence.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 4.620611,
+      "usage_totals": {
+        "prompt_eval_count": 11363.0,
+        "eval_count": 409.0,
+        "total_duration": 4613419000.0,
+        "load_duration": 89814700.0,
+        "prompt_eval_duration": 943331400.0,
+        "eval_duration": 3335105200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.367819,
+          "usage": {
+            "prompt_eval_count": 4167,
+            "eval_count": 22,
+            "total_duration": 364621100,
+            "load_duration": 17892700,
+            "prompt_eval_duration": 218477500,
+            "eval_duration": 110154800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.668274,
+          "usage": {
+            "prompt_eval_count": 3783,
+            "eval_count": 357,
+            "total_duration": 3666693200,
+            "load_duration": 53000700,
+            "prompt_eval_duration": 332315900,
+            "eval_duration": 3076304400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.584518,
+          "usage": {
+            "prompt_eval_count": 3413,
+            "eval_count": 30,
+            "total_duration": 582104700,
+            "load_duration": 18921300,
+            "prompt_eval_duration": 392538000,
+            "eval_duration": 148646000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 4.620611,
+          "usage_totals": {
+            "prompt_eval_count": 11363.0,
+            "eval_count": 409.0,
+            "total_duration": 4613419000.0,
+            "load_duration": 89814700.0,
+            "prompt_eval_duration": 943331400.0,
+            "eval_duration": 3335105200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.632778
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Caleb, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Paris?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "The provided text does not contain any information about characters visiting Paris. Therefore, I cannot provide an accurate response based on the given evidence memo.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 5.381509,
+      "usage_totals": {
+        "prompt_eval_count": 11356.0,
+        "eval_count": 452.0,
+        "total_duration": 5335531200.0,
+        "load_duration": 101619000.0,
+        "prompt_eval_duration": 1206607900.0,
+        "eval_duration": 3754228500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.600583,
+          "usage": {
+            "prompt_eval_count": 4165,
+            "eval_count": 13,
+            "total_duration": 598127500,
+            "load_duration": 19930400,
+            "prompt_eval_duration": 495231800,
+            "eval_duration": 63982100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.147354,
+          "usage": {
+            "prompt_eval_count": 3780,
+            "eval_count": 408,
+            "total_duration": 4145063200,
+            "load_duration": 61147700,
+            "prompt_eval_duration": 317580300,
+            "eval_duration": 3536213200
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.633572,
+          "usage": {
+            "prompt_eval_count": 3411,
+            "eval_count": 31,
+            "total_duration": 592340500,
+            "load_duration": 20540900,
+            "prompt_eval_duration": 393795800,
+            "eval_duration": 154033200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 5.381509,
+          "usage_totals": {
+            "prompt_eval_count": 11356.0,
+            "eval_count": 452.0,
+            "total_duration": 5335531200.0,
+            "load_duration": 101619000.0,
+            "prompt_eval_duration": 1206607900.0,
+            "eval_duration": 3754228500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.392567
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T04_C02_twohop2",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Garden of Earthly Delights' painting was seen up close by Caleb, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to Spain?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "None explicitly mentioned in the fact sheet.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.330544,
+      "usage_totals": {
+        "prompt_eval_count": 7950.0,
+        "eval_count": 376.0,
+        "total_duration": 4326033900.0,
+        "load_duration": 72314400.0,
+        "prompt_eval_duration": 827617100.0,
+        "eval_duration": 3190025500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.619181,
+          "usage": {
+            "prompt_eval_count": 4167,
+            "eval_count": 15,
+            "total_duration": 616963800,
+            "load_duration": 18851100,
+            "prompt_eval_duration": 496276500,
+            "eval_duration": 73062300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.711363,
+          "usage": {
+            "prompt_eval_count": 3783,
+            "eval_count": 361,
+            "total_duration": 3709070100,
+            "load_duration": 53463300,
+            "prompt_eval_duration": 331340600,
+            "eval_duration": 3116963200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.330544,
+          "usage_totals": {
+            "prompt_eval_count": 7950.0,
+            "eval_count": 376.0,
+            "total_duration": 4326033900.0,
+            "load_duration": 72314400.0,
+            "prompt_eval_duration": 827617100.0,
+            "eval_duration": 3190025500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.339747
+    },
+    "error": null
+  },
+  {
+    "test_name": "0408Inv_T05_C02_twohop2",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "In 2013, the original 'Impression, Sunrise' painting was seen up close by Caleb, finally, after waiting in line for hours.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "You did not mention this information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 4,
+      "elapsed_seconds": 8.061009,
+      "usage_totals": {
+        "prompt_eval_count": 14361.0,
+        "eval_count": 707.0,
+        "total_duration": 8051877600.0,
+        "load_duration": 144542200.0,
+        "prompt_eval_duration": 1569956400.0,
+        "eval_duration": 5908952600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.316459,
+          "usage": {
+            "prompt_eval_count": 4164,
+            "eval_count": 12,
+            "total_duration": 313706000,
+            "load_duration": 20744800,
+            "prompt_eval_duration": 218749300,
+            "eval_duration": 58340900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.878858,
+          "usage": {
+            "prompt_eval_count": 3780,
+            "eval_count": 272,
+            "total_duration": 2876633200,
+            "load_duration": 49999100,
+            "prompt_eval_duration": 317673300,
+            "eval_duration": 2345934500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.572378,
+          "usage": {
+            "prompt_eval_count": 3410,
+            "eval_count": 28,
+            "total_duration": 570157000,
+            "load_duration": 18171500,
+            "prompt_eval_duration": 394502900,
+            "eval_duration": 138970300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.293314,
+          "usage": {
+            "prompt_eval_count": 3007,
+            "eval_count": 395,
+            "total_duration": 4291381400,
+            "load_duration": 55626800,
+            "prompt_eval_duration": 639030900,
+            "eval_duration": 3365706900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 4,
+          "elapsed_seconds": 8.061009,
+          "usage_totals": {
+            "prompt_eval_count": 14361.0,
+            "eval_count": 707.0,
+            "total_duration": 8051877600.0,
+            "load_duration": 144542200.0,
+            "prompt_eval_duration": 1569956400.0,
+            "eval_duration": 5908952600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 8.077588
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T10_C02_onehop",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Calvinia, named Megan.",
+    "retrieval_question": "Which character has been to South Africa?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "None of the characters mentioned have been to South Africa based on the provided information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.93909,
+      "usage_totals": {
+        "prompt_eval_count": 7905.0,
+        "eval_count": 388.0,
+        "total_duration": 4934214900.0,
+        "load_duration": 73848700.0,
+        "prompt_eval_duration": 1307590300.0,
+        "eval_duration": 3327886900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.541486,
+          "usage": {
+            "prompt_eval_count": 4144,
+            "eval_count": 3,
+            "total_duration": 538803600,
+            "load_duration": 19090500,
+            "prompt_eval_duration": 490966800,
+            "eval_duration": 11744800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.397604,
+          "usage": {
+            "prompt_eval_count": 3761,
+            "eval_count": 385,
+            "total_duration": 4395411300,
+            "load_duration": 54758200,
+            "prompt_eval_duration": 816623500,
+            "eval_duration": 3316142100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.93909,
+          "usage_totals": {
+            "prompt_eval_count": 7905.0,
+            "eval_count": 388.0,
+            "total_duration": 4934214900.0,
+            "load_duration": 73848700.0,
+            "prompt_eval_duration": 1307590300.0,
+            "eval_duration": 3327886900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.949223
+    },
+    "error": null
+  },
+  {
+    "test_name": "0409Inv_T04_C02_onehop",
+    "haystack_name": "rand_book_5.txt",
+    "context_length": 2000,
+    "depth_percent": 50.0,
+    "needle": "There was an engineer living in Firminy, named Megan.",
+    "retrieval_question": "Which character has been to France?",
+    "gold_answers": [
+      "Megan"
+    ],
+    "selected_character": "Megan",
+    "response": "Sarah has been to France based on her involvement with Project Hail Mary.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 0.5,
+      "context_length_wo_needle": 2000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 8.171814,
+      "usage_totals": {
+        "prompt_eval_count": 7904.0,
+        "eval_count": 1109.0,
+        "total_duration": 8165765500.0,
+        "load_duration": 102446500.0,
+        "prompt_eval_duration": 542632300.0,
+        "eval_duration": 6885563500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 4.517758,
+          "usage": {
+            "prompt_eval_count": 4143,
+            "eval_count": 768,
+            "total_duration": 4514641400,
+            "load_duration": 20701300,
+            "prompt_eval_duration": 218442600,
+            "eval_duration": 3935600000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.654056,
+          "usage": {
+            "prompt_eval_count": 3761,
+            "eval_count": 341,
+            "total_duration": 3651124100,
+            "load_duration": 81745200,
+            "prompt_eval_duration": 324189700,
+            "eval_duration": 2949963500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 8.171814,
+          "usage_totals": {
+            "prompt_eval_count": 7904.0,
+            "eval_count": 1109.0,
+            "total_duration": 8165765500.0,
+            "load_duration": 102446500.0,
+            "prompt_eval_duration": 542632300.0,
+            "eval_duration": 6885563500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 8.181937
+    },
+    "error": null
+  }
+]

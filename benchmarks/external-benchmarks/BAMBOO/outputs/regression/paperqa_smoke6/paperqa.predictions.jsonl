@@ -1,0 +1,3 @@
+{"id": "paperqa-001-How_to_get_additional_knowledge_for_entities", "task": "paperqa", "pred": "D", "answer": "B", "raw_pred": "D", "error": null}
+{"id": "paperqa-002-What_is_not_the_strengths_of_our_work_compared_with_Hos_wor", "task": "paperqa", "pred": "A", "answer": "A", "raw_pred": "A", "error": null}
+{"id": "paperqa-003-What_is_the_primary_purpose_of_introducing_the_ranking_loss_", "task": "paperqa", "pred": "C", "answer": "C", "raw_pred": "C", "error": null}

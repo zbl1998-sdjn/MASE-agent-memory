@@ -1,0 +1,318 @@
+{
+  "timestamp": "2026-04-15T00:08:56",
+  "user_query": "Which character has been to the Mauritshuis?",
+  "assistant_response": "You did not mention this information. You mentioned cafta but not mauritshuis.",
+  "semantic_summary": "The user inquired about a char",
+  "language": "en",
+  "key_entities": [
+    "character",
+    "Mauritshuis",
+    "not",
+    "mention",
+    "information",
+    "mentioned",
+    "cafta",
+    "mention information",
+    "mentioned cafta",
+    "not mauritshuis",
+    "user",
+    "inquired"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "character",
+      "Mauritshuis",
+      "not",
+      "mention",
+      "information",
+      "mentioned",
+      "cafta",
+      "mention information",
+      "mentioned cafta",
+      "not mauritshuis",
+      "user",
+      "inquired"
+    ],
+    "entity_cards": [
+      {
+        "name": "character",
+        "normalized": "character"
+      },
+      {
+        "name": "Mauritshuis",
+        "normalized": "mauritshuis"
+      },
+      {
+        "name": "not",
+        "normalized": "not"
+      },
+      {
+        "name": "mention",
+        "normalized": "mention"
+      },
+      {
+        "name": "information",
+        "normalized": "information"
+      },
+      {
+        "name": "mentioned",
+        "normalized": "mentioned"
+      },
+      {
+        "name": "cafta",
+        "normalized": "cafta"
+      },
+      {
+        "name": "mention information",
+        "normalized": "mention information"
+      },
+      {
+        "name": "mentioned cafta",
+        "normalized": "mentioned cafta"
+      },
+      {
+        "name": "not mauritshuis",
+        "normalized": "not mauritshuis"
+      },
+      {
+        "name": "user",
+        "normalized": "user"
+      },
+      {
+        "name": "inquired",
+        "normalized": "inquired"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-5085b4ca20a9",
+  "thread_label": "character / Mauritshuis",
+  "topic_tokens": [
+    "character",
+    "Mauritshuis"
+  ],
+  "metadata": {
+    "route_action": "search_memory",
+    "executor_mode": "grounded_disambiguation",
+    "executor_role": "reasoning",
+    "collaboration_mode": "verify",
+    "memory_heat": "hot",
+    "executor_target": {
+      "mode": "grounded_disambiguation_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 640,
+      "base_url": null,
+      "requested_mode": "grounded_disambiguation",
+      "resolved_mode": "grounded_disambiguation_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "memory_result_count": 3,
+    "retrieval_iterations": 2,
+    "retrieval_queries": [
+      "Which character has been to the Mauritshuis?",
+      "character been Mauritshuis",
+      "精确区分 character been Mauritshuis",
+      "She’s married",
+      "Alexandra Moran",
+      "” she said",
+      "Captain Grey",
+      "“Thank you very much"
+    ],
+    "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nQuestion scope: {\"locations\": [\"mauritshuis\"], \"months\": [], \"relative_terms\": [], \"strict\": true, \"weekdays\": []}\n\nEvidence anchors (SAKE-HEAD):\n- Lexy：was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own The more Lexy t…\n- She：She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m A…\n\n[1] Time：2026-04-15 00-08-42\nSummary：Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice, Dad. I don’t want you to go all copper on her, OK? She’s my mom, OK?” He took her hand in his and\nRelevant lines:\n- Mom has been here, mostly, and at the CAFTA embassy\n- She’s my mom, OK\nThread：Mom / here\n\n[2] Time：2026-04-15 00-08-42\nSummary：She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m Alexandra Moran,” she said. “Thank you!” said Captain Grey. “Thank you very much,\nRelevant lines:\n- She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to\n- ” he said. “I’ll take yer bags.” So Captain Grey took Lexy’s arm, and they did make a run for it, through the fine, chilly rain, along a garden path and up on a veranda\nThread：She / married\n\n[3] Time：2026-04-15 00-08-42\nSummary：was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing\nRelevant lines:\n- was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her\n- It was queer。Perhaps—” She was aware of a fast-growing\nThread：telephone / Lexy\n\nStructured memory cards:\n- entity=Mom\n- entity=here\n- entity=mostly\n- entity=CAFTA\n- entity=Dad\n- entity=She\n- numeric=2 week | I only met her for the first time two weeks ago, but she’s nice,\n- numeric=2 week | I only met her for the first time two weeks ago, but she’s nice, Dad.\n\nEvidence chain assessment:\n\n- evidence_confidence=low\n\n- verifier_action=refuse\n\n- reason_codes=relation_mismatch,missing_anchor,missing_mauritshuis,competing_cafta,location\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=3\n\n- confidence_score=0\n\n- direct_match_count=0\n\n- failure_bucket=unsupported_relation\n\n- missing_slots=mauritshuis\n\nEvidence anchors (SAKE-TAIL):\n- Lexy：was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own The more Lexy t…\n- She：She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m A…\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=Mauritshuis; character; has; been\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=low\n- verifier_action=refuse\n- followup_needed=yes",
+    "evidence_layout": "gold_panning+dcr+sake",
+    "planner": {
+      "strategy": "disambiguation",
+      "query_variants": [
+        "Which character has been to the Mauritshuis?",
+        "character been Mauritshuis",
+        "精确区分 character been Mauritshuis"
+      ],
+      "memory_limit": 3,
+      "collaboration_mode": "verify",
+      "active_date_scan": false,
+      "widen_search": true,
+      "min_results": 2,
+      "confusion_level": "high",
+      "steps": [
+        {
+          "step_id": "plan-route",
+          "title": "Route request",
+          "details": "action=search_memory, keywords=['__FULL_QUERY__']",
+          "depends_on": []
+        },
+        {
+          "step_id": "plan-search",
+          "title": "Search memory",
+          "details": "Retrieve candidates with keywords, variants, synonyms, and semantic fallback.",
+          "depends_on": [
+            "plan-route"
+          ]
+        },
+        {
+          "step_id": "plan-compress",
+          "title": "Compress evidence",
+          "details": "Deduplicate results, highlight relevant snippets, and attach aggregation hints.",
+          "depends_on": [
+            "plan-search"
+          ]
+        },
+        {
+          "step_id": "plan-confusion-assess",
+          "title": "Assess confusion",
+          "details": "Detected high confusion from similar entities or competing candidates.",
+          "depends_on": [
+            "plan-compress"
+          ]
+        },
+        {
+          "step_id": "plan-disambiguate",
+          "title": "Disambiguate evidence",
+          "details": "Route to grounded disambiguation so the reasoning executor can eliminate confusing candidates.",
+          "depends_on": [
+            "plan-confusion-assess"
+          ]
+        }
+      ],
+      "notes": [
+        "similar_entities",
+        "confusion_high",
+        "disambiguation_reasoning"
+      ]
+    },
+    "planner_model_plan": {
+      "task_description": "Which character has been to the Mauritshuis?",
+      "query_variants": [
+        "Which character has been to the Mauritshuis?",
+        "character been Mauritshuis",
+        "精确区分 character been Mauritshuis"
+      ],
+      "topic_hints": [],
+      "recent_count": 0,
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [
+          "Mauritshuis"
+        ],
+        "relative_terms": [],
+        "strict": false
+      }
+    },
+    "instruction_package": {
+      "task_description": "Which character has been to the Mauritshuis?",
+      "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nQuestion scope: {\"locations\": [\"mauritshuis\"], \"months\": [], \"relative_terms\": [], \"strict\": true, \"weekdays\": []}\n\nEvidence anchors (SAKE-HEAD):\n- Lexy：was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own The more Lexy t…\n- She：She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m A…\n\n[1] Time：2026-04-15 00-08-42\nSummary：Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice, Dad. I don’t want you to go all copper on her, OK? She’s my mom, OK?” He took her hand in his and\nRelevant lines:\n- Mom has been here, mostly, and at the CAFTA embassy\n- She’s my mom, OK\nThread：Mom / here\n\n[2] Time：2026-04-15 00-08-42\nSummary：She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m Alexandra Moran,” she said. “Thank you!” said Captain Grey. “Thank you very much,\nRelevant lines:\n- She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to\n- ” he said. “I’ll take yer bags.” So Captain Grey took Lexy’s arm, and they did make a run for it, through the fine, chilly rain, along a garden path and up on a veranda\nThread：She / married\n\n[3] Time：2026-04-15 00-08-42\nSummary：was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing\nRelevant lines:\n- was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her\n- It was queer。Perhaps—” She was aware of a fast-growing\nThread：telephone / Lexy\n\nStructured memory cards:\n- entity=Mom\n- entity=here\n- entity=mostly\n- entity=CAFTA\n- entity=Dad\n- entity=She\n- numeric=2 week | I only met her for the first time two weeks ago, but she’s nice,\n- numeric=2 week | I only met her for the first time two weeks ago, but she’s nice, Dad.\n\nEvidence chain assessment:\n\n- evidence_confidence=low\n\n- verifier_action=refuse\n\n- reason_codes=relation_mismatch,missing_anchor,missing_mauritshuis,competing_cafta,location\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=3\n\n- confidence_score=0\n\n- direct_match_count=0\n\n- failure_bucket=unsupported_relation\n\n- missing_slots=mauritshuis\n\nEvidence anchors (SAKE-TAIL):\n- Lexy：was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own The more Lexy t…\n- She：She’s married to an American doctor.” Lexy thought there was something almost pathetic in his chivalrous anxiety to explain himself. “I’m A…\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=Mauritshuis; character; has; been\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=low\n- verifier_action=refuse\n- followup_needed=yes",
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "background_summary": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [
+          "Mauritshuis"
+        ],
+        "relative_terms": [],
+        "strict": false
+      }
+    },
+    "reasoning_workspace": {
+      "operation": "disambiguation",
+      "focus_entities": [
+        "Mauritshuis",
+        "character",
+        "has",
+        "been"
+      ],
+      "target_unit": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness",
+        "direct evidence"
+      ],
+      "deterministic_answer": "",
+      "evidence_confidence": "low",
+      "verifier_action": "refuse",
+      "followup_needed": true
+    },
+    "evidence_assessment": {
+      "level": "low",
+      "verifier_action": "refuse",
+      "reason_codes": [
+        "relation_mismatch",
+        "missing_anchor",
+        "missing_mauritshuis",
+        "competing_cafta",
+        "location"
+      ],
+      "result_count": 3,
+      "candidate_count": 0,
+      "direct_match_count": 0,
+      "top_candidate": "",
+      "top_score": null,
+      "score_gap": null,
+      "threshold_profile": "external-generalization",
+      "confidence_score": 0,
+      "contract_type": "",
+      "failure_bucket": "unsupported_relation",
+      "missing_slots": [
+        "mauritshuis"
+      ]
+    },
+    "evidence_thresholds": {
+      "profile_name": "external-generalization",
+      "general_pass_evidence_items_min": 1,
+      "general_pass_snippet_total_min": 2,
+      "general_verify_evidence_items_min": 1,
+      "disambiguation_pass_score_min": 130,
+      "disambiguation_pass_score_gap_min": 28,
+      "disambiguation_verify_score_min": 95,
+      "disambiguation_verify_score_gap_min": 16,
+      "allow_verify_on_multiple_direct_matches": true,
+      "multiple_direct_matches_verify_top_score_min": 190,
+      "multiple_direct_matches_verify_score_gap_min": 22
+    },
+    "session_summary_before": "",
+    "session_summary_after": "Which character has been to the Mauritsh -> You did not mention this information. You mentioned cafta bu",
+    "language": "en",
+    "ingested_at": "2026-04-15T00:08:56",
+    "source_timestamp": "2026-04-15T00:08:56",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-000842-0016-2d25150e6782\\2026-04-15\\00-08-56-278797.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-000842-0016-2d25150e6782\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-000842-0016-2d25150e6782\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-000842-0016-2d25150e6782\\system\\event-bus-latest.json"
+  }
+}

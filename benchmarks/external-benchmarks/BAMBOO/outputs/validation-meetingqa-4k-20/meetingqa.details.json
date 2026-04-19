@@ -1,0 +1,1382 @@
+[
+  {
+    "id": "meetingqa-001-what_is_Mark_Thomass_attitude_towards_the_Ministers_behavi",
+    "task": "meetingqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: what is Mark Thomas’s attitude towards the Minister’s behavior?\nOptions:\nA. he thinks it is supportive.\nB. he thinks it is impractical.\nC. he thinks it is useful.\nD. he thinks it is worth high praise.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 6.781669,
+      "usage_totals": {
+        "prompt_eval_count": 5856.0,
+        "eval_count": 420.0,
+        "total_duration": 6775797600.0,
+        "load_duration": 71601200.0,
+        "prompt_eval_duration": 889042400.0,
+        "eval_duration": 5556343300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.492868,
+          "usage": {
+            "prompt_eval_count": 2982,
+            "eval_count": 2,
+            "total_duration": 489729000,
+            "load_duration": 17432800,
+            "prompt_eval_duration": 446949000,
+            "eval_duration": 13187000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.288801,
+          "usage": {
+            "prompt_eval_count": 2874,
+            "eval_count": 418,
+            "total_duration": 6286068600,
+            "load_duration": 54168400,
+            "prompt_eval_duration": 442093400,
+            "eval_duration": 5543156300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 6.781669,
+          "usage_totals": {
+            "prompt_eval_count": 5856.0,
+            "eval_count": 420.0,
+            "total_duration": 6775797600.0,
+            "load_duration": 71601200.0,
+            "prompt_eval_duration": 889042400.0,
+            "eval_duration": 5556343300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.809049
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-001-what_is_Mark_Thomass_attitude_towards_the_Ministers_behavi"
+  },
+  {
+    "id": "meetingqa-002-What_measures_has_the_UK_Conservative_Government_announced_t",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What measures has the UK Conservative Government announced to address river pollution?\nOptions:\nA. What measures has the UK Conservative Government announced to address river pollution?\nB. By 2100, all remaining storm overflows will have to be improved, regardless of location.\nC. The imposition of heavy fines on water companies.\nD. Banning all sewage dumping into rivers\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.023054
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-002-What_measures_has_the_UK_Conservative_Government_announced_t"
+  },
+  {
+    "id": "meetingqa-003-What_is_the_current_status_of_implementing_a_public_health_a",
+    "task": "meetingqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the current status of implementing a public health approach to preventing gender-based violence in Wales according to Lara Snowdon's testimony?\nOptions:\nA.  The Welsh Government has fully implemented a public health approach.\nB. Lara Snowdon believes the public health approach in Wales is well-established.\nC. The public health approach to preventing gender-based violence in Wales is in its early stages.\nD. Lara Snowdon thinks the Welsh Government has successfully embedded the public health approach.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 5.987507,
+      "usage_totals": {
+        "prompt_eval_count": 8710.0,
+        "eval_count": 356.0,
+        "total_duration": 5982004300.0,
+        "load_duration": 98785000.0,
+        "prompt_eval_duration": 1152687300.0,
+        "eval_duration": 4349335100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.502198,
+          "usage": {
+            "prompt_eval_count": 4506,
+            "eval_count": 2,
+            "total_duration": 499298300,
+            "load_duration": 27017000,
+            "prompt_eval_duration": 445849000,
+            "eval_duration": 7235000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.485309,
+          "usage": {
+            "prompt_eval_count": 4204,
+            "eval_count": 354,
+            "total_duration": 5482706000,
+            "load_duration": 71768000,
+            "prompt_eval_duration": 706838300,
+            "eval_duration": 4342100100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 5.987507,
+          "usage_totals": {
+            "prompt_eval_count": 8710.0,
+            "eval_count": 356.0,
+            "total_duration": 5982004300.0,
+            "load_duration": 98785000.0,
+            "prompt_eval_duration": 1152687300.0,
+            "eval_duration": 4349335100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.266202
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-003-What_is_the_current_status_of_implementing_a_public_health_a"
+  },
+  {
+    "id": "meetingqa-004-Why_Evans_says_WRU_has_unique_role_in_the_sporting_economic",
+    "task": "meetingqa",
+    "dataset_answer": "C",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Why Evans says WRU has unique role in the sporting, economic and civic life in Wales?\nOptions:\nA. Because it's named after Wales.\nB. Because it has nearly 8,000 players, 300 clubs.\nC. Because it's well-funded and big, with school youths from all over Wales.\nD. Because it is well-funded and provides public services without using public funds.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 5.163092,
+      "usage_totals": {
+        "prompt_eval_count": 7879.0,
+        "eval_count": 365.0,
+        "total_duration": 5157715700.0,
+        "load_duration": 103234400.0,
+        "prompt_eval_duration": 1379186100.0,
+        "eval_duration": 3413839400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.752919,
+          "usage": {
+            "prompt_eval_count": 4052,
+            "eval_count": 2,
+            "total_duration": 750161300,
+            "load_duration": 25782200,
+            "prompt_eval_duration": 693160800,
+            "eval_duration": 12820800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.410173,
+          "usage": {
+            "prompt_eval_count": 3827,
+            "eval_count": 363,
+            "total_duration": 4407554400,
+            "load_duration": 77452200,
+            "prompt_eval_duration": 686025300,
+            "eval_duration": 3401018600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 5.163092,
+          "usage_totals": {
+            "prompt_eval_count": 7879.0,
+            "eval_count": 365.0,
+            "total_duration": 5157715700.0,
+            "load_duration": 103234400.0,
+            "prompt_eval_duration": 1379186100.0,
+            "eval_duration": 3413839400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.196158
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-004-Why_Evans_says_WRU_has_unique_role_in_the_sporting_economic"
+  },
+  {
+    "id": "meetingqa-005-What_key_support_scheme_is_mentioned_as_not_being_in_the_nex",
+    "task": "meetingqa",
+    "dataset_answer": "C",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What key support scheme is mentioned as not being in the next budget, and what is its current impact on households according to the response from Luke Young?\nOptions:\nA. The UK Government support scheme; it has had a significant positive impact on households.\nB. The UK Government support scheme; it has not had a significant impact on households.\nC. The Wales fuel support scheme; it has had a significant positive impact on households.\nD. The Wales fuel support scheme; it has not had a significant impact on households.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 5.352569,
+      "usage_totals": {
+        "prompt_eval_count": 8986.0,
+        "eval_count": 294.0,
+        "total_duration": 5346684400.0,
+        "load_duration": 99536900.0,
+        "prompt_eval_duration": 1464146200.0,
+        "eval_duration": 3498128700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.682189,
+          "usage": {
+            "prompt_eval_count": 4693,
+            "eval_count": 2,
+            "total_duration": 679181500,
+            "load_duration": 28475900,
+            "prompt_eval_duration": 619504500,
+            "eval_duration": 10999800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.67038,
+          "usage": {
+            "prompt_eval_count": 4293,
+            "eval_count": 292,
+            "total_duration": 4667502900,
+            "load_duration": 71061000,
+            "prompt_eval_duration": 844641700,
+            "eval_duration": 3487128900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 5.352569,
+          "usage_totals": {
+            "prompt_eval_count": 8986.0,
+            "eval_count": 294.0,
+            "total_duration": 5346684400.0,
+            "load_duration": 99536900.0,
+            "prompt_eval_duration": 1464146200.0,
+            "eval_duration": 3498128700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.380091
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-005-What_key_support_scheme_is_mentioned_as_not_being_in_the_nex"
+  },
+  {
+    "id": "meetingqa-006-What_specific_concern_does_Russell_George_raise_regarding_pu",
+    "task": "meetingqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What specific concern does Russell George raise regarding public toilets for disabled people in Montgomeryshire, his constituency?\nOptions:\nA.  The lack of public toilets in Montgomeryshire\nB. The need for updated facilities for those with disabilities\nC. The importance of tourism in Montgomeryshire\nD. The difficulty in attracting holidaymakers to the area\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 6.180597,
+      "usage_totals": {
+        "prompt_eval_count": 8394.0,
+        "eval_count": 395.0,
+        "total_duration": 6175779800.0,
+        "load_duration": 94539200.0,
+        "prompt_eval_duration": 1513215000.0,
+        "eval_duration": 4217788800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.909603,
+          "usage": {
+            "prompt_eval_count": 4352,
+            "eval_count": 2,
+            "total_duration": 907337900,
+            "load_duration": 23000400,
+            "prompt_eval_duration": 841661100,
+            "eval_duration": 21878500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.270994,
+          "usage": {
+            "prompt_eval_count": 4042,
+            "eval_count": 393,
+            "total_duration": 5268441900,
+            "load_duration": 71538800,
+            "prompt_eval_duration": 671553900,
+            "eval_duration": 4195910300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 6.180597,
+          "usage_totals": {
+            "prompt_eval_count": 8394.0,
+            "eval_count": 395.0,
+            "total_duration": 6175779800.0,
+            "load_duration": 94539200.0,
+            "prompt_eval_duration": 1513215000.0,
+            "eval_duration": 4217788800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.210008
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-006-What_specific_concern_does_Russell_George_raise_regarding_pu"
+  },
+  {
+    "id": "meetingqa-007-What_is_the_main_concern_raised_by_the_COVID-19_Bereaved_Fam",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the main concern raised by the COVID-19 Bereaved Families for Justice Cymru regarding the Welsh Government's engagement with the UK-wide COVID inquiry?\nOptions:\nA. The Welsh Government has been too slow in submitting evidence to the inquiry.\nB. The Welsh Government has been too slow in submitting evidence to the inquiry.\nC. The Welsh Government has disclosed all evidence promptly.\nD. The Welsh Government's evidence to the inquiry lacks relevance.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 8.415625,
+      "usage_totals": {
+        "prompt_eval_count": 8973.0,
+        "eval_count": 568.0,
+        "total_duration": 8410780400.0,
+        "load_duration": 100860000.0,
+        "prompt_eval_duration": 1367501800.0,
+        "eval_duration": 6434151000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.523681,
+          "usage": {
+            "prompt_eval_count": 4693,
+            "eval_count": 2,
+            "total_duration": 520936100,
+            "load_duration": 25401400,
+            "prompt_eval_duration": 469935100,
+            "eval_duration": 7416600
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.891944,
+          "usage": {
+            "prompt_eval_count": 4280,
+            "eval_count": 566,
+            "total_duration": 7889844300,
+            "load_duration": 75458600,
+            "prompt_eval_duration": 897566700,
+            "eval_duration": 6426734400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 8.415625,
+          "usage_totals": {
+            "prompt_eval_count": 8973.0,
+            "eval_count": 568.0,
+            "total_duration": 8410780400.0,
+            "load_duration": 100860000.0,
+            "prompt_eval_duration": 1367501800.0,
+            "eval_duration": 6434151000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 8.449248
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-007-What_is_the_main_concern_raised_by_the_COVID-19_Bereaved_Fam"
+  },
+  {
+    "id": "meetingqa-008-Whether_the_institution_has_enough_psychologists_to_treat_tr",
+    "task": "meetingqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Whether the institution has enough psychologists to treat traumatised children?\nOptions:\nA. Yes, and children there are willing to be treated.\nB. Yes, but children there are reluctant to be treated.\nC. No, and foster carers want to heal the child's trauma themselves.\nD. No, because lack of expertise.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 6.770727,
+      "usage_totals": {
+        "prompt_eval_count": 8807.0,
+        "eval_count": 405.0,
+        "total_duration": 6764244600.0,
+        "load_duration": 94740600.0,
+        "prompt_eval_duration": 1601110800.0,
+        "eval_duration": 4580508800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.861999,
+          "usage": {
+            "prompt_eval_count": 4580,
+            "eval_count": 2,
+            "total_duration": 857857100,
+            "load_duration": 24521600,
+            "prompt_eval_duration": 804272900,
+            "eval_duration": 12646800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.908728,
+          "usage": {
+            "prompt_eval_count": 4227,
+            "eval_count": 403,
+            "total_duration": 5906387500,
+            "load_duration": 70219000,
+            "prompt_eval_duration": 796837900,
+            "eval_duration": 4567862000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 6.770727,
+          "usage_totals": {
+            "prompt_eval_count": 8807.0,
+            "eval_count": 405.0,
+            "total_duration": 6764244600.0,
+            "load_duration": 94740600.0,
+            "prompt_eval_duration": 1601110800.0,
+            "eval_duration": 4580508800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.796319
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-008-Whether_the_institution_has_enough_psychologists_to_treat_tr"
+  },
+  {
+    "id": "meetingqa-009-What_specific_request_is_Rhun_ap_Iorwerth_AM_making_to_the_F",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What specific request is Rhun ap Iorwerth AM making to the First Minister regarding the Menai crossing scheme?\nOptions:\nA. Rhun ap Iorwerth is requesting a review of the decision not to proceed with the scheme.\nB. Rhun ap Iorwerth is asking the First Minister to consider the environmental impact of the scheme.\nC. Rhun ap Iorwerth is asking the First Minister to prioritize active travel routes.\nD. Rhun ap Iorwerth is requesting a cost-benefit analysis of the scheme.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.012709
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-009-What_specific_request_is_Rhun_ap_Iorwerth_AM_making_to_the_F"
+  },
+  {
+    "id": "meetingqa-010-What_is_the_main_point_made_by_Amanda_Wilkinson_regarding_th",
+    "task": "meetingqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the main point made by Amanda Wilkinson regarding the importance of Wales-Ireland relations from a university perspective?\nOptions:\nA.  Amanda Wilkinson highlights the importance of INTERREG funding in Wales-Ireland relations.\nB. Amanda Wilkinson emphasizes the role of Ireland in shaping the Global Wales program.\nC. Amanda Wilkinson discusses the extensive history of partnerships between Wales and Ireland.\nD. Amanda Wilkinson mentions the development of franchised courses between universities in Wales and Ireland.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "cold"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 6.079594,
+      "usage_totals": {
+        "prompt_eval_count": 7766.0,
+        "eval_count": 388.0,
+        "total_duration": 6073878600.0,
+        "load_duration": 89968100.0,
+        "prompt_eval_duration": 1361763300.0,
+        "eval_duration": 4200197000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.761991,
+          "usage": {
+            "prompt_eval_count": 4059,
+            "eval_count": 2,
+            "total_duration": 759177700,
+            "load_duration": 23829800,
+            "prompt_eval_duration": 700904400,
+            "eval_duration": 13056200
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.317603,
+          "usage": {
+            "prompt_eval_count": 3707,
+            "eval_count": 386,
+            "total_duration": 5314700900,
+            "load_duration": 66138300,
+            "prompt_eval_duration": 660858900,
+            "eval_duration": 4187140800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 6.079594,
+          "usage_totals": {
+            "prompt_eval_count": 7766.0,
+            "eval_count": 388.0,
+            "total_duration": 6073878600.0,
+            "load_duration": 89968100.0,
+            "prompt_eval_duration": 1361763300.0,
+            "eval_duration": 4200197000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.275092
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-010-What_is_the_main_point_made_by_Amanda_Wilkinson_regarding_th"
+  },
+  {
+    "id": "meetingqa-011-What_is_Sam_Rowlands_MSs_view_on_the_Conservative_Partys_p",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "Sam Rowlands MS supports the Conservative Party's proposal for free bus passes for young people, acknowledging concerns about funding.",
+    "raw_prediction": "Sam Rowlands MS supports the Conservative Party's proposal for free bus passes for young people, acknowledging concerns about funding.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is Sam Rowlands MS's view on the Conservative Party's proposal for free bus passes for young people?\nOptions:\nA. He agrees but wonders about the funding.\nB. He agrees and intends to implement it immediately\nC. He disagrees because it's not worth the money.\nD. He disagrees because he doesn't want to do things the way the Conservatives want them done.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.956219,
+      "usage_totals": {
+        "prompt_eval_count": 7088.0,
+        "eval_count": 346.0,
+        "total_duration": 4951349700.0,
+        "load_duration": 68560000.0,
+        "prompt_eval_duration": 1173440000.0,
+        "eval_duration": 3428189300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.640455,
+          "usage": {
+            "prompt_eval_count": 3656,
+            "eval_count": 2,
+            "total_duration": 637994600,
+            "load_duration": 18474800,
+            "prompt_eval_duration": 589568000,
+            "eval_duration": 14703000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.315764,
+          "usage": {
+            "prompt_eval_count": 3432,
+            "eval_count": 344,
+            "total_duration": 4313355100,
+            "load_duration": 50085200,
+            "prompt_eval_duration": 583872000,
+            "eval_duration": 3413486300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.956219,
+          "usage_totals": {
+            "prompt_eval_count": 7088.0,
+            "eval_count": 346.0,
+            "total_duration": 4951349700.0,
+            "load_duration": 68560000.0,
+            "prompt_eval_duration": 1173440000.0,
+            "eval_duration": 3428189300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.976868
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-011-What_is_Sam_Rowlands_MSs_view_on_the_Conservative_Partys_p"
+  },
+  {
+    "id": "meetingqa-012-What_key_support_scheme_is_mentioned_as_not_being_in_the_nex",
+    "task": "meetingqa",
+    "dataset_answer": "C",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What key support scheme is mentioned as not being in the next budget, and what is its current impact on households according to the response from Luke Young?\nOptions:\nA. The UK Government support scheme; it has had a significant positive impact on households.\nB. The UK Government support scheme; it has not had a significant impact on households.\nC. The Wales fuel support scheme; it has had a significant positive impact on households.\nD. The Wales fuel support scheme; it has not had a significant impact on households.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 7.221916,
+      "usage_totals": {
+        "prompt_eval_count": 7668.0,
+        "eval_count": 437.0,
+        "total_duration": 7214174900.0,
+        "load_duration": 77531000.0,
+        "prompt_eval_duration": 1074439400.0,
+        "eval_duration": 5630040400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.412361,
+          "usage": {
+            "prompt_eval_count": 3925,
+            "eval_count": 2,
+            "total_duration": 409689300,
+            "load_duration": 22629300,
+            "prompt_eval_duration": 362975900,
+            "eval_duration": 8140400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.809555,
+          "usage": {
+            "prompt_eval_count": 3743,
+            "eval_count": 435,
+            "total_duration": 6804485600,
+            "load_duration": 54901700,
+            "prompt_eval_duration": 711463500,
+            "eval_duration": 5621900000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 7.221916,
+          "usage_totals": {
+            "prompt_eval_count": 7668.0,
+            "eval_count": 437.0,
+            "total_duration": 7214174900.0,
+            "load_duration": 77531000.0,
+            "prompt_eval_duration": 1074439400.0,
+            "eval_duration": 5630040400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 7.244664
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-012-What_key_support_scheme_is_mentioned_as_not_being_in_the_nex"
+  },
+  {
+    "id": "meetingqa-013-why_does_Joshua_mention_that_in_the_number_of_private_vehicl",
+    "task": "meetingqa",
+    "dataset_answer": "B",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: why does Joshua mention that in the number of private vehicles that have been sold in the UK, diesel powered vehicles outstripped petrol for the first time?\nOptions:\nA. to illustrate the bad influence that private vehicles bring to us.\nB. to justify that we are in a worsening situation.\nC. to urge people to pay more attention to air pollution.\nD. to show that PM10 is less harmful than PM2.5.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.011834
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-013-why_does_Joshua_mention_that_in_the_number_of_private_vehicl"
+  },
+  {
+    "id": "meetingqa-014-who_would_be_the_temporary_chair_for_the_second_part_of_toda",
+    "task": "meetingqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: who would be the temporary chair for the second part of today's meeting?\nOptions:\nA. Llyr Gruffydd\nB. Christine Boston\nC. Joshua James\nD. Huw Irranca-Davies\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 3.887446,
+      "usage_totals": {
+        "prompt_eval_count": 7077.0,
+        "eval_count": 261.0,
+        "total_duration": 3882167000.0,
+        "load_duration": 70766700.0,
+        "prompt_eval_duration": 1223342700.0,
+        "eval_duration": 2409678600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.736427,
+          "usage": {
+            "prompt_eval_count": 3608,
+            "eval_count": 2,
+            "total_duration": 733726000,
+            "load_duration": 17357600,
+            "prompt_eval_duration": 678528600,
+            "eval_duration": 22053900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.151019,
+          "usage": {
+            "prompt_eval_count": 3469,
+            "eval_count": 259,
+            "total_duration": 3148441000,
+            "load_duration": 53409100,
+            "prompt_eval_duration": 544814100,
+            "eval_duration": 2387624700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 3.887446,
+          "usage_totals": {
+            "prompt_eval_count": 7077.0,
+            "eval_count": 261.0,
+            "total_duration": 3882167000.0,
+            "load_duration": 70766700.0,
+            "prompt_eval_duration": 1223342700.0,
+            "eval_duration": 2409678600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.901629
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-014-who_would_be_the_temporary_chair_for_the_second_part_of_toda"
+  },
+  {
+    "id": "meetingqa-015-What_additional_funding_has_been_committed_by_the_Welsh_Gove",
+    "task": "meetingqa",
+    "dataset_answer": "D",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What additional funding has been committed by the Welsh Government to support people arriving from Ukraine?\nOptions:\nA. £10 million\nB. £20 million\nC. £30 million\nD. £40 million\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 6.689275,
+      "usage_totals": {
+        "prompt_eval_count": 6689.0,
+        "eval_count": 312.0,
+        "total_duration": 6684899000.0,
+        "load_duration": 75207200.0,
+        "prompt_eval_duration": 889874000.0,
+        "eval_duration": 5442925200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.341909,
+          "usage": {
+            "prompt_eval_count": 3419,
+            "eval_count": 2,
+            "total_duration": 339699400,
+            "load_duration": 19568200,
+            "prompt_eval_duration": 297498300,
+            "eval_duration": 8479800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.347366,
+          "usage": {
+            "prompt_eval_count": 3270,
+            "eval_count": 310,
+            "total_duration": 6345199600,
+            "load_duration": 55639000,
+            "prompt_eval_duration": 592375700,
+            "eval_duration": 5434445400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 6.689275,
+          "usage_totals": {
+            "prompt_eval_count": 6689.0,
+            "eval_count": 312.0,
+            "total_duration": 6684899000.0,
+            "load_duration": 75207200.0,
+            "prompt_eval_duration": 889874000.0,
+            "eval_duration": 5442925200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.704483
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-015-What_additional_funding_has_been_committed_by_the_Welsh_Gove"
+  },
+  {
+    "id": "meetingqa-016-Which_one_exacerbates_the_difficulties_of_working_with_the_W",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which one exacerbates the difficulties of working with the Welsh Fostering Network?\nOptions:\nAnd we're also finding single foster carers are struggling within the current climate as well, because it is one of those roles that people have to make a big decision about, whether they can afford to foster, and the climate at the moment is super challenging.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "hot"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.010709
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-016-Which_one_exacerbates_the_difficulties_of_working_with_the_W"
+  },
+  {
+    "id": "meetingqa-017-What_flexibility_does_the_Health_Service_Procurement_Wales",
+    "task": "meetingqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What flexibility does the Health Service Procurement (Wales) Bill offer to Wales in terms of healthcare procurement?\nOptions:\nA. The ability to reduce administrative burden\nB. The requirement for more competitive bids\nC. The necessity to follow UK regulations\nD. The exclusion of the third sector\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 9.172013,
+      "usage_totals": {
+        "prompt_eval_count": 12971.0,
+        "eval_count": 344.0,
+        "total_duration": 9164686400.0,
+        "load_duration": 91175600.0,
+        "prompt_eval_duration": 2512448800.0,
+        "eval_duration": 3449029200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.869655,
+          "usage": {
+            "prompt_eval_count": 4649,
+            "eval_count": 2,
+            "total_duration": 867111100,
+            "load_duration": 20333900,
+            "prompt_eval_duration": 816312300,
+            "eval_duration": 13576100
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.798014,
+          "usage": {
+            "prompt_eval_count": 4427,
+            "eval_count": 340,
+            "total_duration": 7795472900,
+            "load_duration": 51249000,
+            "prompt_eval_duration": 1235061900,
+            "eval_duration": 3428505900
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.504344,
+          "usage": {
+            "prompt_eval_count": 3895,
+            "eval_count": 2,
+            "total_duration": 502102400,
+            "load_duration": 19592700,
+            "prompt_eval_duration": 461074600,
+            "eval_duration": 6947200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 9.172013,
+          "usage_totals": {
+            "prompt_eval_count": 12971.0,
+            "eval_count": 344.0,
+            "total_duration": 9164686400.0,
+            "load_duration": 91175600.0,
+            "prompt_eval_duration": 2512448800.0,
+            "eval_duration": 3449029200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.191809
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-017-What_flexibility_does_the_Health_Service_Procurement_Wales"
+  },
+  {
+    "id": "meetingqa-018-why_does_Mark_Thomas_mention_developers_profit_in_the_last_",
+    "task": "meetingqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: why does Mark Thomas mention developers’ profit in the last decade or two?\nOptions:\nA. to show the huge wealth gap in the last decade or two.\nB. to show that some people can afford to repair fire and build defective homes.\nC. to show that it is the government’s task to repair fire and build-defective homes.\nD. to show that the UK’s economy has experienced a rising up.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 4.024154,
+      "usage_totals": {
+        "prompt_eval_count": 5927.0,
+        "eval_count": 330.0,
+        "total_duration": 4019964600.0,
+        "load_duration": 71207500.0,
+        "prompt_eval_duration": 756849700.0,
+        "eval_duration": 2985870700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.383796,
+          "usage": {
+            "prompt_eval_count": 3018,
+            "eval_count": 2,
+            "total_duration": 381665300,
+            "load_duration": 18408700,
+            "prompt_eval_duration": 342540600,
+            "eval_duration": 7497000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.640358,
+          "usage": {
+            "prompt_eval_count": 2909,
+            "eval_count": 328,
+            "total_duration": 3638299300,
+            "load_duration": 52798800,
+            "prompt_eval_duration": 414309100,
+            "eval_duration": 2978373700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 4.024154,
+          "usage_totals": {
+            "prompt_eval_count": 5927.0,
+            "eval_count": 330.0,
+            "total_duration": 4019964600.0,
+            "load_duration": 71207500.0,
+            "prompt_eval_duration": 756849700.0,
+            "eval_duration": 2985870700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.043021
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-018-why_does_Mark_Thomas_mention_developers_profit_in_the_last_"
+  },
+  {
+    "id": "meetingqa-019-How_is_the_nursing_workforce_responding_to_the_challenges_it",
+    "task": "meetingqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: How is the nursing workforce responding to the challenges it faces?\nOptions:\nA. The nursing workforce is quitting their jobs in large numbers.\nB. The nursing workforce is quitting their jobs in large numbers.\nC. The nursing workforce is staying and working under difficult conditions.\nD.  The nursing workforce is demanding higher pay.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 5.285477,
+      "usage_totals": {
+        "prompt_eval_count": 8226.0,
+        "eval_count": 327.0,
+        "total_duration": 5280503200.0,
+        "load_duration": 69480800.0,
+        "prompt_eval_duration": 1190325700.0,
+        "eval_duration": 3805318400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.513316,
+          "usage": {
+            "prompt_eval_count": 4247,
+            "eval_count": 2,
+            "total_duration": 511223400,
+            "load_duration": 18887900,
+            "prompt_eval_duration": 459120500,
+            "eval_duration": 18430700
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.772161,
+          "usage": {
+            "prompt_eval_count": 3979,
+            "eval_count": 325,
+            "total_duration": 4769279800,
+            "load_duration": 50592900,
+            "prompt_eval_duration": 731205200,
+            "eval_duration": 3786887700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 5.285477,
+          "usage_totals": {
+            "prompt_eval_count": 8226.0,
+            "eval_count": 327.0,
+            "total_duration": 5280503200.0,
+            "load_duration": 69480800.0,
+            "prompt_eval_duration": 1190325700.0,
+            "eval_duration": 3805318400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.303574
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-019-How_is_the_nursing_workforce_responding_to_the_challenges_it"
+  },
+  {
+    "id": "meetingqa-020-How_has_the_housing_support_grant_budget_changed_in_2021-22_",
+    "task": "meetingqa",
+    "dataset_answer": "D",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: How has the housing support grant budget changed in 2021-22 compared to the previous year?\nOptions:\nA. It remained the same.\nB. It increased by 10%.\nC. It increased by 20%.\nD. It increased by 30%.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "cold"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.009216
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\validation-meetingqa-4k-20\\case_memory\\meetingqa-020-How_has_the_housing_support_grant_budget_changed_in_2021-22_"
+  }
+]

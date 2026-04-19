@@ -1,0 +1,115 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065623-0005-49f3f7fda83e\\2026-04-15\\06-56-31-024279.json",
+  "timestamp": "2026-04-15T06:56:31",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T06:56:31",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-3ee302d533a0",
+    "thread_label": "character / vegan"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "vegan",
+    "Stuart",
+    "vegan character"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "vegan",
+      "Stuart",
+      "vegan character"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "vegan"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character is vegan?",
+  "resolved_source_span": "Which character is vegan?",
+  "event_segments": [
+    {
+      "text": "Which character is vegan?",
+      "resolved_text": "Which character is vegan?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "character",
+        "vegan",
+        "Which"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.52,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065623-0005-49f3f7fda83e\\2026-04-15\\06-56-31-024279.json::event_segment:0",
+      "logical_event_id": "generic|character|character,stuart,vegan,vegan character|april",
+      "dedupe_key": "generic|character|character,stuart,vegan,vegan character|april|which character is vegan|2026-04-15T06:56:31",
+      "source_signature": "which character is vegan",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-15T06:56:31",
+      "thread_id": "thread-3ee302d533a0",
+      "thread_label": "character / vegan",
+      "entities": [
+        "character",
+        "vegan",
+        "Stuart",
+        "vegan character",
+        "Which"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Which character is vegan?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065623-0005-49f3f7fda83e\\2026-04-15\\06-56-31-024279.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "timestamp": "2026-04-14T21:54:20",
+  "user_query": "<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret?",
+  "assistant_response": "<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there. <inky> I wish - too far from Melbourne. <gargle> Count me in. <DoDec> Are you going to that cyberlaw thing? <ferret> Yep. Speaking on Tuesday. <callmecheese> I'm signed up! Lemme see if I can change my tickets. A message came in from Veronica saying, \"I'm lactose intolerant,\" and nothing more. <Kadabra> There's a great brewpub near the conference site. Dinner on Tuesday? <ferret> Wait wait wait, what about Shad's brother? <Falstaff> Yep, we need to figure that shit out . <Gargle> Shad, does a meet-up sound good? I can fix us up with a safe place to get together . I was frozen for a minute, unsure how to respond. The day was catching up with me. It was nearly four in the morning, and my brain was feeling fuzzy. The Group had meet- ups regularly. Someone would say “hey, I’m going to be in Bangkok next week, anybody want to get together?” and people would figure out where to meet and hang out for a while.",
+  "semantic_summary": "<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there.",
+  "language": "en",
+  "key_entities": [
+    "ferret",
+    "Hey",
+    "I'm",
+    "heading",
+    "Minneapolis",
+    "Kadabra",
+    "Sunday",
+    "Melbourne",
+    "few",
+    "days",
+    "about",
+    "meet-up"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "ferret",
+      "Hey",
+      "I'm",
+      "heading",
+      "Minneapolis",
+      "Kadabra",
+      "Sunday",
+      "Melbourne",
+      "few",
+      "days",
+      "about",
+      "meet-up",
+      "<ferret> Hey",
+      "I'm heading",
+      "<Kadabra> When will you be there",
+      "Sunday flight",
+      "3 day"
+    ],
+    "entity_cards": [
+      {
+        "name": "ferret",
+        "normalized": "ferret"
+      },
+      {
+        "name": "Hey",
+        "normalized": "hey"
+      },
+      {
+        "name": "I'm",
+        "normalized": "i m"
+      },
+      {
+        "name": "heading",
+        "normalized": "heading"
+      },
+      {
+        "name": "Minneapolis",
+        "normalized": "minneapolis"
+      },
+      {
+        "name": "Kadabra",
+        "normalized": "kadabra"
+      },
+      {
+        "name": "Sunday",
+        "normalized": "sunday"
+      },
+      {
+        "name": "Melbourne",
+        "normalized": "melbourne"
+      },
+      {
+        "name": "few",
+        "normalized": "few"
+      },
+      {
+        "name": "days",
+        "normalized": "days"
+      },
+      {
+        "name": "about",
+        "normalized": "about"
+      },
+      {
+        "name": "meet-up",
+        "normalized": "meet-up"
+      }
+    ],
+    "numeric_cards": [
+      {
+        "kind": "duration",
+        "value": "3 day",
+        "normalized_value": 3.0,
+        "unit": "day",
+        "source": "<ferret> Hey, I'm heading to Minneapolis for a few days."
+      }
+    ],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-c08cd1f08859",
+  "thread_label": "ferret / Hey",
+  "topic_tokens": [
+    "ferret",
+    "Hey",
+    "I'm",
+    "heading"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 3,
+    "source_language": "en",
+    "chunk_title": "<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret?",
+    "language": "en",
+    "ingested_at": "2026-04-14T21:54:20",
+    "source_timestamp": "2026-04-14T21:54:20",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-215420-0003-5b47a754816e\\2026-04-14\\21-54-20-838668.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-215420-0003-5b47a754816e\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-215420-0003-5b47a754816e\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-215420-0003-5b47a754816e\\system\\event-bus-latest.json"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-021650-0016-2d25150e6782\\2026-04-15\\02-16-50-498818.json",
+  "timestamp": "2026-04-15T02:16:50",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T02:16:50",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-728d44790a1b",
+    "thread_label": "RAG / matters"
+  },
+  "event_type": "generic",
+  "entities": [
+    "RAG",
+    "matters",
+    "check",
+    "probably",
+    "Simon",
+    "Give",
+    "Thanks",
+    "Facebook",
+    "okay",
+    "tried",
+    "sound",
+    "sure"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "RAG",
+      "matters",
+      "check",
+      "probably",
+      "Simon",
+      "Give",
+      "Thanks",
+      "Facebook",
+      "okay",
+      "tried",
+      "sound",
+      "sure",
+      "“I have",
+      "it would mean everything"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "RAG",
+      "matters",
+      "check",
+      "probably"
+    ]
+  },
+  "relations": [],
+  "source_span": "This matters to me.” “I’ll have to check, but it’ll probably be okay.” He tried to sound sure of himself but just",
+  "resolved_source_span": "He matters to me.” “I’ll have to check, but He’ll probably be okay.” He tried to sound sure of himself but just",
+  "event_segments": [
+    {
+      "text": "He matters to me.” “I’ll have to check, but He’ll probably be okay.” He tried to sound sure of himself but just",
+      "resolved_text": "He matters to me.” “I’ll have to check, but He’ll probably be okay.” He tried to sound sure of himself but just",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "matters",
+        "check",
+        "probably",
+        "okay",
+        "tried",
+        "sound"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-021650-0016-2d25150e6782\\2026-04-15\\02-16-50-498818.json::event_segment:0",
+      "logical_event_id": "generic|rag|check,matters,probably,rag|april",
+      "dedupe_key": "generic|rag|check,matters,probably,rag|april|he matters to me i ll have to check but he ll probably be okay he tried to sound sure of himself but just|2026-04-15T02:16:50",
+      "source_signature": "he matters to me i ll have to check but he ll probably be okay he tried to sound sure of himself but just",
+      "event_type": "generic",
+      "display_name": "RAG",
+      "normalized_name": "rag",
+      "timestamp": "2026-04-15T02:16:50",
+      "thread_id": "thread-728d44790a1b",
+      "thread_label": "RAG / matters",
+      "entities": [
+        "RAG",
+        "matters",
+        "check",
+        "probably",
+        "Simon",
+        "Give",
+        "Thanks",
+        "Facebook",
+        "okay",
+        "tried",
+        "sound",
+        "sure"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "He matters to me.” “I’ll have to check, but He’ll probably be okay.” He tried to sound sure of himself but just",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-021650-0016-2d25150e6782\\2026-04-15\\02-16-50-498818.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

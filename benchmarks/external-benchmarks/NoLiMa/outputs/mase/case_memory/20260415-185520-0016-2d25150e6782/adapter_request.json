@@ -1,0 +1,11 @@
+{
+  "mode": "memory_ingest",
+  "system_prompt": "",
+  "question": "Which character has been to the Mauritshuis?",
+  "haystack_char_length": 11297,
+  "user_prompt_char_length": 11672,
+  "max_tokens": 64,
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "add_default_system_prompt": true
+}

@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-04-15T04:17:18",
+  "user_query": "Who placed them there, and how did they get there?\" \"What?\" I said it again. \"This is your last chance, Marcus,\" she",
+  "assistant_response": "Who placed them there, and how did they get there?\" \"What?\" I said it again. \"This is your last chance, Marcus,\" she said. She looked sad. \"You were doing so well until now. Tell us this and you can go home. You can get a lawyer and defend yourself in a court of law. There are doubtless extenuating circumstances that you can use to explain your actions. Just tell us this thing, and you're gone.\" \"The great and only Max is more stiff and standoffish than ever this year,\" said Huldah. \"I've simply given up trying to please her, for there's no justice in her; she is good to her favorites, but she doesn't pay the least attention to anybody else, except to make sarcastic speeches about things that are none of her business. I wanted to tell her yesterday it was her place to teach me Latin, not manners.\" \"I wish you wouldn't talk against Miss Maxwell to me,\" said Rebecca hotly. \"You know how I feel.\" \"I know; but I can't understand how you can abide her.\" \"I not only abide, I love her!\" exclaimed Rebecca. \"I wouldn't let the sun shine too hot on her, or the wind blow too cold.",
+  "semantic_summary": "Who placed them there, and how did they get there?\" \"What?\" I said it again. \"This is your last chance, Marcus,\" she said. She looked sad. \"You were doing so well until now. Tell us this and you can go home. You can get",
+  "language": "en",
+  "key_entities": [
+    "placed",
+    "get",
+    "again",
+    "chance",
+    "Marcus",
+    "She",
+    "Tell",
+    "Max",
+    "said",
+    "last",
+    "last chance",
+    "Huldah"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "placed",
+      "get",
+      "again",
+      "chance",
+      "Marcus",
+      "She",
+      "Tell",
+      "Max",
+      "said",
+      "last",
+      "last chance",
+      "Huldah",
+      "there?\" \"What?\" I said it again",
+      "is your last chance",
+      "\" she",
+      "\" she said"
+    ],
+    "entity_cards": [
+      {
+        "name": "placed",
+        "normalized": "placed"
+      },
+      {
+        "name": "get",
+        "normalized": "get"
+      },
+      {
+        "name": "again",
+        "normalized": "again"
+      },
+      {
+        "name": "chance",
+        "normalized": "chance"
+      },
+      {
+        "name": "Marcus",
+        "normalized": "marcus"
+      },
+      {
+        "name": "She",
+        "normalized": "she"
+      },
+      {
+        "name": "Tell",
+        "normalized": "tell"
+      },
+      {
+        "name": "Max",
+        "normalized": "max"
+      },
+      {
+        "name": "said",
+        "normalized": "said"
+      },
+      {
+        "name": "last",
+        "normalized": "last"
+      },
+      {
+        "name": "last chance",
+        "normalized": "last chance"
+      },
+      {
+        "name": "Huldah",
+        "normalized": "huldah"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-5d4d54cb4758",
+  "thread_label": "placed / get",
+  "topic_tokens": [
+    "placed",
+    "get",
+    "again",
+    "chance"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 6,
+    "source_language": "en",
+    "chunk_title": "Who placed them there, and how did they get there?\" \"What?\" I said it again. \"This is your last chance, Marcus,\" she",
+    "language": "en",
+    "ingested_at": "2026-04-15T04:17:18",
+    "source_timestamp": "2026-04-15T04:17:18",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-041718-0007-495d709a8432\\2026-04-15\\04-17-18-856141.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-041718-0007-495d709a8432\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-041718-0007-495d709a8432\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-041718-0007-495d709a8432\\system\\event-bus-latest.json"
+  }
+}

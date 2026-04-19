@@ -1,0 +1,209 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-230717-0008-ad74dfbbf92c\\2026-04-14\\23-07-17-474667.json",
+  "timestamp": "2026-04-14T23:07:17",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T23:07:17",
+    "date": "2026-04-14",
+    "month": "april",
+    "weekday": "tuesday",
+    "thread_id": "thread-85297e95bfd2",
+    "thread_label": "telephone / Lexy"
+  },
+  "event_type": "generic",
+  "entities": [
+    "telephone",
+    "Lexy",
+    "reflected",
+    "queer",
+    "Perhaps",
+    "She",
+    "Caroline",
+    "Quiet",
+    "only",
+    "night",
+    "her",
+    "life"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "tuesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "telephone",
+      "Lexy",
+      "reflected",
+      "queer",
+      "Perhaps",
+      "She",
+      "Caroline",
+      "Quiet",
+      "only",
+      "night",
+      "her",
+      "life",
+      "Lexy reflected",
+      "own",
+      "he sounded",
+      "It was queer"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "telephone",
+      "Lexy",
+      "reflected",
+      "queer"
+    ]
+  },
+  "relations": [],
+  "source_span": "the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own.",
+  "resolved_source_span": "the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own.",
+  "event_segments": [
+    {
+      "text": "the telephone,” Lexy reflected.",
+      "resolved_text": "the telephone,” Lexy reflected.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "telephone",
+        "Lexy",
+        "reflected"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "“It was queer—just on the only night of her life when she’d ever gone out on her own.",
+      "resolved_text": "“It was queer—just on the only night of her life when she’d ever gone out on her own.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "queer",
+        "She",
+        "only",
+        "night",
+        "her",
+        "life"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.62,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-230717-0008-ad74dfbbf92c\\2026-04-14\\23-07-17-474667.json::event_segment:0",
+      "logical_event_id": "generic|telephone|lexy,queer,reflected,telephone|april",
+      "dedupe_key": "generic|telephone|lexy,queer,reflected,telephone|april|the telephone lexy reflected|2026-04-14T23:07:17",
+      "source_signature": "the telephone lexy reflected",
+      "event_type": "generic",
+      "display_name": "telephone",
+      "normalized_name": "telephone",
+      "timestamp": "2026-04-14T23:07:17",
+      "thread_id": "thread-85297e95bfd2",
+      "thread_label": "telephone / Lexy",
+      "entities": [
+        "telephone",
+        "Lexy",
+        "reflected",
+        "queer",
+        "Perhaps",
+        "She",
+        "Caroline",
+        "Quiet",
+        "only",
+        "night",
+        "her",
+        "life"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "source": "the telephone,” Lexy reflected.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-230717-0008-ad74dfbbf92c\\2026-04-14\\23-07-17-474667.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-230717-0008-ad74dfbbf92c\\2026-04-14\\23-07-17-474667.json::event_segment:1",
+      "logical_event_id": "generic|telephone|lexy,queer,reflected,telephone|april",
+      "dedupe_key": "generic|telephone|lexy,queer,reflected,telephone|april|it was queer just on the only night of her life when she d ever gone out on her own|2026-04-14T23:07:17",
+      "source_signature": "it was queer just on the only night of her life when she d ever gone out on her own",
+      "event_type": "generic",
+      "display_name": "telephone",
+      "normalized_name": "telephone",
+      "timestamp": "2026-04-14T23:07:17",
+      "thread_id": "thread-85297e95bfd2",
+      "thread_label": "telephone / Lexy",
+      "entities": [
+        "telephone",
+        "Lexy",
+        "reflected",
+        "queer",
+        "Perhaps",
+        "She",
+        "Caroline",
+        "Quiet",
+        "only",
+        "night",
+        "her",
+        "life"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "source": "“It was queer—just on the only night of her life when she’d ever gone out on her own.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-230717-0008-ad74dfbbf92c\\2026-04-14\\23-07-17-474667.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

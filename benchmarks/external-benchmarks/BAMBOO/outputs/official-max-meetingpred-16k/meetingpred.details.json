@@ -1,0 +1,4616 @@
+[
+  {
+    "id": "meetingpred-001",
+    "task": "meetingpred",
+    "dataset_answer": "James Evans MS",
+    "prediction": "James Evans MS",
+    "raw_prediction": "James Evans MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.027387
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-001"
+  },
+  {
+    "id": "meetingpred-002",
+    "task": "meetingpred",
+    "dataset_answer": "Heledd Fychan MS",
+    "prediction": "Mark Drakeford AM",
+    "raw_prediction": "Mark Drakeford AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.017847
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-002"
+  },
+  {
+    "id": "meetingpred-003",
+    "task": "meetingpred",
+    "dataset_answer": "Dr Nia Thomas",
+    "prediction": "John Griffiths AM",
+    "raw_prediction": "John Griffiths AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014733
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-003"
+  },
+  {
+    "id": "meetingpred-004",
+    "task": "meetingpred",
+    "dataset_answer": "Julie Morgan AM",
+    "prediction": "Answer:",
+    "raw_prediction": "Answer:",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 2.883563,
+      "usage_totals": {
+        "prompt_eval_count": 548.0,
+        "eval_count": 276.0,
+        "total_duration": 2880224300.0,
+        "load_duration": 47483500.0,
+        "prompt_eval_duration": 143201500.0,
+        "eval_duration": 2531169300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.883563,
+          "usage": {
+            "prompt_eval_count": 548,
+            "eval_count": 276,
+            "total_duration": 2880224300,
+            "load_duration": 47483500,
+            "prompt_eval_duration": 143201500,
+            "eval_duration": 2531169300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 2.883563,
+          "usage_totals": {
+            "prompt_eval_count": 548.0,
+            "eval_count": 276.0,
+            "total_duration": 2880224300.0,
+            "load_duration": 47483500.0,
+            "prompt_eval_duration": 143201500.0,
+            "eval_duration": 2531169300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 2.905847
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-004"
+  },
+  {
+    "id": "meetingpred-005",
+    "task": "meetingpred",
+    "dataset_answer": "Vaughan Gething AM",
+    "prediction": "Vaughan Gething AM",
+    "raw_prediction": "Vaughan Gething AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.018357
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-005"
+  },
+  {
+    "id": "meetingpred-006",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "Answer: Nick",
+    "raw_prediction": "Answer: Nick",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 3.334107,
+      "usage_totals": {
+        "prompt_eval_count": 445.0,
+        "eval_count": 357.0,
+        "total_duration": 3331905700.0,
+        "load_duration": 48999800.0,
+        "prompt_eval_duration": 44000400.0,
+        "eval_duration": 3054138800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.334107,
+          "usage": {
+            "prompt_eval_count": 445,
+            "eval_count": 357,
+            "total_duration": 3331905700,
+            "load_duration": 48999800,
+            "prompt_eval_duration": 44000400,
+            "eval_duration": 3054138800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 3.334107,
+          "usage_totals": {
+            "prompt_eval_count": 445.0,
+            "eval_count": 357.0,
+            "total_duration": 3331905700.0,
+            "load_duration": 48999800.0,
+            "prompt_eval_duration": 44000400.0,
+            "eval_duration": 3054138800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.354263
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-006"
+  },
+  {
+    "id": "meetingpred-007",
+    "task": "meetingpred",
+    "dataset_answer": "Sarah Murphy MS",
+    "prediction": "Answer:",
+    "raw_prediction": "Answer:",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 2.880823,
+      "usage_totals": {
+        "prompt_eval_count": 380.0,
+        "eval_count": 310.0,
+        "total_duration": 2878364700.0,
+        "load_duration": 45979200.0,
+        "prompt_eval_duration": 30308800.0,
+        "eval_duration": 2643793800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.880823,
+          "usage": {
+            "prompt_eval_count": 380,
+            "eval_count": 310,
+            "total_duration": 2878364700,
+            "load_duration": 45979200,
+            "prompt_eval_duration": 30308800,
+            "eval_duration": 2643793800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 2.880823,
+          "usage_totals": {
+            "prompt_eval_count": 380.0,
+            "eval_count": 310.0,
+            "total_duration": 2878364700.0,
+            "load_duration": 45979200.0,
+            "prompt_eval_duration": 30308800.0,
+            "eval_duration": 2643793800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 2.900282
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-007"
+  },
+  {
+    "id": "meetingpred-008",
+    "task": "meetingpred",
+    "dataset_answer": "Alun Davies AM",
+    "prediction": "Alun Davies AM",
+    "raw_prediction": "Alun Davies AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015715
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-008"
+  },
+  {
+    "id": "meetingpred-009",
+    "task": "meetingpred",
+    "dataset_answer": "Mick Antoniw AM",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 3.656753,
+      "usage_totals": {
+        "prompt_eval_count": 365.0,
+        "eval_count": 395.0,
+        "total_duration": 3655088100.0,
+        "load_duration": 50998200.0,
+        "prompt_eval_duration": 26999900.0,
+        "eval_duration": 3374633300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.656753,
+          "usage": {
+            "prompt_eval_count": 365,
+            "eval_count": 395,
+            "total_duration": 3655088100,
+            "load_duration": 50998200,
+            "prompt_eval_duration": 26999900,
+            "eval_duration": 3374633300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 3.656753,
+          "usage_totals": {
+            "prompt_eval_count": 365.0,
+            "eval_count": 395.0,
+            "total_duration": 3655088100.0,
+            "load_duration": 50998200.0,
+            "prompt_eval_duration": 26999900.0,
+            "eval_duration": 3374633300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.678155
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-009"
+  },
+  {
+    "id": "meetingpred-010",
+    "task": "meetingpred",
+    "dataset_answer": "Gareth Davies MS",
+    "prediction": "John Griffiths AM",
+    "raw_prediction": "John Griffiths AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015653
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-010"
+  },
+  {
+    "id": "meetingpred-011",
+    "task": "meetingpred",
+    "dataset_answer": "Tom Giffard MS",
+    "prediction": "Jeremy Miles AM",
+    "raw_prediction": "Jeremy Miles AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015785
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-011"
+  },
+  {
+    "id": "meetingpred-012",
+    "task": "meetingpred",
+    "dataset_answer": "Peredur Owen Griffiths MS",
+    "prediction": "Cefin Campbell MS",
+    "raw_prediction": "Cefin Campbell MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014516
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-012"
+  },
+  {
+    "id": "meetingpred-013",
+    "task": "meetingpred",
+    "dataset_answer": "Julie James AM",
+    "prediction": "Julie James AM",
+    "raw_prediction": "Julie James AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016529
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-013"
+  },
+  {
+    "id": "meetingpred-014",
+    "task": "meetingpred",
+    "dataset_answer": "James Evans MS",
+    "prediction": "James Evans MS",
+    "raw_prediction": "James Evans MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016156
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-014"
+  },
+  {
+    "id": "meetingpred-015",
+    "task": "meetingpred",
+    "dataset_answer": "Sioned Williams MS",
+    "prediction": "Sarah Murphy MS",
+    "raw_prediction": "Sarah Murphy MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.01523
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-015"
+  },
+  {
+    "id": "meetingpred-016",
+    "task": "meetingpred",
+    "dataset_answer": "Heledd Fychan MS",
+    "prediction": "Jenny Rathbone AM",
+    "raw_prediction": "Jenny Rathbone AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016154
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-016"
+  },
+  {
+    "id": "meetingpred-017",
+    "task": "meetingpred",
+    "dataset_answer": "Mark Isherwood AM",
+    "prediction": "Mark Isherwood AM",
+    "raw_prediction": "Mark Isherwood AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016489
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-017"
+  },
+  {
+    "id": "meetingpred-018",
+    "task": "meetingpred",
+    "dataset_answer": "Heledd Fychan MS",
+    "prediction": "Heledd Fychan MS",
+    "raw_prediction": "Heledd Fychan MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014422
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-018"
+  },
+  {
+    "id": "meetingpred-019",
+    "task": "meetingpred",
+    "dataset_answer": "Mark Drakeford AM",
+    "prediction": "Luke Fletcher MS",
+    "raw_prediction": "Luke Fletcher MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.008504
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-019"
+  },
+  {
+    "id": "meetingpred-020",
+    "task": "meetingpred",
+    "dataset_answer": "Jenny Rathbone AM",
+    "prediction": "Jenny Rathbone AM",
+    "raw_prediction": "Jenny Rathbone AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014781
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-020"
+  },
+  {
+    "id": "meetingpred-021",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "Huw Irranca-Davies AM",
+    "raw_prediction": "Huw Irranca-Davies AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016566
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-021"
+  },
+  {
+    "id": "meetingpred-022",
+    "task": "meetingpred",
+    "dataset_answer": "Sioned Williams MS",
+    "prediction": "Sioned Williams MS",
+    "raw_prediction": "Sioned Williams MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.017038
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-022"
+  },
+  {
+    "id": "meetingpred-023",
+    "task": "meetingpred",
+    "dataset_answer": "Rhys ab Owen MS",
+    "prediction": "Darren Millar AM",
+    "raw_prediction": "Darren Millar AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015129
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-023"
+  },
+  {
+    "id": "meetingpred-024",
+    "task": "meetingpred",
+    "dataset_answer": "Huw Irranca-Davies AM",
+    "prediction": "Huw Irranca-Davies AM",
+    "raw_prediction": "Huw Irranca-Davies AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014618
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-024"
+  },
+  {
+    "id": "meetingpred-025",
+    "task": "meetingpred",
+    "dataset_answer": "Jack Sargeant AM",
+    "prediction": "Mark Isherwood AM",
+    "raw_prediction": "Mark Isherwood AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015003
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-025"
+  },
+  {
+    "id": "meetingpred-026",
+    "task": "meetingpred",
+    "dataset_answer": "Ken Skates AM",
+    "prediction": "Sioned Williams MS",
+    "raw_prediction": "Sioned Williams MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015388
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-026"
+  },
+  {
+    "id": "meetingpred-027",
+    "task": "meetingpred",
+    "dataset_answer": "Delyth Jewell AM",
+    "prediction": "Alun Davies AM",
+    "raw_prediction": "Alun Davies AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015665
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-027"
+  },
+  {
+    "id": "meetingpred-028",
+    "task": "meetingpred",
+    "dataset_answer": "Dr Andrew Goodall",
+    "prediction": "Dr Andrew Goodall",
+    "raw_prediction": "Dr Andrew Goodall",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.019546
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-028"
+  },
+  {
+    "id": "meetingpred-029",
+    "task": "meetingpred",
+    "dataset_answer": "Mick Antoniw AM",
+    "prediction": "Mick Antoniw AM",
+    "raw_prediction": "Mick Antoniw AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016343
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-029"
+  },
+  {
+    "id": "meetingpred-030",
+    "task": "meetingpred",
+    "dataset_answer": "Jeremy Miles AM",
+    "prediction": "Ken Skates AM",
+    "raw_prediction": "Ken Skates AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015205
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-030"
+  },
+  {
+    "id": "meetingpred-031",
+    "task": "meetingpred",
+    "dataset_answer": "Jane Dodds MS",
+    "prediction": "Hannah Blythyn AM",
+    "raw_prediction": "Hannah Blythyn AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015972
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-031"
+  },
+  {
+    "id": "meetingpred-032",
+    "task": "meetingpred",
+    "dataset_answer": "Sarah Murphy MS",
+    "prediction": "Sarah Murphy MS",
+    "raw_prediction": "Sarah Murphy MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015361
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-032"
+  },
+  {
+    "id": "meetingpred-033",
+    "task": "meetingpred",
+    "dataset_answer": "Jenny Rathbone AM",
+    "prediction": "Jenny Rathbone AM",
+    "raw_prediction": "Jenny Rathbone AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.018412
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-033"
+  },
+  {
+    "id": "meetingpred-034",
+    "task": "meetingpred",
+    "dataset_answer": "Jayne Bryant AM",
+    "prediction": "Rhian",
+    "raw_prediction": "Rhian",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 6.645265,
+      "usage_totals": {
+        "prompt_eval_count": 351.0,
+        "eval_count": 390.0,
+        "total_duration": 6642926500.0,
+        "load_duration": 46594400.0,
+        "prompt_eval_duration": 24229000.0,
+        "eval_duration": 6188089400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.645265,
+          "usage": {
+            "prompt_eval_count": 351,
+            "eval_count": 390,
+            "total_duration": 6642926500,
+            "load_duration": 46594400,
+            "prompt_eval_duration": 24229000,
+            "eval_duration": 6188089400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 6.645265,
+          "usage_totals": {
+            "prompt_eval_count": 351.0,
+            "eval_count": 390.0,
+            "total_duration": 6642926500.0,
+            "load_duration": 46594400.0,
+            "prompt_eval_duration": 24229000.0,
+            "eval_duration": 6188089400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 6.66496
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-034"
+  },
+  {
+    "id": "meetingpred-035",
+    "task": "meetingpred",
+    "dataset_answer": "Darren Millar AM",
+    "prediction": "Darren Millar AM",
+    "raw_prediction": "Darren Millar AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015541
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-035"
+  },
+  {
+    "id": "meetingpred-036",
+    "task": "meetingpred",
+    "dataset_answer": "Russell George AM",
+    "prediction": "Russell George AM",
+    "raw_prediction": "Russell George AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015271
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-036"
+  },
+  {
+    "id": "meetingpred-037",
+    "task": "meetingpred",
+    "dataset_answer": "Heledd Fychan MS",
+    "prediction": "Delyth Jewell AM",
+    "raw_prediction": "Delyth Jewell AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016966
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-037"
+  },
+  {
+    "id": "meetingpred-038",
+    "task": "meetingpred",
+    "dataset_answer": "Heledd Fychan MS",
+    "prediction": "Heledd Fychan MS",
+    "raw_prediction": "Heledd Fychan MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015123
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-038"
+  },
+  {
+    "id": "meetingpred-039",
+    "task": "meetingpred",
+    "dataset_answer": "Llyr Gruffydd AM",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 3.840504,
+      "usage_totals": {
+        "prompt_eval_count": 334.0,
+        "eval_count": 324.0,
+        "total_duration": 3801484500.0,
+        "load_duration": 46030900.0,
+        "prompt_eval_duration": 30007000.0,
+        "eval_duration": 3502317500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.840504,
+          "usage": {
+            "prompt_eval_count": 334,
+            "eval_count": 324,
+            "total_duration": 3801484500,
+            "load_duration": 46030900,
+            "prompt_eval_duration": 30007000,
+            "eval_duration": 3502317500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 3.840504,
+          "usage_totals": {
+            "prompt_eval_count": 334.0,
+            "eval_count": 324.0,
+            "total_duration": 3801484500.0,
+            "load_duration": 46030900.0,
+            "prompt_eval_duration": 30007000.0,
+            "eval_duration": 3502317500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.862927
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-039"
+  },
+  {
+    "id": "meetingpred-040",
+    "task": "meetingpred",
+    "dataset_answer": "Delyth Jewell AM",
+    "prediction": "Darren Millar AM",
+    "raw_prediction": "Darren Millar AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015547
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-040"
+  },
+  {
+    "id": "meetingpred-041",
+    "task": "meetingpred",
+    "dataset_answer": "Jack Sargeant AM",
+    "prediction": "Jack Sargeant AM",
+    "raw_prediction": "Jack Sargeant AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.01002
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-041"
+  },
+  {
+    "id": "meetingpred-042",
+    "task": "meetingpred",
+    "dataset_answer": "Vikki Howells AM",
+    "prediction": "Natasha Asghar MS",
+    "raw_prediction": "Natasha Asghar MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.012504
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-042"
+  },
+  {
+    "id": "meetingpred-043",
+    "task": "meetingpred",
+    "dataset_answer": "Mark Drakeford AM",
+    "prediction": "Luke Fletcher MS",
+    "raw_prediction": "Luke Fletcher MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.008352
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-043"
+  },
+  {
+    "id": "meetingpred-044",
+    "task": "meetingpred",
+    "dataset_answer": "Samuel Kurtz MS",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 3.743442,
+      "usage_totals": {
+        "prompt_eval_count": 324.0,
+        "eval_count": 275.0,
+        "total_duration": 3740150600.0,
+        "load_duration": 47905900.0,
+        "prompt_eval_duration": 29593100.0,
+        "eval_duration": 3436577700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.743442,
+          "usage": {
+            "prompt_eval_count": 324,
+            "eval_count": 275,
+            "total_duration": 3740150600,
+            "load_duration": 47905900,
+            "prompt_eval_duration": 29593100,
+            "eval_duration": 3436577700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 3.743442,
+          "usage_totals": {
+            "prompt_eval_count": 324.0,
+            "eval_count": 275.0,
+            "total_duration": 3740150600.0,
+            "load_duration": 47905900.0,
+            "prompt_eval_duration": 29593100.0,
+            "eval_duration": 3436577700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.761718
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-044"
+  },
+  {
+    "id": "meetingpred-045",
+    "task": "meetingpred",
+    "dataset_answer": "Jack Sargeant AM",
+    "prediction": "Jack Sargeant AM",
+    "raw_prediction": "Jack Sargeant AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014732
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-045"
+  },
+  {
+    "id": "meetingpred-046",
+    "task": "meetingpred",
+    "dataset_answer": "Tom Giffard MS",
+    "prediction": "Delyth Jewell AM",
+    "raw_prediction": "Delyth Jewell AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015818
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-046"
+  },
+  {
+    "id": "meetingpred-047",
+    "task": "meetingpred",
+    "dataset_answer": "Russell George AM",
+    "prediction": "Natasha Wynne",
+    "raw_prediction": "Natasha Wynne",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015004
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-047"
+  },
+  {
+    "id": "meetingpred-048",
+    "task": "meetingpred",
+    "dataset_answer": "Amanda Blakeman",
+    "prediction": "Emma Wools",
+    "raw_prediction": "Emma Wools",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.018368
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-048"
+  },
+  {
+    "id": "meetingpred-049",
+    "task": "meetingpred",
+    "dataset_answer": "Sioned Williams MS",
+    "prediction": "Sioned Williams MS",
+    "raw_prediction": "Sioned Williams MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.018344
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-049"
+  },
+  {
+    "id": "meetingpred-050",
+    "task": "meetingpred",
+    "dataset_answer": "Adam Price AM",
+    "prediction": "Mick Antoniw AM",
+    "raw_prediction": "Mick Antoniw AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.01604
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-050"
+  },
+  {
+    "id": "meetingpred-051",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "Samuel Kurtz MS",
+    "raw_prediction": "Samuel Kurtz MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016807
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-051"
+  },
+  {
+    "id": "meetingpred-052",
+    "task": "meetingpred",
+    "dataset_answer": "Peredur Owen Griffiths MS",
+    "prediction": "Darren Millar AM",
+    "raw_prediction": "Darren Millar AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015187
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-052"
+  },
+  {
+    "id": "meetingpred-053",
+    "task": "meetingpred",
+    "dataset_answer": "Y Dirprwy Lywydd / The Deputy Presiding Officer",
+    "prediction": "Joel James MS",
+    "raw_prediction": "Joel James MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.017729
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-053"
+  },
+  {
+    "id": "meetingpred-054",
+    "task": "meetingpred",
+    "dataset_answer": "Ken Skates AM",
+    "prediction": "Ken Skates AM",
+    "raw_prediction": "Ken Skates AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.017669
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-054"
+  },
+  {
+    "id": "meetingpred-055",
+    "task": "meetingpred",
+    "dataset_answer": "Huw Irranca-Davies AM",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 4.724802,
+      "usage_totals": {
+        "prompt_eval_count": 372.0,
+        "eval_count": 512.0,
+        "total_duration": 4722661400.0,
+        "load_duration": 49258600.0,
+        "prompt_eval_duration": 29658200.0,
+        "eval_duration": 4388583300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 4.724802,
+          "usage": {
+            "prompt_eval_count": 372,
+            "eval_count": 512,
+            "total_duration": 4722661400,
+            "load_duration": 49258600,
+            "prompt_eval_duration": 29658200,
+            "eval_duration": 4388583300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 4.724802,
+          "usage_totals": {
+            "prompt_eval_count": 372.0,
+            "eval_count": 512.0,
+            "total_duration": 4722661400.0,
+            "load_duration": 49258600.0,
+            "prompt_eval_duration": 29658200.0,
+            "eval_duration": 4388583300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 4.746188
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-055"
+  },
+  {
+    "id": "meetingpred-056",
+    "task": "meetingpred",
+    "dataset_answer": "Delyth Jewell AM",
+    "prediction": "Delyth Jewell AM",
+    "raw_prediction": "Delyth Jewell AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014622
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-056"
+  },
+  {
+    "id": "meetingpred-057",
+    "task": "meetingpred",
+    "dataset_answer": "Vaughan Gething AM",
+    "prediction": "Luke Fletcher MS",
+    "raw_prediction": "Luke Fletcher MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.008195
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-057"
+  },
+  {
+    "id": "meetingpred-058",
+    "task": "meetingpred",
+    "dataset_answer": "Jenny Rathbone AM",
+    "prediction": "Jenny Rathbone AM",
+    "raw_prediction": "Jenny Rathbone AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014942
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-058"
+  },
+  {
+    "id": "meetingpred-059",
+    "task": "meetingpred",
+    "dataset_answer": "James Evans MS",
+    "prediction": "Tyler Walsh",
+    "raw_prediction": "Tyler Walsh",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015398
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-059"
+  },
+  {
+    "id": "meetingpred-060",
+    "task": "meetingpred",
+    "dataset_answer": "Janet Finch-Saunders AM",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 3.208576,
+      "usage_totals": {
+        "prompt_eval_count": 336.0,
+        "eval_count": 320.0,
+        "total_duration": 3206342500.0,
+        "load_duration": 50063300.0,
+        "prompt_eval_duration": 23000300.0,
+        "eval_duration": 2965155400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.208576,
+          "usage": {
+            "prompt_eval_count": 336,
+            "eval_count": 320,
+            "total_duration": 3206342500,
+            "load_duration": 50063300,
+            "prompt_eval_duration": 23000300,
+            "eval_duration": 2965155400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 3.208576,
+          "usage_totals": {
+            "prompt_eval_count": 336.0,
+            "eval_count": 320.0,
+            "total_duration": 3206342500.0,
+            "load_duration": 50063300.0,
+            "prompt_eval_duration": 23000300.0,
+            "eval_duration": 2965155400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.228193
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-060"
+  },
+  {
+    "id": "meetingpred-061",
+    "task": "meetingpred",
+    "dataset_answer": "Sharon Hillier",
+    "prediction": "Russell George AM",
+    "raw_prediction": "Russell George AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015752
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-061"
+  },
+  {
+    "id": "meetingpred-062",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "The speaker mentioned in the last line of the evidence memo is most likely the Chair.",
+    "raw_prediction": "The speaker mentioned in the last line of the evidence memo is most likely the Chair.\n\nAnswer: Chair",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 5.301804,
+      "usage_totals": {
+        "prompt_eval_count": 481.0,
+        "eval_count": 459.0,
+        "total_duration": 5299581700.0,
+        "load_duration": 50000400.0,
+        "prompt_eval_duration": 65136800.0,
+        "eval_duration": 4914476000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.301804,
+          "usage": {
+            "prompt_eval_count": 481,
+            "eval_count": 459,
+            "total_duration": 5299581700,
+            "load_duration": 50000400,
+            "prompt_eval_duration": 65136800,
+            "eval_duration": 4914476000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 5.301804,
+          "usage_totals": {
+            "prompt_eval_count": 481.0,
+            "eval_count": 459.0,
+            "total_duration": 5299581700.0,
+            "load_duration": 50000400.0,
+            "prompt_eval_duration": 65136800.0,
+            "eval_duration": 4914476000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.320939
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-062"
+  },
+  {
+    "id": "meetingpred-063",
+    "task": "meetingpred",
+    "dataset_answer": "Cefin Campbell MS",
+    "prediction": "Darren Millar AM",
+    "raw_prediction": "Darren Millar AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.017094
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-063"
+  },
+  {
+    "id": "meetingpred-064",
+    "task": "meetingpred",
+    "dataset_answer": "Janet Finch-Saunders AM",
+    "prediction": "Janet Finch-Saunders AM",
+    "raw_prediction": "Janet Finch-Saunders AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015027
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-064"
+  },
+  {
+    "id": "meetingpred-065",
+    "task": "meetingpred",
+    "dataset_answer": "John Griffiths AM",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 5.247201,
+      "usage_totals": {
+        "prompt_eval_count": 325.0,
+        "eval_count": 285.0,
+        "total_duration": 5207930400.0,
+        "load_duration": 51734000.0,
+        "prompt_eval_duration": 30956300.0,
+        "eval_duration": 4821783100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 5.247201,
+          "usage": {
+            "prompt_eval_count": 325,
+            "eval_count": 285,
+            "total_duration": 5207930400,
+            "load_duration": 51734000,
+            "prompt_eval_duration": 30956300,
+            "eval_duration": 4821783100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 5.247201,
+          "usage_totals": {
+            "prompt_eval_count": 325.0,
+            "eval_count": 285.0,
+            "total_duration": 5207930400.0,
+            "load_duration": 51734000.0,
+            "prompt_eval_duration": 30956300.0,
+            "eval_duration": 4821783100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 5.269078
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-065"
+  },
+  {
+    "id": "meetingpred-066",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "Rhun ap Iorwerth AM",
+    "raw_prediction": "Rhun ap Iorwerth AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.019043
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-066"
+  },
+  {
+    "id": "meetingpred-067",
+    "task": "meetingpred",
+    "dataset_answer": "Jack Sargeant AM",
+    "prediction": "Jack Sargeant AM",
+    "raw_prediction": "Jack Sargeant AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016852
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-067"
+  },
+  {
+    "id": "meetingpred-068",
+    "task": "meetingpred",
+    "dataset_answer": "Professor Enda Hayes",
+    "prediction": "[speaker omitted]",
+    "raw_prediction": "[speaker omitted]",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 10.086581,
+      "usage_totals": {
+        "prompt_eval_count": 580.0,
+        "eval_count": 805.0,
+        "total_duration": 10081157800.0,
+        "load_duration": 1328723600.0,
+        "prompt_eval_duration": 55316200.0,
+        "eval_duration": 8186223600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.274386,
+          "usage": {
+            "prompt_eval_count": 323,
+            "eval_count": 512,
+            "total_duration": 7271705100,
+            "load_duration": 47002800,
+            "prompt_eval_duration": 21241400,
+            "eval_duration": 6787117400
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 2.812195,
+          "usage": {
+            "prompt_eval_count": 257,
+            "eval_count": 293,
+            "total_duration": 2809452700,
+            "load_duration": 1281720800,
+            "prompt_eval_duration": 34074800,
+            "eval_duration": 1399106200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 10.086581,
+          "usage_totals": {
+            "prompt_eval_count": 580.0,
+            "eval_count": 805.0,
+            "total_duration": 10081157800.0,
+            "load_duration": 1328723600.0,
+            "prompt_eval_duration": 55316200.0,
+            "eval_duration": 8186223600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 10.110318
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-068"
+  },
+  {
+    "id": "meetingpred-069",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "Lesley Griffiths AM",
+    "raw_prediction": "Lesley Griffiths AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.019354
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-069"
+  },
+  {
+    "id": "meetingpred-070",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "Y Llywydd / The Llywydd",
+    "raw_prediction": "Y Llywydd / The Llywydd",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016755
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-070"
+  },
+  {
+    "id": "meetingpred-071",
+    "task": "meetingpred",
+    "dataset_answer": "Ken Skates AM",
+    "prediction": "Ken Skates AM",
+    "raw_prediction": "Ken Skates AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014869
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-071"
+  },
+  {
+    "id": "meetingpred-072",
+    "task": "meetingpred",
+    "dataset_answer": "Graham Vidler",
+    "prediction": "Llyr Gruffydd AM",
+    "raw_prediction": "Llyr Gruffydd AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015791
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-072"
+  },
+  {
+    "id": "meetingpred-073",
+    "task": "meetingpred",
+    "dataset_answer": "Janet Finch-Saunders AM",
+    "prediction": "Janet Finch-Saunders AM",
+    "raw_prediction": "Janet Finch-Saunders AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015107
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-073"
+  },
+  {
+    "id": "meetingpred-074",
+    "task": "meetingpred",
+    "dataset_answer": "Vikki Howells AM",
+    "prediction": "Vikki Howells AM",
+    "raw_prediction": "Vikki Howells AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.017599
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-074"
+  },
+  {
+    "id": "meetingpred-075",
+    "task": "meetingpred",
+    "dataset_answer": "Russell George AM",
+    "prediction": "Answer: Dr Green",
+    "raw_prediction": "Answer: Dr Green",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 2.040489,
+      "usage_totals": {
+        "prompt_eval_count": 391.0,
+        "eval_count": 217.0,
+        "total_duration": 2037344300.0,
+        "load_duration": 47999300.0,
+        "prompt_eval_duration": 32000100.0,
+        "eval_duration": 1842332800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.040489,
+          "usage": {
+            "prompt_eval_count": 391,
+            "eval_count": 217,
+            "total_duration": 2037344300,
+            "load_duration": 47999300,
+            "prompt_eval_duration": 32000100,
+            "eval_duration": 1842332800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 2.040489,
+          "usage_totals": {
+            "prompt_eval_count": 391.0,
+            "eval_count": 217.0,
+            "total_duration": 2037344300.0,
+            "load_duration": 47999300.0,
+            "prompt_eval_duration": 32000100.0,
+            "eval_duration": 1842332800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 2.060549
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-075"
+  },
+  {
+    "id": "meetingpred-076",
+    "task": "meetingpred",
+    "dataset_answer": "Jack Sargeant AM",
+    "prediction": "Jack Sargeant AM",
+    "raw_prediction": "Jack Sargeant AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.00951
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-076"
+  },
+  {
+    "id": "meetingpred-077",
+    "task": "meetingpred",
+    "dataset_answer": "Gareth Davies MS",
+    "prediction": "Sue Tranka",
+    "raw_prediction": "Sue Tranka",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015188
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-077"
+  },
+  {
+    "id": "meetingpred-078",
+    "task": "meetingpred",
+    "dataset_answer": "John Griffiths AM",
+    "prediction": "John Griffiths AM",
+    "raw_prediction": "John Griffiths AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014552
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-078"
+  },
+  {
+    "id": "meetingpred-079",
+    "task": "meetingpred",
+    "dataset_answer": "Huw Irranca-Davies AM",
+    "prediction": "Huw Irranca-Davies AM",
+    "raw_prediction": "Huw Irranca-Davies AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.014985
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-079"
+  },
+  {
+    "id": "meetingpred-080",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "Llywydd",
+    "raw_prediction": "Llywydd",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 3.161305,
+      "usage_totals": {
+        "prompt_eval_count": 390.0,
+        "eval_count": 339.0,
+        "total_duration": 3158786600.0,
+        "load_duration": 46362100.0,
+        "prompt_eval_duration": 32999900.0,
+        "eval_duration": 2891827300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 3.161305,
+          "usage": {
+            "prompt_eval_count": 390,
+            "eval_count": 339,
+            "total_duration": 3158786600,
+            "load_duration": 46362100,
+            "prompt_eval_duration": 32999900,
+            "eval_duration": 2891827300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 3.161305,
+          "usage_totals": {
+            "prompt_eval_count": 390.0,
+            "eval_count": 339.0,
+            "total_duration": 3158786600.0,
+            "load_duration": 46362100.0,
+            "prompt_eval_duration": 32999900.0,
+            "eval_duration": 2891827300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 3.181124
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-080"
+  },
+  {
+    "id": "meetingpred-081",
+    "task": "meetingpred",
+    "dataset_answer": "Jeremy Miles AM",
+    "prediction": "Julie James AM",
+    "raw_prediction": "Julie James AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016702
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-081"
+  },
+  {
+    "id": "meetingpred-082",
+    "task": "meetingpred",
+    "dataset_answer": "Natasha Asghar MS",
+    "prediction": "Sarah Murphy MS",
+    "raw_prediction": "Sarah Murphy MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.01533
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-082"
+  },
+  {
+    "id": "meetingpred-083",
+    "task": "meetingpred",
+    "dataset_answer": "Heledd Fychan MS",
+    "prediction": "Jenny Rathbone AM",
+    "raw_prediction": "Jenny Rathbone AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015425
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-083"
+  },
+  {
+    "id": "meetingpred-084",
+    "task": "meetingpred",
+    "dataset_answer": "Jack Sargeant AM",
+    "prediction": "Jack Sargeant AM",
+    "raw_prediction": "Jack Sargeant AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.00754
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-084"
+  },
+  {
+    "id": "meetingpred-085",
+    "task": "meetingpred",
+    "dataset_answer": "Rhianon Passmore AM",
+    "prediction": "Rhianon Passmore AM",
+    "raw_prediction": "Rhianon Passmore AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.017001
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-085"
+  },
+  {
+    "id": "meetingpred-086",
+    "task": "meetingpred",
+    "dataset_answer": "Joyce Watson AM",
+    "prediction": "Russell George AM",
+    "raw_prediction": "Russell George AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015582
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-086"
+  },
+  {
+    "id": "meetingpred-087",
+    "task": "meetingpred",
+    "dataset_answer": "Brian Davies",
+    "prediction": "Answer:",
+    "raw_prediction": "Answer:",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 2.937093,
+      "usage_totals": {
+        "prompt_eval_count": 546.0,
+        "eval_count": 306.0,
+        "total_duration": 2896564000.0,
+        "load_duration": 52926200.0,
+        "prompt_eval_duration": 62733000.0,
+        "eval_duration": 2614766100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.937093,
+          "usage": {
+            "prompt_eval_count": 546,
+            "eval_count": 306,
+            "total_duration": 2896564000,
+            "load_duration": 52926200,
+            "prompt_eval_duration": 62733000,
+            "eval_duration": 2614766100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 2.937093,
+          "usage_totals": {
+            "prompt_eval_count": 546.0,
+            "eval_count": 306.0,
+            "total_duration": 2896564000.0,
+            "load_duration": 52926200.0,
+            "prompt_eval_duration": 62733000.0,
+            "eval_duration": 2614766100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 2.957653
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-087"
+  },
+  {
+    "id": "meetingpred-088",
+    "task": "meetingpred",
+    "dataset_answer": "Sally May",
+    "prediction": "Mike Hedges AM",
+    "raw_prediction": "Mike Hedges AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.016386
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-088"
+  },
+  {
+    "id": "meetingpred-089",
+    "task": "meetingpred",
+    "dataset_answer": "Laura Anne Jones AM",
+    "prediction": "Altaf Hussain MS",
+    "raw_prediction": "Altaf Hussain MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015447
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-089"
+  },
+  {
+    "id": "meetingpred-090",
+    "task": "meetingpred",
+    "dataset_answer": "Janet Finch-Saunders AM",
+    "prediction": "Heledd Fychan MS",
+    "raw_prediction": "Heledd Fychan MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015531
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-090"
+  },
+  {
+    "id": "meetingpred-091",
+    "task": "meetingpred",
+    "dataset_answer": "Maggie Russell",
+    "prediction": "Delyth Jewell AM",
+    "raw_prediction": "Delyth Jewell AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.015126
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-091"
+  },
+  {
+    "id": "meetingpred-092",
+    "task": "meetingpred",
+    "dataset_answer": "Mark Thomas",
+    "prediction": "[Speaker omitted]",
+    "raw_prediction": "[Speaker omitted]",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 10.468496,
+      "usage_totals": {
+        "prompt_eval_count": 580.0,
+        "eval_count": 743.0,
+        "total_duration": 10462663100.0,
+        "load_duration": 66365400.0,
+        "prompt_eval_duration": 28757600.0,
+        "eval_duration": 9821698600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 8.798252,
+          "usage": {
+            "prompt_eval_count": 323,
+            "eval_count": 512,
+            "total_duration": 8795470000,
+            "load_duration": 48732000,
+            "prompt_eval_duration": 21757500,
+            "eval_duration": 8241788000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.670244,
+          "usage": {
+            "prompt_eval_count": 257,
+            "eval_count": 231,
+            "total_duration": 1667193100,
+            "load_duration": 17633400,
+            "prompt_eval_duration": 7000100,
+            "eval_duration": 1579910600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 10.468496,
+          "usage_totals": {
+            "prompt_eval_count": 580.0,
+            "eval_count": 743.0,
+            "total_duration": 10462663100.0,
+            "load_duration": 66365400.0,
+            "prompt_eval_duration": 28757600.0,
+            "eval_duration": 9821698600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 10.488459
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-092"
+  },
+  {
+    "id": "meetingpred-093",
+    "task": "meetingpred",
+    "dataset_answer": "Jane Hutt AM",
+    "prediction": "Jane Hutt AM",
+    "raw_prediction": "Jane Hutt AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.018201
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-093"
+  },
+  {
+    "id": "meetingpred-094",
+    "task": "meetingpred",
+    "dataset_answer": "Samuel Kurtz MS",
+    "prediction": "Lesley Griffiths AM",
+    "raw_prediction": "Lesley Griffiths AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.019628
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-094"
+  },
+  {
+    "id": "meetingpred-095",
+    "task": "meetingpred",
+    "dataset_answer": "Huw Thomas",
+    "prediction": "Answer:",
+    "raw_prediction": "Answer:",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 7.938839,
+      "usage_totals": {
+        "prompt_eval_count": 422.0,
+        "eval_count": 417.0,
+        "total_duration": 7936335900.0,
+        "load_duration": 47967200.0,
+        "prompt_eval_duration": 99951000.0,
+        "eval_duration": 4309579000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 7.938839,
+          "usage": {
+            "prompt_eval_count": 422,
+            "eval_count": 417,
+            "total_duration": 7936335900,
+            "load_duration": 47967200,
+            "prompt_eval_duration": 99951000,
+            "eval_duration": 4309579000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 7.938839,
+          "usage_totals": {
+            "prompt_eval_count": 422.0,
+            "eval_count": 417.0,
+            "total_duration": 7936335900.0,
+            "load_duration": 47967200.0,
+            "prompt_eval_duration": 99951000.0,
+            "eval_duration": 4309579000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 7.963042
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-095"
+  },
+  {
+    "id": "meetingpred-096",
+    "task": "meetingpred",
+    "dataset_answer": "Jayne Bryant AM",
+    "prediction": "James Evans MS",
+    "raw_prediction": "James Evans MS",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.017405
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-096"
+  },
+  {
+    "id": "meetingpred-097",
+    "task": "meetingpred",
+    "dataset_answer": "Jack Sargeant AM",
+    "prediction": "Jack Sargeant AM",
+    "raw_prediction": "Jack Sargeant AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.006994
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-097"
+  },
+  {
+    "id": "meetingpred-098",
+    "task": "meetingpred",
+    "dataset_answer": "Lesley Griffiths AM",
+    "prediction": "Answer: Minister",
+    "raw_prediction": "Answer: Minister",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 2.237489,
+      "usage_totals": {
+        "prompt_eval_count": 375.0,
+        "eval_count": 234.0,
+        "total_duration": 2195114800.0,
+        "load_duration": 49543100.0,
+        "prompt_eval_duration": 29000200.0,
+        "eval_duration": 1995088300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.237489,
+          "usage": {
+            "prompt_eval_count": 375,
+            "eval_count": 234,
+            "total_duration": 2195114800,
+            "load_duration": 49543100,
+            "prompt_eval_duration": 29000200,
+            "eval_duration": 1995088300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 2.237489,
+          "usage_totals": {
+            "prompt_eval_count": 375.0,
+            "eval_count": 234.0,
+            "total_duration": 2195114800.0,
+            "load_duration": 49543100.0,
+            "prompt_eval_duration": 29000200.0,
+            "eval_duration": 1995088300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 2.257901
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-098"
+  },
+  {
+    "id": "meetingpred-099",
+    "task": "meetingpred",
+    "dataset_answer": "Jayne Bryant AM",
+    "prediction": "You did not mention this information.",
+    "raw_prediction": "You did not mention this information.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 2.618682,
+      "usage_totals": {
+        "prompt_eval_count": 331.0,
+        "eval_count": 282.0,
+        "total_duration": 2613763200.0,
+        "load_duration": 47043200.0,
+        "prompt_eval_duration": 21736800.0,
+        "eval_duration": 2399845400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 2.618682,
+          "usage": {
+            "prompt_eval_count": 331,
+            "eval_count": 282,
+            "total_duration": 2613763200,
+            "load_duration": 47043200,
+            "prompt_eval_duration": 21736800,
+            "eval_duration": 2399845400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 2.618682,
+          "usage_totals": {
+            "prompt_eval_count": 331.0,
+            "eval_count": 282.0,
+            "total_duration": 2613763200.0,
+            "load_duration": 47043200.0,
+            "prompt_eval_duration": 21736800.0,
+            "eval_duration": 2399845400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 2.639025
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-099"
+  },
+  {
+    "id": "meetingpred-100",
+    "task": "meetingpred",
+    "dataset_answer": "Russell George AM",
+    "prediction": "Darren Hughes",
+    "raw_prediction": "Darren Hughes",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_reasoning",
+      "provider": "ollama",
+      "model_name": "deepseek-r1:7b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.01565
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\case_memory\\meetingpred-100"
+  }
+]

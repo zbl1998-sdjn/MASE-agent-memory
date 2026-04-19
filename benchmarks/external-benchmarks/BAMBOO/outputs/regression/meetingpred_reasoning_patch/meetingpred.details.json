@@ -1,0 +1,269 @@
+[
+  {
+    "id": "meetingpred-001",
+    "task": "meetingpred",
+    "dataset_answer": "James Evans MS",
+    "prediction": "Alun Davies AM",
+    "raw_prediction": "Alun Davies AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "general",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "general",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.02911
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_reasoning_patch\\case_memory\\meetingpred-001"
+  },
+  {
+    "id": "meetingpred-002",
+    "task": "meetingpred",
+    "dataset_answer": "Heledd Fychan MS",
+    "prediction": "Mark Drakeford AM",
+    "raw_prediction": "Mark Drakeford AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "general",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "general",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.01815
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_reasoning_patch\\case_memory\\meetingpred-002"
+  },
+  {
+    "id": "meetingpred-003",
+    "task": "meetingpred",
+    "dataset_answer": "Dr Nia Thomas",
+    "prediction": "The speaker at the end of the provided text is not explicitly named, as the dialogue ends with \"which is still quite a long time away, really, isn't it?\" without specifying who said this. However, based on typical turn-taking patterns in discussions and chairing language, this statement could be a continuation by someone who has been discussing gender parity, implying they might have been the one raising the point about the timeline for achieving it. Without further context or specific speaker identification, I cannot definitively name the speaker.",
+    "raw_prediction": "The speaker at the end of the provided text is not explicitly named, as the dialogue ends with \"which is still quite a long time away, really, isn't it?\" without specifying who said this. However, based on typical turn-taking patterns in discussions and chairing language, this statement could be a continuation by someone who has been discussing gender parity, implying they might have been the one raising the point about the timeline for achieving it. Without further context or specific speaker identification, I cannot definitively name the speaker.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "general",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "general",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.579084,
+      "usage_totals": {
+        "prompt_eval_count": 265.0,
+        "eval_count": 113.0,
+        "total_duration": 576239800.0,
+        "load_duration": 17230500.0,
+        "prompt_eval_duration": 33786200.0,
+        "eval_duration": 488585200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.579084,
+          "usage": {
+            "prompt_eval_count": 265,
+            "eval_count": 113,
+            "total_duration": 576239800,
+            "load_duration": 17230500,
+            "prompt_eval_duration": 33786200,
+            "eval_duration": 488585200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.579084,
+          "usage_totals": {
+            "prompt_eval_count": 265.0,
+            "eval_count": 113.0,
+            "total_duration": 576239800.0,
+            "load_duration": 17230500.0,
+            "prompt_eval_duration": 33786200.0,
+            "eval_duration": 488585200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.599087
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_reasoning_patch\\case_memory\\meetingpred-003"
+  },
+  {
+    "id": "meetingpred-004",
+    "task": "meetingpred",
+    "dataset_answer": "Julie Morgan AM",
+    "prediction": "The speaker at the end of the last sentence is not explicitly named in the provided dialogue transcript. However, based on the context and the structure of the dialogue, it can be inferred that the speaker is likely to be an unnamed individual (possibly a chair or moderator) who is summarizing or concluding the discussion. Given the absence of a clear speaker tag for this particular sentence, it's not possible to provide a definitive name.",
+    "raw_prediction": "The speaker at the end of the last sentence is not explicitly named in the provided dialogue transcript. However, based on the context and the structure of the dialogue, it can be inferred that the speaker is likely to be an unnamed individual (possibly a chair or moderator) who is summarizing or concluding the discussion. Given the absence of a clear speaker tag for this particular sentence, it's not possible to provide a definitive name.",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "general",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "general",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.493245,
+      "usage_totals": {
+        "prompt_eval_count": 488.0,
+        "eval_count": 92.0,
+        "total_duration": 490549100.0,
+        "load_duration": 17729800.0,
+        "prompt_eval_duration": 38283100.0,
+        "eval_duration": 401607200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.493245,
+          "usage": {
+            "prompt_eval_count": 488,
+            "eval_count": 92,
+            "total_duration": 490549100,
+            "load_duration": 17729800,
+            "prompt_eval_duration": 38283100,
+            "eval_duration": 401607200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.493245,
+          "usage_totals": {
+            "prompt_eval_count": 488.0,
+            "eval_count": 92.0,
+            "total_duration": 490549100.0,
+            "load_duration": 17729800.0,
+            "prompt_eval_duration": 38283100.0,
+            "eval_duration": 401607200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.513078
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_reasoning_patch\\case_memory\\meetingpred-004"
+  },
+  {
+    "id": "meetingpred-005",
+    "task": "meetingpred",
+    "dataset_answer": "Vaughan Gething AM",
+    "prediction": "Vaughan Gething AM",
+    "raw_prediction": "Vaughan Gething AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "speaker_name",
+      "mode": "grounded_answer",
+      "executor_role": "general",
+      "collaboration_mode": "off"
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "general",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "speaker_name",
+      "requested_collaboration_mode": "off"
+    },
+    "metrics": {
+      "call_count": 0,
+      "elapsed_seconds": 0,
+      "usage_totals": {},
+      "calls": [],
+      "by_agent": {},
+      "wall_clock_seconds": 0.01786
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_reasoning_patch\\case_memory\\meetingpred-005"
+  }
+]

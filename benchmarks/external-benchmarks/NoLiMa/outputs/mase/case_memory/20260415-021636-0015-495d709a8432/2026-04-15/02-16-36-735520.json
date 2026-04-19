@@ -1,0 +1,133 @@
+{
+  "timestamp": "2026-04-15T02:16:36",
+  "user_query": "Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice,",
+  "assistant_response": "Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice, Dad. I don’t want you to go all copper on her, OK? She’s my mom, OK?” He took her hand in his and patted it, then climbed to his feet again and headed for the door. The knob turned easily and he opened it a crack. There was a robot behind the door, humanoid and faceless. “Hello,” it said. “My name is Benny. I’m a Eurasian robot, and I am much stronger and faster than you, and I don’t obey the three laws. I’m also much smarter than you. I am pleased to host you here.” “Hi, Benny,” he said. The human name tasted wrong on his tongue. “Nice to meet you.” He closed the door. His ex-wife left him two months after Ada was born. The divorce had been uncontested, though he’d dutifully posted a humiliating notice in the papers about it so that it would be completely legal. The court awarded him full custody and control of the marital assets, and then a tribunal tried her in absentia for treason and found her guilty, sentencing her to death. Then ferret brought the Group’s attention back to my brother in a way that caught me by surprise.",
+  "semantic_summary": "Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice, Dad. I don’t want you to go all copper on her, OK? She’s my mom, OK?” He took her hand in his and",
+  "language": "en",
+  "key_entities": [
+    "Mom",
+    "here",
+    "mostly",
+    "CAFTA",
+    "Dad",
+    "She",
+    "Hello",
+    "Benny",
+    "embassy",
+    "only",
+    "met",
+    "her"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "Mom",
+      "here",
+      "mostly",
+      "CAFTA",
+      "Dad",
+      "She",
+      "Hello",
+      "Benny",
+      "embassy",
+      "only",
+      "met",
+      "her",
+      "Mom has been here",
+      "for the first time",
+      "I don’t want you",
+      "OK",
+      "2 week"
+    ],
+    "entity_cards": [
+      {
+        "name": "Mom",
+        "normalized": "mom"
+      },
+      {
+        "name": "here",
+        "normalized": "here"
+      },
+      {
+        "name": "mostly",
+        "normalized": "mostly"
+      },
+      {
+        "name": "CAFTA",
+        "normalized": "cafta"
+      },
+      {
+        "name": "Dad",
+        "normalized": "dad"
+      },
+      {
+        "name": "She",
+        "normalized": "she"
+      },
+      {
+        "name": "Hello",
+        "normalized": "hello"
+      },
+      {
+        "name": "Benny",
+        "normalized": "benny"
+      },
+      {
+        "name": "embassy",
+        "normalized": "embassy"
+      },
+      {
+        "name": "only",
+        "normalized": "only"
+      },
+      {
+        "name": "met",
+        "normalized": "met"
+      },
+      {
+        "name": "her",
+        "normalized": "her"
+      }
+    ],
+    "numeric_cards": [
+      {
+        "kind": "duration",
+        "value": "2 week",
+        "normalized_value": 2.0,
+        "unit": "week",
+        "source": "I only met her for the first time two weeks ago, but she’s nice,"
+      },
+      {
+        "kind": "duration",
+        "value": "2 week",
+        "normalized_value": 2.0,
+        "unit": "week",
+        "source": "I only met her for the first time two weeks ago, but she’s nice, Dad."
+      }
+    ],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-0ad873b1df2d",
+  "thread_label": "Mom / here",
+  "topic_tokens": [
+    "Mom",
+    "here",
+    "mostly",
+    "CAFTA"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 2,
+    "source_language": "en",
+    "chunk_title": "Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice,",
+    "language": "en",
+    "ingested_at": "2026-04-15T02:16:36",
+    "source_timestamp": "2026-04-15T02:16:36",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-021636-0015-495d709a8432\\2026-04-15\\02-16-36-735520.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-021636-0015-495d709a8432\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-021636-0015-495d709a8432\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-021636-0015-495d709a8432\\system\\event-bus-latest.json"
+  }
+}

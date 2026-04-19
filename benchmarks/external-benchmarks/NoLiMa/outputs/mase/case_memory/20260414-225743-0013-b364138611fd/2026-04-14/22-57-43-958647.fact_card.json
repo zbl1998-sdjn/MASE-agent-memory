@@ -1,0 +1,260 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json",
+  "timestamp": "2026-04-14T22:57:43",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T22:57:43",
+    "date": "2026-04-14",
+    "month": "april",
+    "weekday": "tuesday",
+    "thread_id": "thread-0ad873b1df2d",
+    "thread_label": "Mom / here"
+  },
+  "event_type": "generic",
+  "entities": [
+    "Mom",
+    "here",
+    "mostly",
+    "CAFTA",
+    "Dad",
+    "She",
+    "Hello",
+    "Benny",
+    "embassy",
+    "only",
+    "met",
+    "her"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "tuesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "Mom",
+      "here",
+      "mostly",
+      "CAFTA",
+      "Dad",
+      "She",
+      "Hello",
+      "Benny",
+      "embassy",
+      "only",
+      "met",
+      "her",
+      "Mom has been here",
+      "for the first time",
+      "I don’t want you",
+      "OK"
+    ],
+    "numeric_cards": [
+      {
+        "kind": "duration",
+        "value": "2 week",
+        "normalized_value": 2.0,
+        "unit": "week",
+        "source": "I only met her for the first time two weeks ago, but she’s nice,"
+      },
+      {
+        "kind": "duration",
+        "value": "2 week",
+        "normalized_value": 2.0,
+        "unit": "week",
+        "source": "I only met her for the first time two weeks ago, but she’s nice, Dad."
+      }
+    ],
+    "event_cards": [],
+    "topic_tokens": [
+      "Mom",
+      "here",
+      "mostly",
+      "CAFTA"
+    ]
+  },
+  "relations": [],
+  "source_span": "Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice,",
+  "resolved_source_span": "Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice,",
+  "event_segments": [
+    {
+      "text": "Mom has been here, mostly, and at the CAFTA embassy.",
+      "resolved_text": "Mom has been here, mostly, and at the CAFTA embassy.",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "Mom",
+        "here",
+        "mostly",
+        "CAFTA",
+        "embassy",
+        "her"
+      ],
+      "polarity": "positive"
+    },
+    {
+      "text": "I only met her for the first time two weeks ago, but she’s nice",
+      "resolved_text": "I only met her for the first time two weeks ago, but she’s nice",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "She",
+        "only",
+        "met",
+        "her"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.68,
+    "reason_codes": [
+      "entities",
+      "numeric_cards"
+    ]
+  },
+  "current_state": [
+    {
+      "entity": "Mom",
+      "attribute": "duration",
+      "value": "2 week",
+      "source": "I only met her for the first time two weeks ago, but she’s nice,",
+      "timestamp": "2026-04-14T22:57:43",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json"
+    },
+    {
+      "entity": "Mom",
+      "attribute": "duration",
+      "value": "2 week",
+      "source": "I only met her for the first time two weeks ago, but she’s nice, Dad.",
+      "timestamp": "2026-04-14T22:57:43",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json"
+    }
+  ],
+  "state_history": [
+    {
+      "entity": "Mom",
+      "attribute": "duration",
+      "value": "2 week",
+      "source": "I only met her for the first time two weeks ago, but she’s nice,",
+      "timestamp": "2026-04-14T22:57:43",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json"
+    },
+    {
+      "entity": "Mom",
+      "attribute": "duration",
+      "value": "2 week",
+      "source": "I only met her for the first time two weeks ago, but she’s nice, Dad.",
+      "timestamp": "2026-04-14T22:57:43",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json"
+    }
+  ],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json::event_segment:0",
+      "logical_event_id": "generic|mom|cafta,here,mom,mostly|april",
+      "dedupe_key": "generic|mom|cafta,here,mom,mostly|april|mom has been here mostly and at the cafta embassy|2026-04-14T22:57:43",
+      "source_signature": "mom has been here mostly and at the cafta embassy",
+      "event_type": "generic",
+      "display_name": "Mom",
+      "normalized_name": "mom",
+      "timestamp": "2026-04-14T22:57:43",
+      "thread_id": "thread-0ad873b1df2d",
+      "thread_label": "Mom / here",
+      "entities": [
+        "Mom",
+        "here",
+        "mostly",
+        "CAFTA",
+        "Dad",
+        "She",
+        "Hello",
+        "Benny",
+        "embassy",
+        "only",
+        "met",
+        "her"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "source": "Mom has been here, mostly, and at the CAFTA embassy.",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    },
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json::event_segment:1",
+      "logical_event_id": "generic|mom|cafta,here,mom,mostly|april",
+      "dedupe_key": "generic|mom|cafta,here,mom,mostly|april|i only met her for the first time two weeks ago but she s nice|2026-04-14T22:57:43",
+      "source_signature": "i only met her for the first time two weeks ago but she s nice",
+      "event_type": "generic",
+      "display_name": "Mom",
+      "normalized_name": "mom",
+      "timestamp": "2026-04-14T22:57:43",
+      "thread_id": "thread-0ad873b1df2d",
+      "thread_label": "Mom / here",
+      "entities": [
+        "Mom",
+        "here",
+        "mostly",
+        "CAFTA",
+        "Dad",
+        "She",
+        "Hello",
+        "Benny",
+        "embassy",
+        "only",
+        "met",
+        "her"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "source": "I only met her for the first time two weeks ago, but she’s nice",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-225743-0013-b364138611fd\\2026-04-14\\22-57-43-958647.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

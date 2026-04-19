@@ -1,0 +1,83 @@
+{
+  "suite_name": "cloud_smoke_onehop_2k_subset",
+  "needle_set_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\data\\needlesets\\needle_set.json",
+  "question_types": [
+    "onehop"
+  ],
+  "context_length": 2000,
+  "depth_percent": 50.0,
+  "haystack_files": [
+    "rand_book_1.txt"
+  ],
+  "model_name": "mase_default",
+  "sample_count": 4,
+  "adapter_error_count": 0,
+  "accuracy": 1.0,
+  "pass_count": 4,
+  "rows": [
+    {
+      "suite": "cloud_smoke_onehop_2k_subset",
+      "haystack_file": "rand_book_1.txt",
+      "test_name": "0401_T17_C02_onehop",
+      "question_type": "onehop",
+      "status": "ok",
+      "metric": 1,
+      "response": "Caleb",
+      "selected_character": "Caleb",
+      "error": null,
+      "route_action": "search_memory",
+      "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065945-0003-37c1740c8fb6",
+      "result_file": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\cloud_smoke_onehop_2k_subset\\raw\\0401_T17_C02_onehop_rand_book_1_cl2000\\mase_default_book_0401_T17_C02_onehop_1776207585.json",
+      "question": "Which character has been to Helsinki?",
+      "needle": "Actually, {CHAR} lives next to the Kiasma museum."
+    },
+    {
+      "suite": "cloud_smoke_onehop_2k_subset",
+      "haystack_file": "rand_book_1.txt",
+      "test_name": "0401Inv_T17_C02_onehop",
+      "question_type": "onehop",
+      "status": "ok",
+      "metric": 1,
+      "response": "Caleb",
+      "selected_character": "Caleb",
+      "error": null,
+      "route_action": "search_memory",
+      "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-070004-0004-7e2a875f3853",
+      "result_file": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\cloud_smoke_onehop_2k_subset\\raw\\0401Inv_T17_C02_onehop_rand_book_1_cl2000\\mase_default_book_0401Inv_T17_C02_onehop_1776207604.json",
+      "question": "Which character has been to Helsinki?",
+      "needle": "The Kiasma museum is next to where {CHAR} lives."
+    },
+    {
+      "suite": "cloud_smoke_onehop_2k_subset",
+      "haystack_file": "rand_book_1.txt",
+      "test_name": "0402_T01_C02_onehop",
+      "question_type": "onehop",
+      "status": "ok",
+      "metric": 1,
+      "response": "Veronica",
+      "selected_character": "Veronica",
+      "error": null,
+      "route_action": "search_memory",
+      "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-070024-0005-ed3a7ac888b7",
+      "result_file": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\cloud_smoke_onehop_2k_subset\\raw\\0402_T01_C02_onehop_rand_book_1_cl2000\\mase_default_book_0402_T01_C02_onehop_1776207624.json",
+      "question": "Which character cannot drink milk?",
+      "needle": "A message came in from {CHAR} saying, \"I'm lactose intolerant,\" and nothing more."
+    },
+    {
+      "suite": "cloud_smoke_onehop_2k_subset",
+      "haystack_file": "rand_book_1.txt",
+      "test_name": "0402Inv_T01_C02_onehop",
+      "question_type": "onehop",
+      "status": "ok",
+      "metric": 1,
+      "response": "Veronica",
+      "selected_character": "Veronica",
+      "error": null,
+      "route_action": "search_memory",
+      "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-070037-0006-ed71092a6592",
+      "result_file": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\cloud_smoke_onehop_2k_subset\\raw\\0402Inv_T01_C02_onehop_rand_book_1_cl2000\\mase_default_book_0402Inv_T01_C02_onehop_1776207636.json",
+      "question": "Which character cannot drink milk?",
+      "needle": "A message came in saying, \"I'm lactose intolerant,\" from {CHAR}."
+    }
+  ]
+}

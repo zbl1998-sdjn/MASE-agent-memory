@@ -1,0 +1,983 @@
+{
+  "generated_at": "2026-04-15T06:51:27",
+  "entity_clusters": [
+    {
+      "canonical_entity": "Lexy",
+      "aliases": [
+        "Lexy"
+      ],
+      "record_count": 3,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "she",
+      "aliases": [
+        "she"
+      ],
+      "record_count": 3,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "her",
+      "aliases": [
+        "her"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "night",
+      "aliases": [
+        "night"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "only",
+      "aliases": [
+        "only"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Benny",
+      "aliases": [
+        "Benny"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "CAFTA",
+      "aliases": [
+        "CAFTA"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Captain",
+      "aliases": [
+        "Captain"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Caroline",
+      "aliases": [
+        "Caroline"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Dad",
+      "aliases": [
+        "Dad"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Hello",
+      "aliases": [
+        "Hello"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Hey",
+      "aliases": [
+        "Hey"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Kadabra",
+      "aliases": [
+        "Kadabra"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Melbourne",
+      "aliases": [
+        "Melbourne"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Minneapolis",
+      "aliases": [
+        "Minneapolis"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Mom",
+      "aliases": [
+        "Mom"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Perhaps",
+      "aliases": [
+        "Perhaps"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Quelton",
+      "aliases": [
+        "Quelton"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Quiet",
+      "aliases": [
+        "Quiet"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "RAG",
+      "aliases": [
+        "RAG"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Since",
+      "aliases": [
+        "Since"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Stay",
+      "aliases": [
+        "Stay"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "Stuart",
+      "aliases": [
+        "Stuart"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:27"
+    },
+    {
+      "canonical_entity": "Sunday",
+      "aliases": [
+        "Sunday"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "about",
+      "aliases": [
+        "about"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "back",
+      "aliases": [
+        "back"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "both",
+      "aliases": [
+        "both"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "character",
+      "aliases": [
+        "character"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:27"
+    },
+    {
+      "canonical_entity": "convention",
+      "aliases": [
+        "convention"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "days",
+      "aliases": [
+        "days"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "dreadful",
+      "aliases": [
+        "dreadful"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "embassy",
+      "aliases": [
+        "embassy"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "event",
+      "aliases": [
+        "event"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "experiences",
+      "aliases": [
+        "experiences"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "fan",
+      "aliases": [
+        "fan"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "ferret",
+      "aliases": [
+        "ferret"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "few",
+      "aliases": [
+        "few"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "gaming",
+      "aliases": [
+        "gaming"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "hackathon",
+      "aliases": [
+        "hackathon"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "handful",
+      "aliases": [
+        "handful"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "heading",
+      "aliases": [
+        "heading"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "here",
+      "aliases": [
+        "here"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "life",
+      "aliases": [
+        "life"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "looked",
+      "aliases": [
+        "looked"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "meet-up",
+      "aliases": [
+        "meet-up"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "members",
+      "aliases": [
+        "members"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "met",
+      "aliases": [
+        "met"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "mostly",
+      "aliases": [
+        "mostly"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "queer",
+      "aliases": [
+        "queer"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "reflected",
+      "aliases": [
+        "reflected"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "seemed",
+      "aliases": [
+        "seemed"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "something",
+      "aliases": [
+        "something"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "telephone",
+      "aliases": [
+        "telephone"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "upon",
+      "aliases": [
+        "upon"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:16"
+    },
+    {
+      "canonical_entity": "vegan",
+      "aliases": [
+        "vegan"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:27"
+    },
+    {
+      "canonical_entity": "vegan character",
+      "aliases": [
+        "vegan character"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:51:27"
+    }
+  ],
+  "event_chains": [
+    {
+      "entity": "about",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "benny",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "cafta",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "dad",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "days",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "embassy",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "ferret",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "few",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "heading",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "hello",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "her",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "here",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "hey",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "kadabra",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "meet-up",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "melbourne",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "met",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "minneapolis",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    },
+    {
+      "entity": "mom",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "mostly",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "only",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "she",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+        }
+      ]
+    },
+    {
+      "entity": "sunday",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:51:16",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+        }
+      ]
+    }
+  ],
+  "conflicts": [],
+  "current_state": {
+    "ferret": {
+      "entity": "ferret",
+      "attribute": "duration",
+      "value": "3 day",
+      "source": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+      "timestamp": "2026-04-15T06:51:16",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+    },
+    "mom": {
+      "entity": "Mom",
+      "attribute": "duration",
+      "value": "2 week",
+      "source": "I only met her for the first time two weeks ago, but she’s nice, Dad.",
+      "timestamp": "2026-04-15T06:51:16",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+    }
+  },
+  "state_history": {
+    "ferret": [
+      {
+        "entity": "ferret",
+        "attribute": "duration",
+        "value": "3 day",
+        "source": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+        "timestamp": "2026-04-15T06:51:16",
+        "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-036226.json"
+      }
+    ],
+    "mom": [
+      {
+        "entity": "Mom",
+        "attribute": "duration",
+        "value": "2 week",
+        "source": "I only met her for the first time two weeks ago, but she’s nice,",
+        "timestamp": "2026-04-15T06:51:16",
+        "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+      },
+      {
+        "entity": "Mom",
+        "attribute": "duration",
+        "value": "2 week",
+        "source": "I only met her for the first time two weeks ago, but she’s nice, Dad.",
+        "timestamp": "2026-04-15T06:51:16",
+        "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065115-0005-49f3f7fda83e\\2026-04-15\\06-51-16-020694.json"
+      }
+    ]
+  }
+}

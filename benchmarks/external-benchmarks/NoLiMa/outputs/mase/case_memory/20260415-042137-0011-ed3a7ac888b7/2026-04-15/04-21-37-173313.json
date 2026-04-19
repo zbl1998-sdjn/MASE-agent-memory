@@ -1,0 +1,115 @@
+{
+  "timestamp": "2026-04-15T04:21:37",
+  "user_query": "This matters to me.” “I’ll have to check, but it’ll probably be okay.” He tried to sound sure of himself but just",
+  "assistant_response": "This matters to me.” “I’ll have to check, but it’ll probably be okay.” He tried to sound sure of himself but just sounded nervous. “I have to be at this meeting. Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered it to me as if he was a spy passing vital information. I saved the contact and smiled at him. “Thanks, Simon. It’s good to know someone who gets it. Who’s willing to do something more meaningful than post Facebook updates.” Rebecca looked disappointed but not quite dis-heartened. \"That's pretty good,\" she said encouragingly. \"You're warm but not hot; there's a brook, but not a common brook. It has young trees and baby bushes on each side of it, and it's a shallow chattering little brook with a white sandy bottom and lots of little shiny pebbles. Whenever there's a bit of sunshine the brook catches it, and it's always full of sparkles the livelong day. Don't your stomach feel hollow? Mine doest I was so 'fraid I'd miss the",
+  "semantic_summary": "This matters to me.” “I’ll have to check, but it’ll probably be okay.” He tried to sound sure of himself but just sounded nervous. “I have to be at this meeting. Simon, it would mean everything to me.” “I’ll see what I",
+  "language": "en",
+  "key_entities": [
+    "RAG",
+    "matters",
+    "check",
+    "probably",
+    "Simon",
+    "Give",
+    "Thanks",
+    "Facebook",
+    "okay",
+    "tried",
+    "sound",
+    "sure"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "RAG",
+      "matters",
+      "check",
+      "probably",
+      "Simon",
+      "Give",
+      "Thanks",
+      "Facebook",
+      "okay",
+      "tried",
+      "sound",
+      "sure",
+      "“I have",
+      "it would mean everything"
+    ],
+    "entity_cards": [
+      {
+        "name": "RAG",
+        "normalized": "rag"
+      },
+      {
+        "name": "matters",
+        "normalized": "matters"
+      },
+      {
+        "name": "check",
+        "normalized": "check"
+      },
+      {
+        "name": "probably",
+        "normalized": "probably"
+      },
+      {
+        "name": "Simon",
+        "normalized": "simon"
+      },
+      {
+        "name": "Give",
+        "normalized": "give"
+      },
+      {
+        "name": "Thanks",
+        "normalized": "thanks"
+      },
+      {
+        "name": "Facebook",
+        "normalized": "facebook"
+      },
+      {
+        "name": "okay",
+        "normalized": "okay"
+      },
+      {
+        "name": "tried",
+        "normalized": "tried"
+      },
+      {
+        "name": "sound",
+        "normalized": "sound"
+      },
+      {
+        "name": "sure",
+        "normalized": "sure"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-728d44790a1b",
+  "thread_label": "RAG / matters",
+  "topic_tokens": [
+    "RAG",
+    "matters",
+    "check",
+    "probably"
+  ],
+  "metadata": {
+    "source": "benchmark_context",
+    "chunk_index": 10,
+    "source_language": "en",
+    "chunk_title": "This matters to me.” “I’ll have to check, but it’ll probably be okay.” He tried to sound sure of himself but just",
+    "language": "en",
+    "ingested_at": "2026-04-15T04:21:37",
+    "source_timestamp": "2026-04-15T04:21:37",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042137-0011-ed3a7ac888b7\\2026-04-15\\04-21-37-173313.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042137-0011-ed3a7ac888b7\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042137-0011-ed3a7ac888b7\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042137-0011-ed3a7ac888b7\\system\\event-bus-latest.json"
+  }
+}

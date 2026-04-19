@@ -1,0 +1,3752 @@
+[
+  {
+    "id": "paperqa-001-How_to_get_additional_knowledge_for_entities",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: How to get additional knowledge for entities?\nOptions:\nA. Making V&L model pre-trained.\nB. Supplementing image information.\nC. Build a bigger dataset.\nD. Supplementing textual information.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 2.425982,
+      "usage_totals": {
+        "prompt_eval_count": 3382.0,
+        "eval_count": 2.0,
+        "total_duration": 2384393000.0,
+        "load_duration": 1635352100.0,
+        "prompt_eval_duration": 684337900.0,
+        "eval_duration": 42122700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 2.425982,
+          "usage": {
+            "prompt_eval_count": 3382,
+            "eval_count": 2,
+            "total_duration": 2384393000,
+            "load_duration": 1635352100,
+            "prompt_eval_duration": 684337900,
+            "eval_duration": 42122700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 2.425982,
+          "usage_totals": {
+            "prompt_eval_count": 3382.0,
+            "eval_count": 2.0,
+            "total_duration": 2384393000.0,
+            "load_duration": 1635352100.0,
+            "prompt_eval_duration": 684337900.0,
+            "eval_duration": 42122700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 2.450088
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-001-How_to_get_additional_knowledge_for_entities"
+  },
+  {
+    "id": "paperqa-002-What_is_not_the_strengths_of_our_work_compared_with_Hos_wor",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is not the strengths of our work compared with Ho’s work?\nOptions:\nA:This work is inspired by the seminal work of Wei et al. (2022) on CoT prompting. They demonstrate that prefixing an input with 2-8 exemplars of CoT reasoning encourages LMs to do the same, reaching state-of-the-art performance on datasets such as GSM8K (Cobbe et al., 2021) .\nB\\C:Ho et al. (2022) and Li et al. (2022) also explore knowledge distillation with the difference of proposing diverse sampling and rationalization prompting, respectively. In contrast to their work, our work explores more teacher models and demonstrates both the effects of dataset and model size on accuracy.\nD:We also achieve a higher accuracy on common datasets, such as GSM8K, than Ho et al. (2022) .\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.774979,
+      "usage_totals": {
+        "prompt_eval_count": 3830.0,
+        "eval_count": 2.0,
+        "total_duration": 770568200.0,
+        "load_duration": 50598600.0,
+        "prompt_eval_duration": 617923800.0,
+        "eval_duration": 67180700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.774979,
+          "usage": {
+            "prompt_eval_count": 3830,
+            "eval_count": 2,
+            "total_duration": 770568200,
+            "load_duration": 50598600,
+            "prompt_eval_duration": 617923800,
+            "eval_duration": 67180700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.774979,
+          "usage_totals": {
+            "prompt_eval_count": 3830.0,
+            "eval_count": 2.0,
+            "total_duration": 770568200.0,
+            "load_duration": 50598600.0,
+            "prompt_eval_duration": 617923800.0,
+            "eval_duration": 67180700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.79118
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-002-What_is_not_the_strengths_of_our_work_compared_with_Hos_wor"
+  },
+  {
+    "id": "paperqa-003-What_is_the_primary_purpose_of_introducing_the_ranking_loss_",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary purpose of introducing the ranking loss in the BalSum model?\nOptions:\nA. To maximize ROUGE scores\nB. To minimize the number of candidate summaries\nC. To reflect the quality measure during training\nD. To increase the instance weighting threshold\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.516203,
+      "usage_totals": {
+        "prompt_eval_count": 2955.0,
+        "eval_count": 2.0,
+        "total_duration": 514068800.0,
+        "load_duration": 50293800.0,
+        "prompt_eval_duration": 385031200.0,
+        "eval_duration": 10027800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.516203,
+          "usage": {
+            "prompt_eval_count": 2955,
+            "eval_count": 2,
+            "total_duration": 514068800,
+            "load_duration": 50293800,
+            "prompt_eval_duration": 385031200,
+            "eval_duration": 10027800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.516203,
+          "usage_totals": {
+            "prompt_eval_count": 2955.0,
+            "eval_count": 2.0,
+            "total_duration": 514068800.0,
+            "load_duration": 50293800.0,
+            "prompt_eval_duration": 385031200.0,
+            "eval_duration": 10027800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.528845
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-003-What_is_the_primary_purpose_of_introducing_the_ranking_loss_"
+  },
+  {
+    "id": "paperqa-004-What_is_the_primary_focus_of_the_error_detection_problem_dis",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary focus of the error detection problem discussed in the paper?\nOptions:\nA. Identifying outliers in data.\nB. Detecting adversarial attacks on neural networks.\nC. Detecting data points with incorrect labels.\nD. Finding the optimal parameters for deep networks.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.861366,
+      "usage_totals": {
+        "prompt_eval_count": 3661.0,
+        "eval_count": 2.0,
+        "total_duration": 858964300.0,
+        "load_duration": 49114000.0,
+        "prompt_eval_duration": 713640300.0,
+        "eval_duration": 70282400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.861366,
+          "usage": {
+            "prompt_eval_count": 3661,
+            "eval_count": 2,
+            "total_duration": 858964300,
+            "load_duration": 49114000,
+            "prompt_eval_duration": 713640300,
+            "eval_duration": 70282400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.861366,
+          "usage_totals": {
+            "prompt_eval_count": 3661.0,
+            "eval_count": 2.0,
+            "total_duration": 858964300.0,
+            "load_duration": 49114000.0,
+            "prompt_eval_duration": 713640300.0,
+            "eval_duration": 70282400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.875638
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-004-What_is_the_primary_focus_of_the_error_detection_problem_dis"
+  },
+  {
+    "id": "paperqa-005-Regarding_the_description_of_the_statistical_indicators_of_t",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Regarding the description of the statistical indicators of the STT4SG-350 dataset, which of the following is accurate？\nOptions:\nA. The age groups eighties and above are represented well.\nB. 51% identified as female and 49% as male in 316 different speakers.\nC. The age groups of twenties are well represented.\nD. The groups from the thirties to the sixties are overrepresented and the teens as well as seventies are underrepresented.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.523814,
+      "usage_totals": {
+        "prompt_eval_count": 3256.0,
+        "eval_count": 2.0,
+        "total_duration": 521414900.0,
+        "load_duration": 49087300.0,
+        "prompt_eval_duration": 429334600.0,
+        "eval_duration": 8825200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.523814,
+          "usage": {
+            "prompt_eval_count": 3256,
+            "eval_count": 2,
+            "total_duration": 521414900,
+            "load_duration": 49087300,
+            "prompt_eval_duration": 429334600,
+            "eval_duration": 8825200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.523814,
+          "usage_totals": {
+            "prompt_eval_count": 3256.0,
+            "eval_count": 2.0,
+            "total_duration": 521414900.0,
+            "load_duration": 49087300.0,
+            "prompt_eval_duration": 429334600.0,
+            "eval_duration": 8825200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.541717
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-005-Regarding_the_description_of_the_statistical_indicators_of_t"
+  },
+  {
+    "id": "paperqa-006-What_is_the_foils_to_descriptive_findings",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the foils to descriptive findings?\nOptions:\nA.  Integrative findings\nB. A statistical model.\nC. Causal explanations\nD. New theories.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.875832,
+      "usage_totals": {
+        "prompt_eval_count": 3936.0,
+        "eval_count": 2.0,
+        "total_duration": 873775600.0,
+        "load_duration": 53280000.0,
+        "prompt_eval_duration": 781578600.0,
+        "eval_duration": 9296700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.875832,
+          "usage": {
+            "prompt_eval_count": 3936,
+            "eval_count": 2,
+            "total_duration": 873775600,
+            "load_duration": 53280000,
+            "prompt_eval_duration": 781578600,
+            "eval_duration": 9296700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.875832,
+          "usage_totals": {
+            "prompt_eval_count": 3936.0,
+            "eval_count": 2.0,
+            "total_duration": 873775600.0,
+            "load_duration": 53280000.0,
+            "prompt_eval_duration": 781578600.0,
+            "eval_duration": 9296700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.891634
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-006-What_is_the_foils_to_descriptive_findings"
+  },
+  {
+    "id": "paperqa-007-What_does_the_background_mainly_show",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What does the background mainly show?\nOptions:\nA. The process of dialogue state tracking.\nB. Chat GPT’s meaning.\nC. Investigative approach to zero-shot DST with ChatGPT\nD. Core concepts in the experimental process.\nDialogue state tracking is tasked to (1) determine for every turn t in a dialogue {(U t , M\nChatGPT\nC.Zero-shot DST with ChatGPT\nOur investigative approach to zero-shot DST with ChatGPT differs considerably from related works.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.782016,
+      "usage_totals": {
+        "prompt_eval_count": 3829.0,
+        "eval_count": 2.0,
+        "total_duration": 779615700.0,
+        "load_duration": 49469000.0,
+        "prompt_eval_duration": 627659300.0,
+        "eval_duration": 67471000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.782016,
+          "usage": {
+            "prompt_eval_count": 3829,
+            "eval_count": 2,
+            "total_duration": 779615700,
+            "load_duration": 49469000,
+            "prompt_eval_duration": 627659300,
+            "eval_duration": 67471000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.782016,
+          "usage_totals": {
+            "prompt_eval_count": 3829.0,
+            "eval_count": 2.0,
+            "total_duration": 779615700.0,
+            "load_duration": 49469000.0,
+            "prompt_eval_duration": 627659300.0,
+            "eval_duration": 67471000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.80027
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-007-What_does_the_background_mainly_show"
+  },
+  {
+    "id": "paperqa-008-What_is_the_proposed_solution_to_improve_the_stability_of_IF",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the proposed solution to improve the stability of IFs in this paper?\nOptions:\nA. Using a larger reference set.\nB. Leveraging class information.\nC. Increasing the number of layers in the neural network.\nD. Removing IFs from the error detection process.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.567306,
+      "usage_totals": {
+        "prompt_eval_count": 3661.0,
+        "eval_count": 2.0,
+        "total_duration": 565016100.0,
+        "load_duration": 46431600.0,
+        "prompt_eval_duration": 473952100.0,
+        "eval_duration": 9413600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.567306,
+          "usage": {
+            "prompt_eval_count": 3661,
+            "eval_count": 2,
+            "total_duration": 565016100,
+            "load_duration": 46431600,
+            "prompt_eval_duration": 473952100,
+            "eval_duration": 9413600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.567306,
+          "usage_totals": {
+            "prompt_eval_count": 3661.0,
+            "eval_count": 2.0,
+            "total_duration": 565016100.0,
+            "load_duration": 46431600.0,
+            "prompt_eval_duration": 473952100.0,
+            "eval_duration": 9413600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.582194
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-008-What_is_the_proposed_solution_to_improve_the_stability_of_IF"
+  },
+  {
+    "id": "paperqa-009-What_is_the_main_focus_of_the_study_conducted_in_this_articl",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the main focus of the study conducted in this article regarding NLP models' performance?\nOptions:\nA. Investigating the impact of zero-shot inference on robustness\nB. Analyzing the relationship between model size and sample efficiency\nC. Exploring the correlation between sample efficiency and OOD robustness\nD. Comparing the performance of models trained with natural language prompts\nComparing models with equivalent ID performance controls for its effect on OOD performance, since improving ID performance usually yields commensurate improvements on OOD performance-in this study, we focus on OOD performance improvements beyond what is expected from ID gains.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.878242,
+      "usage_totals": {
+        "prompt_eval_count": 2636.0,
+        "eval_count": 2.0,
+        "total_duration": 875712200.0,
+        "load_duration": 53497000.0,
+        "prompt_eval_duration": 682621500.0,
+        "eval_duration": 120505700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.878242,
+          "usage": {
+            "prompt_eval_count": 2636,
+            "eval_count": 2,
+            "total_duration": 875712200,
+            "load_duration": 53497000,
+            "prompt_eval_duration": 682621500,
+            "eval_duration": 120505700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.878242,
+          "usage_totals": {
+            "prompt_eval_count": 2636.0,
+            "eval_count": 2.0,
+            "total_duration": 875712200.0,
+            "load_duration": 53497000.0,
+            "prompt_eval_duration": 682621500.0,
+            "eval_duration": 120505700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.895065
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-009-What_is_the_main_focus_of_the_study_conducted_in_this_articl"
+  },
+  {
+    "id": "paperqa-010-Which_criteria_were_used_to_select_the_representative_parall",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which criteria were used to select the representative parallel French-English sentence pairs in the corpus design process?\nOptions:\nA. The length of the sentences and their grammatical complexity.\nB. The number of automatic annotations in each sentence.\nC. The degree of translation difficulty and complex grammatical structure.\nD. The linguistic proficiency of the author and reviewers.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 1.113618,
+      "usage_totals": {
+        "prompt_eval_count": 3359.0,
+        "eval_count": 2.0,
+        "total_duration": 1110271800.0,
+        "load_duration": 49181900.0,
+        "prompt_eval_duration": 998977700.0,
+        "eval_duration": 14584900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 1.113618,
+          "usage": {
+            "prompt_eval_count": 3359,
+            "eval_count": 2,
+            "total_duration": 1110271800,
+            "load_duration": 49181900,
+            "prompt_eval_duration": 998977700,
+            "eval_duration": 14584900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 1.113618,
+          "usage_totals": {
+            "prompt_eval_count": 3359.0,
+            "eval_count": 2.0,
+            "total_duration": 1110271800.0,
+            "load_duration": 49181900.0,
+            "prompt_eval_duration": 998977700.0,
+            "eval_duration": 14584900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 1.127395
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-010-Which_criteria_were_used_to_select_the_representative_parall"
+  },
+  {
+    "id": "paperqa-011-Why_automated_processing_of_Swiss_German_text_is_challenging",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Why automated processing of Swiss German text is challenging？\nOptions:\nA. . In most other contexts, including formal letters, laws, and newspapers, Standard German is used instead.\nB. Because Swiss German is lack of a standardized orthography.\nC. Because Swiss German is diverse among dialects, which has a large number of written variants for each word.\nD. Because Swiss German’s lack of a standardized orthography, diversity among dialects, and the small amount of text resources compared to Standard German.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 1.219511,
+      "usage_totals": {
+        "prompt_eval_count": 3253.0,
+        "eval_count": 2.0,
+        "total_duration": 1216707400.0,
+        "load_duration": 47000000.0,
+        "prompt_eval_duration": 1075510700.0,
+        "eval_duration": 56922400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 1.219511,
+          "usage": {
+            "prompt_eval_count": 3253,
+            "eval_count": 2,
+            "total_duration": 1216707400,
+            "load_duration": 47000000,
+            "prompt_eval_duration": 1075510700,
+            "eval_duration": 56922400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 1.219511,
+          "usage_totals": {
+            "prompt_eval_count": 3253.0,
+            "eval_count": 2.0,
+            "total_duration": 1216707400.0,
+            "load_duration": 47000000.0,
+            "prompt_eval_duration": 1075510700.0,
+            "eval_duration": 56922400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 1.234443
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-011-Why_automated_processing_of_Swiss_German_text_is_challenging"
+  },
+  {
+    "id": "paperqa-012-What_does_the_article_of_Bamman_et_al._in_2014_contain",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What does the article of Bamman et al. in 2014 contain?\nOptions:\nA.  The article describes how topic models of newspaper articles help to study the politicization of government support for arts organizations and artists in the late 1980s in the US. The authors clearly define the theoretical context of their investigation and emphasize the relationship between theory and method throughout the paper.\nB. The article empirically demonstrates this by anchoring in identity theory a word embedding model of first-person narratives of the nineteenth-century U.S. South.\nC. The article validates an empirical model that \"employs multiple effects to account for the influence of extra-linguistic information (such as author)\" by testing specific parameters against a variety of theory-based hypotheses derived from writing styles theories of England between 1700 and 1899.\nD. The article argues that the full potential of machine learning can be better realized by \"leveraging the epistemological alignment between machine learning and inductive research.\"\nDiMaggio et al. ( 2013) The article describes how topic models of newspaper articles help to study the politicization of government support for arts organizations and artists in the late 1980s in the US. The authors clearly define the theoretical context of their investigation and emphasize the relationship between theory and method throughout the paper. Bamman et al. (2014) The article validates an empirical model that \"employs multiple effects to account for the influence of extra-linguistic information (such as author)\" by testing specific parameters against a variety of theory-based hypotheses derived from writing styles theories of England between 1700 and 1899. Nelson (2021) The article argues that the full potential of machine learning can be better realized by \"leveraging the epistemological alignment between machine learning and inductive research.\" The author empirically demonstrates this by anchoring in identity theory a word embedding model of first-person narratives of the nineteenth-century U.S. South.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 1.398978,
+      "usage_totals": {
+        "prompt_eval_count": 4317.0,
+        "eval_count": 2.0,
+        "total_duration": 1396672800.0,
+        "load_duration": 49237000.0,
+        "prompt_eval_duration": 1178328700.0,
+        "eval_duration": 119870700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 1.398978,
+          "usage": {
+            "prompt_eval_count": 4317,
+            "eval_count": 2,
+            "total_duration": 1396672800,
+            "load_duration": 49237000,
+            "prompt_eval_duration": 1178328700,
+            "eval_duration": 119870700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 1.398978,
+          "usage_totals": {
+            "prompt_eval_count": 4317.0,
+            "eval_count": 2.0,
+            "total_duration": 1396672800.0,
+            "load_duration": 49237000.0,
+            "prompt_eval_duration": 1178328700.0,
+            "eval_duration": 119870700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 1.424885
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-012-What_does_the_article_of_Bamman_et_al._in_2014_contain"
+  },
+  {
+    "id": "paperqa-013-What_are_the_three_modeling_interventions_studied_in_the_exp",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What are the three modeling interventions studied in the experiment?\nOptions:\nA. Increasing model size, fine-tuning hyperparameters, and using different training datasets.\nB. Using natural language prompts, increasing model size, and pre-training on more data.\nC. Fine-tuning hyperparameters, using natural language prompts, and adding more layers to the models.\nD. Using MultiNLI,SNLI, and MedNLI.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.767097,
+      "usage_totals": {
+        "prompt_eval_count": 2595.0,
+        "eval_count": 2.0,
+        "total_duration": 764440700.0,
+        "load_duration": 47903300.0,
+        "prompt_eval_duration": 584509900.0,
+        "eval_duration": 14238500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.767097,
+          "usage": {
+            "prompt_eval_count": 2595,
+            "eval_count": 2,
+            "total_duration": 764440700,
+            "load_duration": 47903300,
+            "prompt_eval_duration": 584509900,
+            "eval_duration": 14238500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.767097,
+          "usage_totals": {
+            "prompt_eval_count": 2595.0,
+            "eval_count": 2.0,
+            "total_duration": 764440700.0,
+            "load_duration": 47903300.0,
+            "prompt_eval_duration": 584509900.0,
+            "eval_duration": 14238500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.779106
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-013-What_are_the_three_modeling_interventions_studied_in_the_exp"
+  },
+  {
+    "id": "paperqa-014-What_do_we_wanna_find_in_this_research",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What do we wanna find in this research?\nOptions:\nA.In this work, we aim to answer the question: does ChatGPT solve the problem of zero-shot DST?\nB.We show that crafting intuitive natural language prompts is sufficient to achieve state-of-the-art performance with ChatGPT, exceeding conventional, engineering-heavy approaches to zero-shot DST by a large margin.\nC.However, despite our findings, we argue that properties inherent to general purpose models inhibit their ability to simply replace specialized systems.\nD.We speculate that while in the foreseeable future general purpose models may not become holistic solutions to complex problems, they will provide ample opportunities to empower specialized systems to go beyond their pre-defined scopes, enable on-the-fly extensibility and generation of high quality training data by zero-shot synthesizing or automatic labeling.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 1.420864,
+      "usage_totals": {
+        "prompt_eval_count": 3887.0,
+        "eval_count": 2.0,
+        "total_duration": 1418327500.0,
+        "load_duration": 50705200.0,
+        "prompt_eval_duration": 1313794900.0,
+        "eval_duration": 19323500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 1.420864,
+          "usage": {
+            "prompt_eval_count": 3887,
+            "eval_count": 2,
+            "total_duration": 1418327500,
+            "load_duration": 50705200,
+            "prompt_eval_duration": 1313794900,
+            "eval_duration": 19323500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 1.420864,
+          "usage_totals": {
+            "prompt_eval_count": 3887.0,
+            "eval_count": 2.0,
+            "total_duration": 1418327500.0,
+            "load_duration": 50705200.0,
+            "prompt_eval_duration": 1313794900.0,
+            "eval_duration": 19323500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 1.440249
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-014-What_do_we_wanna_find_in_this_research"
+  },
+  {
+    "id": "paperqa-015-To_verify_knowledge_behavior_in_the_VL_model_what_tasks_ar",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: To verify knowledge behavior in the V&L model, what tasks are designed?\nOptions:\nA. Table generation.\nB. Image generation.\nC. Text generation and image generation.\nD. Table generation and image generation.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.803637,
+      "usage_totals": {
+        "prompt_eval_count": 3385.0,
+        "eval_count": 2.0,
+        "total_duration": 801568500.0,
+        "load_duration": 46628900.0,
+        "prompt_eval_duration": 713000200.0,
+        "eval_duration": 7000000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.803637,
+          "usage": {
+            "prompt_eval_count": 3385,
+            "eval_count": 2,
+            "total_duration": 801568500,
+            "load_duration": 46628900,
+            "prompt_eval_duration": 713000200,
+            "eval_duration": 7000000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.803637,
+          "usage_totals": {
+            "prompt_eval_count": 3385.0,
+            "eval_count": 2.0,
+            "total_duration": 801568500.0,
+            "load_duration": 46628900.0,
+            "prompt_eval_duration": 713000200.0,
+            "eval_duration": 7000000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.817567
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-015-To_verify_knowledge_behavior_in_the_VL_model_what_tasks_ar"
+  },
+  {
+    "id": "paperqa-016-What_is_one_of_the_primary_benefits_of_using_Monte-Carlo_dro",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is one of the primary benefits of using Monte-Carlo dropout during inference, as mentioned in the paper?\nOptions:\nA. It reduces model parameters.\nB. It increases computational cost.\nC. It creates a cheap ensemble and deals better with noisy labels.\nD. It improves training efficiency.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.790397,
+      "usage_totals": {
+        "prompt_eval_count": 3809.0,
+        "eval_count": 2.0,
+        "total_duration": 785522100.0,
+        "load_duration": 52258900.0,
+        "prompt_eval_duration": 614093500.0,
+        "eval_duration": 13473800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.790397,
+          "usage": {
+            "prompt_eval_count": 3809,
+            "eval_count": 2,
+            "total_duration": 785522100,
+            "load_duration": 52258900,
+            "prompt_eval_duration": 614093500,
+            "eval_duration": 13473800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.790397,
+          "usage_totals": {
+            "prompt_eval_count": 3809.0,
+            "eval_count": 2.0,
+            "total_duration": 785522100.0,
+            "load_duration": 52258900.0,
+            "prompt_eval_duration": 614093500.0,
+            "eval_duration": 13473800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.804385
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-016-What_is_one_of_the_primary_benefits_of_using_Monte-Carlo_dro"
+  },
+  {
+    "id": "paperqa-017-What_is_the_primary_focus_of_this_paper",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary focus of this paper?\nOptions:\nA. Adversarial attacks in computer vision\nB. Label smoothing in computer vision models\nC. Adversarial attacks in NLP models\nD. Label smoothing in NLP models\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.696196,
+      "usage_totals": {
+        "prompt_eval_count": 2829.0,
+        "eval_count": 2.0,
+        "total_duration": 693700800.0,
+        "load_duration": 49944300.0,
+        "prompt_eval_duration": 548075000.0,
+        "eval_duration": 69993300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.696196,
+          "usage": {
+            "prompt_eval_count": 2829,
+            "eval_count": 2,
+            "total_duration": 693700800,
+            "load_duration": 49944300,
+            "prompt_eval_duration": 548075000,
+            "eval_duration": 69993300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.696196,
+          "usage_totals": {
+            "prompt_eval_count": 2829.0,
+            "eval_count": 2.0,
+            "total_duration": 693700800.0,
+            "load_duration": 49944300.0,
+            "prompt_eval_duration": 548075000.0,
+            "eval_duration": 69993300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.709142
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-017-What_is_the_primary_focus_of_this_paper"
+  },
+  {
+    "id": "paperqa-018-What_is_our_experiment_result",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is our experiment result?\nOptions:\nA. By using straightforward natural language prompts, a challenging task like  DST can be effectively resolved without the need for any supplementary learning.\nB. Chat-GPT have the capability to exert varying levels of control over their input processing and output generation in arbitrary manners.\nC. With the most rigorous and schematic prompts, the model would interpret the input as intended or generates the output as required.\nD. The behavior remains consistent throughout a sequence of comparable deductions, as demonstrated in our experimental assessment.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.640782,
+      "usage_totals": {
+        "prompt_eval_count": 3832.0,
+        "eval_count": 2.0,
+        "total_duration": 639176500.0,
+        "load_duration": 45000500.0,
+        "prompt_eval_duration": 515213300.0,
+        "eval_duration": 8514300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.640782,
+          "usage": {
+            "prompt_eval_count": 3832,
+            "eval_count": 2,
+            "total_duration": 639176500,
+            "load_duration": 45000500,
+            "prompt_eval_duration": 515213300,
+            "eval_duration": 8514300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.640782,
+          "usage_totals": {
+            "prompt_eval_count": 3832.0,
+            "eval_count": 2.0,
+            "total_duration": 639176500.0,
+            "load_duration": 45000500.0,
+            "prompt_eval_duration": 515213300.0,
+            "eval_duration": 8514300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.659416
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-018-What_is_our_experiment_result"
+  },
+  {
+    "id": "paperqa-019-What_is_the_main_advantage_of_the_S3HQA_model_over_other_app",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the main advantage of the S3HQA model over other approaches for solving multi-hop TextTableQA questions, as mentioned in the passage?\nOptions:\nAs for multi-hop type dataset, previous work used pipeline approach (Chen et al., 2020b) , unsupervised approach (Pan et al., 2021) , multigranularity (Wang et al., 2022b) , table pre-trained language model (Eisenschlos et al., 2021) , multiinstance learning (Kumar et al., 2021) and graph neural network (Feng et al., 2022) to solve this task.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "cold",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.811721,
+      "usage_totals": {
+        "prompt_eval_count": 3994.0,
+        "eval_count": 2.0,
+        "total_duration": 809012300.0,
+        "load_duration": 54467600.0,
+        "prompt_eval_duration": 720980900.0,
+        "eval_duration": 8293200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.811721,
+          "usage": {
+            "prompt_eval_count": 3994,
+            "eval_count": 2,
+            "total_duration": 809012300,
+            "load_duration": 54467600,
+            "prompt_eval_duration": 720980900,
+            "eval_duration": 8293200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.811721,
+          "usage_totals": {
+            "prompt_eval_count": 3994.0,
+            "eval_count": 2.0,
+            "total_duration": 809012300.0,
+            "load_duration": 54467600.0,
+            "prompt_eval_duration": 720980900.0,
+            "eval_duration": 8293200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.828187
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-019-What_is_the_main_advantage_of_the_S3HQA_model_over_other_app"
+  },
+  {
+    "id": "paperqa-020-Based_on_the_results_presented_in_the_text_which_statement_",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Based on the results presented in the text, which statement accurately summarizes the performance of the E2E ST method with the pre-trained wav2vec2.0 architecture?\nOptions:\nA. The E2E ST method with pre-trained wav2vec2.0 significantly outperforms all baselines on all language pairs.\nB. The E2E ST method with pre-trained wav2vec2.0 shows marginal improvement over baselines on all language pairs.\nC. The E2E ST method with pre-trained wav2vec2.0 performs exceptionally well on En-Fr and moderately on En-De.\nD. The E2E ST method with pre-trained wav2vec2.0 performs better on En-De than on En-Fr.\nBy introducing more auxiliary MT data, our model with pre-trained wav2vec2.0 improves 1.5 and 2.3 BLEU on the two language pairs En-De and En-Fr, respectively.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.551574,
+      "usage_totals": {
+        "prompt_eval_count": 2979.0,
+        "eval_count": 2.0,
+        "total_duration": 548944600.0,
+        "load_duration": 51044000.0,
+        "prompt_eval_duration": 402807400.0,
+        "eval_duration": 65031800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.551574,
+          "usage": {
+            "prompt_eval_count": 2979,
+            "eval_count": 2,
+            "total_duration": 548944600,
+            "load_duration": 51044000,
+            "prompt_eval_duration": 402807400,
+            "eval_duration": 65031800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.551574,
+          "usage_totals": {
+            "prompt_eval_count": 2979.0,
+            "eval_count": 2.0,
+            "total_duration": 548944600.0,
+            "load_duration": 51044000.0,
+            "prompt_eval_duration": 402807400.0,
+            "eval_duration": 65031800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.565642
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-020-Based_on_the_results_presented_in_the_text_which_statement_"
+  },
+  {
+    "id": "paperqa-021-Why_Chalkidis_et_al._considered_more_sophisticated_setting_w",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Why Chalkidis et al. considered more sophisticated setting when running BERT?\nOptions:\nA. By default, BERT considers only the first 512 tokens so the training process may miss some important information for long documents.\nB. Because BERT-based methods involve several hyper-parameters, such as the learning rate.\nC. Because all the linear methods are still hundreds of times faster than BERT.\nD. Because users may forget to check the document length and are not aware of the need to apply suitable settings.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.21244,
+      "usage_totals": {
+        "prompt_eval_count": 553.0,
+        "eval_count": 2.0,
+        "total_duration": 210812600.0,
+        "load_duration": 48456200.0,
+        "prompt_eval_duration": 58183500.0,
+        "eval_duration": 8092200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.21244,
+          "usage": {
+            "prompt_eval_count": 553,
+            "eval_count": 2,
+            "total_duration": 210812600,
+            "load_duration": 48456200,
+            "prompt_eval_duration": 58183500,
+            "eval_duration": 8092200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.21244,
+          "usage_totals": {
+            "prompt_eval_count": 553.0,
+            "eval_count": 2.0,
+            "total_duration": 210812600.0,
+            "load_duration": 48456200.0,
+            "prompt_eval_duration": 58183500.0,
+            "eval_duration": 8092200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.216811
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-021-Why_Chalkidis_et_al._considered_more_sophisticated_setting_w"
+  },
+  {
+    "id": "paperqa-022-Which_of_the_following_is_the_opinion_endorsed_by_this_artic",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which of the following is the opinion endorsed by this article?\nOptions:\nA. Computational methods necessarily  rely on earlier approaches to add value, in terms of improving our explanations and understanding\nB. Historical, ethnographic, or mathematical, become irrelevant.\nC. We deny the value of computational approaches to analyzing text.\nD. Computing can never be an instrumental approach for modeling and understanding social complexity.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "cold",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.816904,
+      "usage_totals": {
+        "prompt_eval_count": 3980.0,
+        "eval_count": 2.0,
+        "total_duration": 814424500.0,
+        "load_duration": 52050900.0,
+        "prompt_eval_duration": 690359600.0,
+        "eval_duration": 36230100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.816904,
+          "usage": {
+            "prompt_eval_count": 3980,
+            "eval_count": 2,
+            "total_duration": 814424500,
+            "load_duration": 52050900,
+            "prompt_eval_duration": 690359600,
+            "eval_duration": 36230100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.816904,
+          "usage_totals": {
+            "prompt_eval_count": 3980.0,
+            "eval_count": 2.0,
+            "total_duration": 814424500.0,
+            "load_duration": 52050900.0,
+            "prompt_eval_duration": 690359600.0,
+            "eval_duration": 36230100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.834091
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-022-Which_of_the_following_is_the_opinion_endorsed_by_this_artic"
+  },
+  {
+    "id": "paperqa-023-What_impact_does_the_removal_of_the_hybrid_selector_have_on_",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What impact does the removal of the hybrid selector have on the performance of the model in the HybridQA task?\nOptions:\nA. EM improves by 2.9% and F1 improves by 1.6%\nB. EM drops by 2.9% and F1 drops by 1.6%\nC. EM remains the same, but F1 improves by 1.6%\nD. EM drops by 1.6% and F1 improves by 2.9%\\\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.746392,
+      "usage_totals": {
+        "prompt_eval_count": 3948.0,
+        "eval_count": 2.0,
+        "total_duration": 743291000.0,
+        "load_duration": 46521600.0,
+        "prompt_eval_duration": 591473900.0,
+        "eval_duration": 66997600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.746392,
+          "usage": {
+            "prompt_eval_count": 3948,
+            "eval_count": 2,
+            "total_duration": 743291000,
+            "load_duration": 46521600,
+            "prompt_eval_duration": 591473900,
+            "eval_duration": 66997600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.746392,
+          "usage_totals": {
+            "prompt_eval_count": 3948.0,
+            "eval_count": 2.0,
+            "total_duration": 743291000.0,
+            "load_duration": 46521600.0,
+            "prompt_eval_duration": 591473900.0,
+            "eval_duration": 66997600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.762509
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-023-What_impact_does_the_removal_of_the_hybrid_selector_have_on_"
+  },
+  {
+    "id": "paperqa-024-In_what_way_is_the_method_constructed_in_this_paper",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: In what way is the method constructed in this paper?\nOptions:\nA. Few-shot paraphrasing.\nB. Prompt-learning and back-translation.\nC. A combination of prompt-learning and LLMs for paraphrasing.\nD. Back-translation.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.685173,
+      "usage_totals": {
+        "prompt_eval_count": 3655.0,
+        "eval_count": 2.0,
+        "total_duration": 645814500.0,
+        "load_duration": 48000300.0,
+        "prompt_eval_duration": 471689200.0,
+        "eval_duration": 8574900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.685173,
+          "usage": {
+            "prompt_eval_count": 3655,
+            "eval_count": 2,
+            "total_duration": 645814500,
+            "load_duration": 48000300,
+            "prompt_eval_duration": 471689200,
+            "eval_duration": 8574900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.685173,
+          "usage_totals": {
+            "prompt_eval_count": 3655.0,
+            "eval_count": 2.0,
+            "total_duration": 645814500.0,
+            "load_duration": 48000300.0,
+            "prompt_eval_duration": 471689200.0,
+            "eval_duration": 8574900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.69813
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-024-In_what_way_is_the_method_constructed_in_this_paper"
+  },
+  {
+    "id": "paperqa-025-What_methods_do_the_authors_use_to_extract_mine_the_inter-ut",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What methods do the authors use to extract mine the inter-utterance semantic information from different perspectives?\nOptions:\nA. One-layer MLP structure.\nB. A joint feature matrix.\nC. BatchNorm and LayerNorm.\nD. Ablation study.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.6502,
+      "usage_totals": {
+        "prompt_eval_count": 2898.0,
+        "eval_count": 2.0,
+        "total_duration": 647600000.0,
+        "load_duration": 54105700.0,
+        "prompt_eval_duration": 501445600.0,
+        "eval_duration": 69863900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.6502,
+          "usage": {
+            "prompt_eval_count": 2898,
+            "eval_count": 2,
+            "total_duration": 647600000,
+            "load_duration": 54105700,
+            "prompt_eval_duration": 501445600,
+            "eval_duration": 69863900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.6502,
+          "usage_totals": {
+            "prompt_eval_count": 2898.0,
+            "eval_count": 2.0,
+            "total_duration": 647600000.0,
+            "load_duration": 54105700.0,
+            "prompt_eval_duration": 501445600.0,
+            "eval_duration": 69863900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.662454
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-025-What_methods_do_the_authors_use_to_extract_mine_the_inter-ut"
+  },
+  {
+    "id": "paperqa-026-What_is_the_main_focus_of_this_paper",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the main focus of this paper?\nOptions:\nA. Training a generative language model\nB. Text revision with multiple edit intentions\nC. Improving machine translation\nD. Speech recognition techniques\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.644632,
+      "usage_totals": {
+        "prompt_eval_count": 3507.0,
+        "eval_count": 2.0,
+        "total_duration": 642224800.0,
+        "load_duration": 51124800.0,
+        "prompt_eval_duration": 460038900.0,
+        "eval_duration": 7855800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.644632,
+          "usage": {
+            "prompt_eval_count": 3507,
+            "eval_count": 2,
+            "total_duration": 642224800,
+            "load_duration": 51124800,
+            "prompt_eval_duration": 460038900,
+            "eval_duration": 7855800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.644632,
+          "usage_totals": {
+            "prompt_eval_count": 3507.0,
+            "eval_count": 2.0,
+            "total_duration": 642224800.0,
+            "load_duration": 51124800.0,
+            "prompt_eval_duration": 460038900.0,
+            "eval_duration": 7855800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.658692
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-026-What_is_the_main_focus_of_this_paper"
+  },
+  {
+    "id": "paperqa-027-How_does_the_paper_define_false_positives_in_the_context_of_",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: How does the paper define false positives in the context of ranking summaries?\nOptions:\nA. Summaries with high ROUGE scores\nB. Summaries with high lexical overlap but low semantic similarity\nC. Summaries with low lexical overlap but high semantic similarity\nD. Summaries with low ROUGE scores\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.691882,
+      "usage_totals": {
+        "prompt_eval_count": 2962.0,
+        "eval_count": 2.0,
+        "total_duration": 689992000.0,
+        "load_duration": 47942900.0,
+        "prompt_eval_duration": 563167400.0,
+        "eval_duration": 53672200.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.691882,
+          "usage": {
+            "prompt_eval_count": 2962,
+            "eval_count": 2,
+            "total_duration": 689992000,
+            "load_duration": 47942900,
+            "prompt_eval_duration": 563167400,
+            "eval_duration": 53672200
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.691882,
+          "usage_totals": {
+            "prompt_eval_count": 2962.0,
+            "eval_count": 2.0,
+            "total_duration": 689992000.0,
+            "load_duration": 47942900.0,
+            "prompt_eval_duration": 563167400.0,
+            "eval_duration": 53672200.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.704506
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-027-How_does_the_paper_define_false_positives_in_the_context_of_"
+  },
+  {
+    "id": "paperqa-028-Which_one_of_the_following_answers_is_true",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which one of the following answers is true?\nOptions:\nA. XL-LEXEME is ineffective in all languages that are not covered by the WiC dataset.\nB. XL-LEXEME is more effective than other models in all languages.\nC. XL-LEXEME obtains competitive results for the Russian language.\nD. The differences between XL-LEXEME and the best two systems in the leaderboard are significant.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.84122,
+      "usage_totals": {
+        "prompt_eval_count": 4075.0,
+        "eval_count": 2.0,
+        "total_duration": 838990800.0,
+        "load_duration": 55941600.0,
+        "prompt_eval_duration": 672328500.0,
+        "eval_duration": 68170500.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.84122,
+          "usage": {
+            "prompt_eval_count": 4075,
+            "eval_count": 2,
+            "total_duration": 838990800,
+            "load_duration": 55941600,
+            "prompt_eval_duration": 672328500,
+            "eval_duration": 68170500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.84122,
+          "usage_totals": {
+            "prompt_eval_count": 4075.0,
+            "eval_count": 2.0,
+            "total_duration": 838990800.0,
+            "load_duration": 55941600.0,
+            "prompt_eval_duration": 672328500.0,
+            "eval_duration": 68170500.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.858274
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-028-Which_one_of_the_following_answers_is_true"
+  },
+  {
+    "id": "paperqa-029-What_is_the_primary_purpose_of_the_French-English_parallel_t",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary purpose of the French-English parallel tense test set introduced in the text?\nOptions:\nA. To evaluate the overall translation quality of machine translation systems.\nB. To measure the tense consistency performance of machine translation systems.\nC. To generalize the test set to other languages.\nD. To analyze the linguistic similarities between French and English tenses.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.563614,
+      "usage_totals": {
+        "prompt_eval_count": 3361.0,
+        "eval_count": 2.0,
+        "total_duration": 561127400.0,
+        "load_duration": 47981700.0,
+        "prompt_eval_duration": 417410000.0,
+        "eval_duration": 62631900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.563614,
+          "usage": {
+            "prompt_eval_count": 3361,
+            "eval_count": 2,
+            "total_duration": 561127400,
+            "load_duration": 47981700,
+            "prompt_eval_duration": 417410000,
+            "eval_duration": 62631900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.563614,
+          "usage_totals": {
+            "prompt_eval_count": 3361.0,
+            "eval_count": 2.0,
+            "total_duration": 561127400.0,
+            "load_duration": 47981700.0,
+            "prompt_eval_duration": 417410000.0,
+            "eval_duration": 62631900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.599083
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-029-What_is_the_primary_purpose_of_the_French-English_parallel_t"
+  },
+  {
+    "id": "paperqa-030-In_what_way_did_the_author_take_to_demonstrate_the_effect_of",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: In what way did the author take to demonstrate the effect of the MLP architecture?\nOptions:\nA. A thorough ablation study.\nB. Nothing was done.\nC. Visualization method.\nD. Both visualization method and ablation study.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.635359,
+      "usage_totals": {
+        "prompt_eval_count": 2894.0,
+        "eval_count": 2.0,
+        "total_duration": 632670800.0,
+        "load_duration": 50000800.0,
+        "prompt_eval_duration": 449728300.0,
+        "eval_duration": 10245300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.635359,
+          "usage": {
+            "prompt_eval_count": 2894,
+            "eval_count": 2,
+            "total_duration": 632670800,
+            "load_duration": 50000800,
+            "prompt_eval_duration": 449728300,
+            "eval_duration": 10245300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.635359,
+          "usage_totals": {
+            "prompt_eval_count": 2894.0,
+            "eval_count": 2.0,
+            "total_duration": 632670800.0,
+            "load_duration": 50000800.0,
+            "prompt_eval_duration": 449728300.0,
+            "eval_duration": 10245300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.648878
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-030-In_what_way_did_the_author_take_to_demonstrate_the_effect_of"
+  },
+  {
+    "id": "paperqa-031-What_is_the_advantage_of_using_copy_mechanism",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the advantage of using copy mechanism?\nOptions:\nA. To ensure consistent sequence length\nB. To increase inference speed.\nC. To gain a tiny improvement and further increases the semantic interaction between utterances.\nD. To verify the effectiveness of MLP architecture in our model.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.105037,
+      "usage_totals": {
+        "prompt_eval_count": 2903.0,
+        "eval_count": 2.0,
+        "total_duration": 102852600.0,
+        "load_duration": 54023600.0,
+        "prompt_eval_duration": 21000100.0,
+        "eval_duration": 7000300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.105037,
+          "usage": {
+            "prompt_eval_count": 2903,
+            "eval_count": 2,
+            "total_duration": 102852600,
+            "load_duration": 54023600,
+            "prompt_eval_duration": 21000100,
+            "eval_duration": 7000300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.105037,
+          "usage_totals": {
+            "prompt_eval_count": 2903.0,
+            "eval_count": 2.0,
+            "total_duration": 102852600.0,
+            "load_duration": 54023600.0,
+            "prompt_eval_duration": 21000100.0,
+            "eval_duration": 7000300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.123236
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-031-What_is_the_advantage_of_using_copy_mechanism"
+  },
+  {
+    "id": "paperqa-032-What_is_the_primary_objective_of_the_black-box_defense_menti",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary objective of the black-box defense mentioned in the text?\nOptions:\nA. To maximize the number of k-extractable sequences.\nB. To gain access to the training loss.\nC. To decrease the number of k-extractable sequences.\nD. To evaluate the feasibility of instructive prompts.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.71189,
+      "usage_totals": {
+        "prompt_eval_count": 3347.0,
+        "eval_count": 2.0,
+        "total_duration": 709715100.0,
+        "load_duration": 48645200.0,
+        "prompt_eval_duration": 514592500.0,
+        "eval_duration": 13932700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.71189,
+          "usage": {
+            "prompt_eval_count": 3347,
+            "eval_count": 2,
+            "total_duration": 709715100,
+            "load_duration": 48645200,
+            "prompt_eval_duration": 514592500,
+            "eval_duration": 13932700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.71189,
+          "usage_totals": {
+            "prompt_eval_count": 3347.0,
+            "eval_count": 2.0,
+            "total_duration": 709715100.0,
+            "load_duration": 48645200.0,
+            "prompt_eval_duration": 514592500.0,
+            "eval_duration": 13932700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.725301
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-032-What_is_the_primary_objective_of_the_black-box_defense_menti"
+  },
+  {
+    "id": "paperqa-033-What_is_the_purpose_of_label_smoothing_in_this_paper",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the purpose of label smoothing in this paper?\nOptions:\nA. To improve clean accuracy of NLP models\nB. To reduce overconfident predictions in NLP models\nC. To increase the complexity of NLP models\nD. To enhance the interpretability of NLP models\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.705591,
+      "usage_totals": {
+        "prompt_eval_count": 2839.0,
+        "eval_count": 2.0,
+        "total_duration": 702434900.0,
+        "load_duration": 52078700.0,
+        "prompt_eval_duration": 557728400.0,
+        "eval_duration": 72303700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.705591,
+          "usage": {
+            "prompt_eval_count": 2839,
+            "eval_count": 2,
+            "total_duration": 702434900,
+            "load_duration": 52078700,
+            "prompt_eval_duration": 557728400,
+            "eval_duration": 72303700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.705591,
+          "usage_totals": {
+            "prompt_eval_count": 2839.0,
+            "eval_count": 2.0,
+            "total_duration": 702434900.0,
+            "load_duration": 52078700.0,
+            "prompt_eval_duration": 557728400.0,
+            "eval_duration": 72303700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.718557
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-033-What_is_the_purpose_of_label_smoothing_in_this_paper"
+  },
+  {
+    "id": "paperqa-034-What_is_the_primary_advantage_of_XL-LEXEME_for_Lexical_Seman",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary advantage of XL-LEXEME for Lexical Semantic Change Detection, as mentioned in the text?\nOptions:\nA. It is trained on a small WiC dataset.\nB. It performs poorly on SemEval-2020 Task 1.\nC. It outperforms state-of-the-art models in multiple languages.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.643154,
+      "usage_totals": {
+        "prompt_eval_count": 4059.0,
+        "eval_count": 2.0,
+        "total_duration": 640380200.0,
+        "load_duration": 48983100.0,
+        "prompt_eval_duration": 538869200.0,
+        "eval_duration": 8658400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.643154,
+          "usage": {
+            "prompt_eval_count": 4059,
+            "eval_count": 2,
+            "total_duration": 640380200,
+            "load_duration": 48983100,
+            "prompt_eval_duration": 538869200,
+            "eval_duration": 8658400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.643154,
+          "usage_totals": {
+            "prompt_eval_count": 4059.0,
+            "eval_count": 2.0,
+            "total_duration": 640380200.0,
+            "load_duration": 48983100.0,
+            "prompt_eval_duration": 538869200.0,
+            "eval_duration": 8658400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.658326
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-034-What_is_the_primary_advantage_of_XL-LEXEME_for_Lexical_Seman"
+  },
+  {
+    "id": "paperqa-035-What_is_the_groundbreaking_point_of_this_articles_work",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the groundbreaking point of this article's work？\nOptions:\nA. The cost of training models is very low\nB. They are the first one to adapt the use of instructive prompts for the analysis.\nC. The defense methods of this article is compute intensive.\nD. They explores a kind of new attack setting.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.821533,
+      "usage_totals": {
+        "prompt_eval_count": 3349.0,
+        "eval_count": 2.0,
+        "total_duration": 818616900.0,
+        "load_duration": 56048200.0,
+        "prompt_eval_duration": 674114300.0,
+        "eval_duration": 63966900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.821533,
+          "usage": {
+            "prompt_eval_count": 3349,
+            "eval_count": 2,
+            "total_duration": 818616900,
+            "load_duration": 56048200,
+            "prompt_eval_duration": 674114300,
+            "eval_duration": 63966900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.821533,
+          "usage_totals": {
+            "prompt_eval_count": 3349.0,
+            "eval_count": 2.0,
+            "total_duration": 818616900.0,
+            "load_duration": 56048200.0,
+            "prompt_eval_duration": 674114300.0,
+            "eval_duration": 63966900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.834739
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-035-What_is_the_groundbreaking_point_of_this_articles_work"
+  },
+  {
+    "id": "paperqa-036-Which_intervention_consistently_enhances_both_sample_efficie",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which intervention consistently enhances both sample efficiency and average robustness in low-data scenarios for BERT BASE models in NLI and sentiment analysis?\nOptions:\nA. Increasing model size\nB. Gerneral-purpose methods\nC. Zero-shot prompting of text-davinci-001\nD. Prompt-based fine-tuning\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.403588,
+      "usage_totals": {
+        "prompt_eval_count": 2576.0,
+        "eval_count": 2.0,
+        "total_duration": 400899800.0,
+        "load_duration": 51000500.0,
+        "prompt_eval_duration": 309922500.0,
+        "eval_duration": 7732300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.403588,
+          "usage": {
+            "prompt_eval_count": 2576,
+            "eval_count": 2,
+            "total_duration": 400899800,
+            "load_duration": 51000500,
+            "prompt_eval_duration": 309922500,
+            "eval_duration": 7732300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.403588,
+          "usage_totals": {
+            "prompt_eval_count": 2576.0,
+            "eval_count": 2.0,
+            "total_duration": 400899800.0,
+            "load_duration": 51000500.0,
+            "prompt_eval_duration": 309922500.0,
+            "eval_duration": 7732300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.4164
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-036-Which_intervention_consistently_enhances_both_sample_efficie"
+  },
+  {
+    "id": "paperqa-037-What_method_is_used_to_minimize_the_decoding_distribution_be",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What method is used to minimize the decoding distribution between the student and the teacher models in the proposed uccST framework?\nOptions:\nA. Mean Squared Error (MSE) loss\nB. Transcription from ASR\nC. Concatenation of encoder outputs\nD. Kullback-Leibler divergence (KL)\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.769639,
+      "usage_totals": {
+        "prompt_eval_count": 2848.0,
+        "eval_count": 2.0,
+        "total_duration": 766791000.0,
+        "load_duration": 47773800.0,
+        "prompt_eval_duration": 592725900.0,
+        "eval_duration": 13285300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.769639,
+          "usage": {
+            "prompt_eval_count": 2848,
+            "eval_count": 2,
+            "total_duration": 766791000,
+            "load_duration": 47773800,
+            "prompt_eval_duration": 592725900,
+            "eval_duration": 13285300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.769639,
+          "usage_totals": {
+            "prompt_eval_count": 2848.0,
+            "eval_count": 2.0,
+            "total_duration": 766791000.0,
+            "load_duration": 47773800.0,
+            "prompt_eval_duration": 592725900.0,
+            "eval_duration": 13285300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.782611
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-037-What_method_is_used_to_minimize_the_decoding_distribution_be"
+  },
+  {
+    "id": "paperqa-038-What_is_the_primary_goal_of_the_study_mentioned_in_the_paper",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary goal of the study mentioned in the paper?\nOptions:\nA. To improve the speed of neural models for NLP.\nB. To develop an efficient neural model for Japanese morphological analysis.\nC. To boost the accuracy of pattern-based NLP methods.\nD. To compare the efficiency of classical methods with neural models.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.794332,
+      "usage_totals": {
+        "prompt_eval_count": 3511.0,
+        "eval_count": 2.0,
+        "total_duration": 791405000.0,
+        "load_duration": 50863600.0,
+        "prompt_eval_duration": 643771100.0,
+        "eval_duration": 70619000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.794332,
+          "usage": {
+            "prompt_eval_count": 3511,
+            "eval_count": 2,
+            "total_duration": 791405000,
+            "load_duration": 50863600,
+            "prompt_eval_duration": 643771100,
+            "eval_duration": 70619000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.794332,
+          "usage_totals": {
+            "prompt_eval_count": 3511.0,
+            "eval_count": 2.0,
+            "total_duration": 791405000.0,
+            "load_duration": 50863600.0,
+            "prompt_eval_duration": 643771100.0,
+            "eval_duration": 70619000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.810439
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-038-What_is_the_primary_goal_of_the_study_mentioned_in_the_paper"
+  },
+  {
+    "id": "paperqa-039-Whats_the_result_of_our_experiment",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What’s the result of our experiment?\nOptions:\nA. Except for the Ada model, the accuracy of non-ellipsis examples is significantly higher than that of examples involving ellipsis.\nB.  The Ada model is powerful for both the ellipsis and non-ellipsis cases, and is close to a random guessing baseline of 0.60.\nC. The least powerful models are Davinci-003 and Davinci-002.\nD. In all the other structures, there is no divergence in accuracy between ellipsis and nonellipsis, for both the Davinci-003 and Davinci-002 models.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.495619,
+      "usage_totals": {
+        "prompt_eval_count": 2882.0,
+        "eval_count": 2.0,
+        "total_duration": 492377600.0,
+        "load_duration": 58312700.0,
+        "prompt_eval_duration": 379134300.0,
+        "eval_duration": 8839900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.495619,
+          "usage": {
+            "prompt_eval_count": 2882,
+            "eval_count": 2,
+            "total_duration": 492377600,
+            "load_duration": 58312700,
+            "prompt_eval_duration": 379134300,
+            "eval_duration": 8839900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.495619,
+          "usage_totals": {
+            "prompt_eval_count": 2882.0,
+            "eval_count": 2.0,
+            "total_duration": 492377600.0,
+            "load_duration": 58312700.0,
+            "prompt_eval_duration": 379134300.0,
+            "eval_duration": 8839900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.512525
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-039-Whats_the_result_of_our_experiment"
+  },
+  {
+    "id": "paperqa-040-What_is_the_primary_algorithm_that_inspired_the_proposed_met",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary algorithm that inspired the proposed method in the paper?\nOptions:\nA. Longest Matching Algorithm\nB. Backtracking-Free Search\nC. Sequence Labeling Algorithm\nD. Feature Weight Computation\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.800482,
+      "usage_totals": {
+        "prompt_eval_count": 3487.0,
+        "eval_count": 2.0,
+        "total_duration": 797508600.0,
+        "load_duration": 62774300.0,
+        "prompt_eval_duration": 630282500.0,
+        "eval_duration": 71879800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.800482,
+          "usage": {
+            "prompt_eval_count": 3487,
+            "eval_count": 2,
+            "total_duration": 797508600,
+            "load_duration": 62774300,
+            "prompt_eval_duration": 630282500,
+            "eval_duration": 71879800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.800482,
+          "usage_totals": {
+            "prompt_eval_count": 3487.0,
+            "eval_count": 2.0,
+            "total_duration": 797508600.0,
+            "load_duration": 62774300.0,
+            "prompt_eval_duration": 630282500.0,
+            "eval_duration": 71879800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.816062
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-040-What_is_the_primary_algorithm_that_inspired_the_proposed_met"
+  },
+  {
+    "id": "paperqa-041-In_the_defense_setting_what_is_the_purpose_of_introducing_t",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: In the defense setting, what is the purpose of introducing the hyperparameter θ in the algorithm described in the passage?\nOptions:\nA. To control the length of the prompt during training.\nB. To increase the embedding size of the model.\nC. To optimize the model for generation during inference.\nD. To control the level of punishment for prompts during training\nDuring prompt training (see Section 3.1), when loss is less than θ we do gradient ascent to penalize the prompt. If the loss is greater than θ, we perform gradient descent with respect to the prompt as usual. Training is stopped once the average epoch loss is equal or above θ. This allows us to increase training loss in a controlled manner and stabilize it around θ.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.539414,
+      "usage_totals": {
+        "prompt_eval_count": 3438.0,
+        "eval_count": 2.0,
+        "total_duration": 536213200.0,
+        "load_duration": 63101000.0,
+        "prompt_eval_duration": 429590500.0,
+        "eval_duration": 8000400.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.539414,
+          "usage": {
+            "prompt_eval_count": 3438,
+            "eval_count": 2,
+            "total_duration": 536213200,
+            "load_duration": 63101000,
+            "prompt_eval_duration": 429590500,
+            "eval_duration": 8000400
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.539414,
+          "usage_totals": {
+            "prompt_eval_count": 3438.0,
+            "eval_count": 2.0,
+            "total_duration": 536213200.0,
+            "load_duration": 63101000.0,
+            "prompt_eval_duration": 429590500.0,
+            "eval_duration": 8000400.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.558233
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-041-In_the_defense_setting_what_is_the_purpose_of_introducing_t"
+  },
+  {
+    "id": "paperqa-042-Which_problem_that_the_article_clearly_points_out_in_the_exi",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which problem that the article clearly points out in the existing model  does S3HQA solved?\nOptions:\nA. It eliminates the need for a retriever module.\nB. It relies solely on reading comprehension for answers.\nC. It improves the utilization of heterogeneous information.\nD. It avoids the noisy problem.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.758061,
+      "usage_totals": {
+        "prompt_eval_count": 3909.0,
+        "eval_count": 2.0,
+        "total_duration": 755938800.0,
+        "load_duration": 57999100.0,
+        "prompt_eval_duration": 584888600.0,
+        "eval_duration": 13305100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.758061,
+          "usage": {
+            "prompt_eval_count": 3909,
+            "eval_count": 2,
+            "total_duration": 755938800,
+            "load_duration": 57999100,
+            "prompt_eval_duration": 584888600,
+            "eval_duration": 13305100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.758061,
+          "usage_totals": {
+            "prompt_eval_count": 3909.0,
+            "eval_count": 2.0,
+            "total_duration": 755938800.0,
+            "load_duration": 57999100.0,
+            "prompt_eval_duration": 584888600.0,
+            "eval_duration": 13305100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.774555
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-042-Which_problem_that_the_article_clearly_points_out_in_the_exi"
+  },
+  {
+    "id": "paperqa-043-What_problem_do_conditional_language_models_face_as_mention",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What problem do conditional language models face, as mentioned in the paper?\nOptions:\nA. They generate unfaithful output that is supported by their input.\nB. They generate faithful output consistently.\nC. They require additional machinery for inference.\nD. They have too many parameters.\nConditional language models suffer from a tendency to hallucinate information, resulting in generations that are not faithful to their input documents.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.833697,
+      "usage_totals": {
+        "prompt_eval_count": 3830.0,
+        "eval_count": 2.0,
+        "total_duration": 831213200.0,
+        "load_duration": 53677200.0,
+        "prompt_eval_duration": 741510400.0,
+        "eval_duration": 8523300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.833697,
+          "usage": {
+            "prompt_eval_count": 3830,
+            "eval_count": 2,
+            "total_duration": 831213200,
+            "load_duration": 53677200,
+            "prompt_eval_duration": 741510400,
+            "eval_duration": 8523300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.833697,
+          "usage_totals": {
+            "prompt_eval_count": 3830.0,
+            "eval_count": 2.0,
+            "total_duration": 831213200.0,
+            "load_duration": 53677200.0,
+            "prompt_eval_duration": 741510400.0,
+            "eval_duration": 8523300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.849452
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-043-What_problem_do_conditional_language_models_face_as_mention"
+  },
+  {
+    "id": "paperqa-044-What_is_the_primary_purpose_of_using_a_two-step_training_met",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary purpose of using a two-step training method for the retriever in TextTableQA?\nOptions:\nA. To reduce labeling costs for answer locations.\nB. To improve the accuracy of passage-based retriever.\nC. To minimize the use of passage-based retriever.\nD. To generate precise retrieval labels for every question.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.837529,
+      "usage_totals": {
+        "prompt_eval_count": 3914.0,
+        "eval_count": 2.0,
+        "total_duration": 834777100.0,
+        "load_duration": 51573600.0,
+        "prompt_eval_duration": 680476700.0,
+        "eval_duration": 71092600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.837529,
+          "usage": {
+            "prompt_eval_count": 3914,
+            "eval_count": 2,
+            "total_duration": 834777100,
+            "load_duration": 51573600,
+            "prompt_eval_duration": 680476700,
+            "eval_duration": 71092600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.837529,
+          "usage_totals": {
+            "prompt_eval_count": 3914.0,
+            "eval_count": 2.0,
+            "total_duration": 834777100.0,
+            "load_duration": 51573600.0,
+            "prompt_eval_duration": 680476700.0,
+            "eval_duration": 71092600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.853288
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-044-What_is_the_primary_purpose_of_using_a_two-step_training_met"
+  },
+  {
+    "id": "paperqa-045-Which_factor_significantly_contributes_to_the_improved_perfo",
+    "task": "paperqa",
+    "dataset_answer": "B",
+    "prediction": "B",
+    "raw_prediction": "B",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which factor significantly contributes to the improved performance of the model in the ST task when using pre-trained wav2vec2.0 architecture?\nOptions:\nA. The removal of KL loss\nB. The addition of auxiliary MT data\nC. The use of unified structure\nD. The concatenation of speech and text sequences\nBy introducing more auxiliary MT data, our model with pre-trained wav2vec2.0 improves 1.5 and 2.3 BLEU on the two language pairs En-De and En-Fr, respectively.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.473722,
+      "usage_totals": {
+        "prompt_eval_count": 2891.0,
+        "eval_count": 2.0,
+        "total_duration": 469490700.0,
+        "load_duration": 53574100.0,
+        "prompt_eval_duration": 374623600.0,
+        "eval_duration": 8234600.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.473722,
+          "usage": {
+            "prompt_eval_count": 2891,
+            "eval_count": 2,
+            "total_duration": 469490700,
+            "load_duration": 53574100,
+            "prompt_eval_duration": 374623600,
+            "eval_duration": 8234600
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.473722,
+          "usage_totals": {
+            "prompt_eval_count": 2891.0,
+            "eval_count": 2.0,
+            "total_duration": 469490700.0,
+            "load_duration": 53574100.0,
+            "prompt_eval_duration": 374623600.0,
+            "eval_duration": 8234600.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.486155
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-045-Which_factor_significantly_contributes_to_the_improved_perfo"
+  },
+  {
+    "id": "paperqa-046-why_the_authors_choose_to_re-investigate_the_existing_work_b",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: why the authors choose to re-investigate the existing work by Chalkidis et al in 2022?\nOptions:\nA. Because it only considers large models like pre-trained language models.\nB. Because it only considers simple models like linear SVM.\nC. Because it considers both linear SVM and pre-trained language models.\nD. Because it considers both linear SVM and pre-trained language models, but its authors pay more attention to the latter and somewhat ignore the linear method even though the performance of linear model is competitive on some problems.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.117492,
+      "usage_totals": {
+        "prompt_eval_count": 556.0,
+        "eval_count": 2.0,
+        "total_duration": 114193600.0,
+        "load_duration": 51194500.0,
+        "prompt_eval_duration": 49999600.0,
+        "eval_duration": 6999900.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.117492,
+          "usage": {
+            "prompt_eval_count": 556,
+            "eval_count": 2,
+            "total_duration": 114193600,
+            "load_duration": 51194500,
+            "prompt_eval_duration": 49999600,
+            "eval_duration": 6999900
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.117492,
+          "usage_totals": {
+            "prompt_eval_count": 556.0,
+            "eval_count": 2.0,
+            "total_duration": 114193600.0,
+            "load_duration": 51194500.0,
+            "prompt_eval_duration": 49999600.0,
+            "eval_duration": 6999900.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.122316
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-046-why_the_authors_choose_to_re-investigate_the_existing_work_b"
+  },
+  {
+    "id": "paperqa-047-What_does_the_research_mainlt_do",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What does the research mainlt do?\nOptions:\nA. Explore areas in which GPT-3 might still differ from human language understanding.\nB. Explore how to use ellipsis.\nC. Prove that GPT-3 is perfect.\nD. Promote the rapid progress in NLP\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.761802,
+      "usage_totals": {
+        "prompt_eval_count": 2812.0,
+        "eval_count": 2.0,
+        "total_duration": 759987800.0,
+        "load_duration": 56000100.0,
+        "prompt_eval_duration": 636642800.0,
+        "eval_duration": 12112800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.761802,
+          "usage": {
+            "prompt_eval_count": 2812,
+            "eval_count": 2,
+            "total_duration": 759987800,
+            "load_duration": 56000100,
+            "prompt_eval_duration": 636642800,
+            "eval_duration": 12112800
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.761802,
+          "usage_totals": {
+            "prompt_eval_count": 2812.0,
+            "eval_count": 2.0,
+            "total_duration": 759987800.0,
+            "load_duration": 56000100.0,
+            "prompt_eval_duration": 636642800.0,
+            "eval_duration": 12112800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.773895
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-047-What_does_the_research_mainlt_do"
+  },
+  {
+    "id": "paperqa-048-Which_method_or_model_is_the_most_related_to_our_model",
+    "task": "paperqa",
+    "dataset_answer": "D",
+    "prediction": "D",
+    "raw_prediction": "D",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which method or model is the most related to our model?\nOptions:\nA. Kernel approximations.\nB. Fixed sparse attention patterns.\nC. Learned sparse attention patterns.\nD. Longformer\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.709617,
+      "usage_totals": {
+        "prompt_eval_count": 3347.0,
+        "eval_count": 2.0,
+        "total_duration": 707462100.0,
+        "load_duration": 49253400.0,
+        "prompt_eval_duration": 558645900.0,
+        "eval_duration": 69627300.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.709617,
+          "usage": {
+            "prompt_eval_count": 3347,
+            "eval_count": 2,
+            "total_duration": 707462100,
+            "load_duration": 49253400,
+            "prompt_eval_duration": 558645900,
+            "eval_duration": 69627300
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.709617,
+          "usage_totals": {
+            "prompt_eval_count": 3347.0,
+            "eval_count": 2.0,
+            "total_duration": 707462100.0,
+            "load_duration": 49253400.0,
+            "prompt_eval_duration": 558645900.0,
+            "eval_duration": 69627300.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.722787
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-048-Which_method_or_model_is_the_most_related_to_our_model"
+  },
+  {
+    "id": "paperqa-049-What_is_the_primary_purpose_of_RuShiftEval_in_comparison_to_",
+    "task": "paperqa",
+    "dataset_answer": "C",
+    "prediction": "C",
+    "raw_prediction": "C",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: What is the primary purpose of RuShiftEval in comparison to SemEval-2020 Task 1?\nOptions:\nA. To evaluate models on Russian, German, and Latin languages.\nB. To determine the degree of semantic change in the English language.\nC. To assess if training data can improve Lexical Semantic Change Detection models.\nD. To provide annotated pairwise sentences for training purposes.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.724568,
+      "usage_totals": {
+        "prompt_eval_count": 4069.0,
+        "eval_count": 2.0,
+        "total_duration": 722175800.0,
+        "load_duration": 50089300.0,
+        "prompt_eval_duration": 536143300.0,
+        "eval_duration": 8339100.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.724568,
+          "usage": {
+            "prompt_eval_count": 4069,
+            "eval_count": 2,
+            "total_duration": 722175800,
+            "load_duration": 50089300,
+            "prompt_eval_duration": 536143300,
+            "eval_duration": 8339100
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.724568,
+          "usage_totals": {
+            "prompt_eval_count": 4069.0,
+            "eval_count": 2.0,
+            "total_duration": 722175800.0,
+            "load_duration": 50089300.0,
+            "prompt_eval_duration": 536143300.0,
+            "eval_duration": 8339100.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.741001
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-049-What_is_the_primary_purpose_of_RuShiftEval_in_comparison_to_"
+  },
+  {
+    "id": "paperqa-050-Which_one_among_the_following_experimental_Setup_contains_a",
+    "task": "paperqa",
+    "dataset_answer": "A",
+    "prediction": "A",
+    "raw_prediction": "A",
+    "question": "You are given an article in the fact sheet and a multiple-choice question.\nChoose the best answer and return only one letter: A, B, C, or D.\n\nQuestion: Which one among the following experimental Setup  contains a mistake?\nOptions:\nA:We use the official training and testing split for GSM8K, taking the last 10% of the training split for validation, and the 5-fold cross validation splits available for MAWPS and ASDiv.\nB:As a testing split is not available, we do not shuffle the dataset to allow reproducing our split of taking the first 80% as training data,\nC:We select PaLM 540B (Chowdhery et al., 2022) and GPT-3 175B (Brown et al., 2020) as teacher models.\nD:We establish T5 XXL model finetuned on the original target as the baseline.\n\nAnswer:",
+    "execution_plan": {
+      "task_kind": "multiple_choice",
+      "mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": null
+    },
+    "executor_target": {
+      "mode": "structured_task",
+      "provider": "ollama",
+      "model_name": "qwen2.5:3b",
+      "temperature": 0.2,
+      "max_tokens": 1024,
+      "base_url": null,
+      "requested_mode": "structured_task",
+      "resolved_mode": "structured_task",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "neutral",
+      "task_kind": "multiple_choice",
+      "requested_collaboration_mode": null
+    },
+    "metrics": {
+      "call_count": 1,
+      "elapsed_seconds": 0.804648,
+      "usage_totals": {
+        "prompt_eval_count": 3801.0,
+        "eval_count": 2.0,
+        "total_duration": 802874200.0,
+        "load_duration": 52546600.0,
+        "prompt_eval_duration": 713880500.0,
+        "eval_duration": 8999700.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "structured_task",
+          "provider": "ollama",
+          "model_name": "qwen2.5:3b",
+          "elapsed_seconds": 0.804648,
+          "usage": {
+            "prompt_eval_count": 3801,
+            "eval_count": 2,
+            "total_duration": 802874200,
+            "load_duration": 52546600,
+            "prompt_eval_duration": 713880500,
+            "eval_duration": 8999700
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 1,
+          "elapsed_seconds": 0.804648,
+          "usage_totals": {
+            "prompt_eval_count": 3801.0,
+            "eval_count": 2.0,
+            "total_duration": 802874200.0,
+            "load_duration": 52546600.0,
+            "prompt_eval_duration": 713880500.0,
+            "eval_duration": 8999700.0
+          }
+        }
+      },
+      "wall_clock_seconds": 0.819359
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\expanded-paperqa-50\\case_memory\\paperqa-050-Which_one_among_the_following_experimental_Setup_contains_a"
+  }
+]

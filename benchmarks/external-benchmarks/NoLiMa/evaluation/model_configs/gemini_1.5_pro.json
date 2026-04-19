@@ -1,0 +1,17 @@
+{
+    "model": "gemini-1.5-pro-002",
+    "api_key": "EMPTY",
+    "api_url": "EMPTY",
+    "project_ID": "[[PROJECT_ID]]",
+    "location": "[[SELECTED_LOCATION]]",
+    "api_provider": "gemini",
+    "retry_delay": 1,
+    "retry_max_delay": 60,
+    "retry_multiplier": 2,
+    "retry_timeout": 300,
+    "max_tokens": 192,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "tokenizer_type": "google",
+    "tokenizer_model": "gemini-1.5-pro-002"
+}

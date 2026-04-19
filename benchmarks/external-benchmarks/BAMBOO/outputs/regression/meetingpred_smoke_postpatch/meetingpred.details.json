@@ -1,0 +1,98 @@
+[
+  {
+    "id": "meetingpred-001",
+    "task": "meetingpred",
+    "dataset_answer": "Janet Finch-Saunders AM",
+    "prediction": "Joyce Watson AM",
+    "raw_prediction": "Joyce Watson AM",
+    "question": "You are given a long dialogue in the fact sheet.\nPredict the speaker mentioned at the end of the last sentence.\nReturn only the speaker's name.\n\nAnswer:",
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 3,
+      "elapsed_seconds": 9.096877,
+      "usage_totals": {
+        "prompt_eval_count": 12097.0,
+        "eval_count": 309.0,
+        "total_duration": 9089690100.0,
+        "load_duration": 85134900.0,
+        "prompt_eval_duration": 3219172700.0,
+        "eval_duration": 3834977800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 1.577606,
+          "usage": {
+            "prompt_eval_count": 4350,
+            "eval_count": 10,
+            "total_duration": 1574519800,
+            "load_duration": 19155700,
+            "prompt_eval_duration": 1364285600,
+            "eval_duration": 169906000
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 6.682762,
+          "usage": {
+            "prompt_eval_count": 4151,
+            "eval_count": 292,
+            "total_duration": 6680683500,
+            "load_duration": 49063200,
+            "prompt_eval_duration": 1134707100,
+            "eval_duration": 3582034300
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_answer_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.836509,
+          "usage": {
+            "prompt_eval_count": 3596,
+            "eval_count": 7,
+            "total_duration": 834486800,
+            "load_duration": 16916000,
+            "prompt_eval_duration": 720180000,
+            "eval_duration": 83037500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 3,
+          "elapsed_seconds": 9.096877,
+          "usage_totals": {
+            "prompt_eval_count": 12097.0,
+            "eval_count": 309.0,
+            "total_duration": 9089690100.0,
+            "load_duration": 85134900.0,
+            "prompt_eval_duration": 3219172700.0,
+            "eval_duration": 3834977800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 9.106268
+    },
+    "error": null,
+    "case_memory_dir": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_smoke_postpatch\\case_memory\\meetingpred-001"
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "needle_set_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\data\\needlesets\\needle_set_ONLYDirect.json",
+  "haystack_dir": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\data\\haystack\\rand_shuffle",
+  "context_length": 1000,
+  "document_depth_percent_min": 50.0,
+  "document_depth_percent_max": 50.0,
+  "document_depth_percent_intervals": 1,
+  "metric": "contains",
+  "encoding_name": "approx_words",
+  "executor_role": "reasoning",
+  "test_count": 1,
+  "haystack_count": 1,
+  "results_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\regression\\nolima_direct_1k_postpatch\\nolima.results.json",
+  "summary": {
+    "processed": 1,
+    "passed": 0,
+    "failed": 1,
+    "accuracy": 0.0,
+    "by_test": {
+      "0401_T17_C02_direct": {
+        "processed": 1,
+        "passed": 0,
+        "failed": 1,
+        "accuracy": 0.0
+      }
+    },
+    "by_haystack": {
+      "rand_book_1.txt": {
+        "processed": 1,
+        "passed": 0,
+        "failed": 1,
+        "accuracy": 0.0
+      }
+    },
+    "by_depth": {
+      "50.0": {
+        "processed": 1,
+        "passed": 0,
+        "failed": 1,
+        "accuracy": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+vllm
+openai==1.53.0
+tiktoken==0.7.0
+transformers==4.46.1
+google-genai==0.3.0
+google-cloud-aiplatform==1.74.0
+langchain-aws==0.2.9
+langchain-core==0.3.26
+tenacity==9.0.0
+jsonargparse==4.34.0
+httpx<0.28

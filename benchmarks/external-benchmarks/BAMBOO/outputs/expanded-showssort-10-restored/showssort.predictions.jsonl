@@ -1,0 +1,10 @@
+{"id": "showssort-001", "task": "showssort", "pred": [0, 2, 3, 4, 1], "answer": [2, 0, 1, 3, 4], "raw_pred": "[0] > [2] > [3] > [4] > [1]", "error": null}
+{"id": "showssort-002", "task": "showssort", "pred": [0, 4, 3, 1, 2], "answer": [2, 1, 3, 4, 0], "raw_pred": "[0] > [4] > [3] > [1] > [2]", "error": null}
+{"id": "showssort-003", "task": "showssort", "pred": [0, 3, 4, 2, 1], "answer": [2, 3, 1, 4, 0], "raw_pred": "[0] > [3] > [4] > [2] > [1]", "error": null}
+{"id": "showssort-004", "task": "showssort", "pred": [1, 3, 4, 0, 2], "answer": [2, 3, 1, 0, 4], "raw_pred": "[1] > [3] > [4] > [0] > [2]", "error": null}
+{"id": "showssort-005", "task": "showssort", "pred": [1, 2, 3, 0, 4], "answer": [2, 4, 1, 0, 3], "raw_pred": "[1] > [2] > [3] > [0] > [4]", "error": null}
+{"id": "showssort-006", "task": "showssort", "pred": [0, 2, 3, 4, 1], "answer": [3, 2, 1, 4, 0], "raw_pred": "[0] > [2] > [3] > [4] > [1]", "error": null}
+{"id": "showssort-007", "task": "showssort", "pred": [1, 2, 3, 4, 0], "answer": [0, 3, 2, 1, 4], "raw_pred": "[1] > [2] > [3] > [4] > [0]", "error": null}
+{"id": "showssort-008", "task": "showssort", "pred": [0, 3, 1, 2, 4], "answer": [3, 0, 2, 4, 1], "raw_pred": "[0] > [3] > [1] > [2] > [4]", "error": null}
+{"id": "showssort-009", "task": "showssort", "pred": [0, 1, 2, 4, 3], "answer": [1, 4, 3, 0, 2], "raw_pred": "[0] > [1] > [2] > [4] > [3]", "error": null}
+{"id": "showssort-010", "task": "showssort", "pred": [1, 0, 3, 4, 2], "answer": [1, 0, 3, 2, 4], "raw_pred": "[1] > [0] > [3] > [4] > [2]", "error": null}

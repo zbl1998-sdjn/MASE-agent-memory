@@ -1,0 +1,321 @@
+{
+  "timestamp": "2026-04-15T04:22:09",
+  "user_query": "Which character cannot eat fish-based meals?",
+  "assistant_response": "Stuart",
+  "semantic_summary": "Stuart cannot eat fish-based m",
+  "language": "en",
+  "key_entities": [
+    "character",
+    "cannot",
+    "eat",
+    "fish-based",
+    "meals",
+    "character cannot",
+    "eat fish-based meals",
+    "Stuart",
+    "stuart cannot eat",
+    "fish-based m"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "character",
+      "cannot",
+      "eat",
+      "fish-based",
+      "meals",
+      "character cannot",
+      "eat fish-based meals",
+      "Stuart",
+      "stuart cannot eat",
+      "fish-based m",
+      "Stuart cannot eat fish-based m"
+    ],
+    "entity_cards": [
+      {
+        "name": "character",
+        "normalized": "character"
+      },
+      {
+        "name": "cannot",
+        "normalized": "cannot"
+      },
+      {
+        "name": "eat",
+        "normalized": "eat"
+      },
+      {
+        "name": "fish-based",
+        "normalized": "fish-based"
+      },
+      {
+        "name": "meals",
+        "normalized": "meals"
+      },
+      {
+        "name": "character cannot",
+        "normalized": "character cannot"
+      },
+      {
+        "name": "eat fish-based meals",
+        "normalized": "eat fish-based meals"
+      },
+      {
+        "name": "Stuart",
+        "normalized": "stuart"
+      },
+      {
+        "name": "stuart cannot eat",
+        "normalized": "stuart cannot eat"
+      },
+      {
+        "name": "fish-based m",
+        "normalized": "fish-based m"
+      },
+      {
+        "name": "Stuart cannot eat fish-based m",
+        "normalized": "stuart cannot eat fish-based m"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-e5e955ab8a17",
+  "thread_label": "character / cannot",
+  "topic_tokens": [
+    "character",
+    "cannot",
+    "eat",
+    "fish-based"
+  ],
+  "metadata": {
+    "route_action": "search_memory",
+    "executor_mode": "grounded_disambiguation",
+    "executor_role": "reasoning",
+    "collaboration_mode": "verify",
+    "memory_heat": "hot",
+    "executor_target": {
+      "mode": "grounded_disambiguation_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 640,
+      "base_url": null,
+      "requested_mode": "grounded_disambiguation",
+      "resolved_mode": "grounded_disambiguation_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "hot"
+    },
+    "memory_result_count": 6,
+    "retrieval_iterations": 1,
+    "retrieval_queries": [
+      "Which character cannot eat fish-based meals?",
+      "character cannot eat fish-based",
+      "vegan",
+      "vegan for years",
+      "vegan vegan for years character",
+      "精确区分 character cannot eat",
+      "experiences of",
+      "it seemed"
+    ],
+    "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nEvidence anchors (SAKE-HEAD):\n- Stuart：Then Stuart mentioned that he has been vegan for years. \"What\n\n[1] Time：2026-04-15 04-21-57\nSummary：When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion,\nRelevant lines:\n- When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion\n- Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared\nThread：RAG / she\n\n[2] Time：2026-04-15 04-21-57\nSummary：was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing\nRelevant lines:\n- was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her\n- It was queer。Perhaps—” She was aware of a fast-growing\nThread：telephone / Lexy\n\n[3] Time：2026-04-15 04-21-57\nSummary：Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice, Dad. I don’t want you to go all copper on her, OK? She’s my mom, OK?” He took her hand in his and\nRelevant lines:\n- Mom has been here, mostly, and at the CAFTA embassy\n- She’s my mom, OK\nThread：Mom / here\n\n[4] Time：2026-04-15 04-21-57\nSummary：Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered it to me as if he was a spy passing vital information. I saved the contact and\nRelevant lines:\n- Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned\n- I saved the contact and smiled at him. “Thanks, Simon\nThread：RAG / Simon\n\n[5] Time：2026-04-15 04-21-57\nSummary：“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped and the driver came around to the door. “Better make a run fer it!” he said. “I’ll take yer bags.” So\nRelevant lines:\n- “Thank you very much, Miss Moran\n- The door was opened at once. “Miss Royce\nKey numbers:\n- 1 time\n- 1\nThread：Thank / very\n\nStructured memory cards:\n- entity=RAG\n- entity=she\n- entity=looked\n- entity=back\n- entity=Lexy\n- entity=Since\n- entity=telephone\n- entity=reflected\nMoney ledger:\n- money_ledger={\"amount\": 0.0, \"currency\": \"USD\", \"date_scope\": [], \"location_scope\": [\"lexy\"], \"purpose\": \"general\", \"source\": \"When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared. I didn't believe it for a second. There's no way a judge would say that all this stuff constituted any kind of real crime. It was free speech, it was technological tinkering. It wasn't a crime. But who said that these people would ever put me in front of a judge. \\\"We know where you live, we know who your friends are. We know how you operate and how you think.\\\" It dawned on me then. They were about to let me go. The room seemed to brighten. I heard myself breathing, short little breaths. \\\"We just want to know one thing: what was the delivery mechanism for the bombs on the bridge?\\\" I stopped breathing. The room darkened again. Then Stuart mentioned that he has been vegan for years. \\\"What?\\\" \\\"There were ten charges on the bridge, all along its length. They weren't in car-trunks. They'd been placed there. Who placed them there, and how did they get there?\\\" \\\"What?\\\" I said it again.\", \"verb\": \"free\"}\n\nEvidence chain assessment:\n\n- evidence_confidence=high\n\n- verifier_action=pass\n\n- reason_codes=unique_direct_match,large_score_gap\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=5\n\n- confidence_score=100\n\n- candidate_count=6\n\n- direct_match_count=1\n\n- top_candidate=Stuart\n\n- top_score=262\n\n- score_gap=236\n\nEvidence anchors (SAKE-TAIL):\n- Stuart：Then Stuart mentioned that he has been vegan for years. \"What\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=character; cannot; eat; fish-based; meals\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=high\n- verifier_action=pass\n- followup_needed=no",
+    "evidence_layout": "gold_panning+dcr+sake",
+    "planner": {
+      "strategy": "disambiguation",
+      "query_variants": [
+        "Which character cannot eat fish-based meals?",
+        "character cannot eat fish-based",
+        "vegan",
+        "vegan for years",
+        "vegan vegan for years character",
+        "精确区分 character cannot eat"
+      ],
+      "memory_limit": 6,
+      "collaboration_mode": "verify",
+      "active_date_scan": false,
+      "widen_search": true,
+      "min_results": 4,
+      "confusion_level": "high",
+      "steps": [
+        {
+          "step_id": "plan-route",
+          "title": "Route request",
+          "details": "action=search_memory, keywords=['__FULL_QUERY__']",
+          "depends_on": []
+        },
+        {
+          "step_id": "plan-search",
+          "title": "Search memory",
+          "details": "Retrieve candidates with keywords, variants, synonyms, and semantic fallback.",
+          "depends_on": [
+            "plan-route"
+          ]
+        },
+        {
+          "step_id": "plan-widen",
+          "title": "Widen search",
+          "details": "Relax thread/date constraints and zoom out to broader evidence when needed.",
+          "depends_on": [
+            "plan-search"
+          ]
+        },
+        {
+          "step_id": "plan-compress",
+          "title": "Compress evidence",
+          "details": "Deduplicate results, highlight relevant snippets, and attach aggregation hints.",
+          "depends_on": [
+            "plan-widen"
+          ]
+        },
+        {
+          "step_id": "plan-confusion-assess",
+          "title": "Assess confusion",
+          "details": "Detected high confusion from similar entities or competing candidates.",
+          "depends_on": [
+            "plan-compress"
+          ]
+        },
+        {
+          "step_id": "plan-disambiguate",
+          "title": "Disambiguate evidence",
+          "details": "Route to grounded disambiguation so the reasoning executor can eliminate confusing candidates.",
+          "depends_on": [
+            "plan-confusion-assess"
+          ]
+        }
+      ],
+      "notes": [
+        "widen_search",
+        "similar_entities",
+        "confusion_high",
+        "disambiguation_reasoning"
+      ]
+    },
+    "planner_model_plan": {
+      "task_description": "Which character cannot eat fish-based meals?",
+      "query_variants": [
+        "Which character cannot eat fish-based meals?",
+        "character cannot eat fish-based",
+        "vegan",
+        "vegan for years",
+        "vegan vegan for years character",
+        "精确区分 character cannot eat"
+      ],
+      "topic_hints": [],
+      "recent_count": 0,
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [],
+        "relative_terms": [],
+        "strict": false
+      }
+    },
+    "instruction_package": {
+      "task_description": "Which character cannot eat fish-based meals?",
+      "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nEvidence anchors (SAKE-HEAD):\n- Stuart：Then Stuart mentioned that he has been vegan for years. \"What\n\n[1] Time：2026-04-15 04-21-57\nSummary：When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion,\nRelevant lines:\n- When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion\n- Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared\nThread：RAG / she\n\n[2] Time：2026-04-15 04-21-57\nSummary：was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing\nRelevant lines:\n- was on the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her\n- It was queer。Perhaps—” She was aware of a fast-growing\nThread：telephone / Lexy\n\n[3] Time：2026-04-15 04-21-57\nSummary：Mom has been here, mostly, and at the CAFTA embassy. I only met her for the first time two weeks ago, but she’s nice, Dad. I don’t want you to go all copper on her, OK? She’s my mom, OK?” He took her hand in his and\nRelevant lines:\n- Mom has been here, mostly, and at the CAFTA embassy\n- She’s my mom, OK\nThread：Mom / here\n\n[4] Time：2026-04-15 04-21-57\nSummary：Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned close and whispered it to me as if he was a spy passing vital information. I saved the contact and\nRelevant lines:\n- Simon, it would mean everything to me.” “I’ll see what I can do.” “Give me your number so I can reach you.” He leaned\n- I saved the contact and smiled at him. “Thanks, Simon\nThread：RAG / Simon\n\n[5] Time：2026-04-15 04-21-57\nSummary：“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped and the driver came around to the door. “Better make a run fer it!” he said. “I’ll take yer bags.” So\nRelevant lines:\n- “Thank you very much, Miss Moran\n- The door was opened at once. “Miss Royce\nKey numbers:\n- 1 time\n- 1\nThread：Thank / very\n\nStructured memory cards:\n- entity=RAG\n- entity=she\n- entity=looked\n- entity=back\n- entity=Lexy\n- entity=Since\n- entity=telephone\n- entity=reflected\nMoney ledger:\n- money_ledger={\"amount\": 0.0, \"currency\": \"USD\", \"date_scope\": [], \"location_scope\": [\"lexy\"], \"purpose\": \"general\", \"source\": \"When she looked back upon the experiences of that dreadful night, it seemed to Lexy that both she and her companion displayed almost incredible endurance. Since morning they had lived through a very lifetime of emotion, to end now in this tragedy more horrible than anything they could have feared. I didn't believe it for a second. There's no way a judge would say that all this stuff constituted any kind of real crime. It was free speech, it was technological tinkering. It wasn't a crime. But who said that these people would ever put me in front of a judge. \\\"We know where you live, we know who your friends are. We know how you operate and how you think.\\\" It dawned on me then. They were about to let me go. The room seemed to brighten. I heard myself breathing, short little breaths. \\\"We just want to know one thing: what was the delivery mechanism for the bombs on the bridge?\\\" I stopped breathing. The room darkened again. Then Stuart mentioned that he has been vegan for years. \\\"What?\\\" \\\"There were ten charges on the bridge, all along its length. They weren't in car-trunks. They'd been placed there. Who placed them there, and how did they get there?\\\" \\\"What?\\\" I said it again.\", \"verb\": \"free\"}\n\nEvidence chain assessment:\n\n- evidence_confidence=high\n\n- verifier_action=pass\n\n- reason_codes=unique_direct_match,large_score_gap\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=5\n\n- confidence_score=100\n\n- candidate_count=6\n\n- direct_match_count=1\n\n- top_candidate=Stuart\n\n- top_score=262\n\n- score_gap=236\n\nEvidence anchors (SAKE-TAIL):\n- Stuart：Then Stuart mentioned that he has been vegan for years. \"What\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=character; cannot; eat; fish-based; meals\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=high\n- verifier_action=pass\n- followup_needed=no",
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "background_summary": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [],
+        "relative_terms": [],
+        "strict": false
+      }
+    },
+    "reasoning_workspace": {
+      "operation": "disambiguation",
+      "focus_entities": [
+        "character",
+        "cannot",
+        "eat",
+        "fish-based",
+        "meals"
+      ],
+      "target_unit": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness",
+        "direct evidence"
+      ],
+      "deterministic_answer": "",
+      "evidence_confidence": "high",
+      "verifier_action": "pass",
+      "followup_needed": false
+    },
+    "evidence_assessment": {
+      "level": "high",
+      "verifier_action": "pass",
+      "reason_codes": [
+        "unique_direct_match",
+        "large_score_gap"
+      ],
+      "result_count": 5,
+      "candidate_count": 6,
+      "direct_match_count": 1,
+      "top_candidate": "Stuart",
+      "top_score": 262,
+      "score_gap": 236,
+      "threshold_profile": "external-generalization",
+      "confidence_score": 100,
+      "contract_type": "",
+      "failure_bucket": "",
+      "missing_slots": []
+    },
+    "evidence_thresholds": {
+      "profile_name": "external-generalization",
+      "general_pass_evidence_items_min": 1,
+      "general_pass_snippet_total_min": 2,
+      "general_verify_evidence_items_min": 1,
+      "disambiguation_pass_score_min": 138,
+      "disambiguation_pass_score_gap_min": 34,
+      "disambiguation_verify_score_min": 105,
+      "disambiguation_verify_score_gap_min": 22,
+      "allow_verify_on_multiple_direct_matches": true,
+      "multiple_direct_matches_verify_top_score_min": 205,
+      "multiple_direct_matches_verify_score_gap_min": 30
+    },
+    "session_summary_before": "",
+    "session_summary_after": "Which character cannot eat fish-based me -> Stuart",
+    "language": "en",
+    "ingested_at": "2026-04-15T04:22:09",
+    "source_timestamp": "2026-04-15T04:22:09",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042157-0013-b364138611fd\\2026-04-15\\04-22-09-133053.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042157-0013-b364138611fd\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042157-0013-b364138611fd\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-042157-0013-b364138611fd\\system\\event-bus-latest.json"
+  }
+}

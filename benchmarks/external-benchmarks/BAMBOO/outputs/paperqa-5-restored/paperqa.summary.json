@@ -1,0 +1,10 @@
+{
+  "task": "paperqa",
+  "dataset": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\datasets\\paperqa_4k.jsonl",
+  "sample_count": 5,
+  "output_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\paperqa-5-restored\\paperqa.predictions.jsonl",
+  "details_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\paperqa-5-restored\\paperqa.details.json",
+  "executor_role": "auto",
+  "error_count": 0,
+  "sort_parse_fail_count": 0
+}

@@ -1,0 +1,10 @@
+{
+  "task": "senhallu",
+  "dataset": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\datasets\\senhallu_4k.jsonl",
+  "sample_count": 1,
+  "output_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\local-routing-smoke\\senhallu\\senhallu.predictions.jsonl",
+  "details_path": "E:\\MASE-demo\\external-benchmarks\\BAMBOO\\outputs\\local-routing-smoke\\senhallu\\senhallu.details.json",
+  "executor_role": "auto",
+  "error_count": 0,
+  "sort_parse_fail_count": 0
+}

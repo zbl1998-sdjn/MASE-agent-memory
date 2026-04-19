@@ -1,0 +1,3 @@
+{"id": "showssort-001", "task": "showssort", "pred": [0, 1, 2, 3, 4], "answer": [2, 0, 1, 3, 4], "raw_pred": "[0] > [1] > [2] > [3] > [4]", "error": null}
+{"id": "showssort-002", "task": "showssort", "pred": [0, 2, 1, 3, 4], "answer": [2, 1, 3, 4, 0], "raw_pred": "[0] > [2] > [1] > [3] > [4]", "error": null}
+{"id": "showssort-003", "task": "showssort", "pred": [0, 2, 1, 3, 4], "answer": [2, 3, 1, 4, 0], "raw_pred": "[0], [2], [1], [3], [4]", "error": null}

@@ -1,0 +1,327 @@
+{
+  "timestamp": "2026-04-15T04:05:06",
+  "user_query": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+  "assistant_response": "It",
+  "semantic_summary": "The character \"It\" has seen th",
+  "language": "en",
+  "key_entities": [
+    "character",
+    "seen",
+    "original",
+    "Girl",
+    "Pearl",
+    "Earring",
+    "painting",
+    "seen original",
+    "pearl earring painting",
+    "seen th"
+  ],
+  "memory_profile": {
+    "profile_version": 1,
+    "language": "en",
+    "keywords": [
+      "character",
+      "seen",
+      "original",
+      "Girl",
+      "Pearl",
+      "Earring",
+      "painting",
+      "seen original",
+      "pearl earring painting",
+      "seen th",
+      "The character \"It\" has seen th"
+    ],
+    "entity_cards": [
+      {
+        "name": "character",
+        "normalized": "character"
+      },
+      {
+        "name": "seen",
+        "normalized": "seen"
+      },
+      {
+        "name": "original",
+        "normalized": "original"
+      },
+      {
+        "name": "Girl",
+        "normalized": "girl"
+      },
+      {
+        "name": "Pearl",
+        "normalized": "pearl"
+      },
+      {
+        "name": "Earring",
+        "normalized": "earring"
+      },
+      {
+        "name": "painting",
+        "normalized": "painting"
+      },
+      {
+        "name": "seen original",
+        "normalized": "seen original"
+      },
+      {
+        "name": "pearl earring painting",
+        "normalized": "pearl earring painting"
+      },
+      {
+        "name": "seen th",
+        "normalized": "seen th"
+      },
+      {
+        "name": "The character \"It\" has seen th",
+        "normalized": "the character it has seen th"
+      }
+    ],
+    "numeric_cards": [],
+    "relation_cards": [],
+    "event_cards": []
+  },
+  "thread_id": "thread-d7becba52bb7",
+  "thread_label": "character / seen",
+  "topic_tokens": [
+    "character",
+    "seen",
+    "original",
+    "Girl"
+  ],
+  "metadata": {
+    "route_action": "search_memory",
+    "executor_mode": "grounded_disambiguation",
+    "executor_role": "reasoning",
+    "collaboration_mode": "verify",
+    "memory_heat": "hot",
+    "executor_target": {
+      "mode": "grounded_disambiguation_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 640,
+      "base_url": null,
+      "requested_mode": "grounded_disambiguation",
+      "resolved_mode": "grounded_disambiguation_english_reasoning",
+      "executor_role": "reasoning",
+      "collaboration_mode": "off",
+      "memory_heat": "hot"
+    },
+    "memory_result_count": 2,
+    "retrieval_iterations": 1,
+    "retrieval_queries": [
+      "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+      "character seen original Girl",
+      "Girl with a Pearl Earring",
+      "a Pearl Earring",
+      "Girl",
+      "Pearl Earring",
+      "Girl with Pearl Earring",
+      "irl with earl arring"
+    ],
+    "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nQuestion scope: {\"bridge_locations\": [], \"locations\": [\"girl\", \"pearl earring\"], \"months\": [], \"relative_terms\": [], \"strict\": true, \"weekdays\": []}\n\nEvidence anchors (SAKE-HEAD):\n- Lexy：the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own The more Lexy thought …\n- Hey：<ferret> Hey, I'm heading to Minneapolis for a few days\n\n[1] Time：2026-04-15 04-04-59\nSummary：<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there.\nRelevant lines:\n- <ferret> Hey, I'm heading to Minneapolis for a few days\n- <Kadabra> When will you be there, ferret\nKey numbers:\n- 3 days\n- 3\nThread：ferret / Hey\n\n[2] Time：2026-04-15 04-04-59\nSummary：the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing oppression.\nRelevant lines:\n- the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own\nThread：telephone / Lexy\n\nStructured memory cards:\n- numeric=3 day | <ferret> Hey, I'm heading to Minneapolis for a few days.\nEvent ledger:\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"conference\", \"location\": [\"minneapolis\", \"melbourne\", \"bangkok\"], \"month\": [], \"source\": \"<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there. <inky> I wish - too far from Melbourne. <gargle> Count me in. <DoDec> Are you going to that cyberlaw thing? <ferret> Yep. Speaking on Tuesday. <callmecheese> I'm signed up! Lemme see if I can change my tickets. In 2013, the original 'Girl with a Pearl Earring' painting was seen up close by Megan, finally, after waiting in line for hours. <Kadabra> There's a great brewpub near the conference site. Dinner on Tuesday? <ferret> Wait wait wait, what about Shad's brother? <Falstaff> Yep, we need to figure that shit out . <Gargle> Shad, does a meet-up sound good? I can fix us up with a safe place to get together . I was frozen for a minute, unsure how to respond. The day was catching up with me. It was nearly four in the morning, and my brain was feeling fuzzy. The Group had meet- ups regularly. Someone would say “hey, I’m going to be in Bangkok next week, anybody want to get together?” and people would figure out where to meet and hang out for a while.\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"arring\", \"location\": [], \"month\": [], \"source\": \"In 2013, the original 'Girl with a Pearl Earring' painting was seen up close by Megan, finally, after waiting in line for hours. <Kadabra> There's a great brewpub near the conference site\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"earl\", \"location\": [], \"month\": [], \"source\": \"In 2013, the original 'Girl with a Pearl Earring' painting was seen up close by Megan, finally, after waiting in line for hours. <Kadabra> There's a great brewpub near the conference site\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"irl\", \"location\": [], \"month\": [], \"source\": \"In 2013, the original 'Girl with a Pearl Earring' painting was seen up close by Megan, finally, after waiting in line for hours. <Kadabra> There's a great brewpub near the conference site\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"earl\", \"location\": [], \"month\": [], \"source\": \"It was nearly four in the morning, and my brain was feeling fuzzy\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"earl\", \"location\": [], \"month\": [], \"source\": \"the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing oppression. The influence of Caroline’s room was beginning to tell upon her. Caroline didn’t understand about larks. She wasn’t that sort of girl. Quiet, shy, and patient, she had never shown any trace of resentment against her restricted life, or any desire for the good times that other girls of her age enjoyed. The more Lexy thought about it, the more clearly she realized the strangeness of all this, and the more uneasy she became. ... mantelpiece struck one, it came as a shock. Lexy sprang to her feet and looked about the room, filled with unreasoning fear. One o’clock, and Caroline hadn’t come back! Suppose—suppose she never came back? Lexy dismissed that idea with healthy scorn. Things like that didn’t happen; and yet—what was it that gave to the pink and white lamplit room such an air of being deserted? He swallowed. “The robot—” “That’s not Mom. She’s got a few of those, they can change their faces when they need to. Configurable matter.\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"irl\", \"location\": [], \"month\": [], \"source\": \"the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing oppression. The influence of Caroline’s room was beginning to tell upon her. Caroline didn’t understand about larks. She wasn’t that sort of girl. Quiet, shy, and patient, she had never shown any trace of resentment against her restricted life, or any desire for the good times that other girls of her age enjoyed. The more Lexy thought about it, the more clearly she realized the strangeness of all this, and the more uneasy she became. ... mantelpiece struck one, it came as a shock. Lexy sprang to her feet and looked about the room, filled with unreasoning fear. One o’clock, and Caroline hadn’t come back! Suppose—suppose she never came back? Lexy dismissed that idea with healthy scorn. Things like that didn’t happen; and yet—what was it that gave to the pink and white lamplit room such an air of being deserted? He swallowed. “The robot—” “That’s not Mom. She’s got a few of those, they can change their faces when they need to. Configurable matter.\"}\n\nEvidence chain assessment:\n\n- evidence_confidence=low\n\n- verifier_action=refuse\n\n- reason_codes=no_direct_match,insufficient_disambiguation_support\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=2\n\n- confidence_score=2\n\n- candidate_count=2\n\n- direct_match_count=0\n\n- top_candidate=Lexy\n\n- top_score=6\n\n- score_gap=5\n\nEvidence anchors (SAKE-TAIL):\n- Lexy：the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own The more Lexy thought …\n- Hey：<ferret> Hey, I'm heading to Minneapolis for a few days\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=Girl; Pearl Earring; character; has; seen; original; pearl; earring'\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=low\n- verifier_action=refuse\n- followup_needed=yes",
+    "evidence_layout": "gold_panning+dcr+sake",
+    "planner": {
+      "strategy": "disambiguation",
+      "query_variants": [
+        "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+        "character seen original Girl",
+        "Girl with a Pearl Earring",
+        "a Pearl Earring",
+        "Girl",
+        "Pearl Earring",
+        "Girl with Pearl Earring",
+        "irl with earl arring",
+        "精确区分 character seen original"
+      ],
+      "memory_limit": 3,
+      "collaboration_mode": "verify",
+      "active_date_scan": false,
+      "widen_search": true,
+      "min_results": 2,
+      "confusion_level": "medium",
+      "steps": [
+        {
+          "step_id": "plan-route",
+          "title": "Route request",
+          "details": "action=search_memory, keywords=['__FULL_QUERY__']",
+          "depends_on": []
+        },
+        {
+          "step_id": "plan-search",
+          "title": "Search memory",
+          "details": "Retrieve candidates with keywords, variants, synonyms, and semantic fallback.",
+          "depends_on": [
+            "plan-route"
+          ]
+        },
+        {
+          "step_id": "plan-compress",
+          "title": "Compress evidence",
+          "details": "Deduplicate results, highlight relevant snippets, and attach aggregation hints.",
+          "depends_on": [
+            "plan-search"
+          ]
+        },
+        {
+          "step_id": "plan-confusion-assess",
+          "title": "Assess confusion",
+          "details": "Detected medium confusion from similar entities or competing candidates.",
+          "depends_on": [
+            "plan-compress"
+          ]
+        },
+        {
+          "step_id": "plan-disambiguate",
+          "title": "Disambiguate evidence",
+          "details": "Route to grounded disambiguation so the reasoning executor can eliminate confusing candidates.",
+          "depends_on": [
+            "plan-confusion-assess"
+          ]
+        }
+      ],
+      "notes": [
+        "long_disambiguation_context",
+        "confusion_medium",
+        "disambiguation_reasoning"
+      ]
+    },
+    "planner_model_plan": {
+      "task_description": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+      "query_variants": [
+        "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+        "character seen original Girl",
+        "Girl with a Pearl Earring",
+        "a Pearl Earring",
+        "Girl",
+        "Pearl Earring",
+        "Girl with Pearl Earring",
+        "irl with earl arring",
+        "精确区分 character seen original"
+      ],
+      "topic_hints": [],
+      "recent_count": 0,
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [
+          "Girl",
+          "Pearl Earring"
+        ],
+        "relative_terms": [],
+        "strict": true
+      }
+    },
+    "instruction_package": {
+      "task_description": "Which character has seen the original 'Girl with a Pearl Earring' painting?",
+      "fact_sheet": "Evidence memo (deduplicated):\n\nEvidence layout: Gold Panning + DCR + SAKE\n\nQuestion scope: {\"bridge_locations\": [], \"locations\": [\"girl\", \"pearl earring\"], \"months\": [], \"relative_terms\": [], \"strict\": true, \"weekdays\": []}\n\nEvidence anchors (SAKE-HEAD):\n- Lexy：the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own The more Lexy thought …\n- Hey：<ferret> Hey, I'm heading to Minneapolis for a few days\n\n[1] Time：2026-04-15 04-04-59\nSummary：<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there.\nRelevant lines:\n- <ferret> Hey, I'm heading to Minneapolis for a few days\n- <Kadabra> When will you be there, ferret\nKey numbers:\n- 3 days\n- 3\nThread：ferret / Hey\n\n[2] Time：2026-04-15 04-04-59\nSummary：the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing oppression.\nRelevant lines:\n- the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own\nThread：telephone / Lexy\n\nStructured memory cards:\n- numeric=3 day | <ferret> Hey, I'm heading to Minneapolis for a few days.\nEvent ledger:\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"conference\", \"location\": [\"minneapolis\", \"melbourne\", \"bangkok\"], \"month\": [], \"source\": \"<ferret> Hey, I'm heading to Minneapolis for a few days. How about a meet-up? <Kadabra> When will you be there, ferret? <ferret> I was scheduled on a Sunday flight, but I can come sooner. <Kadabra> I can be there. <inky> I wish - too far from Melbourne. <gargle> Count me in. <DoDec> Are you going to that cyberlaw thing? <ferret> Yep. Speaking on Tuesday. <callmecheese> I'm signed up! Lemme see if I can change my tickets. In 2013, the original 'Girl with a Pearl Earring' painting was seen up close by Megan, finally, after waiting in line for hours. <Kadabra> There's a great brewpub near the conference site. Dinner on Tuesday? <ferret> Wait wait wait, what about Shad's brother? <Falstaff> Yep, we need to figure that shit out . <Gargle> Shad, does a meet-up sound good? I can fix us up with a safe place to get together . I was frozen for a minute, unsure how to respond. The day was catching up with me. It was nearly four in the morning, and my brain was feeling fuzzy. The Group had meet- ups regularly. Someone would say “hey, I’m going to be in Bangkok next week, anybody want to get together?” and people would figure out where to meet and hang out for a while.\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"arring\", \"location\": [], \"month\": [], \"source\": \"In 2013, the original 'Girl with a Pearl Earring' painting was seen up close by Megan, finally, after waiting in line for hours. <Kadabra> There's a great brewpub near the conference site\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"earl\", \"location\": [], \"month\": [], \"source\": \"In 2013, the original 'Girl with a Pearl Earring' painting was seen up close by Megan, finally, after waiting in line for hours. <Kadabra> There's a great brewpub near the conference site\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"irl\", \"location\": [], \"month\": [], \"source\": \"In 2013, the original 'Girl with a Pearl Earring' painting was seen up close by Megan, finally, after waiting in line for hours. <Kadabra> There's a great brewpub near the conference site\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"earl\", \"location\": [], \"month\": [], \"source\": \"It was nearly four in the morning, and my brain was feeling fuzzy\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"earl\", \"location\": [], \"month\": [], \"source\": \"the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing oppression. The influence of Caroline’s room was beginning to tell upon her. Caroline didn’t understand about larks. She wasn’t that sort of girl. Quiet, shy, and patient, she had never shown any trace of resentment against her restricted life, or any desire for the good times that other girls of her age enjoyed. The more Lexy thought about it, the more clearly she realized the strangeness of all this, and the more uneasy she became. ... mantelpiece struck one, it came as a shock. Lexy sprang to her feet and looked about the room, filled with unreasoning fear. One o’clock, and Caroline hadn’t come back! Suppose—suppose she never came back? Lexy dismissed that idea with healthy scorn. Things like that didn’t happen; and yet—what was it that gave to the pink and white lamplit room such an air of being deserted? He swallowed. “The robot—” “That’s not Mom. She’s got a few of those, they can change their faces when they need to. Configurable matter.\"}\n- event_ledger={\"count\": null, \"days\": null, \"event_type\": \"irl\", \"location\": [], \"month\": [], \"source\": \"the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own. And he sounded so terribly upset! It was queer. Perhaps—” She was aware of a fast-growing oppression. The influence of Caroline’s room was beginning to tell upon her. Caroline didn’t understand about larks. She wasn’t that sort of girl. Quiet, shy, and patient, she had never shown any trace of resentment against her restricted life, or any desire for the good times that other girls of her age enjoyed. The more Lexy thought about it, the more clearly she realized the strangeness of all this, and the more uneasy she became. ... mantelpiece struck one, it came as a shock. Lexy sprang to her feet and looked about the room, filled with unreasoning fear. One o’clock, and Caroline hadn’t come back! Suppose—suppose she never came back? Lexy dismissed that idea with healthy scorn. Things like that didn’t happen; and yet—what was it that gave to the pink and white lamplit room such an air of being deserted? He swallowed. “The robot—” “That’s not Mom. She’s got a few of those, they can change their faces when they need to. Configurable matter.\"}\n\nEvidence chain assessment:\n\n- evidence_confidence=low\n\n- verifier_action=refuse\n\n- reason_codes=no_direct_match,insufficient_disambiguation_support\n\n- threshold_profile=external-generalization\n\n- evidence_layout=gold_panning+dcr+sake\n\n- result_count=2\n\n- confidence_score=2\n\n- candidate_count=2\n\n- direct_match_count=0\n\n- top_candidate=Lexy\n\n- top_score=6\n\n- score_gap=5\n\nEvidence anchors (SAKE-TAIL):\n- Lexy：the telephone,” Lexy reflected. “It was queer—just on the only night of her life when she’d ever gone out on her own The more Lexy thought …\n- Hey：<ferret> Hey, I'm heading to Minneapolis for a few days\n\nReasoning workspace:\n- operation=disambiguation\n- focus_entities=Girl; Pearl Earring; character; has; seen; original; pearl; earring'\n- sub_tasks=retrieve evidence | verify support | final answer\n- verification_focus=evidence coverage | candidate separation | name completeness | direct evidence\n- evidence_confidence=low\n- verifier_action=refuse\n- followup_needed=yes",
+      "expected_output_format": "直接回答问题；若证据不足，明确拒答。",
+      "reasoning_hint": "注意区分相似实体，逐条排除不匹配候选。",
+      "background_summary": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness"
+      ],
+      "scope_filters": {
+        "months": [],
+        "weekdays": [],
+        "locations": [
+          "Girl",
+          "Pearl Earring"
+        ],
+        "relative_terms": [],
+        "strict": true
+      }
+    },
+    "reasoning_workspace": {
+      "operation": "disambiguation",
+      "focus_entities": [
+        "Girl",
+        "Pearl Earring",
+        "character",
+        "has",
+        "seen",
+        "original",
+        "pearl",
+        "earring'"
+      ],
+      "target_unit": "",
+      "sub_tasks": [
+        "retrieve evidence",
+        "verify support",
+        "final answer"
+      ],
+      "verification_focus": [
+        "evidence coverage",
+        "candidate separation",
+        "name completeness",
+        "direct evidence"
+      ],
+      "deterministic_answer": "",
+      "evidence_confidence": "low",
+      "verifier_action": "refuse",
+      "followup_needed": true
+    },
+    "evidence_assessment": {
+      "level": "low",
+      "verifier_action": "refuse",
+      "reason_codes": [
+        "no_direct_match",
+        "insufficient_disambiguation_support"
+      ],
+      "result_count": 2,
+      "candidate_count": 2,
+      "direct_match_count": 0,
+      "top_candidate": "Lexy",
+      "top_score": 6,
+      "score_gap": 5,
+      "threshold_profile": "external-generalization",
+      "confidence_score": 2,
+      "contract_type": "",
+      "failure_bucket": "",
+      "missing_slots": []
+    },
+    "evidence_thresholds": {
+      "profile_name": "external-generalization",
+      "general_pass_evidence_items_min": 1,
+      "general_pass_snippet_total_min": 1,
+      "general_verify_evidence_items_min": 1,
+      "disambiguation_pass_score_min": 130,
+      "disambiguation_pass_score_gap_min": 28,
+      "disambiguation_verify_score_min": 95,
+      "disambiguation_verify_score_gap_min": 16,
+      "allow_verify_on_multiple_direct_matches": true,
+      "multiple_direct_matches_verify_top_score_min": 190,
+      "multiple_direct_matches_verify_score_gap_min": 22
+    },
+    "session_summary_before": "",
+    "session_summary_after": "Which character has seen the original 'G -> It",
+    "language": "en",
+    "ingested_at": "2026-04-15T04:05:06",
+    "source_timestamp": "2026-04-15T04:05:06",
+    "fact_card_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-040458-0008-ad74dfbbf92c\\2026-04-15\\04-05-06-276002.fact_card.json",
+    "reflection_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-040458-0008-ad74dfbbf92c\\system\\reflection-latest.json",
+    "memory_graph_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-040458-0008-ad74dfbbf92c\\system\\memory-graph-latest.json",
+    "event_bus_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-040458-0008-ad74dfbbf92c\\system\\event-bus-latest.json"
+  }
+}

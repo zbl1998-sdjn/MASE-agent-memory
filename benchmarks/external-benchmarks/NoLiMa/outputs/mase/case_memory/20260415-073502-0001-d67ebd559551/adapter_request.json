@@ -1,0 +1,11 @@
+{
+  "mode": "memory_ingest",
+  "system_prompt": "",
+  "question": "Which character is vegan?",
+  "haystack_char_length": 5494,
+  "user_prompt_char_length": 5851,
+  "max_tokens": 64,
+  "temperature": 0.0,
+  "top_p": 1.0,
+  "add_default_system_prompt": true
+}

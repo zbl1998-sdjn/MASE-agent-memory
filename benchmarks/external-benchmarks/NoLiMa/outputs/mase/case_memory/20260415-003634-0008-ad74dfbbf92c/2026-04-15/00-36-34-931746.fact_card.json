@@ -1,0 +1,147 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-003634-0008-ad74dfbbf92c\\2026-04-15\\00-36-34-931746.json",
+  "timestamp": "2026-04-15T00:36:34",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-15T00:36:34",
+    "date": "2026-04-15",
+    "month": "april",
+    "weekday": "wednesday",
+    "thread_id": "thread-7beadc3a5589",
+    "thread_label": "hackathon / fan"
+  },
+  "event_type": "generic",
+  "entities": [
+    "hackathon",
+    "fan",
+    "convention",
+    "gaming",
+    "Stay",
+    "Lexy",
+    "Quelton",
+    "Captain",
+    "event",
+    "something",
+    "handful",
+    "members"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "wednesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "hackathon",
+      "fan",
+      "convention",
+      "gaming",
+      "Stay",
+      "Lexy",
+      "Quelton",
+      "Captain",
+      "event",
+      "something",
+      "handful",
+      "members",
+      "or a gaming event - something",
+      "plan",
+      "Stay there",
+      "please"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "hackathon",
+      "fan",
+      "convention",
+      "gaming"
+    ]
+  },
+  "relations": [],
+  "source_span": "Or there’d be a hackathon or an SF fan convention or a gaming event - something that a handful of members might be",
+  "resolved_source_span": "Or there’d be a hackathon or an SF fan convention or a gaming event - something SF a handful of members might be",
+  "event_segments": [
+    {
+      "text": "Or there’d be a hackathon or an SF fan convention or a gaming event - something SF a handful of members might be",
+      "resolved_text": "Or there’d be a hackathon or an SF fan convention or a gaming event - something SF a handful of members might be",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "hackathon",
+        "fan",
+        "convention",
+        "gaming",
+        "event",
+        "something"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-003634-0008-ad74dfbbf92c\\2026-04-15\\00-36-34-931746.json::event_segment:0",
+      "logical_event_id": "generic|hackathon|convention,fan,gaming,hackathon|april",
+      "dedupe_key": "generic|hackathon|convention,fan,gaming,hackathon|april|or there d be a hackathon or an sf fan convention or a gaming event something sf a handful of members might be|2026-04-15T00:36:34",
+      "source_signature": "or there d be a hackathon or an sf fan convention or a gaming event something sf a handful of members might be",
+      "event_type": "generic",
+      "display_name": "hackathon",
+      "normalized_name": "hackathon",
+      "timestamp": "2026-04-15T00:36:34",
+      "thread_id": "thread-7beadc3a5589",
+      "thread_label": "hackathon / fan",
+      "entities": [
+        "hackathon",
+        "fan",
+        "convention",
+        "gaming",
+        "Stay",
+        "Lexy",
+        "Quelton",
+        "Captain",
+        "event",
+        "something",
+        "handful",
+        "members"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "wednesday"
+        ],
+        "locations": []
+      },
+      "source": "Or there’d be a hackathon or an SF fan convention or a gaming event - something SF a handful of members might be",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-003634-0008-ad74dfbbf92c\\2026-04-15\\00-36-34-931746.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

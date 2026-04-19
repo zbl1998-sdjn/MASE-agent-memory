@@ -1,0 +1,188 @@
+[
+  {
+    "test_name": "0401Inv_T15_C02_twohop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 1000,
+    "depth_percent": 0.0,
+    "needle": "The European Central Bank is next to where Caleb lives.",
+    "retrieval_question": "Which character has been to Germany?",
+    "gold_answers": [
+      "Caleb"
+    ],
+    "selected_character": "Caleb",
+    "response": "No character has been to Germany based on the provided information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 0,
+      "depth": 0.0,
+      "context_length_wo_needle": 1000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 16.953029,
+      "usage_totals": {
+        "prompt_eval_count": 4999.0,
+        "eval_count": 299.0,
+        "total_duration": 16947272000.0,
+        "load_duration": 68305000.0,
+        "prompt_eval_duration": 962034900.0,
+        "eval_duration": 3999869000.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.59428,
+          "usage": {
+            "prompt_eval_count": 2557,
+            "eval_count": 16,
+            "total_duration": 590957100,
+            "load_duration": 17910700,
+            "prompt_eval_duration": 360380600,
+            "eval_duration": 197254500
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 16.358749,
+          "usage": {
+            "prompt_eval_count": 2442,
+            "eval_count": 283,
+            "total_duration": 16356314900,
+            "load_duration": 50394300,
+            "prompt_eval_duration": 601654300,
+            "eval_duration": 3802614500
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 16.953029,
+          "usage_totals": {
+            "prompt_eval_count": 4999.0,
+            "eval_count": 299.0,
+            "total_duration": 16947272000.0,
+            "load_duration": 68305000.0,
+            "prompt_eval_duration": 962034900.0,
+            "eval_duration": 3999869000.0
+          }
+        }
+      },
+      "wall_clock_seconds": 16.97488
+    },
+    "error": null
+  },
+  {
+    "test_name": "0401Inv_T15_C02_twohop",
+    "haystack_name": "rand_book_1.txt",
+    "context_length": 1000,
+    "depth_percent": 100.0,
+    "needle": "The European Central Bank is next to where Yuki lives.",
+    "retrieval_question": "Which character has been to Germany?",
+    "gold_answers": [
+      "Yuki"
+    ],
+    "selected_character": "Yuki",
+    "response": "You did not mention this information.",
+    "metric": "contains",
+    "metric_value": 0,
+    "placement_metadata": {
+      "static_depth": -1.0,
+      "token_depth": 1000,
+      "depth": 1.0,
+      "context_length_wo_needle": 1000
+    },
+    "executor_target": {
+      "mode": "grounded_answer_english_reasoning",
+      "provider": "ollama",
+      "model_name": "ibm/granite3.3:2b",
+      "temperature": 0.0,
+      "max_tokens": 512,
+      "base_url": null,
+      "requested_mode": "grounded_answer",
+      "resolved_mode": "grounded_answer_english_reasoning",
+      "executor_role": "reasoning",
+      "memory_heat": "neutral"
+    },
+    "metrics": {
+      "call_count": 2,
+      "elapsed_seconds": 16.224232,
+      "usage_totals": {
+        "prompt_eval_count": 5013.0,
+        "eval_count": 444.0,
+        "total_duration": 16219459400.0,
+        "load_duration": 68576300.0,
+        "prompt_eval_duration": 971973900.0,
+        "eval_duration": 5669149800.0
+      },
+      "calls": [
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_english_reasoning",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "elapsed_seconds": 0.44971,
+          "usage": {
+            "prompt_eval_count": 2565,
+            "eval_count": 5,
+            "total_duration": 447561500,
+            "load_duration": 17361100,
+            "prompt_eval_duration": 364932200,
+            "eval_duration": 52376800
+          }
+        },
+        {
+          "agent_type": "executor",
+          "mode": "grounded_analysis_reasoning",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "elapsed_seconds": 15.774522,
+          "usage": {
+            "prompt_eval_count": 2448,
+            "eval_count": 439,
+            "total_duration": 15771897900,
+            "load_duration": 51215200,
+            "prompt_eval_duration": 607041700,
+            "eval_duration": 5616773000
+          }
+        }
+      ],
+      "by_agent": {
+        "executor": {
+          "call_count": 2,
+          "elapsed_seconds": 16.224232,
+          "usage_totals": {
+            "prompt_eval_count": 5013.0,
+            "eval_count": 444.0,
+            "total_duration": 16219459400.0,
+            "load_duration": 68576300.0,
+            "prompt_eval_duration": 971973900.0,
+            "eval_duration": 5669149800.0
+          }
+        }
+      },
+      "wall_clock_seconds": 16.233898
+    },
+    "error": null
+  }
+]

@@ -1,0 +1,15 @@
+{
+    "model": "MASE",
+    "api_key": "",
+    "api_url": "",
+    "api_provider": "mase",
+    "tokenizer_type": "mase_simple",
+    "tokenizer_model": "mase_simple",
+    "system_prompt": "",
+    "max_tokens": 64,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "mase_config_path": "E:\\MASE-demo\\config.json",
+    "mase_workspace_root": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory",
+    "mase_mode": "memory_ingest"
+}

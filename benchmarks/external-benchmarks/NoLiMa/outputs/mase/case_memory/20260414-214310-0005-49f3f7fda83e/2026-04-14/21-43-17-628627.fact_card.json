@@ -1,0 +1,118 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-214310-0005-49f3f7fda83e\\2026-04-14\\21-43-17-628627.json",
+  "timestamp": "2026-04-14T21:43:17",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T21:43:17",
+    "date": "2026-04-14",
+    "month": "april",
+    "weekday": "tuesday",
+    "thread_id": "thread-3ee302d533a0",
+    "thread_label": "character / vegan"
+  },
+  "event_type": "generic",
+  "entities": [
+    "character",
+    "vegan",
+    "named",
+    "character named",
+    "The character named \"It\" is ve"
+  ],
+  "scope_hints": {
+    "months": [
+      "april"
+    ],
+    "weekdays": [
+      "tuesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "character",
+      "vegan",
+      "named",
+      "character named",
+      "The character named \"It\" is ve"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "character",
+      "vegan"
+    ]
+  },
+  "relations": [],
+  "source_span": "Which character is vegan?",
+  "resolved_source_span": "Which character is vegan?",
+  "event_segments": [
+    {
+      "text": "Which character is vegan?",
+      "resolved_text": "Which character is vegan?",
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "character",
+        "vegan",
+        "Which"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.56,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-214310-0005-49f3f7fda83e\\2026-04-14\\21-43-17-628627.json::event_segment:0",
+      "logical_event_id": "generic|character|character,character named,named,vegan|april",
+      "dedupe_key": "generic|character|character,character named,named,vegan|april|which character is vegan|2026-04-14T21:43:17",
+      "source_signature": "which character is vegan",
+      "event_type": "generic",
+      "display_name": "character",
+      "normalized_name": "character",
+      "timestamp": "2026-04-14T21:43:17",
+      "thread_id": "thread-3ee302d533a0",
+      "thread_label": "character / vegan",
+      "entities": [
+        "character",
+        "vegan",
+        "named",
+        "character named",
+        "The character named \"It\" is ve",
+        "Which"
+      ],
+      "scope_hints": {
+        "months": [
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "source": "Which character is vegan?",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-214310-0005-49f3f7fda83e\\2026-04-14\\21-43-17-628627.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}

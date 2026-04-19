@@ -1,0 +1,1511 @@
+{
+  "generated_at": "2026-04-15T06:57:10",
+  "entity_clusters": [
+    {
+      "canonical_entity": "she",
+      "aliases": [
+        "she"
+      ],
+      "record_count": 4,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Captain",
+      "aliases": [
+        "Captain"
+      ],
+      "record_count": 3,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Lexy",
+      "aliases": [
+        "Lexy"
+      ],
+      "record_count": 3,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "her",
+      "aliases": [
+        "her"
+      ],
+      "record_count": 3,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Better",
+      "aliases": [
+        "Better"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Caleb",
+      "aliases": [
+        "Caleb"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:57:10"
+    },
+    {
+      "canonical_entity": "Huldah",
+      "aliases": [
+        "Huldah"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "RAG",
+      "aliases": [
+        "RAG"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "looked",
+      "aliases": [
+        "looked"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "night",
+      "aliases": [
+        "night"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "only",
+      "aliases": [
+        "only"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "something",
+      "aliases": [
+        "something"
+      ],
+      "record_count": 2,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Actually",
+      "aliases": [
+        "Actually"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Benny",
+      "aliases": [
+        "Benny"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "CAFTA",
+      "aliases": [
+        "CAFTA"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Caroline",
+      "aliases": [
+        "Caroline"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Check",
+      "aliases": [
+        "Check"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Dad",
+      "aliases": [
+        "Dad"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Emma",
+      "aliases": [
+        "Emma"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Facebook",
+      "aliases": [
+        "Facebook"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Give",
+      "aliases": [
+        "Give"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Grey",
+      "aliases": [
+        "Grey"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Hello",
+      "aliases": [
+        "Hello"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Helsinki",
+      "aliases": [
+        "Helsinki"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:57:10"
+    },
+    {
+      "canonical_entity": "Hey",
+      "aliases": [
+        "Hey"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Isn",
+      "aliases": [
+        "Isn"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Jane",
+      "aliases": [
+        "Jane"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Kadabra",
+      "aliases": [
+        "Kadabra"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Latin",
+      "aliases": [
+        "Latin"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Marcus",
+      "aliases": [
+        "Marcus"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Max",
+      "aliases": [
+        "Max"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Melbourne",
+      "aliases": [
+        "Melbourne"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Minneapolis",
+      "aliases": [
+        "Minneapolis"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Miss",
+      "aliases": [
+        "Miss"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Mom",
+      "aliases": [
+        "Mom"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Moran",
+      "aliases": [
+        "Moran"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Most",
+      "aliases": [
+        "Most"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Paraclete",
+      "aliases": [
+        "Paraclete"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Perhaps",
+      "aliases": [
+        "Perhaps"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Quelton",
+      "aliases": [
+        "Quelton"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Quiet",
+      "aliases": [
+        "Quiet"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Rebecca",
+      "aliases": [
+        "Rebecca"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Simon",
+      "aliases": [
+        "Simon"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Since",
+      "aliases": [
+        "Since"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Stay",
+      "aliases": [
+        "Stay"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Sunday",
+      "aliases": [
+        "Sunday"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Tell",
+      "aliases": [
+        "Tell"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Thank",
+      "aliases": [
+        "Thank"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "Thanks",
+      "aliases": [
+        "Thanks"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "about",
+      "aliases": [
+        "about"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "back",
+      "aliases": [
+        "back"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "burger",
+      "aliases": [
+        "burger"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "caleb visited helsinki",
+      "aliases": [
+        "caleb visited helsinki"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:57:10"
+    },
+    {
+      "canonical_entity": "chance",
+      "aliases": [
+        "chance"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "character",
+      "aliases": [
+        "character"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:57:10"
+    },
+    {
+      "canonical_entity": "convention",
+      "aliases": [
+        "convention"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "conversation",
+      "aliases": [
+        "conversation"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "days",
+      "aliases": [
+        "days"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "doing",
+      "aliases": [
+        "doing"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "dreadful",
+      "aliases": [
+        "dreadful"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "embassy",
+      "aliases": [
+        "embassy"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "endless",
+      "aliases": [
+        "endless"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "event",
+      "aliases": [
+        "event"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "everything",
+      "aliases": [
+        "everything"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "experiences",
+      "aliases": [
+        "experiences"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "fan",
+      "aliases": [
+        "fan"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "ferret",
+      "aliases": [
+        "ferret"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "few",
+      "aliases": [
+        "few"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "franchise",
+      "aliases": [
+        "franchise"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "further",
+      "aliases": [
+        "further"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "gaming",
+      "aliases": [
+        "gaming"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "got",
+      "aliases": [
+        "got"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "hackathon",
+      "aliases": [
+        "hackathon"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "handful",
+      "aliases": [
+        "handful"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "head",
+      "aliases": [
+        "head"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "heading",
+      "aliases": [
+        "heading"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "here",
+      "aliases": [
+        "here"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "interstate",
+      "aliases": [
+        "interstate"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "last",
+      "aliases": [
+        "last"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "life",
+      "aliases": [
+        "life"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "mean",
+      "aliases": [
+        "mean"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "meet-up",
+      "aliases": [
+        "meet-up"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "members",
+      "aliases": [
+        "members"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "met",
+      "aliases": [
+        "met"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "mostly",
+      "aliases": [
+        "mostly"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "much",
+      "aliases": [
+        "much"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "number",
+      "aliases": [
+        "number"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "off",
+      "aliases": [
+        "off"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "opportunity",
+      "aliases": [
+        "opportunity"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "polite",
+      "aliases": [
+        "polite"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "queer",
+      "aliases": [
+        "queer"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "ramp",
+      "aliases": [
+        "ramp"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "reach",
+      "aliases": [
+        "reach"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "reflected",
+      "aliases": [
+        "reflected"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "sad",
+      "aliases": [
+        "sad"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "said",
+      "aliases": [
+        "said"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "see",
+      "aliases": [
+        "see"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "stands",
+      "aliases": [
+        "stands"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "succession",
+      "aliases": [
+        "succession"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "telephone",
+      "aliases": [
+        "telephone"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "tossed",
+      "aliases": [
+        "tossed"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "upon",
+      "aliases": [
+        "upon"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "very",
+      "aliases": [
+        "very"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:56:53"
+    },
+    {
+      "canonical_entity": "visited",
+      "aliases": [
+        "visited"
+      ],
+      "record_count": 1,
+      "event_types": [
+        "generic"
+      ],
+      "latest_timestamp": "2026-04-15T06:57:10"
+    }
+  ],
+  "event_chains": [
+    {
+      "entity": "about",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "benny",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "cafta",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "dad",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "days",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "embassy",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "ferret",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "few",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "heading",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "hello",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "her",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "here",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "hey",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "kadabra",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "meet-up",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "melbourne",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "met",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "minneapolis",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    },
+    {
+      "entity": "mom",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "mostly",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "only",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "she",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "2 week",
+            "2 week"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+        }
+      ]
+    },
+    {
+      "entity": "sunday",
+      "timeline": [
+        {
+          "timestamp": "2026-04-15T06:56:53",
+          "event_type": "generic",
+          "display_names": [
+            "3 day"
+          ],
+          "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+        }
+      ]
+    }
+  ],
+  "conflicts": [],
+  "current_state": {
+    "ferret": {
+      "entity": "ferret",
+      "attribute": "duration",
+      "value": "3 day",
+      "source": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+      "timestamp": "2026-04-15T06:56:53",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+    },
+    "mom": {
+      "entity": "Mom",
+      "attribute": "duration",
+      "value": "2 week",
+      "source": "I only met her for the first time two weeks ago, but she’s nice, Dad.",
+      "timestamp": "2026-04-15T06:56:53",
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+    }
+  },
+  "state_history": {
+    "ferret": [
+      {
+        "entity": "ferret",
+        "attribute": "duration",
+        "value": "3 day",
+        "source": "<ferret> Hey, I'm heading to Minneapolis for a few days.",
+        "timestamp": "2026-04-15T06:56:53",
+        "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-325946.json"
+      }
+    ],
+    "mom": [
+      {
+        "entity": "Mom",
+        "attribute": "duration",
+        "value": "2 week",
+        "source": "I only met her for the first time two weeks ago, but she’s nice,",
+        "timestamp": "2026-04-15T06:56:53",
+        "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+      },
+      {
+        "entity": "Mom",
+        "attribute": "duration",
+        "value": "2 week",
+        "source": "I only met her for the first time two weeks ago, but she’s nice, Dad.",
+        "timestamp": "2026-04-15T06:56:53",
+        "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260415-065653-0009-37c1740c8fb6\\2026-04-15\\06-56-53-310072.json"
+      }
+    ]
+  }
+}

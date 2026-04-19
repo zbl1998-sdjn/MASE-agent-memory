@@ -1,0 +1,3 @@
+{"id": "meetingpred-001", "task": "meetingpred", "pred": "No other speaker is mentioned at the end of the last sentence.", "answer": "Janet Finch-Saunders AM", "raw_pred": "No other speaker is mentioned at the end of the last sentence.", "error": null}
+{"id": "meetingpred-002", "task": "meetingpred", "pred": "Heledd Fychan MS", "answer": "Heledd Fychan MS", "raw_pred": "Heledd Fychan MS", "error": null}
+{"id": "meetingpred-003", "task": "meetingpred", "pred": "John Griffiths AM", "answer": "Luke Fletcher MS", "raw_pred": "John Griffiths AM", "error": null}

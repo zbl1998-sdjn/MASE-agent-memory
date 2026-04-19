@@ -1,0 +1,147 @@
+{
+  "schema_version": 3,
+  "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205619-0013-b364138611fd\\2026-04-14\\20-56-19-216875.json",
+  "timestamp": "2026-04-14T20:56:19",
+  "language": "en",
+  "time_anchor": {
+    "timestamp": "2026-04-14T20:56:19",
+    "date": "2026-04-14",
+    "month": "may",
+    "weekday": "tuesday",
+    "thread_id": "thread-e4dd0d425c7b",
+    "thread_label": "Thank / very"
+  },
+  "event_type": "generic",
+  "entities": [
+    "Thank",
+    "very",
+    "much",
+    "Miss",
+    "Moran",
+    "Better",
+    "Captain",
+    "Grey",
+    "opportunity",
+    "further",
+    "polite",
+    "conversation"
+  ],
+  "scope_hints": {
+    "months": [
+      "may",
+      "april"
+    ],
+    "weekdays": [
+      "tuesday"
+    ],
+    "locations": []
+  },
+  "attributes": {
+    "keywords": [
+      "Thank",
+      "very",
+      "much",
+      "Miss",
+      "Moran",
+      "Better",
+      "Captain",
+      "Grey",
+      "opportunity",
+      "further",
+      "polite",
+      "conversation",
+      "“Thank you very much",
+      "no opportunity for further polite conversation",
+      "taxi had stopped",
+      "driver came around"
+    ],
+    "numeric_cards": [],
+    "event_cards": [],
+    "topic_tokens": [
+      "Thank",
+      "very",
+      "much",
+      "Miss"
+    ]
+  },
+  "relations": [],
+  "source_span": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped",
+  "resolved_source_span": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped",
+  "event_segments": [
+    {
+      "text": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped",
+      "resolved_text": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped",
+      "scope_hints": {
+        "months": [],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "entities": [
+        "Thank",
+        "very",
+        "much",
+        "Miss",
+        "Moran",
+        "opportunity"
+      ],
+      "polarity": "positive"
+    }
+  ],
+  "polarity": "positive",
+  "confidence": {
+    "score": 0.61,
+    "reason_codes": [
+      "entities"
+    ]
+  },
+  "current_state": [],
+  "state_history": [],
+  "events": [
+    {
+      "schema_version": 1,
+      "event_id": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205619-0013-b364138611fd\\2026-04-14\\20-56-19-216875.json::event_segment:0",
+      "logical_event_id": "generic|thank|miss,much,thank,very|april,may",
+      "dedupe_key": "generic|thank|miss,much,thank,very|april,may|thank you very much miss moran there was no opportunity for further polite conversation for the taxi had stopped|2026-04-14T20:56:19",
+      "source_signature": "thank you very much miss moran there was no opportunity for further polite conversation for the taxi had stopped",
+      "event_type": "generic",
+      "display_name": "Thank",
+      "normalized_name": "thank",
+      "timestamp": "2026-04-14T20:56:19",
+      "thread_id": "thread-e4dd0d425c7b",
+      "thread_label": "Thank / very",
+      "entities": [
+        "Thank",
+        "very",
+        "much",
+        "Miss",
+        "Moran",
+        "Better",
+        "Captain",
+        "Grey",
+        "opportunity",
+        "further",
+        "polite",
+        "conversation"
+      ],
+      "scope_hints": {
+        "months": [
+          "may",
+          "april"
+        ],
+        "weekdays": [
+          "tuesday"
+        ],
+        "locations": []
+      },
+      "source": "“Thank you very much, Miss Moran!” There was no opportunity for further polite conversation, for the taxi had stopped",
+      "polarity": "positive",
+      "attributes": {},
+      "record_path": "E:\\MASE-demo\\external-benchmarks\\NoLiMa\\outputs\\mase\\case_memory\\20260414-205619-0013-b364138611fd\\2026-04-14\\20-56-19-216875.json",
+      "status": "active",
+      "deprecated_by": "",
+      "provenance": "event_segment"
+    }
+  ]
+}
