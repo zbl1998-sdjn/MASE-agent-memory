@@ -63,3 +63,10 @@ data/**/*.jsonl
 /benchmarks/external-benchmarks/*
 !/benchmarks/external-benchmarks/README.md
 
+/run_artifacts/
+scripts/_*.py
+scripts/_*.txt
+scripts/_*.err
+scripts/_*.ps1
+scripts/_external_logs/
+
