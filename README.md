@@ -2,7 +2,19 @@
 **Schema-less SQLite + per-day Markdown — dual-whitebox memory for LLM agents.**
 **Survives 256k adversarial context at 88% with a 7B local model.**
 
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-Apache%202.0-green)
+![Tests](https://img.shields.io/badge/tests-69%2F69%20passing-brightgreen)
+![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
+![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
+![LongMemEval](https://img.shields.io/badge/LongMemEval--S-84.8%25-blueviolet)
+
 ![MASE 2.0 Architecture](docs/assets/banner.png)
+
+> **最好的 AI 记忆，不应该是黑盒里的向量浮点数，而是随时可被 `SELECT / UPDATE` 的结构化事实。**
+> *The best AI memory isn't a black-box of floating-point vectors — it's structured facts you can `UPDATE` at 3 AM.*
+>
+> — The Anti-RAG Manifesto ([read more ↓](#️-为什么要重构-mase-20the-anti-rag-manifesto))
 
 ---
 
@@ -28,12 +40,12 @@ MASE 同时把对话写入两层人类可读的存储:
 
 | Benchmark              | 模型                | MASE 成绩       | 同体量裸模型      | Δ           |
 |------------------------|---------------------|-----------------|-------------------|-------------|
-| LV-Eval EN 16k         | qwen2.5:7b (本地)  | **97.06%**      | (见 BENCHMARKS)   | —           |
-| LV-Eval EN 64k         | qwen2.5:7b (本地)  | **91.49%**      | **22.34%** *      | **+69pp**   |
-| LV-Eval EN 128k        | qwen2.5:7b (本地)  | **83.23%**      | **10.78%**        | **+72pp**   |
-| LV-Eval EN 256k        | qwen2.5:7b (本地)  | **88.71%**      | **4.84%**         | **+84pp**   |
-| **NoLiMa ONLYDirect 32k** | qwen2.5:7b (本地, MASE chunked) | **60.71%** | **1.79%** (full-haystack baseline) | **+58.9pp** |
-| LongMemEval-S 500      | GLM-5 + kimi-k2.5 二号意见 + LLM-judge | **84.8%** (LLM-judge, 424/500) | 70.4% baseline | **+14.4pp** |
+| 📄 16k 长文事实抽取 (LV-Eval EN) | qwen2.5:7b 本地 | **97.06%**      | (见 BENCHMARKS)   | —           |
+| 📄 64k 长文事实抽取 (LV-Eval EN) | qwen2.5:7b 本地 | **91.49%**      | **22.34%** *      | **+69pp** 📈 |
+| 📄 128k 长文事实抽取 (LV-Eval EN) | qwen2.5:7b 本地 | **83.23%**      | **10.78%**        | **+72pp** 📈 |
+| 📄 256k 超长文事实抽取 (LV-Eval EN) | qwen2.5:7b 本地 | **88.71%**      | **4.84%**         | **+84pp** 🚀 |
+| 🪡 32k 极限大海捞针 (NoLiMa ONLYDirect) | qwen2.5:7b 本地, MASE chunked | **60.71%** | **1.79%** (full-haystack) | **+58.9pp** 🔥 |
+| 🧠 多 session 长程记忆 (LongMemEval-S 500) | GLM-5 + kimi-k2.5 二号意见 + LLM-judge | **84.8%** (424/500) | 70.4% baseline | **+14.4pp** 📈 |
 
 > **LongMemEval status (2026-04-19, iter4 + Plan A retry)**: **84.8% LLM-judge (424/500)**, on par with frontier models (GPT-4o ~71%, Claude 3.5 Sonnet ~76%, Gemini 1.5 Pro ~79% per the paper). Per-qtype: single-session-assistant 98.2%, single-session-user 97.1%, knowledge-update 91.0%, single-session-preference 86.7%, multi-session 81.2%, temporal-reasoning 72.2%. **零回退**：iter4 通过的题在二号意见检索中保留原答案，仅在二号意见 judge=PASS 时升级（27/103 真升级）. 复现：`python scripts/combine_iter4_retry.py`. 详情见 [DECISIONS.md](DECISIONS.md).
 >
@@ -79,6 +91,32 @@ MASE 同时把对话写入两层人类可读的存储:
 - **MCP server** — Claude Desktop / Cursor 直接挂 MASE 当记忆层
 - **OpenAI Assistants API 兼容层** — 现有 OpenAI 客户端零改造
 - **Cherry Studio / OpenWebUI / NextChat** — 走 OpenAI 兼容端点直接接
+
+#### ⚡ 3 行接入 LangChain Agent
+
+```python
+from integrations.langchain.mase_memory import MASEMemory
+
+memory = MASEMemory(db_path="data/mase_memory.db", user_id="zbl1998")
+agent_executor.invoke({"input": "我上次说的预算是多少？"}, config={"memory": memory})
+```
+
+告别 `ConversationBufferMemory` 的 token 上限，告别 `VectorStoreRetrieverMemory` 的黑盒漂移。
+**断电、重启、跨进程，下一句对话都能 `SELECT` 出 30 个 session 前的事实。**
+
+### 🛡️ Battle-Tested: 工业级并发安全 (Round-2 Audit Cleared)
+
+市面上的 Memory 方案在 single-thread demo 里岁月静好,一上多并发就 file lock / 向量库锁死 / 后台线程吞异常. MASE 2.0 拒绝玩具架构,通过了两轮深度并发审计:
+
+| 隐患 | 业界常见症状 | MASE 2.0 防御 |
+|------|-------------|--------------|
+| **SQLite 句柄泄漏** | `database is locked` / `Too many open files` | `contextlib.closing` + `WAL` 全链路覆盖 |
+| **三库 (tri-vault) 写竞争** | 并发 `.tmp` 互踩, JSON 损坏 | `uuid4` 临时文件 + per-target `threading.Lock` + Windows `os.replace` 3 次重试 |
+| **后台 GC 幽灵线程** | CLI 退出瞬间 daemon 被绞杀, 记忆永远丢 | `MASESystem.join_background_tasks()` + `atexit` 优雅 drain (≤ 8s) |
+| **`os.environ` 跨线程污染** | 后台线程改 env, 主线程 C 扩展崩溃 | `os.environ.setdefault` 幂等写入 |
+| **schema migration 静默失败** | 老表跑新代码, 业务层爆奇怪 SQL 错 | `_ensure_schema` 失败立即抛 (no more best-effort) |
+
+**全部 69 项核心链路单元测试通过** (含专门为审计写的 `tests/test_orchestrator_audit_fix.py` 7 项 + `tests/test_audit_round2_fixes.py` 6 项). 复现: `python -m pytest tests/ -q`.
 
 ### 📚 样例库 (`examples/`)
 
