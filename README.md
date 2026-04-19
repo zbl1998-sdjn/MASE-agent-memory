@@ -9,12 +9,30 @@
 ![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
 ![LongMemEval](https://img.shields.io/badge/LongMemEval--S-84.8%25-blueviolet)
 
+<p align="center">
+  <b>中文</b> | <a href="docs/README_en.md">English</a> (WIP)
+</p>
+
 ![MASE 2.0 Architecture](docs/assets/banner.png)
 
 > **最好的 AI 记忆，不应该是黑盒里的向量浮点数，而是随时可被 `SELECT / UPDATE` 的结构化事实。**
 > *The best AI memory isn't a black-box of floating-point vectors — it's structured facts you can `UPDATE` at 3 AM.*
 >
 > — The Anti-RAG Manifesto ([read more ↓](#️-为什么要重构-mase-20the-anti-rag-manifesto))
+
+---
+
+## 📖 目录 (Table of Contents)
+
+- [✨ Highlights](#-highlights) — 双白盒记忆 / 硬指标 / chunked vs baseline
+- [🛡️ Battle-Tested 工业级并发安全](#️-battle-tested-工业级并发安全-round-2-audit-cleared)
+- [🔌 生态集成](#-生态集成-integrations) (LangChain · LlamaIndex · MCP · OpenAI 兼容)
+- [⚙️ 关键 env-gate](#️-关键-env-gate)
+- [⚠️ The Anti-RAG Manifesto](#️-为什么要重构-mase-20the-anti-rag-manifesto)
+- [🛠️ 核心架构与杀手级特性](#️-核心架构与杀手级特性)
+- [🚀 快速开始 (3 分钟)](#-快速开始-quick-start)
+- [📂 目录结构](#-目录结构说明)
+- [🤝 贡献 / Citation / Star History](#-贡献--star-history)
 
 ---
 
@@ -84,7 +102,7 @@ MASE 同时把对话写入两层人类可读的存储:
 | letta (ex-MemGPT)          | Postgres      | 整个 agent runtime 锁定 | 部分                | 部分             |
 | **MASE 2.0**               | **SQLite + Markdown** | **零** (schema-less, 双白盒) | **LV-Eval/LongMemEval 实测晒数** | ✅ iron-rule prompt |
 
-### 🔌 生态集成 (`integrations/`)
+### 🔌 生态集成 (Integrations)
 
 - **LangChain `BaseChatMemory`** — 一行替换 `ConversationBufferMemory`
 - **LlamaIndex `BaseMemory`** — 接入 LlamaIndex agent
@@ -182,6 +200,23 @@ MASE 不仅仅是一个聊天的“记录员”，它是一个“AI 同事”。
 
 ## 🚀 快速开始 (Quick Start)
 
+### 0. 一键 clone + install (3 分钟)
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/zbl1998-sdjn/MASE-demo.git
+cd MASE-demo
+
+# 2. 安装依赖（建议先 python -m venv .venv && source .venv/bin/activate）
+pip install -e ".[dev]"
+
+# 3. 复制环境变量模板（按需填入 GLM/Kimi/OpenAI key，本地模式可空）
+cp .env.example .env
+
+# 4. 冒烟测试（69 个单测应全绿）
+python -m pytest tests/ -q
+```
+
 ### 环境要求
 - Python 3.10+
 - Ollama（当前默认 benchmark baseline 使用本地 Ollama）
@@ -247,3 +282,40 @@ E:\MASE-demo\
 ---
 
 *“最好的 AI 记忆，不应该是黑盒里的向量浮点数，而是清晰可见、人类可读、随时可被修正的结构化事实。”* — **MASE 2.0**
+
+---
+
+## 🤝 贡献 / Star History
+
+### Contributing
+
+欢迎 issue / PR — 特别欢迎以下方向的贡献：
+
+- **新模型后端适配**: vLLM / llama.cpp / Together / OpenRouter 等 (`src/mase/model_interface.py`)
+- **更多 integrations**: AutoGen / CrewAI / Semantic Kernel
+- **新 benchmark 复跑**: BABILong / RULER / ∞Bench 适配 (`benchmarks/runner.py`)
+- **bug 报告**: 长上下文召回失败案例尤其欢迎，附最小复现 + `data/mase_memory.db` 片段
+
+提 PR 前请先跑 `python -m ruff check . && python -m pytest tests/ -q`，CI 全绿才能 merge。
+
+### Citation
+
+如果 MASE 2.0 帮到了你的研究，请引用：
+
+```bibtex
+@software{mase2026,
+  author = {zbl1998-sdjn},
+  title = {{MASE 2.0}: Memory-Augmented Smart Entity — Schema-less SQLite memory for LLM agents},
+  year = {2026},
+  url = {https://github.com/zbl1998-sdjn/MASE-demo},
+  note = {Lifts qwen2.5:7b from 1.79\% to 60.71\% on NoLiMa-32k; 84.8\% on LongMemEval-S}
+}
+```
+
+### Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=zbl1998-sdjn/MASE-demo&type=Date)](https://star-history.com/#zbl1998-sdjn/MASE-demo&Date)
+
+### License
+
+[Apache-2.0](LICENSE) © 2026 zbl1998-sdjn
