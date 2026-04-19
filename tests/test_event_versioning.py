@@ -3,7 +3,6 @@ from __future__ import annotations
 import unittest
 
 from event_bus import build_event_bus_snapshot, query_event_bus
-
 from event_versioning import (
     build_event_version_views,
     filter_active_events,

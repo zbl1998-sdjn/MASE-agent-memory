@@ -1,5 +1,6 @@
 import json
-data = json.load(open(r'E:\MASE-demo\scripts\_final_sweep.json','r',encoding='utf-8'))
+
+data = json.load(open(r'E:\MASE-demo\scripts\_final_sweep.json',encoding='utf-8'))
 results = data['results']
 lv = [r for r in results if r.get('phase')=='lveval' and 'pass' in r]
 lme = [r for r in results if r.get('phase')=='longmemeval']

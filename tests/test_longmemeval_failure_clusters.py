@@ -3,7 +3,11 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from benchmarks.runner import BenchmarkRunner
+from benchmarks.schemas import BenchmarkSample
 from event_bus import build_event_bus_snapshot, build_events_from_fact_card, query_event_bus
+from executor import ExecutorAgent
+from mase import get_system
 from mase_tools.legacy import (
     _build_duration_ledger_rows,
     _build_english_search_profile,
@@ -36,11 +40,6 @@ from orchestrator import _merge_scope_filters
 from orchestrator import _slot_contract_state as orchestrator_slot_contract_state
 from planner import _extract_temporal_candidate_phrases as planner_extract_temporal_candidate_phrases
 from planner import build_planner_decision
-
-from benchmarks.runner import BenchmarkRunner
-from benchmarks.schemas import BenchmarkSample
-from executor import ExecutorAgent
-from mase import get_system
 from router import RouterAgent, _extract_keywords_from_question, _should_force_search_memory, filter_keywords
 
 

@@ -8,6 +8,7 @@ MASE 2.0 — Example 04: Long Document QA @ 256k
     python examples/04_long_doc_qa_256k.py --limit 10
 """
 from __future__ import annotations
+
 import argparse
 import sys
 from pathlib import Path

@@ -1,5 +1,8 @@
 """Test meta-prompt: instruct model to detect 'odd/misspelled phrase = planted needle' pattern."""
-import json, urllib.request, time, re
+import json
+import re
+import time
+import urllib.request
 
 PROMPT = """你是 MASE 长上下文针式问答执行器。这是一个对抗性压力测试基准。
 

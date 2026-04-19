@@ -1,5 +1,6 @@
 """Test multiple ZH prompt variants to find one that picks 贝多芬."""
-import json, urllib.request
+import json
+import urllib.request
 
 USER = """问题：被世人广泛推崇为现代物理学奠基人的科学家叫什么名字？
 

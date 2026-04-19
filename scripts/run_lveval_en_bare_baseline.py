@@ -7,13 +7,16 @@ becomes the headline GitHub claim.
 
 Runs slices 64k / 128k / 256k EN (where the gap is largest).
 """
-import os, sys, json, time
+import json
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 
-from benchmarks.registry import load_benchmark_samples
 from benchmarks.baseline import baseline_ask_with_metrics
+from benchmarks.registry import load_benchmark_samples
+from benchmarks.runner import BASELINE_SYSTEM_PROMPT, _build_baseline_conversation
 from benchmarks.scoring import score_sample
-from benchmarks.runner import _build_baseline_conversation, BASELINE_SYSTEM_PROMPT
 
 SLICES = ['64k', '128k', '256k']
 PROFILE = 'ollama-qwen25-7b'

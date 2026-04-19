@@ -87,8 +87,16 @@ ignore = [
 # Runtime safety-nets that must never let an LLM/infra exception crash the agent.
 "executor.py" = ["BLE001"]
 "mase_tools/memory/gc_agent.py" = ["BLE001"]
-"tests/**" = ["BLE001"]     # tests frequently catch broadly on purpose
-"scripts/**" = ["BLE001"]   # entry scripts similarly
+"src/mase/engine.py" = ["BLE001"]                # MASESystem must never crash on background-task or migration errors
+"src/mase/model_interface.py" = ["BLE001"]       # LLM client wrapper: every network/parse path is guarded
+"src/mase/hybrid_recall.py" = ["BLE001"]         # retrieval fallback chain: degrade gracefully, never raise
+"src/mase/multipass_retrieval.py" = ["BLE001", "B905"]  # multi-query fan-out + zip pairing
+"src/mase/notetaker_agent.py" = ["BLE001"]       # tool-call parsing must tolerate malformed LLM output
+"src/mase/structured_log.py" = ["BLE001"]        # logging path: writes must never throw
+"src/mase/fact_sheet.py" = ["BLE001"]
+"src/mase/metrics.py" = ["BLE001", "UP031"]      # numeric formatting kept as %.2f%% for human readability
+"tests/**" = ["BLE001", "B017"]   # tests frequently catch broadly on purpose, including raises(Exception)
+"scripts/**" = ["BLE001", "B905", "B007", "I001"]   # entry/diagnostic scripts: zip pairing & loop vars are intentional
 # TODO(benchmarks/runner.py:678 — resolved): `baseline_infra_error` is now
 # persisted into attempt_rows; retry semantics unchanged. Still ignoring BLE001
 # for this file (intentional broad catches around benchmark adapters).

@@ -13,6 +13,7 @@ prompt 显式处理了这个冲突.
     python examples/07_anti_adversarial.py
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 
@@ -20,7 +21,6 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from mase import BenchmarkNotetaker, mase_ask  # noqa: E402
-
 
 # 故意种入与常识冲突的"事实"
 ADVERSARIAL_DOC = """

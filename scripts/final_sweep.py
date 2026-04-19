@@ -2,7 +2,12 @@
 
 Writes incremental JSON to scripts/_final_sweep.json.
 """
-import os, sys, json, time, traceback
+import json
+import os
+import sys
+import time
+import traceback
+
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
 os.environ.setdefault("MASE_CONFIG_PATH", r"E:\MASE-demo\config.json")

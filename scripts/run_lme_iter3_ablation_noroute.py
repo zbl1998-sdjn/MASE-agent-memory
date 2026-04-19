@@ -18,9 +18,9 @@ Hypothesis under test:
 
 Output: scripts/_lme_iter3_ABLATION_noroute_summary.json
 """
+import json
 import os
 import sys
-import json
 import time
 
 sys.path.insert(0, r"E:\MASE-demo")
@@ -39,7 +39,7 @@ os.environ["MASE_LME_ROUTE_BY_QID"] = "0"
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r"E:\MASE-demo\data\longmemeval_official\lme_dev_250.json"
-data = json.load(open(PATH, "r", encoding="utf-8"))
+data = json.load(open(PATH, encoding="utf-8"))
 total_n = len(data)
 print(f"LME iter3 ABLATION (no routing) on dev_250: {total_n} samples")
 

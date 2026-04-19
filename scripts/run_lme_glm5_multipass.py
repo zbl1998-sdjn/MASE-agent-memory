@@ -5,7 +5,11 @@ Combines:
 - ``MASE_MULTIPASS=1`` with rerank + HyDE + 2 query variants
 - Same 500-sample dataset as baseline (longmemeval_s_500.json) for apples-to-apples
 """
-import os, sys, json, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ['MASE_CONFIG_PATH'] = r'E:\MASE-demo\config.lme_glm5.json'
 os.environ['MASE_MULTIPASS'] = '1'
@@ -17,7 +21,7 @@ os.environ.setdefault('MASE_MULTIPASS_RERANK_TOP', '40')
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r'E:\MASE-demo\data\longmemeval_official\longmemeval_s_500.json'
-data = json.load(open(PATH, 'r', encoding='utf-8'))
+data = json.load(open(PATH, encoding='utf-8'))
 total_n = len(data)
 print(f'LME iter1: GLM-5 + multipass on {total_n} samples')
 

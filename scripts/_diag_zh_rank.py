@@ -1,5 +1,6 @@
 """Trace search ranking for the failing ZH question."""
-import os, sys
+import sys
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 
 from mase.benchmark_notetaker import BenchmarkNotetaker

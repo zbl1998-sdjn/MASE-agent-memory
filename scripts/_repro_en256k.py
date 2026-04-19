@@ -1,12 +1,17 @@
 """Reproduce one failing case end-to-end and dump the fact_sheet."""
-import os, sys, json
+import json
+import os
+import sys
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ['MASE_CONFIG_PATH'] = r'E:\MASE-demo\config.dual_gpu.json'
 os.environ['MASE_TASK_TYPE'] = 'long_context_qa'
 os.environ['MASE_LVEVAL_DATASET'] = 'factrecall_en_256k'
 
-from huggingface_hub import hf_hub_download
 import zipfile
+
+from huggingface_hub import hf_hub_download
+
 zp = hf_hub_download(repo_id='Infinigence/LVEval', repo_type='dataset', filename='factrecall_en.zip')
 # Pick first sample (we just need ANY 256k case to study retrieval)
 with zipfile.ZipFile(zp) as zf:
@@ -20,14 +25,17 @@ print('Q:', question[:200])
 print('GOLD:', gold)
 # Find planted sentence in context
 import re
+
 m = re.search(r'(?i)(ludwig\s+beethoven[^.]{0,200}\.)', context)
 print('planted in context @', m.start() if m else 'NOT FOUND', ':', m.group(0)[:200] if m else '')
 
 # Now drive MASE
 import tempfile
+
 mem = tempfile.mkdtemp(prefix='diag_en256k_')
 os.environ['MASE_MEMORY_DIR'] = mem
 from mase.engine import MASESystem
+
 sys_obj = MASESystem()
 # Ingest context
 print('ingesting context...')

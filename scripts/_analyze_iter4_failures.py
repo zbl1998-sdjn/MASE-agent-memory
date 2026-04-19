@@ -1,7 +1,5 @@
 """Analyze ablation 80% LLM-judge results to find the path to 85%."""
 import json
-import sys
-import re
 from pathlib import Path
 
 f = Path(r"E:\MASE-demo\results\benchmark-longmemeval_s-haystack-20260419-110624-279924.rescored.json")
@@ -20,7 +18,8 @@ def bucket_for_qid(qid: str) -> str:
     return "regular"
 
 # Per-bucket breakdown
-from collections import Counter, defaultdict
+from collections import Counter
+
 bucket_total = Counter()
 bucket_pass_substring = Counter()
 bucket_pass_judge = Counter()
@@ -75,7 +74,7 @@ for f in abs_fails[:8]:
     print(f"  GT: {f['ground_truth']}")
     print(f"  A : {f['answer']}")
 
-print(f"\n=== regular failures (sample 5) ===")
+print("\n=== regular failures (sample 5) ===")
 reg_fails = [f for f in fails if f["bucket"] == "regular"]
 for f in reg_fails[:5]:
     print(f"--- {f['qid']}  task={f['task_type']}")
@@ -83,7 +82,7 @@ for f in reg_fails[:5]:
     print(f"  GT: {f['ground_truth']}")
     print(f"  A : {f['answer']}")
 
-print(f"\n=== gpt4 failures (sample 5) ===")
+print("\n=== gpt4 failures (sample 5) ===")
 g4_fails = [f for f in fails if f["bucket"] == "gpt4_gen"]
 for f in g4_fails[:5]:
     print(f"--- {f['qid']}  task={f['task_type']}")

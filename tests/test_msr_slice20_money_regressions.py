@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from mase_tools.legacy import _build_aggregation_notes
-
 from mase_tools import legacy as tools
+from mase_tools.legacy import _build_aggregation_notes
 
 
 def _result(summary: str, *, session_id: str) -> dict[str, object]:

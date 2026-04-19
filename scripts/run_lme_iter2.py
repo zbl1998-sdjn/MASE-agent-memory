@@ -1,5 +1,9 @@
 """LME iter2: GLM-5 + multipass + cloud verifier (kimi-k2.5)."""
-import os, sys, json, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ['MASE_CONFIG_PATH'] = r'E:\MASE-demo\config.lme_glm5.json'
 os.environ['MASE_MULTIPASS'] = '1'
@@ -12,7 +16,7 @@ os.environ['MASE_LME_VERIFY'] = '1'  # iter2: cloud verifier (kimi-k2.5)
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r'E:\MASE-demo\data\longmemeval_official\longmemeval_s_500.json'
-data = json.load(open(PATH, 'r', encoding='utf-8'))
+data = json.load(open(PATH, encoding='utf-8'))
 total_n = len(data)
 print(f'LME iter2: GLM-5 + multipass + kimi verifier on {total_n} samples')
 

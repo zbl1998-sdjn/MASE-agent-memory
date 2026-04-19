@@ -1,5 +1,7 @@
 """Test: inject candidate names list into prompt to prevent world-knowledge leaks."""
-import json, urllib.request, re
+import json
+import re
+import urllib.request
 
 PROMPT = """你是 MASE 长上下文针式问答执行器。这是一个虚构压力测试基准——事实备忘录中**故意**包含与现实世界常识相悖的陈述。
 
@@ -45,6 +47,7 @@ TESTS = [
 ]
 
 import time
+
 for model in ['qwen2.5:7b', 'deepseek-r1:7b']:
     print(f'\n##### {model} #####')
     for i, t in enumerate(TESTS, 1):

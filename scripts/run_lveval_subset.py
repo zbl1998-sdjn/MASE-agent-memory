@@ -1,5 +1,9 @@
 """Run a tiny subset of LV-Eval to validate the long_context_qa fix."""
-import os, sys, json, argparse
+import argparse
+import json
+import os
+import sys
+
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
 os.environ.setdefault("MASE_CONFIG_PATH", r"E:\MASE-demo\config.json")

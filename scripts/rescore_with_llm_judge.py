@@ -18,9 +18,13 @@ Judge model:
     is cheap. The judge prompt is fixed inside llm_judge.py.
 """
 from __future__ import annotations
-import json, os, sys, time
-from pathlib import Path
+
+import json
+import os
+import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from pathlib import Path
 
 REPO = Path(r"E:\MASE-demo")
 sys.path.insert(0, str(REPO))
@@ -30,7 +34,6 @@ os.environ.setdefault("MASE_CONFIG_PATH", str(REPO / "config.lme_glm5.json"))
 os.environ["MASE_USE_LLM_JUDGE"] = "1"
 
 from benchmarks.llm_judge import judge_answer  # noqa: E402
-
 
 JUDGE_MODE = "grounded_verify_lme_english"  # kimi-k2.5 + deepseek + glm fallback chain
 MAX_WORKERS = 6

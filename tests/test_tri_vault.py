@@ -1,8 +1,6 @@
 """Tests for the opt-in tri-vault memory layout."""
 from __future__ import annotations
 
-import os
-
 import pytest
 
 from mase_tools.memory import tri_vault

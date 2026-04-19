@@ -4,7 +4,11 @@ Note: factrecall_zh is the adversarial 2-needle design where retrieval CAN'T
 help (true answer ranks last regardless of retriever). So multipass should
 match or slightly beat baseline (88.39%), not crash.
 """
-import os, sys, json, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ['MASE_CONFIG_PATH'] = r'E:\MASE-demo\config.dual_gpu.json'
 os.environ['MASE_MULTIPASS'] = '1'

@@ -8,8 +8,6 @@ Covers the four canonical paths:
 """
 from __future__ import annotations
 
-import os
-
 import pytest
 
 from mase.adaptive_verify import AdaptiveVerifyPolicy

@@ -3,7 +3,11 @@ degrade single-pass behavior (MASE_MULTIPASS unset = original code path).
 
 Runs ZH factrecall 16k only — should reproduce iter5 baseline (~93%).
 """
-import os, sys, json, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ.setdefault('MASE_CONFIG_PATH', r'E:\MASE-demo\config.dual_gpu.json')
 os.environ.pop('MASE_MULTIPASS', None)  # explicitly unset

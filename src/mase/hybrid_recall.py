@@ -15,8 +15,9 @@ from __future__ import annotations
 import math
 import os
 import re
+from collections.abc import Iterable
 from datetime import datetime, timedelta
-from typing import Any, Iterable
+from typing import Any
 
 try:  # Optional dependency — fall back to inline BM25 if missing.
     from rank_bm25 import BM25Okapi  # type: ignore

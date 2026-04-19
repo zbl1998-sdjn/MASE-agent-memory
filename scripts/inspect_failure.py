@@ -5,7 +5,12 @@ Usage:
 e.g.
     python scripts/inspect_failure.py hotpotwikiqa_mixup_16k 0
 """
-import os, sys, io, json, tempfile, shutil, traceback
+import os
+import shutil
+import sys
+import tempfile
+import traceback
+
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
 os.environ.setdefault("MASE_CONFIG_PATH", r"E:\MASE-demo\config.json")
@@ -63,7 +68,7 @@ try:
     out.append(trace.answer)
 
     text = "\n".join(out)
-    with io.open(r"E:\MASE-demo\scripts\_last_inspect.txt", "w", encoding="utf-8") as f:
+    with open(r"E:\MASE-demo\scripts\_last_inspect.txt", "w", encoding="utf-8") as f:
         f.write(text)
     print("Wrote _last_inspect.txt (", len(text), "chars)")
     print(text.encode("ascii", "replace").decode("ascii")[:2000])

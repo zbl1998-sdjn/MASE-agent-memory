@@ -1,4 +1,6 @@
-import sys, os, sqlite3
+import os
+import sys
+
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
 os.environ["MASE_MEMORY_DIR"] = sys.argv[1]

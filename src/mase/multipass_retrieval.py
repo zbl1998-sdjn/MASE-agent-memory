@@ -31,7 +31,7 @@ import os
 import re
 import threading
 from functools import lru_cache
-from typing import Any, Callable
+from typing import Any
 
 _LOCK = threading.Lock()
 _RERANKER: Any = None
@@ -93,9 +93,9 @@ def _generate_query_variants_cached(question: str, n: int) -> tuple[str, ...]:
     except Exception:
         return ()
     prompt = (
-        "请为下面的问题生成 {n} 个不同表述但语义等价的改写, 每行一个, 不要编号, 不要解释:\n\n"
-        "原问题: {q}"
-    ).format(n=n, q=question)
+        f"请为下面的问题生成 {n} 个不同表述但语义等价的改写, 每行一个, 不要编号, 不要解释:\n\n"
+        f"原问题: {question}"
+    )
     try:
         mi = ModelInterface()
         # Use small, fast model from cluster.

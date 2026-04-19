@@ -9,6 +9,7 @@ MASE 2.0 — Example 02: Personal Assistant
     python examples/02_personal_assistant.py
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 
@@ -16,7 +17,6 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from mase import mase_ask  # noqa: E402
-
 
 SCRIPT = [
     "我叫小明, 今年 27 岁.",

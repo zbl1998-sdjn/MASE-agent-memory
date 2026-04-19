@@ -1,4 +1,6 @@
-import sqlite3, os, sys
+import os
+import sqlite3
+
 p = r'E:\MASE-demo\memory_runs\benchmark-longmemeval_s-haystack-20260418-161322-759504\e47becba\benchmark_memory.sqlite3'
 print('exists:', os.path.exists(p), os.path.getsize(p) if os.path.exists(p) else 0)
 conn = sqlite3.connect(p)

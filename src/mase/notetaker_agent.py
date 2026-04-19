@@ -15,6 +15,7 @@ from mase_tools.memory.api import (
     mase2_upsert_fact,
     mase2_write_interaction,
 )
+
 from .model_interface import ModelInterface
 
 # Maps notetaker tool names to the tri-vault bucket they should mirror into.

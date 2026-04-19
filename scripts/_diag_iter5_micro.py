@@ -1,4 +1,5 @@
 import json
+
 summary = json.load(open(r'scripts\_lme_iter5_micro_summary.json', encoding='utf-8'))
 res = json.load(open(summary['results_path'], encoding='utf-8'))['results']
 res_by_id = {r['id']: r for r in res}

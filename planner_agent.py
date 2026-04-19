@@ -8,8 +8,9 @@ src-migration leaving regression tests broken.
 from __future__ import annotations
 
 import sys as _sys
-from mase import planner_agent as _impl
+
 from legacy_archive import planner_agent as _legacy
+from mase import planner_agent as _impl
 
 _self = _sys.modules[__name__]
 _skip = {"__name__", "__doc__", "__loader__", "__spec__",

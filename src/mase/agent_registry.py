@@ -33,9 +33,10 @@ Design notes
 from __future__ import annotations
 
 import threading
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 AgentFactory = Callable[[Any, "str | Path | None"], Any]
 
@@ -91,7 +92,7 @@ class AgentRegistry:
         with self._lock:
             return sorted(name for name, spec in self._specs.items() if spec.required)
 
-    def build_all(self, model_interface: Any, config_path: "str | Path | None") -> dict[str, Any]:
+    def build_all(self, model_interface: Any, config_path: str | Path | None) -> dict[str, Any]:
         """Instantiate every registered agent.
 
         Required agents propagate exceptions; optional ones are skipped with a

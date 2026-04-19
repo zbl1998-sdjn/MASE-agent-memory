@@ -1,5 +1,10 @@
 """Run a balanced LongMemEval-500 sample and report by question_type."""
-import os, sys, json, time, random
+import json
+import os
+import random
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ.setdefault('MASE_CONFIG_PATH', r'E:\MASE-demo\config.json')
 
@@ -9,7 +14,7 @@ PER_TYPE = int(sys.argv[1]) if len(sys.argv) > 1 else 10
 PATH = r'E:\MASE-demo\data\longmemeval_official\longmemeval_s_500.json'
 
 # Load all 500 records to build balanced index list
-data = json.load(open(PATH, 'r', encoding='utf-8'))
+data = json.load(open(PATH, encoding='utf-8'))
 by_type: dict[str, list[int]] = {}
 for i, rec in enumerate(data):
     qt = rec.get('question_type', 'unknown')

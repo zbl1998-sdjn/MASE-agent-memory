@@ -15,6 +15,7 @@ MASE 2.0 — Example 08: Hot-Swap Models via env vars
     python examples/08_hot_swap_models.py
 """
 from __future__ import annotations
+
 import os
 import sys
 from pathlib import Path

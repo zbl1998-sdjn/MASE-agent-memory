@@ -36,7 +36,8 @@ for key in ("part1_results_path", "rescored_path"):
         rescored = p.replace(".json", ".rescored.json")
         if not Path(rescored).exists():
             print(f"[combiner] LLM-judge rescore on part1: {p}")
-            import subprocess, sys
+            import subprocess
+            import sys
             subprocess.run([sys.executable, r"E:\MASE-demo\scripts\rescore_with_llm_judge.py", p], check=True)
         load_path = rescored
     else:
@@ -132,4 +133,4 @@ summary = {
 }
 json.dump(summary, open(r"scripts\_lme_iter4_combined_summary.json", "w", encoding="utf-8"),
           indent=2, ensure_ascii=False)
-print(f"Summary    -> scripts\\_lme_iter4_combined_summary.json")
+print("Summary    -> scripts\\_lme_iter4_combined_summary.json")

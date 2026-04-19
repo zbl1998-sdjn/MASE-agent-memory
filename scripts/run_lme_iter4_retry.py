@@ -12,11 +12,11 @@ Slice composition (103):
   temporal-reasoning  44, multi-session 37, knowledge-update 11,
   single-session-preference 8, single-session-user 2, single-session-assistant 1
 """
-import os
-import sys
 import json
-import time
+import os
 import subprocess
+import sys
+import time
 
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
@@ -35,9 +35,9 @@ os.environ["MASE_LME_RETRY"] = "1"          # force retry mode for all
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r"E:\MASE-demo\data\longmemeval_official\longmemeval_s_iter4_fails.json"
-data = json.load(open(PATH, "r", encoding="utf-8"))
+data = json.load(open(PATH, encoding="utf-8"))
 print(f"LME iter4-RETRY on {len(data)} samples (all iter4 LLM-judge FAILs)")
-print(f"Retry mode: grounded_long_memory_retry_kimi (kimi-k2.5 + non-abstain bias)")
+print("Retry mode: grounded_long_memory_retry_kimi (kimi-k2.5 + non-abstain bias)")
 
 runner = BenchmarkRunner(baseline_profile="none")
 t0 = time.time()
@@ -63,4 +63,4 @@ out = {
 out_path = r"E:\MASE-demo\scripts\_lme_iter4_retry_pointer.json"
 json.dump(out, open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 print(f"Pointer -> {out_path}")
-print(f"\nNext: python scripts/combine_iter4_retry.py")
+print("\nNext: python scripts/combine_iter4_retry.py")

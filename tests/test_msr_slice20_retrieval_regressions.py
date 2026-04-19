@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from planner import _build_query_variants, build_planner_decision
-
 from notetaker_agent import NotetakerAgent
+from planner import _build_query_variants, build_planner_decision
 
 
 def _result(summary: str) -> dict[str, object]:

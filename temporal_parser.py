@@ -6,6 +6,7 @@ that `from x import *` would skip).
 from __future__ import annotations
 
 import sys as _sys
+
 from legacy_archive import temporal_parser as _legacy
 
 _self = _sys.modules[__name__]

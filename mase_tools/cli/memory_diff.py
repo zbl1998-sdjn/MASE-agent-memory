@@ -22,7 +22,6 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Iterable
 
 from mase_tools.memory import tri_vault
 

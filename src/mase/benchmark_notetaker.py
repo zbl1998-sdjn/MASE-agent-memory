@@ -9,9 +9,10 @@ from __future__ import annotations
 import json
 import re
 import sqlite3
+from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from .utils import memory_root
 
@@ -128,7 +129,7 @@ class BenchmarkNotetaker:
                 "really", "anything", "something", "everything", "nothing",
                 "because", "before", "after", "always", "never", "between",
                 "another", "without", "during", "around", "myself", "yourself",
-                "yourself", "themselves", "actually", "probably", "definitely",
+                "themselves", "actually", "probably", "definitely",
                 "morning", "evening", "afternoon", "weekend", "weekday",
                 "started", "finished", "thought", "looking", "trying",
                 "working", "talking", "playing", "watching", "reading",

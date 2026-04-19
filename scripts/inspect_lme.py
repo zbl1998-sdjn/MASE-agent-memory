@@ -1,12 +1,15 @@
 """Inspect a LongMemEval case end-to-end."""
-import os, sys, json
+import os
+import sys
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ.setdefault('MASE_CONFIG_PATH', r'E:\MASE-demo\config.json')
+
+import shutil
 
 from benchmarks.registry import load_benchmark_samples
 from benchmarks.runner import _ingest_turns_into_mase
 from mase import MASESystem
-import shutil
 
 idx = int(sys.argv[1]) if len(sys.argv) > 1 else 0
 samples = load_benchmark_samples('longmemeval_s', sample_limit=idx+1, path=r'E:\MASE-demo\data\longmemeval_official\longmemeval_s_500.json')

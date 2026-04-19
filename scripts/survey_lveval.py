@@ -4,7 +4,12 @@ Usage:
     python scripts/survey_lveval.py --depths 16k --limit 6
     python scripts/survey_lveval.py --depths 16k 64k --limit 6 --out survey.json
 """
-import os, sys, json, argparse, time
+import argparse
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
 os.environ.setdefault("MASE_CONFIG_PATH", r"E:\MASE-demo\config.json")

@@ -6,6 +6,7 @@ MASE 2.0 — Example 01: Quickstart Chatbot
     python examples/01_quickstart_chatbot.py
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 

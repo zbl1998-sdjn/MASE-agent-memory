@@ -5,6 +5,7 @@ OpenAI-compatible Chat Completions API wrapping MASE.
     python -m integrations.openai_compat.server
 """
 from __future__ import annotations
+
 import json
 import sys
 import time
@@ -27,7 +28,6 @@ except ImportError as e:  # pragma: no cover
     ) from e
 
 from mase import mase_ask  # noqa: E402
-
 
 app = FastAPI(title="MASE OpenAI-Compatible API")
 

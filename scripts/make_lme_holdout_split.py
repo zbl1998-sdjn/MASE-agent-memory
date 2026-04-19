@@ -15,6 +15,7 @@ data/longmemeval_official/lme_test_250.json
 data/longmemeval_official/lme_split_manifest.json
 """
 from __future__ import annotations
+
 import json
 import random
 from collections import defaultdict

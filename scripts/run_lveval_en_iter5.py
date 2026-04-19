@@ -1,5 +1,9 @@
 """EN iter5 LV-Eval verify - confirm Beethoven-leak removal + meta-prompt didn't regress EN."""
-import os, sys, json, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ.setdefault('MASE_CONFIG_PATH', r'E:\MASE-demo\config.dual_gpu.json')
 os.environ.pop('MASE_MULTIPASS', None)

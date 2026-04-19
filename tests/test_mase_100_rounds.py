@@ -14,9 +14,8 @@ MEMORY_DIR = MEMORY_ROOT / f"mase-100-{RUN_ID}"
 
 os.environ["MASE_MEMORY_DIR"] = str(MEMORY_DIR)
 
-from mase_tools.legacy import search_memory
-
 from mase import call_router, mase_ask
+from mase_tools.legacy import search_memory
 
 TARGET_FACT = "我们Q3营销预算是350万元，线上投放占60%，合作平台是字节跳动和腾讯。"
 FINAL_QUESTION = "我们最开始聊的那个Q3预算，线上投放比例是多少？"

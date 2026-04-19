@@ -1,5 +1,7 @@
 """Compare scoring distractor vs planted."""
-import sys, sqlite3
+import sqlite3
+import sys
+
 sys.path.insert(0, r'E:\MASE-demo\src')
 from mase.benchmark_notetaker import BenchmarkNotetaker
 

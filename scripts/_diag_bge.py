@@ -1,5 +1,8 @@
 """Test bge-m3 semantic retrieval on the ZH adversarial case."""
-import json, urllib.request, math
+import json
+import math
+import urllib.request
+
 
 def embed(text):
     req = json.dumps({'model': 'bge-m3', 'prompt': text}).encode('utf-8')

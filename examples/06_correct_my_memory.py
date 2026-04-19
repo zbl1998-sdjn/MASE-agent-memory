@@ -25,6 +25,7 @@ sys.path.insert(0, str(ROOT))
 # Use a throwaway DB so the demo is reproducible and non-destructive
 _TMP = Path(tempfile.mkdtemp(prefix="mase_demo_06_")) / "demo.db"
 from mase_tools.memory import db_core  # noqa: E402
+
 db_core.DB_PATH = _TMP
 db_core.init_db()
 

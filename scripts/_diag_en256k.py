@@ -1,5 +1,6 @@
-import json, sys
-data = json.load(open(r'E:\MASE-demo\results\benchmark-lveval-standard-20260418-211346-354091.json','r',encoding='utf-8'))
+import json
+
+data = json.load(open(r'E:\MASE-demo\results\benchmark-lveval-standard-20260418-211346-354091.json',encoding='utf-8'))
 cases = data['results']
 fails = [c for c in cases if c['mase']['score'].get('score',1) < 1]
 print('fail count =', len(fails), 'of', len(cases))

@@ -22,9 +22,9 @@ Output:
   scripts/_lme_iter5_micro.log
   scripts/_lme_iter5_micro_summary.json (per-id flip table + verdict)
 """
+import json
 import os
 import sys
-import json
 import time
 
 sys.path.insert(0, r"E:\MASE-demo")
@@ -45,7 +45,7 @@ os.environ["MASE_LME_QTYPE_ROUTING"] = "1"
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r"E:\MASE-demo\data\longmemeval_official\longmemeval_s_iter5_micro.json"
-data = json.load(open(PATH, "r", encoding="utf-8"))
+data = json.load(open(PATH, encoding="utf-8"))
 print(f"LME iter5 MICRO on {len(data)} samples (15F+5P each of 2 categories)")
 
 runner = BenchmarkRunner(baseline_profile="none")
@@ -55,6 +55,7 @@ elapsed_min = round((time.time() - t0) / 60, 2)
 
 # Rescore with LLM-judge so verdict matches the metric we care about
 import subprocess
+
 res_path = summary.get("results_path")
 print(f"\n[micro] LLM-judge rescore on {res_path}")
 subprocess.run([sys.executable, r"E:\MASE-demo\scripts\rescore_with_llm_judge.py", res_path],

@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import json
 
+from benchmarks.schemas import BenchmarkSample
+from benchmarks.scoring import _contains_phrase, score_sample
+from executor import ExecutorAgent
+from mase_tools import legacy as tools
 from mase_tools.legacy import (
     _build_aggregation_notes,
     _build_money_ledger_rows,
@@ -12,13 +16,8 @@ from mase_tools.legacy import (
     _rerank_results_for_query,
     assess_question_contracts,
 )
-from planner import _build_query_variants, build_planner_decision
-
-from benchmarks.schemas import BenchmarkSample
-from benchmarks.scoring import _contains_phrase, score_sample
-from executor import ExecutorAgent
-from mase_tools import legacy as tools
 from notetaker_agent import NotetakerAgent
+from planner import _build_query_variants, build_planner_decision
 
 
 def _result(summary: str, user_query: str | None = None, assistant_response: str = "") -> dict[str, object]:

@@ -7,11 +7,14 @@ Numbers from results/external/phase_a_summary.jsonl:
     4k=100.00 / 8k=100.00 / 16k=75.00 / 32k=60.71
 """
 from __future__ import annotations
+
 import matplotlib
+
 matplotlib.use("Agg")
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
-from pathlib import Path
 
 CTX = ["4k", "8k", "16k", "32k"]
 BASELINE = [100.00, 51.79, 48.21, 1.79]

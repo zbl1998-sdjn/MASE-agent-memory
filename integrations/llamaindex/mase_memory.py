@@ -4,17 +4,18 @@ MASE → LlamaIndex BaseMemory adapter.
 LlamaIndex 0.10+ 的 memory 接口比 LangChain 简单, 只要实现 get/put.
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
-from typing import Any, List
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
 try:
-    from llama_index.core.memory.types import BaseMemory  # type: ignore
     from llama_index.core.llms import ChatMessage, MessageRole  # type: ignore
+    from llama_index.core.memory.types import BaseMemory  # type: ignore
 except ImportError as e:  # pragma: no cover
     raise ImportError(
         "需要安装 LlamaIndex: pip install llama-index-core"
@@ -38,7 +39,7 @@ class MASELlamaMemory(BaseMemory):
         super().__init__(**kwargs)
         object.__setattr__(self, "notetaker", BenchmarkNotetaker())
 
-    def get(self, input: str | None = None, **kwargs: Any) -> List[ChatMessage]:
+    def get(self, input: str | None = None, **kwargs: Any) -> list[ChatMessage]:
         query = (input or "").strip()
         if not query:
             return []
@@ -57,7 +58,7 @@ class MASELlamaMemory(BaseMemory):
             )
         return msgs
 
-    def get_all(self) -> List[ChatMessage]:
+    def get_all(self) -> list[ChatMessage]:
         rows = self.notetaker.fetch_all_chronological(limit=200)
         return [
             ChatMessage(role=MessageRole.ASSISTANT, content=r.get("content", ""))
@@ -80,7 +81,7 @@ class MASELlamaMemory(BaseMemory):
                 thread_id=self.thread_id,
             )
 
-    def set(self, messages: List[ChatMessage]) -> None:
+    def set(self, messages: list[ChatMessage]) -> None:
         for m in messages:
             self.put(m)
 

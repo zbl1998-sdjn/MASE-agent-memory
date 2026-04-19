@@ -5,11 +5,16 @@ Builds an ephemeral config that takes config.dual_gpu.json and swaps
 keeping the SAME iron-rule prompt. Goal: prove the architecture +
 prompt are sound, and a bigger base model lifts long slices to 95%+.
 """
-import os, sys, json, copy, time, tempfile
+import copy
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 
 # Build patched config
-src_cfg = json.load(open(r'E:\MASE-demo\config.dual_gpu.json', 'r', encoding='utf-8'))
+src_cfg = json.load(open(r'E:\MASE-demo\config.dual_gpu.json', encoding='utf-8'))
 modes = src_cfg['models']['executor']['modes']
 en_mode = copy.deepcopy(modes['grounded_long_context_english'])
 preserved_prompt = en_mode['system_prompt']

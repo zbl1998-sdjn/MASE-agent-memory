@@ -37,9 +37,9 @@ Output
 
 Cost note: ~3-3.5h wall-clock. deepseek-r1:7b runs locally on the 48GB GPU.
 """
+import json
 import os
 import sys
-import json
 import time
 
 sys.path.insert(0, r"E:\MASE-demo")
@@ -59,12 +59,12 @@ os.environ["MASE_LME_QTYPE_ROUTING"] = "1"         # iter5 NEW: per-question_typ
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r"E:\MASE-demo\data\longmemeval_official\longmemeval_s_500.json"
-data = json.load(open(PATH, "r", encoding="utf-8"))
+data = json.load(open(PATH, encoding="utf-8"))
 total_n = len(data)
 print(f"LME iter5 (FULL-500, qtype-aware routing) on {total_n} samples")
-print(f"  temporal-reasoning -> deepseek-r1:7b local")
-print(f"  multi-session      -> rerank_top=80")
-print(f"  others             -> iter4 baseline (GLM-5 + rerank 40)")
+print("  temporal-reasoning -> deepseek-r1:7b local")
+print("  multi-session      -> rerank_top=80")
+print("  others             -> iter4 baseline (GLM-5 + rerank 40)")
 
 runner = BenchmarkRunner(baseline_profile="none")
 t0 = time.time()

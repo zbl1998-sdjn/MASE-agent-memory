@@ -7,6 +7,7 @@ keep working post src/ migration.
 from __future__ import annotations
 
 import sys as _sys
+
 from legacy_archive import planner as _legacy
 
 _self = _sys.modules[__name__]

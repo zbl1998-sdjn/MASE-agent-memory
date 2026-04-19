@@ -18,7 +18,11 @@ Safety:
   - Runs on lme_dev_250 only (250 samples). test_250 FROZEN.
   - No changes to LV-Eval paths. MASE_LME_ROUTE_BY_QID=1 is iter3-only gate.
 """
-import os, sys, json, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
 
@@ -35,7 +39,7 @@ os.environ["MASE_LME_ROUTE_BY_QID"] = "1"
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r"E:\MASE-demo\data\longmemeval_official\lme_dev_250.json"
-data = json.load(open(PATH, "r", encoding="utf-8"))
+data = json.load(open(PATH, encoding="utf-8"))
 total_n = len(data)
 print(f"LME iter3 (DEV-250): type-aware verifier on {total_n} samples")
 

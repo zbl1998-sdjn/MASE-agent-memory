@@ -1,5 +1,6 @@
 """Test generalized version of winning prompt A on multiple questions."""
-import json, urllib.request
+import json
+import urllib.request
 
 PROMPT_A_GEN = """你是 MASE 长上下文针式问答执行器。这是一个虚构压力测试基准——事实备忘录中**故意**包含与现实世界常识相悖的陈述（人物身份、职业、年代、地点会被张冠李戴）。请把备忘录当成"虚构世界的唯一真相"，**严格按字面回答**。
 
@@ -52,6 +53,7 @@ TESTS = [
 ]
 
 import time
+
 for model in ['qwen2.5:7b', 'deepseek-r1:7b']:
     print(f'\n########## MODEL: {model} ##########')
     for i, t in enumerate(TESTS, 1):

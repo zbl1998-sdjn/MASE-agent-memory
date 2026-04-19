@@ -22,9 +22,9 @@ Cost note: ~80 min wall-clock, kimi+glm cloud calls only.
 Per user rule: deepseek = lowest priority; minimax/glm/kimi/qwen first.
 Current chain: kimi-k2.5 -> deepseek-chat (will be reordered if regression).
 """
+import json
 import os
 import sys
-import json
 import time
 
 sys.path.insert(0, r"E:\MASE-demo")
@@ -42,7 +42,7 @@ os.environ["MASE_LME_ROUTE_BY_QID"] = "0"  # iter4: routing OFF (matches winning
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r"E:\MASE-demo\data\longmemeval_official\longmemeval_s_500.json"
-data = json.load(open(PATH, "r", encoding="utf-8"))
+data = json.load(open(PATH, encoding="utf-8"))
 total_n = len(data)
 print(f"LME iter4 (FULL-500, no-routing ablation config) on {total_n} samples")
 

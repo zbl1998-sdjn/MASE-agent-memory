@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import pytest
-from mase_tools.legacy import _build_aggregation_notes
 
 from executor import ExecutorAgent
+from mase_tools.legacy import _build_aggregation_notes
 
 
 def _result(summary: str) -> dict[str, object]:

@@ -12,10 +12,9 @@ from event_bus import (
     load_event_bus_snapshot,
     query_event_bus,
 )
-from memory_reflection import build_fact_card
-
 from executor import ExecutorAgent
 from mase_tools import legacy as tools
+from memory_reflection import build_fact_card
 from notetaker_agent import NotetakerAgent
 
 

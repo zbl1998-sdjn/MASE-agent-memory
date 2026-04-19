@@ -1,5 +1,9 @@
 """Canary — re-run the two worst LV-Eval slices to validate length-aware fix."""
-import os, sys, json, time
+import json
+import os
+import sys
+import time
+
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ.setdefault('MASE_CONFIG_PATH', r'E:\MASE-demo\config.json')
 

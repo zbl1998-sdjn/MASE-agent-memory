@@ -5,6 +5,7 @@ MCP Server: 把 MASE 当作 Claude Desktop / Cursor / 任何 MCP 客户端的记
     python -m integrations.mcp_server.server
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 
@@ -18,7 +19,6 @@ except ImportError as e:  # pragma: no cover
     raise ImportError("需要安装 MCP SDK: pip install mcp") from e
 
 from mase import BenchmarkNotetaker, mase_ask  # noqa: E402
-
 
 mcp = FastMCP("mase-memory")
 _notetaker = BenchmarkNotetaker()

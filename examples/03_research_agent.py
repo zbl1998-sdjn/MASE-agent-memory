@@ -14,8 +14,9 @@ MASE 2.0 — Example 03: Research Agent (Cross-Document QA)
 支持: .txt, .md (PDF 需先 pip install pypdf 并解开下方注释)
 """
 from __future__ import annotations
-import sys
+
 import argparse
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent

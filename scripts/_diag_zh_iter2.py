@@ -1,5 +1,8 @@
 """Inspect ZH 16k iter2 failure: did model see the planted sentence?"""
-import json, sqlite3, os, glob
+import glob
+import json
+import os
+import sqlite3
 
 files = sorted(glob.glob(r'E:\MASE-demo\results\benchmark-lveval-standard-*.json'),
                key=os.path.getmtime, reverse=True)
@@ -58,6 +61,7 @@ if mem and os.path.isdir(mem):
 
 # Also dump the executor prompt actually sent (if structured_log captured it)
 import os
+
 log_dir = r'E:\MASE-demo\logs'
 print('\n--- recent logs ---')
 if os.path.isdir(log_dir):

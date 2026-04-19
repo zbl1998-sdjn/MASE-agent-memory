@@ -11,6 +11,7 @@ MASE 2.0 — Example 05: Multi-Session Memory
     python examples/05_multi_session_memory.py
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 
@@ -18,7 +19,6 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from mase import BenchmarkNotetaker, mase_ask  # noqa: E402
-
 
 SESSIONS = [
     ("2026-03-01", "我开始跑步训练, 目标半马."),

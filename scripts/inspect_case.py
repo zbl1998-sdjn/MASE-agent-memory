@@ -1,4 +1,6 @@
-import sqlite3, sys
+import sqlite3
+import sys
+
 db = sys.argv[1]
 needle = sys.argv[2] if len(sys.argv) > 2 else "贝多芬"
 c = sqlite3.connect(db)

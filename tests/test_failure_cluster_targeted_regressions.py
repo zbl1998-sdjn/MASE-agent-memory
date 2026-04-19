@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 
+from executor import ExecutorAgent
 from mase_tools.legacy import (
     _build_english_search_profile,
     _extract_english_money_difference,
@@ -12,8 +13,6 @@ from mase_tools.legacy import (
 )
 from orchestrator import _slot_contract_state
 from planner import build_planner_decision
-
-from executor import ExecutorAgent
 from planner_agent import PlannerAgent
 
 

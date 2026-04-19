@@ -1,5 +1,6 @@
 """Manual ollama call to test what qwen2.5:7b answers given current prompt + actual fact_sheet."""
-import json, urllib.request
+import json
+import urllib.request
 
 # Current iter4 prompt (rev'd to concise)
 SYS = open(r'E:\MASE-demo\config.dual_gpu.json', encoding='utf-8').read()

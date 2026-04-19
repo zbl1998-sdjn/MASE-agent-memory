@@ -14,7 +14,9 @@ Default model: qwen2.5:7b via ollama (see config.json).
 Override with:  set MASE_CONFIG_PATH=path\\to\\my_config.json
 """
 from __future__ import annotations
-import argparse, sys
+
+import argparse
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent

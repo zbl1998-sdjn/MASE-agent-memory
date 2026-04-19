@@ -3,6 +3,9 @@ from __future__ import annotations
 import importlib.util
 from pathlib import Path
 
+from benchmarks.runner import _chunk_context, _ingest_context_into_mase
+from executor import ExecutorAgent
+from mase_tools import legacy as tools
 from mase_tools.legacy import (
     _apply_scope_filters_to_lines,
     _collect_benchmark_count_candidate_lines,
@@ -17,10 +20,6 @@ from orchestrator import (
     calculate_dynamic_threshold,
 )
 from planner import PlannerDecision
-
-from benchmarks.runner import _chunk_context, _ingest_context_into_mase
-from executor import ExecutorAgent
-from mase_tools import legacy as tools
 
 
 class ExternalFallbackModelInterface:

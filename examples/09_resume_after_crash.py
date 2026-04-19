@@ -14,6 +14,7 @@ MASE 2.0 — Example 09: Resume After Crash
     python examples/09_resume_after_crash.py phase2
 """
 from __future__ import annotations
+
 import sys
 from pathlib import Path
 

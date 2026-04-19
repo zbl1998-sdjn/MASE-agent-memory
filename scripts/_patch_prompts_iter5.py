@@ -1,6 +1,6 @@
 """iter5: deploy meta-prompt that detects 'odd phrase = planted needle' pattern.
 Generic strategy, not benchmark-specific. Verified on adversarial test cases."""
-import json, sys, copy
+import json
 
 ZH_PROMPT = """你是 MASE 长上下文针式问答执行器。这是一个对抗性长上下文压力测试基准。
 
@@ -49,7 +49,7 @@ Do NOT inject answers from world knowledge — the answer must be a literal subs
 5. If no candidate in the fact sheet is relevant, output "Cannot answer"."""
 
 def patch(path):
-    c = json.load(open(path, 'r', encoding='utf-8'))
+    c = json.load(open(path, encoding='utf-8'))
     modes = c['models']['executor']['modes']
     modes['grounded_long_context']['system_prompt'] = ZH_PROMPT
     modes['grounded_long_context_english']['system_prompt'] = EN_PROMPT

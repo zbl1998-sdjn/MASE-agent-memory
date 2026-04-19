@@ -1,4 +1,6 @@
-import sys, os, io
+import os
+import sys
+
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
 os.environ["MASE_MEMORY_DIR"] = sys.argv[1]
@@ -25,7 +27,7 @@ out.append(f"source={trace.planner.source} text={trace.planner.text}")
 out.append("=== INSTRUCTION PACKAGE ===")
 out.append(str(trace.evidence_assessment.get("instruction_package", "")))
 text = "\n".join(out)
-with io.open("scripts/_last_repro.txt", "w", encoding="utf-8") as f:
+with open("scripts/_last_repro.txt", "w", encoding="utf-8") as f:
     f.write(text)
 print(text.encode("ascii", "replace").decode("ascii"))
 

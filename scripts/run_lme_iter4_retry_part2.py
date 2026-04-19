@@ -5,12 +5,12 @@ Tweaks vs run_lme_iter4_retry.py:
   - smaller slice (61 vs 103) → less likely to exhaust quota
   - waits until 19:25 (after GLM 5h cap reset at 19:23:38) before launching
 """
-import os
-import sys
-import json
-import time
 import datetime
+import json
+import os
 import subprocess
+import sys
+import time
 
 sys.path.insert(0, r"E:\MASE-demo")
 sys.path.insert(0, r"E:\MASE-demo\src")
@@ -38,7 +38,7 @@ os.environ["MASE_LME_RETRY"] = "1"
 from benchmarks.runner import BenchmarkRunner
 
 PATH = r"E:\MASE-demo\data\longmemeval_official\longmemeval_s_iter4_fails_redo.json"
-data = json.load(open(PATH, "r", encoding="utf-8"))
+data = json.load(open(PATH, encoding="utf-8"))
 print(f"[redo] running on {len(data)} samples (errored + unattempted from part1)")
 
 runner = BenchmarkRunner(baseline_profile="none")

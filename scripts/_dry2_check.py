@@ -1,7 +1,10 @@
-import sys, json, os
+import json
+import sys
+
 sys.path.insert(0, r'E:\MASE-demo')
 sys.path.insert(0, r'E:\MASE-demo\src')
 from benchmarks.runner import BenchmarkRunner
+
 runner = BenchmarkRunner(baseline_profile='none')
 summary = runner.run_benchmark('longmemeval_s', sample_limit=2,
     path=r'E:\MASE-demo\data\longmemeval_official\longmemeval_s_iter5_dry2.json')

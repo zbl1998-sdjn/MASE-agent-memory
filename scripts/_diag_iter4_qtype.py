@@ -1,5 +1,6 @@
 import json
 from collections import defaultdict
+
 data = json.load(open(r'results\benchmark-longmemeval_s-haystack-20260419-132326-097276.rescored.json', encoding='utf-8'))
 res = data['results']
 buckets = defaultdict(lambda: {'n': 0, 'sub': 0, 'judge': 0})
