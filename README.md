@@ -4,6 +4,11 @@
 **Schema-less SQLite + per-day Markdown — dual-whitebox memory for LLM agents.**
 **Survives 256k adversarial context at 88% with a 7B local model.**
 
+> 🚫 **拒绝向量黑盒，告别记忆幻觉。** 仅 **2.72 MB** 的极简内核，用最古老稳健的 SQLite 与 Markdown，
+> 为 LLM 打造 **100% 透明、可 `UPDATE`、防弹的"双白盒永久记忆"**。
+> 无需重建索引，重启瞬间找回 30 个 session 前的对白。
+> **真实世界的 AI 记忆引擎。**
+
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
 ![Tests](https://img.shields.io/badge/tests-69%2F69%20passing-brightgreen)
@@ -47,6 +52,14 @@
 > MASE 不在乎. 下一句对话, 30 个 session 前的记忆原样回来. **无需重建索引, 无需向量化, 无需热身.**
 >
 > *Built for the real world where users forget to disable auto-reboot. Memory persists. Conversations resume. Zero re-indexing.*
+
+### 🪶 极简内核 (Zero-Bloat Architecture)
+
+> 告别动辄几百 MB、依赖错综复杂的"屎山框架"。MASE 2.0 跟踪源码体积 **2.72 MB / 266 个文件**——
+> 不打包向量库，不带重型 ORM，全靠 Python 内置的 SQLite FTS5 + 原生数据结构。
+> 用最少的代码表面积，跑通 **256k 极限上下文调度** 与 **8 线程并发防弹** (`tests/test_audit_round2_fixes.py::test_tri_vault_concurrent_writes_no_collision`).
+>
+> **Small, but brutally effective.**
 
 ### 🪟 双白盒记忆 (Dual-Whitebox Memory)
 
@@ -327,3 +340,21 @@ E:\MASE-demo\
 ### License
 
 [Apache-2.0](LICENSE) © 2026 zbl1998-sdjn
+
+---
+
+## 💡 写在最后 (A Note from the Developer)
+
+坦白讲，我只是一个**接触大模型仅 3 个月的新手**。
+
+在探索 AI 的过程中我深刻地意识到：当人们面对一个深不可测、强大到宛如黑盒的 AI 个体时，**内心的恐惧往往要大于惊喜**。我们害怕它悄悄篡改记忆，害怕它产生无法理解的幻觉，害怕失去控制权。
+
+这正是 MASE 2.0 放弃拥抱庞大黑盒、选择"双白盒"的初衷。在这个系统里：
+
+> **没有无所不能的"个人英雄主义"，只有各司其职的"齐心协力"。**
+
+我们不要求一个单一的巨型模型面面俱到，而是让 2.72 MB 的轻量级核心串联起 **Router / Notetaker / Planner / Action / Executor** 五个节点，让每个小模型各有所长，交织运作。正因为 MASE 保持了极简架构，它反而为未来的生态扩展（多智能体协同、MCP 接入、插件化）预留了无限可能。
+
+**开源的魅力就在于不需要一个人做到完美。** 如果你也认同这种透明、极简、协作的理念，欢迎加入 MASE。我们一起，各有所长，搭好这个稳固的地基。
+
+— *zbl1998-sdjn, 2026 春*
