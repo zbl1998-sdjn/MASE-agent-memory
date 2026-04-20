@@ -129,3 +129,19 @@ MASE welcomes contributions. If you'd like to help, please consider:
   note = {Lifts qwen2.5:7b from 1.79\% to 60.71\% on NoLiMa-32k; 84.8\% on LongMemEval-S}
 }
 ```
+
+## 💡 A Note from the Developer
+
+Honestly — I'm just a newcomer who picked up large-language-model knowledge **only 3 months ago**.
+
+Along the way I came to a conviction: when people stand in front of an unfathomably powerful **black-box AI**, the **fear they feel often outweighs the wonder**. We're afraid it will quietly rewrite our memories, afraid it will hallucinate in ways we can't trace, and afraid we'll lose control.
+
+That's exactly why MASE walked away from the giant black box and chose **dual-whitebox**. In this system:
+
+> **No "lone-hero" omnipotence — only "many hands, each doing what they do best".**
+
+We don't ask one giant model to do everything. Instead, a 2.72 MB lightweight kernel strings together **Router / Notetaker / Planner / Action / Executor**, letting each small model play to its strengths. Precisely because MASE keeps the architecture this simple, it leaves room for what comes next: multi-agent collaboration, MCP integrations, and a plug-in ecosystem.
+
+**The beauty of open source is that no single person has to be perfect.** If you share the values of transparency, minimalism, and collaboration, welcome to MASE.
+
+— *zbl1998-sdjn, Spring 2026*
