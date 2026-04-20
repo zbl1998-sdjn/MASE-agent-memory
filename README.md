@@ -56,7 +56,7 @@ MASE 的主叙事是记忆系统，不是 runtime 功能列表。
 |---|---|---|---|---|
 | LV-Eval EN 256k | qwen2.5:7b local | **88.71%** | **4.84%** | **+84pp** |
 | NoLiMa ONLYDirect 32k | qwen2.5:7b local, MASE chunked | **60.71%** | **1.79%** | **+58.9pp** |
-| LongMemEval-S 500 | GLM-5 + kimi-k2.5 + LLM-judge | **84.8%** | **70.4%** | **+14.4pp** |
+| LongMemEval-S 500 | GLM-5 + kimi-k2.5 二号意见 + LLM-judge | **84.8%** (424/500) | **70.4%** | **+14.4pp** |
 
 这三组数字分别证明：
 
