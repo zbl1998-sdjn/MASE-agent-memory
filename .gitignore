@@ -80,3 +80,4 @@ secrets.*
 *api-key*
 .env.local
 .env.*.local
+.worktrees/
