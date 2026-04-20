@@ -1,13 +1,12 @@
 <div align="center">
 
-# MASE (Memory-Augmented Smart Entity)
-**Schema-less SQLite + per-day Markdown — dual-whitebox memory for LLM agents.**
-**Survives 256k adversarial context at 88% with a 7B local model.**
+# MASE
+**A dual-whitebox memory engine for LLM agents.**
+**88.71% on LV-Eval 256k with a local 7B model.**
 
-> 🚫 **拒绝向量黑盒，告别记忆幻觉。** 仅 **2.72 MB** 的极简内核，用最古老稳健的 SQLite 与 Markdown，
-> 为 LLM 打造 **100% 透明、可 `UPDATE`、防弹的"双白盒永久记忆"**。
-> 无需重建索引，重启瞬间找回 30 个 session 前的对白。
-> **真实世界的 AI 记忆引擎。**
+> 🚫 **拒绝向量黑盒。把 Agent 记忆重新变成可读、可改、可验证的工程系统。**
+> SQLite 负责结构化事实，Markdown / tri-vault 负责人类可读审计。
+> **先治理记忆，再喂模型上下文。**
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
@@ -22,31 +21,49 @@
 
 </div>
 
-> ### 💡 The Anti-RAG Manifesto
->
-> **最好的 AI 记忆，不应该是黑盒里的向量浮点数，而是随时可被 `SELECT / UPDATE` 的结构化事实。**
->
-> *The best AI memory isn't a black-box of floating-point vectors — it's structured facts you can `UPDATE` at 3 AM.*
->
-> *— MASE, [read the full manifesto ↓](#️-为什么要重构-mase-20the-anti-rag-manifesto)*
+## What MASE Is
 
----
+MASE 是一个**双白盒 Agent 记忆引擎**。
 
-## 📖 目录 (Table of Contents)
+它不把记忆默认建在向量数据库之上，而是把 Agent 记忆拆成两类更可控的对象：
 
-- [✨ Highlights](#-highlights) — 双白盒记忆 / 硬指标 / chunked vs baseline
-- [🛡️ Battle-Tested 工业级并发安全](#️-battle-tested-工业级并发安全-round-2-audit-cleared)
-- [🔌 生态集成](#-生态集成-integrations) (LangChain · LlamaIndex · MCP · OpenAI 兼容)
-- [⚙️ 关键 env-gate](#️-关键-env-gate)
-- [⚠️ The Anti-RAG Manifesto](#️-为什么要重构-mase-20the-anti-rag-manifesto)
-- [🛠️ 核心架构与杀手级特性](#️-核心架构与杀手级特性)
-- [🚀 快速开始 (3 分钟)](#-快速开始-quick-start)
-- [📂 目录结构](#-目录结构说明)
-- [🤝 贡献 / Citation / Star History](#-贡献--star-history)
+- **Event Log**：保留原始对话与检索入口
+- **Entity Fact Sheet**：保存最新、可覆盖的结构化事实
 
----
+这意味着 MASE 关注的首先不是“如何把更多上下文塞回模型”，而是：
+**如何把冲突事实治理干净，再把最小必要事实交给模型。**
 
-## ✨ Highlights
+## Why Not Black-Box Memory
+
+MASE 反对把 Agent 记忆默认做成黑盒向量召回，原因很简单：
+
+1. **事实会更新，不是只会堆积。**
+2. **记忆如果不可检查，就不可调试。**
+3. **长上下文问题首先是上下文治理问题，而不只是窗口大小问题。**
+
+## How MASE Works
+
+MASE 的主叙事是记忆系统，不是 runtime 功能列表。
+
+- **L1: SQLite + FTS5**：负责事件流水账与结构化事实检索
+- **L2: Markdown / tri-vault**：负责人类可读、可迁移、可审计的记忆外化
+- **Entity Fact Sheet**：新事实覆盖旧事实，避免冲突事实并存
+- **Runtime Flow**：Router → Notetaker → Planner → Action → Executor，用来实现这套记忆引擎
+
+## Evidence
+
+| Benchmark | Model | MASE | Naked baseline | Δ |
+|---|---|---|---|---|
+| LV-Eval EN 256k | qwen2.5:7b local | **88.71%** | **4.84%** | **+84pp** |
+| NoLiMa ONLYDirect 32k | qwen2.5:7b local, MASE chunked | **60.71%** | **1.79%** | **+58.9pp** |
+| LongMemEval-S 500 | GLM-5 + kimi-k2.5 + LLM-judge | **84.8%** | **70.4%** | **+14.4pp** |
+
+这三组数字分别证明：
+
+- MASE 不只是“能记”，还能在长上下文里稳定提纯事实
+- 架构本身，而不是模型参数量，决定了长上下文是否可用
+- 它不是实验室概念稿，而是已经被 benchmark 和审计反复打磨过的工程项目
+
 
 > **为真实世界设计** — 用户忘了关 Windows 自动更新, 凌晨 1:49 被强制重启?
 > MASE 不在乎. 下一句对话, 30 个 session 前的记忆原样回来. **无需重建索引, 无需向量化, 无需热身.**
