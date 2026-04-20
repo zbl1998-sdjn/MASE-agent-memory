@@ -30,6 +30,8 @@ It splits agent memory into two controlled surfaces:
 - **Event Log** for retrieval and raw conversation history
 - **Entity Fact Sheet** for the latest structured facts that can overwrite stale state
 
+This means MASE is not primarily trying to stuff more context back into the model. It is trying to clean up conflicting facts first, then pass only the minimum necessary facts into the model.
+
 ## Why Not Black-Box Memory
 
 MASE rejects black-box vector memory as the default answer because:
@@ -39,6 +41,8 @@ MASE rejects black-box vector memory as the default answer because:
 3. Long-context performance is first a context-governance problem, not just a window-size problem.
 
 ## How MASE Works
+
+MASE's primary narrative is the memory system, not a runtime feature list.
 
 - **SQLite + FTS5** for raw event-log recall and structured fact storage
 - **Markdown / tri-vault** for human-readable auditability and portability
@@ -67,6 +71,8 @@ python -m pytest tests/ -q
 python mase_cli.py
 ```
 
+If you are just getting started, begin with `python mase_cli.py`.
+
 For deeper reproduction commands, see [BENCHMARKS.md](../BENCHMARKS.md).
 For the full demo list, see [examples/README.md](../examples/README.md).
 
@@ -86,6 +92,8 @@ agent_executor.invoke({"input": "What was my budget again?"}, config={"memory": 
 
 
 ## Limitations
+
+MASE is currently strongest at fact updates, cross-session memory, consistency control, and whitebox debuggability.
 
 - strong at fact updates, cross-session memory, consistency control, inspectable debugging
 - weaker for synonym/paraphrase-heavy semantic generalization
@@ -111,4 +119,12 @@ MASE welcomes contributions. If you'd like to help, please consider:
 
 ### Citation
 
-https://github.com/zbl1998-sdjn/MASE
+```bibtex
+@software{mase2026,
+  author = {zbl1998-sdjn},
+  title = {{MASE}: Memory-Augmented Smart Entity — Schema-less SQLite memory for LLM agents},
+  year = {2026},
+  url = {https://github.com/zbl1998-sdjn/MASE},
+  note = {Lifts qwen2.5:7b from 1.79\% to 60.71\% on NoLiMa-32k; 84.8\% on LongMemEval-S}
+}
+```
