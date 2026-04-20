@@ -53,6 +53,10 @@ MASE rejects black-box vector memory as the default answer because:
 | NoLiMa ONLYDirect 32k | qwen2.5:7b local, MASE chunked | **60.71%** | **1.79%** | **+58.9pp** |
 | LongMemEval-S 500 | GLM-5 + kimi-k2.5 + LLM-judge | **84.8%** | **70.4%** | **+14.4pp** |
 
+- MASE is not just able to remember; it can distill facts reliably under long context.
+- Architecture, not parameter count, determines whether long context remains usable.
+- This is not a concept demo; it is an engineering project shaped by benchmarks and audits.
+
 ## Quick Start
 
 ```bash
@@ -73,10 +77,21 @@ For the full demo list, see [examples/README.md](../examples/README.md).
 - MCP server
 - OpenAI-compatible endpoint
 
+```python
+from integrations.langchain.mase_memory import MASEMemory
+
+memory = MASEMemory(thread_id="zbl1998::main", top_k=8)
+agent_executor.invoke({"input": "What was my budget again?"}, config={"memory": memory})
+```
+
+
 ## Limitations
 
-MASE is strongest at fact updates, cross-session memory, and inspectable memory control.
-It is not yet the final answer for broad semantic retrieval or high-concurrency server runtime.
+- strong at fact updates, cross-session memory, consistency control, inspectable debugging
+- weaker for synonym/paraphrase-heavy semantic generalization
+- weaker for large-scale document-level semantic recall
+- current main path still favors CLI / benchmark / single-process over high-concurrency server runtime
+
 
 ## Roadmap
 
@@ -86,3 +101,14 @@ It is not yet the final answer for broad semantic retrieval or high-concurrency 
 - More integrations
 
 ## Contributing
+
+MASE welcomes contributions. If you'd like to help, please consider:
+
+- Adding new model backends
+- Re-running benchmarks and submitting reproducible results
+- Building integrations (LangChain, LlamaIndex, MCP, etc.)
+- Reporting real-world long-memory failure cases with reproducible traces
+
+### Citation
+
+https://github.com/zbl1998-sdjn/MASE
