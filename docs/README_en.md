@@ -27,8 +27,6 @@ MASE is a **dual-whitebox memory engine for LLM agents**.
 
 It splits agent memory into two controlled surfaces:
 
-It does not default memory to a vector database. Instead, it breaks agent memory into more controllable objects.
-
 - **Event Log** for retrieval and raw conversation history
 - **Entity Fact Sheet** for the latest structured facts that can overwrite stale state
 
