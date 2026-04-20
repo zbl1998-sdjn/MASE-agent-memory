@@ -57,7 +57,7 @@ MASE's primary narrative is the memory system, not a runtime feature list.
 |---|---|---|---|---|
 | LV-Eval EN 256k | qwen2.5:7b local | **88.71%** | **4.84%** | **+84pp** |
 | NoLiMa ONLYDirect 32k | qwen2.5:7b local, MASE chunked | **60.71%** | **1.79%** | **+58.9pp** |
-| LongMemEval-S 500 | GLM-5 + kimi-k2.5 + LLM-judge | **84.8%** | **70.4%** | **+14.4pp** |
+| LongMemEval-S 500 | GLM-5 + kimi-k2.5 second-opinion + LLM-judge | **84.8%** (424/500) | **70.4%** | **+14.4pp** |
 
 - MASE is not just able to remember; it can distill facts reliably under long context.
 - Architecture, not parameter count, determines whether long context remains usable.
