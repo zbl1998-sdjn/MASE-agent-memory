@@ -172,11 +172,11 @@ def test_run_benchmark_config_profile_captured_before_samples_run(monkeypatch, t
         return []
 
     def controlled_resolve():
-        # Before samples run: env points to matching config
-        # After samples run: env has been mutated (e.g. by MASESystem.__init__) to different path
+        # Before samples run: env points to a repo-root config that matches the profile
+        # After samples run: env has been mutated to a different path (simulates MASESystem.__init__)
         if state["samples_loaded"]:
-            return (tmp_path / "config.other.json").resolve()
-        return (tmp_path / "config.json").resolve()
+            return (runner_module.BASE_DIR / "config.other.json").resolve()
+        return (runner_module.BASE_DIR / "config.json").resolve()
 
     monkeypatch.setattr(runner_module, "load_benchmark_samples", fake_load_samples)
     br = runner_module.BenchmarkRunner(baseline_profile="disabled")

@@ -65,9 +65,17 @@ def _load_config_profiles() -> dict[str, Any]:
 
 
 def _resolve_config_profile_name(config_path: Path, profiles: dict[str, Any]) -> str | None:
-    normalized = config_path.name
+    # Only configs residing directly under the repo root can match a registry entry.
+    # An external file (e.g. C:\temp\config.json) must never be tagged as a known profile
+    # just because its filename coincidentally matches a registry entry.
+    try:
+        resolved = config_path.resolve()
+        if resolved.parent != BASE_DIR:
+            return None
+    except Exception:
+        return None
     for name, data in profiles.items():
-        if str(data.get("path")) == normalized:
+        if str(data.get("path")) == resolved.name:
             return name
     return None
 BASELINE_SYSTEM_PROMPT = "你是一个直接回答用户问题的单体大模型。请尽量只输出最终答案，不要输出冗长思维链。"
