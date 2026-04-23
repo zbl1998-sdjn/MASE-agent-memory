@@ -10,7 +10,7 @@ try:
 except ImportError:
     from _bootstrap import PROJECT_ROOT
 from mase import MASESystem
-from model_interface import load_config, resolve_config_path
+from mase.model_interface import load_config, resolve_config_path
 
 BASE_DIR = PROJECT_ROOT
 WORKSPACE_DIR = BASE_DIR / "memory_runs" / "api-hotswap-longmem-smoke"

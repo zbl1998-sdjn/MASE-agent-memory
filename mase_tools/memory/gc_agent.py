@@ -10,8 +10,8 @@ project_root = Path(__file__).resolve().parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
+from mase.model_interface import ModelInterface
 from mase_tools.memory.db_core import PROFILE_TEMPLATES, get_connection, upsert_entity_fact
-from model_interface import ModelInterface
 
 GC_SYSTEM_PROMPT = """You are an asynchronous Memory Garbage Collector (GC) agent.
 Your task is to analyze recent conversational memory logs and extract structured facts, project updates, and user preferences.
@@ -54,13 +54,13 @@ def run_gc(limit: int = 20):
     prompt = f"Recent memory logs:\n{log_text}\n\nPlease extract facts and output the JSON list."
 
     model_interface = ModelInterface()
-    
+
     # Format categories for prompt
     categories = ", ".join([f'"{c}"' for c in PROFILE_TEMPLATES])
     system_prompt = GC_SYSTEM_PROMPT.format(categories=categories)
-    
+
     messages = [{"role": "user", "content": prompt}]
-    
+
     print(f"Running GC on last {len(logs)} logs...")
     try:
         response = model_interface.chat(
@@ -72,9 +72,9 @@ def run_gc(limit: int = 20):
     except Exception as e:
         print(f"Error calling LLM: {e}")
         return
-        
+
     response_content = response.get("message", {}).get("content", "").strip()
-    
+
     # Parse JSON
     try:
         # Regex to find JSON block if wrapped in markdown
@@ -83,9 +83,9 @@ def run_gc(limit: int = 20):
             json_str = match.group(0)
         else:
             json_str = response_content
-            
+
         facts = json.loads(json_str)
-        
+
         if not isinstance(facts, list):
             print("LLM output is not a list. Skipping.")
             return
@@ -94,15 +94,15 @@ def run_gc(limit: int = 20):
             category = fact.get("category", "general_facts")
             key = fact.get("key")
             value = fact.get("value")
-            
+
             if not key or not value:
                 continue
-                
+
             upsert_entity_fact(category, key, str(value))
             print(f"Upserted: [{category}] {key} -> {value}")
-            
+
         print(f"Successfully processed {len(facts)} facts.")
-            
+
     except json.JSONDecodeError as e:
         print(f"Failed to parse JSON from LLM: {e}")
         print(f"Raw response:\n{response_content}")

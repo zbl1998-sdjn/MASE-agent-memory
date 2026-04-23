@@ -42,8 +42,8 @@ except Exception:
         return result
 
 from mase import MASESystem
-from model_interface import load_config, resolve_config_path
-from topic_threads import derive_thread_context, detect_text_language
+from mase.model_interface import load_config, resolve_config_path
+from mase.topic_threads import derive_thread_context, detect_text_language
 
 from .baseline import baseline_ask_with_metrics
 from .official_source_gap_audit import audit_official_source_gap

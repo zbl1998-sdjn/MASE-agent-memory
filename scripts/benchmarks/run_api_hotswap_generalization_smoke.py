@@ -46,7 +46,7 @@ except ImportError:
     )
     from run_nolima_mase_smoke import _run_suite
 
-from model_interface import load_config, resolve_config_path
+from mase.model_interface import load_config, resolve_config_path
 
 BASE_DIR = PROJECT_ROOT
 WORKSPACE_DIR = BASE_DIR / "memory_runs" / "api-hotswap-generalization-smoke"

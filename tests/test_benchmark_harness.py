@@ -189,3 +189,9 @@ def test_run_benchmark_config_profile_captured_before_samples_run(monkeypatch, t
     # With fix: resolve_config_path() captured BEFORE load_benchmark_samples
     #   → returns config.json → matches "my-profile"
     assert summary["config_profile"] == "my-profile"
+
+
+def test_runner_prefers_mase_module_imports() -> None:
+    source = (Path(__file__).resolve().parents[1] / "benchmarks" / "runner.py").read_text(encoding="utf-8")
+    assert "from mase.model_interface import" in source
+    assert "from mase.topic_threads import" in source
