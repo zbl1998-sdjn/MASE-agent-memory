@@ -1,0 +1,31 @@
+{
+  "benchmark": "LongMemEval-S",
+  "claims": {
+    "headline_full_500_llm_judge": {
+      "score_pct": 84.8,
+      "pass_count": 424,
+      "sample_count": 500,
+      "metric": "llm_judge",
+      "config_profile": "published-cloud-longmemeval",
+      "evidence": [
+        {
+          "path": "scripts/_lme_iter4_combined_summary.json",
+          "status": "local_generated_untracked"
+        }
+      ]
+    },
+    "official_comparable_full_500_substring": {
+      "score_pct": 61.0,
+      "pass_count": 305,
+      "sample_count": 500,
+      "metric": "substring",
+      "config_profile": "published-cloud-longmemeval",
+      "evidence": [
+        {
+          "path": "scripts/_lme_iter2_summary.json",
+          "status": "local_generated_untracked"
+        }
+      ]
+    }
+  }
+}

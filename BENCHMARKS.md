@@ -90,6 +90,8 @@ contribution of the architecture itself.
 > - **LLM judge** — same prompt as the official LongMemEval evaluator, run
 >   through MASE's own kimi-k2.5 → deepseek → glm-4.6 fallback chain.
 >   *Conservative*: only flips substring-FAIL → PASS, never the other way.
+>
+> Published claim manifests tracked under `docs/benchmark_claims/`.
 
 | Configuration | n | Substring % | **LLM-judge %** | Δ pp |
 |---|---|---|---|---|
@@ -98,6 +100,11 @@ contribution of the architecture itself.
 | **best stable run** (multipass + length-aware) | 500 | 75.4 | **77.2** | +1.8 |
 | **iter2 (multipass + kimi-k2.5 verifier)** | 500 | 61.0 | **🏆 80.2** | **+19.2** |
 | iter3 dev_250 (type-aware verifier, partial 54) | 54 | 64.8 | **83.3** | +18.5 |
+| **iter4 combined (multipass + type-aware, full_500)** | 500 | — | **🏆 84.8** | — |
+
+> **Headline lanes** (tracked in `docs/benchmark_claims/longmemeval.json`):
+> - 84.8% (424/500) — LLM-judge, full_500 combined lane
+> - 61.0% (305/500) — official substring-comparable lane
 
 **Why iter2's substring score collapsed to 61%**: the kimi-k2.5 verifier
 rewrites the executor's draft into its own phrasing (often correctly adding

@@ -1,0 +1,18 @@
+{
+  "benchmark": "LV-Eval EN",
+  "claims": {
+    "published_local_256k": {
+      "score_pct": 88.71,
+      "pass_count": 110,
+      "sample_count": 124,
+      "metric": "substring",
+      "config_profile": "published-local-default",
+      "evidence": [
+        {
+          "path": "BENCHMARKS.md",
+          "status": "tracked"
+        }
+      ]
+    }
+  }
+}
