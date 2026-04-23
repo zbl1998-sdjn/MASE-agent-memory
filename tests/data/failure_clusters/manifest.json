@@ -1,0 +1,5 @@
+{
+  "benchmarks": ["longmemeval", "lveval", "nolima"],
+  "owner": "phase1-optimization",
+  "purpose": "golden_failure_cluster_pack"
+}

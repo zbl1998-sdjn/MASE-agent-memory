@@ -1,0 +1,9 @@
+{
+  "cases": [
+    {
+      "id": "nolima-direct-001",
+      "failure_mode": "long_context_direct_answer_drop",
+      "guardrail": "official_max_suite_tracking"
+    }
+  ]
+}

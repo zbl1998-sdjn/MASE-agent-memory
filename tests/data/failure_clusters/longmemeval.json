@@ -1,0 +1,9 @@
+{
+  "cases": [
+    {
+      "id": "lme-multi-session-money-001",
+      "failure_mode": "multi_session_aggregation",
+      "guardrail": "counting_and_cross_session_total"
+    }
+  ]
+}

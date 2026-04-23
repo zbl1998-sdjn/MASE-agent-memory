@@ -1,7 +1,16 @@
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
+
+FAILURE_PACK = Path(__file__).resolve().parent / "data" / "failure_clusters" / "longmemeval.json"
+
+
+def test_longmemeval_failure_pack_is_seeded() -> None:
+    payload = json.loads(FAILURE_PACK.read_text(encoding="utf-8"))
+    assert payload["cases"]
+    assert payload["cases"][0]["failure_mode"] == "multi_session_aggregation"
 
 from benchmarks.runner import BenchmarkRunner
 from benchmarks.schemas import BenchmarkSample
