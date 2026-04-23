@@ -24,6 +24,17 @@ build/
 .DS_Store
 Thumbs.db
 
+# Local scratch / coverage artifacts
+/.coverage
+/.coverage.*
+/_t.py
+/_ti.py
+/*.err
+*.bak
+*.bak-*
+*.orig
+*.rej
+
 # MASE runtime artifacts (anchored to project root so we don't accidentally
 # exclude `mase_tools/memory/` source code).
 /memory/
