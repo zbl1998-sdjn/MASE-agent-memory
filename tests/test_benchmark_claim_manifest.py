@@ -7,22 +7,72 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CLAIMS_DIR = ROOT / "docs" / "benchmark_claims"
 
+VALID_EVIDENCE_STATUSES = {"tracked", "local_generated_untracked"}
+REQUIRED_CLAIM_FIELDS = {"score_pct", "pass_count", "sample_count", "metric", "config_profile", "evidence"}
+REQUIRED_EVIDENCE_FIELDS = {"path", "status"}
 
-def _load(name: str) -> dict:
-    return json.loads((CLAIMS_DIR / name).read_text(encoding="utf-8"))
+
+def _load(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _read_text(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
 
+def _discover_manifests() -> list[Path]:
+    manifests = sorted(CLAIMS_DIR.glob("*.json"))
+    assert manifests, f"No JSON manifests found under {CLAIMS_DIR}"
+    return manifests
+
+
 def test_claim_manifests_exist_and_have_core_fields() -> None:
-    for filename in ("longmemeval.json", "lveval.json", "nolima.json"):
-        payload = _load(filename)
-        assert "benchmark" in payload
-        assert "claims" in payload
-        assert isinstance(payload["claims"], dict)
-        assert payload["claims"], f"{filename} must define at least one claim lane"
+    for manifest_path in _discover_manifests():
+        payload = _load(manifest_path)
+        name = manifest_path.name
+        assert "benchmark" in payload, f"{name}: missing 'benchmark'"
+        assert "claims" in payload, f"{name}: missing 'claims'"
+        assert isinstance(payload["claims"], dict), f"{name}: 'claims' must be a dict"
+        assert payload["claims"], f"{name} must define at least one claim lane"
+
+
+def test_claim_manifests_per_claim_required_fields() -> None:
+    for manifest_path in _discover_manifests():
+        payload = _load(manifest_path)
+        name = manifest_path.name
+        for lane, claim in payload["claims"].items():
+            for field in REQUIRED_CLAIM_FIELDS:
+                assert field in claim, (
+                    f"{name} / lane '{lane}': missing required field '{field}'"
+                )
+
+
+def test_claim_manifests_evidence_items_have_required_fields() -> None:
+    for manifest_path in _discover_manifests():
+        payload = _load(manifest_path)
+        name = manifest_path.name
+        for lane, claim in payload["claims"].items():
+            assert isinstance(claim.get("evidence"), list), (
+                f"{name} / lane '{lane}': 'evidence' must be a list"
+            )
+            for idx, item in enumerate(claim["evidence"]):
+                for field in REQUIRED_EVIDENCE_FIELDS:
+                    assert field in item, (
+                        f"{name} / lane '{lane}' / evidence[{idx}]: missing '{field}'"
+                    )
+
+
+def test_claim_manifests_evidence_status_values() -> None:
+    for manifest_path in _discover_manifests():
+        payload = _load(manifest_path)
+        name = manifest_path.name
+        for lane, claim in payload["claims"].items():
+            for idx, item in enumerate(claim.get("evidence", [])):
+                status = item.get("status")
+                assert status in VALID_EVIDENCE_STATUSES, (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: "
+                    f"'status' must be one of {sorted(VALID_EVIDENCE_STATUSES)!r}, got {status!r}"
+                )
 
 
 def test_public_docs_reference_tracked_claim_language() -> None:
