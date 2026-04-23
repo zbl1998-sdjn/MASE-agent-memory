@@ -810,6 +810,10 @@ class BenchmarkRunner:
     ) -> dict[str, Any]:
         run_id = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+        # Capture the config path once at run start so the profile recorded in the
+        # summary reflects what the benchmark system actually used, not a later
+        # re-resolution that may see a mutated MASE_CONFIG_PATH env var.
+        run_config_path = resolve_config_path()
         samples = load_benchmark_samples(
             benchmark_name,
             sample_limit=sample_limit,
@@ -874,7 +878,7 @@ class BenchmarkRunner:
         }
         summary["results_path"] = str(results_path)
         profiles = _load_config_profiles()
-        resolved_profile = _resolve_config_profile_name(resolve_config_path(), profiles)
+        resolved_profile = _resolve_config_profile_name(run_config_path, profiles)
         summary["config_profile"] = resolved_profile
         results_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
         print(
