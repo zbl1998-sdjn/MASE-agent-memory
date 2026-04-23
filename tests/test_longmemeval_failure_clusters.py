@@ -12,48 +12,7 @@ def test_longmemeval_failure_pack_is_seeded() -> None:
     assert payload["cases"]
     assert payload["cases"][0]["failure_mode"] == "multi_session_aggregation"
 
-from benchmarks.runner import BenchmarkRunner
-from benchmarks.schemas import BenchmarkSample
-from event_bus import build_event_bus_snapshot, build_events_from_fact_card, query_event_bus
-from executor import ExecutorAgent
-from mase import get_system
-from mase_tools.legacy import (
-    _build_duration_ledger_rows,
-    _build_english_search_profile,
-    _build_money_ledger_rows,
-    _duration_line_matches_question_focus,
-    _expand_temporal_candidate_search_queries,
-    _extract_between_event_days_from_results,
-    _extract_current_count_reasoning_from_results,
-    _extract_duration_by_event,
-    _extract_elapsed_time_reasoning_from_results,
-    _extract_english_countable_items,
-    _extract_english_quantity_difference,
-    _extract_event_order_reasoning,
-    _extract_event_order_reasoning_from_results,
-    _extract_multi_item_duration_total_reasoning_from_results,
-    _extract_relevant_snippets,
-    _extract_scalar_reasoning_notes,
-    _extract_state_transition_count_reasoning,
-    _extract_temporal_candidate_phrases,
-    _match_event_candidate_line,
-    _split_sentences,
-    assess_evidence_chain,
-    assess_question_contracts,
-    extract_question_scope_filters,
-    format_fact_sheet,
-    plan_temporal_date_hints,
-)
-from memory_reflection import build_fact_card, resolve_coreferences_text
-from orchestrator import _merge_scope_filters
-from orchestrator import _slot_contract_state as orchestrator_slot_contract_state
-from planner import _extract_temporal_candidate_phrases as planner_extract_temporal_candidate_phrases
-from planner import build_planner_decision
-from router import RouterAgent, _extract_keywords_from_question, _should_force_search_memory, filter_keywords
 
-
-def build_executor() -> ExecutorAgent:
-    return ExecutorAgent(model_interface=None)  # type: ignore[arg-type]
 
 
 class StubExecutorModelInterface:
@@ -75,6 +34,48 @@ class StubRouterModel:
 
 
 def main() -> None:
+    from benchmarks.runner import BenchmarkRunner
+    from benchmarks.schemas import BenchmarkSample
+    from event_bus import build_event_bus_snapshot, build_events_from_fact_card, query_event_bus
+    from executor import ExecutorAgent
+    from mase import get_system
+    from mase_tools.legacy import (
+        _build_duration_ledger_rows,
+        _build_english_search_profile,
+        _build_money_ledger_rows,
+        _duration_line_matches_question_focus,
+        _expand_temporal_candidate_search_queries,
+        _extract_between_event_days_from_results,
+        _extract_current_count_reasoning_from_results,
+        _extract_duration_by_event,
+        _extract_elapsed_time_reasoning_from_results,
+        _extract_english_countable_items,
+        _extract_english_quantity_difference,
+        _extract_event_order_reasoning,
+        _extract_event_order_reasoning_from_results,
+        _extract_multi_item_duration_total_reasoning_from_results,
+        _extract_relevant_snippets,
+        _extract_scalar_reasoning_notes,
+        _extract_state_transition_count_reasoning,
+        _extract_temporal_candidate_phrases,
+        _match_event_candidate_line,
+        _split_sentences,
+        assess_evidence_chain,
+        assess_question_contracts,
+        extract_question_scope_filters,
+        format_fact_sheet,
+        plan_temporal_date_hints,
+    )
+    from memory_reflection import build_fact_card, resolve_coreferences_text
+    from orchestrator import _merge_scope_filters
+    from orchestrator import _slot_contract_state as orchestrator_slot_contract_state
+    from planner import _extract_temporal_candidate_phrases as planner_extract_temporal_candidate_phrases
+    from planner import build_planner_decision
+    from router import RouterAgent, _extract_keywords_from_question, _should_force_search_memory, filter_keywords
+
+    def build_executor() -> ExecutorAgent:
+        return ExecutorAgent(model_interface=None)  # type: ignore[arg-type]
+
     executor = build_executor()
     deterministic_executor = ExecutorAgent(model_interface=StubExecutorModelInterface())  # type: ignore[arg-type]
 
