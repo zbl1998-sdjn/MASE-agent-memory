@@ -15,3 +15,4 @@
 
 - experimental benchmark scripts
 - unpublished config profiles
+- local generated benchmark artifacts

@@ -20,3 +20,11 @@ def test_architecture_boundary_doc_is_linked_and_named() -> None:
     assert "Experimental Surface" in boundary_doc
     assert "ARCHITECTURE_BOUNDARIES.md" in readme
     assert "ARCHITECTURE_BOUNDARIES.md" in legacy
+
+
+def test_experimental_surface_lists_all_required_bullets() -> None:
+    boundary_doc = _read("docs/ARCHITECTURE_BOUNDARIES.md")
+
+    assert "experimental benchmark scripts" in boundary_doc
+    assert "unpublished config profiles" in boundary_doc
+    assert "local generated benchmark artifacts" in boundary_doc
