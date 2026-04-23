@@ -11,6 +11,7 @@ try:
     from ._bootstrap import PROJECT_ROOT
 except ImportError:
     from _bootstrap import PROJECT_ROOT
+from mase.model_interface import resolve_config_path
 from run_api_hotswap_longmem_smoke import TEMP_ENV_PATH, build_runtime_config, require_env, write_env_file
 from summarize_benchmark_result import summarize_benchmark_file
 
@@ -117,6 +118,7 @@ def main() -> None:
     args = parse_args()
     config_path = prepare_runtime_files()
     os.environ["MASE_CONFIG_PATH"] = str(config_path)
+    config_path = resolve_config_path()
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     runner = BenchmarkRunner(
         baseline_profile=args.baseline_profile,

@@ -195,3 +195,16 @@ def test_runner_prefers_mase_module_imports() -> None:
     source = (Path(__file__).resolve().parents[1] / "benchmarks" / "runner.py").read_text(encoding="utf-8")
     assert "from mase.model_interface import" in source
     assert "from mase.topic_threads import" in source
+
+
+def test_longmemeval_batch_uses_mase_model_interface() -> None:
+    """run_api_hotswap_longmemeval_batch.py must import and use resolve_config_path
+    from mase.model_interface directly (not transitively via the smoke script)."""
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "scripts"
+        / "benchmarks"
+        / "run_api_hotswap_longmemeval_batch.py"
+    ).read_text(encoding="utf-8")
+    assert "from mase.model_interface import" in source
+    assert "resolve_config_path" in source
