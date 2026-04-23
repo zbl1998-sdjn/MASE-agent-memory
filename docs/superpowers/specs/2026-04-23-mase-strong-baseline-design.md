@@ -84,6 +84,10 @@ Deliverables:
 
 - a release-ready claim bundle concept for public benchmark statements,
 - a single release checklist for claims, configs, docs, and reruns,
+- a **fix-and-validation ledger** that records:
+  - important failures discovered during the phase,
+  - what was changed to address them,
+  - how the fix was verified,
 - a short capability statement that clearly says:
   - what MASE supports today,
   - what remains experimental,
@@ -207,6 +211,7 @@ This phase succeeds only if:
 - public claims, config lineage, result artifacts, and regression outcomes form one auditable chain,
 - release checks are explicit and repeatable,
 - benchmark regressions can be localized to code, config, dataset/input, or backend/model causes,
+- important fixes and validation outcomes are recorded in a reusable ledger rather than only buried in git history,
 - a publish-grade verification command set is documented and usable.
 
 ### Product maturity = strong
@@ -269,22 +274,25 @@ This phase is complete when all of the following are true:
 1. **A governed release bundle exists for public claims**
    Public claims, config lineage, result paths, and benchmark lanes are packaged as one release surface.
 
-2. **A primary supported product path is explicit**
+2. **A fix-and-validation ledger exists**
+   Important failures, fixes, and verification results from the phase are recorded in a form that can support external credibility claims.
+
+3. **A primary supported product path is explicit**
    New users can identify the recommended entrypoint and configuration path immediately.
 
-3. **Regression tiers exist and are documented**
+4. **Regression tiers exist and are documented**
    Smoke, standard, and publish verification tiers are defined and wired into release discipline.
 
-4. **Operational diagnostics exist for core flows**
+5. **Operational diagnostics exist for core flows**
    A failed run can be classified and investigated without guessing.
 
-5. **Public docs are fully aligned**
+6. **Public docs are fully aligned**
    README, BENCHMARKS, capability statement, limitations, and release copy do not contradict each other.
 
-6. **README headline benchmarks are rerun**
+7. **README headline benchmarks are rerun**
    Fresh reruns confirm that public capability did not regress, or the public claims are revised honestly before release.
 
-7. **Current public capability remains intact**
+8. **Current public capability remains intact**
    Existing verification gates remain green throughout the phase.
 
 ## Intended outcome
