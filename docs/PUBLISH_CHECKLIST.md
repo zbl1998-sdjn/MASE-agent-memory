@@ -4,6 +4,9 @@ Run through this **once** before going public. Everything is automated by `scrip
 
 ## 🔒 Step 0 — Secret scan (MANUAL, do this first)
 
+> Before publishing, verify all headline benchmark claims are covered by a tracked claim manifest
+> in `docs/benchmark_claims/`. Run `pytest tests/test_benchmark_claim_manifest.py -q` to confirm.
+
 ```powershell
 cd E:\MASE-demo
 # Search for accidentally-committed API keys

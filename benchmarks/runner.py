@@ -42,8 +42,8 @@ except Exception:
         return result
 
 from mase import MASESystem
-from model_interface import load_config, resolve_config_path
-from topic_threads import derive_thread_context, detect_text_language
+from mase.model_interface import load_config, resolve_config_path
+from mase.topic_threads import derive_thread_context, detect_text_language
 
 from .baseline import baseline_ask_with_metrics
 from .official_source_gap_audit import audit_official_source_gap
@@ -54,6 +54,30 @@ from .scoring import score_sample
 BASE_DIR = Path(__file__).resolve().parent.parent
 RESULTS_DIR = BASE_DIR / "results"
 MEMORY_RUNS_DIR = BASE_DIR / "memory_runs"
+
+
+def _load_config_profiles() -> dict[str, Any]:
+    registry_path = BASE_DIR / "config.profiles.json"
+    if not registry_path.exists():
+        return {}
+    payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    return dict(payload.get("profiles") or {})
+
+
+def _resolve_config_profile_name(config_path: Path, profiles: dict[str, Any]) -> str | None:
+    # Only configs residing directly under the repo root can match a registry entry.
+    # An external file (e.g. C:\temp\config.json) must never be tagged as a known profile
+    # just because its filename coincidentally matches a registry entry.
+    try:
+        resolved = config_path.resolve()
+        if resolved.parent != BASE_DIR:
+            return None
+    except Exception:
+        return None
+    for name, data in profiles.items():
+        if str(data.get("path")) == resolved.name:
+            return name
+    return None
 BASELINE_SYSTEM_PROMPT = "你是一个直接回答用户问题的单体大模型。请尽量只输出最终答案，不要输出冗长思维链。"
 
 
@@ -63,7 +87,7 @@ def _merge_numeric_usage(usages: list[dict[str, Any] | None]) -> dict[str, float
         if not isinstance(usage, dict):
             continue
         for key, value in usage.items():
-            if isinstance(value, (int, float)):
+            if isinstance(value, int | float):
                 totals[key] = totals.get(key, 0.0) + float(value)
     return totals
 
@@ -794,6 +818,10 @@ class BenchmarkRunner:
     ) -> dict[str, Any]:
         run_id = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+        # Capture the config path once at run start so the profile recorded in the
+        # summary reflects what the benchmark system actually used, not a later
+        # re-resolution that may see a mutated MASE_CONFIG_PATH env var.
+        run_config_path = resolve_config_path()
         samples = load_benchmark_samples(
             benchmark_name,
             sample_limit=sample_limit,
@@ -857,6 +885,9 @@ class BenchmarkRunner:
             "completed": True,
         }
         summary["results_path"] = str(results_path)
+        profiles = _load_config_profiles()
+        resolved_profile = _resolve_config_profile_name(run_config_path, profiles)
+        summary["config_profile"] = resolved_profile
         results_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
         print(
             f"[benchmark:{benchmark_name}] done samples={len(results)} "

@@ -10,8 +10,8 @@ project_root = Path(__file__).resolve().parent.parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
+from mase.model_interface import ModelInterface
 from mase_tools.memory.db_core import PROFILE_TEMPLATES, get_connection, upsert_entity_fact
-from model_interface import ModelInterface
 
 GC_SYSTEM_PROMPT = """You are an asynchronous Memory Garbage Collector (GC) agent.
 Your task is to analyze recent conversational memory logs and extract structured facts, project updates, and user preferences.

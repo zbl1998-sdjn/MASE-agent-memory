@@ -1,0 +1,29 @@
+{
+  "profiles": {
+    "published-local-default": {
+      "path": "config.json",
+      "intent": "published",
+      "benchmarks": ["lveval", "nolima"]
+    },
+    "published-cloud-longmemeval": {
+      "path": "config.lme_glm5.json",
+      "intent": "published",
+      "benchmarks": ["longmemeval"]
+    },
+    "experimental-dual-gpu": {
+      "path": "config.dual_gpu.json",
+      "intent": "experimental",
+      "benchmarks": ["lveval", "longmemeval"]
+    },
+    "baseline-cloud-example": {
+      "path": "config.cloud.example.json",
+      "intent": "baseline",
+      "benchmarks": []
+    },
+    "published-nolima": {
+      "path": "config.nolima.json",
+      "intent": "published",
+      "benchmarks": ["nolima"]
+    }
+  }
+}

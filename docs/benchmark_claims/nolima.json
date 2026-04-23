@@ -1,0 +1,18 @@
+{
+  "benchmark": "NoLiMa ONLYDirect 32k",
+  "claims": {
+    "published_local_32k": {
+      "score_pct": 60.71,
+      "pass_count": 34,
+      "sample_count": 56,
+      "metric": "accuracy",
+      "config_profile": "published-local-default",
+      "evidence": [
+        {
+          "path": "README.md",
+          "status": "tracked"
+        }
+      ]
+    }
+  }
+}

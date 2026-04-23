@@ -1,0 +1,9 @@
+{
+  "cases": [
+    {
+      "id": "lveval-en-needle-001",
+      "failure_mode": "needle_recall_miss",
+      "guardrail": "planted_fact_recall"
+    }
+  ]
+}

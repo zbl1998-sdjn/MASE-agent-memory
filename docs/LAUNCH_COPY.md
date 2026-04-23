@@ -1,5 +1,7 @@
 # MASE — Twitter / HN Launch Copy
 
+> Benchmark claims referenced in launch copy are tracked under `docs/benchmark_claims/`.
+
 发布前把 `docs/assets/nolima_3way_lineplot.png` 作为主图。
 
 ---

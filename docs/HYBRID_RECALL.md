@@ -4,6 +4,7 @@
 
 **Optional / pluggable.** Disabled by default. Zero impact on the current
 84.8% LongMemEval baseline unless you opt in via environment flag.
+(Baseline tracked in `docs/benchmark_claims/longmemeval.json`.)
 
 ## Rationale
 

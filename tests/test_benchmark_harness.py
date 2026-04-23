@@ -9,7 +9,7 @@ from benchmarks.runner import BenchmarkRunner
 
 
 def _load_generalization_regression_module():
-    script_dir = Path(__file__).resolve().parent / "scripts" / "benchmarks"
+    script_dir = Path(__file__).resolve().parent.parent / "scripts" / "benchmarks"
     if str(script_dir) not in sys.path:
         sys.path.insert(0, str(script_dir))
     spec = importlib.util.spec_from_file_location(
@@ -151,3 +151,60 @@ def test_nolima_official_max_metrics_are_loaded(tmp_path, monkeypatch) -> None:
     assert metrics["passed"] == 80
     assert metrics["failed"] == 210
     assert metrics["accuracy"] == 0.2759
+
+
+def test_run_benchmark_config_profile_captured_before_samples_run(monkeypatch, tmp_path) -> None:
+    """Issue B: config_profile must be resolved at run start, not re-resolved after
+    samples have run (which may mutate MASE_CONFIG_PATH via MASESystem.__init__)."""
+    from benchmarks import runner as runner_module
+
+    profiles = {"my-profile": {"path": "config.json", "intent": "published"}}
+    monkeypatch.setattr(runner_module, "_load_config_profiles", lambda: profiles)
+    monkeypatch.setattr(runner_module, "_load_benchmark_fallbacks", lambda: {})
+    monkeypatch.setattr(runner_module, "RESULTS_DIR", tmp_path)
+    monkeypatch.setattr(runner_module, "MEMORY_RUNS_DIR", tmp_path)
+
+    # Tracks whether load_benchmark_samples has run (simulates env mutation during sampling)
+    state = {"samples_loaded": False}
+
+    def fake_load_samples(*args, **kwargs):
+        state["samples_loaded"] = True
+        return []
+
+    def controlled_resolve():
+        # Before samples run: env points to a repo-root config that matches the profile
+        # After samples run: env has been mutated to a different path (simulates MASESystem.__init__)
+        if state["samples_loaded"]:
+            return (runner_module.BASE_DIR / "config.other.json").resolve()
+        return (runner_module.BASE_DIR / "config.json").resolve()
+
+    monkeypatch.setattr(runner_module, "load_benchmark_samples", fake_load_samples)
+    br = runner_module.BenchmarkRunner(baseline_profile="disabled")
+    monkeypatch.setattr(runner_module, "resolve_config_path", controlled_resolve)
+
+    summary = br.run_benchmark("any_benchmark")
+
+    # With bug: resolve_config_path() called AFTER load_benchmark_samples (state["samples_loaded"]=True)
+    #   → returns config.other.json → no match → summary["config_profile"] = None
+    # With fix: resolve_config_path() captured BEFORE load_benchmark_samples
+    #   → returns config.json → matches "my-profile"
+    assert summary["config_profile"] == "my-profile"
+
+
+def test_runner_prefers_mase_module_imports() -> None:
+    source = (Path(__file__).resolve().parents[1] / "benchmarks" / "runner.py").read_text(encoding="utf-8")
+    assert "from mase.model_interface import" in source
+    assert "from mase.topic_threads import" in source
+
+
+def test_longmemeval_batch_uses_mase_model_interface() -> None:
+    """run_api_hotswap_longmemeval_batch.py must import and use resolve_config_path
+    from mase.model_interface directly (not transitively via the smoke script)."""
+    source = (
+        Path(__file__).resolve().parents[1]
+        / "scripts"
+        / "benchmarks"
+        / "run_api_hotswap_longmemeval_batch.py"
+    ).read_text(encoding="utf-8")
+    assert "from mase.model_interface import" in source
+    assert "resolve_config_path" in source

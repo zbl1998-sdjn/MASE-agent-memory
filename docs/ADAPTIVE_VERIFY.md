@@ -3,6 +3,7 @@
 Pluggable policy that varies verifier depth based on retrieval confidence.
 Default OFF — gated by `MASE_ADAPTIVE_VERIFY=1`. Zero behavioral change when
 disabled (LME 84.8% baseline must hold).
+(Baseline tracked in `docs/benchmark_claims/longmemeval.json`.)
 
 ## Motivation
 

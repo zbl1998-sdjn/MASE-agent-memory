@@ -46,3 +46,6 @@ When deleting, follow this order: tests → scripts → external docs → shim f
 Auditors: when scanning the repo, the presence of one of these files at the
 project root does **not** indicate active V2 logic. The file at
 `src/mase/<same_name>.py` is the authoritative one.
+
+For surface classification (Stable Core / Compatibility Surface / Experimental
+Surface), see [`docs/ARCHITECTURE_BOUNDARIES.md`](docs/ARCHITECTURE_BOUNDARIES.md).
