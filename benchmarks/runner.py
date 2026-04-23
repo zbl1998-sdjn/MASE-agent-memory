@@ -54,6 +54,22 @@ from .scoring import score_sample
 BASE_DIR = Path(__file__).resolve().parent.parent
 RESULTS_DIR = BASE_DIR / "results"
 MEMORY_RUNS_DIR = BASE_DIR / "memory_runs"
+
+
+def _load_config_profiles() -> dict[str, Any]:
+    registry_path = BASE_DIR / "config.profiles.json"
+    if not registry_path.exists():
+        return {}
+    payload = json.loads(registry_path.read_text(encoding="utf-8"))
+    return dict(payload.get("profiles") or {})
+
+
+def _resolve_config_profile_name(config_path: Path, profiles: dict[str, Any]) -> str | None:
+    normalized = config_path.name
+    for name, data in profiles.items():
+        if str(data.get("path")) == normalized:
+            return name
+    return None
 BASELINE_SYSTEM_PROMPT = "你是一个直接回答用户问题的单体大模型。请尽量只输出最终答案，不要输出冗长思维链。"
 
 
@@ -63,7 +79,7 @@ def _merge_numeric_usage(usages: list[dict[str, Any] | None]) -> dict[str, float
         if not isinstance(usage, dict):
             continue
         for key, value in usage.items():
-            if isinstance(value, (int, float)):
+            if isinstance(value, int | float):
                 totals[key] = totals.get(key, 0.0) + float(value)
     return totals
 
@@ -857,6 +873,9 @@ class BenchmarkRunner:
             "completed": True,
         }
         summary["results_path"] = str(results_path)
+        profiles = _load_config_profiles()
+        resolved_profile = _resolve_config_profile_name(resolve_config_path(), profiles)
+        summary["config_profile"] = resolved_profile
         results_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
         print(
             f"[benchmark:{benchmark_name}] done samples={len(results)} "
