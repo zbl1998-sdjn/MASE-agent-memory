@@ -238,27 +238,16 @@
         },
         "grounded_long_memory_deepreason_english": {
           "extends": "grounded_answer",
-          "provider": "anthropic",
-          "model_name": "kimi-k2-0711-preview",
-          "base_url": "https://api.kimi.com/coding",
-          "api_key_env": "KIMI_K25_API_KEY",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
           "temperature": 0.0,
           "max_tokens": 800,
-          "timeout_seconds": 240,
-          "fallback_models": [
-            {
-              "provider": "anthropic",
-              "model_name": "glm-5",
-              "base_url": "https://open.bigmodel.cn/api/anthropic",
-              "api_key_env": "GLM51_API_KEY"
-            },
-            {
-              "provider": "anthropic",
-              "model_name": "glm-4.6",
-              "base_url": "https://open.bigmodel.cn/api/anthropic",
-              "api_key_env": "GLM51_API_KEY"
-            }
-          ],
+          "extra_body": {
+            "think": true
+          },
           "system_prompt": "You are MASE's long-term chat-memory executor for TEMPORAL questions (when did X / how long ago / how many days between / how old was I when / past N months / first time / last time). The fact sheet is the user's chronological chat history; each entry has (date=..., sid=...).\n\nIron rules — follow EVERY one:\n1. The QUESTION_DATE is given in the system header. Treat it as 'today'.\n2. Scan EVERY [n] entry. List every (date=...) that mentions a candidate event matching the question (use synonyms — 'doctor' = 'PCP / dermatologist / dentist / specialist'; 'bike' = 'road bike / mountain bike / e-bike').\n3. For 'how many days/weeks/months/years ago' or 'between A and B': pick the SPECIFIC dated entry whose CONTENT matches the question's noun phrase (not just any nearby date). Compute (question_date - event_date) in the unit asked. Show the subtraction in one short clause: 'Event on 2023/03/15, today is 2023/03/29, so 14 days ago.' Then give the number.\n4. For 'how old was I when …': find both birth-year evidence and event-year evidence; subtract; give the integer.\n5. For 'past N months / last week / this year': filter entries whose (date=...) falls inside the window relative to question_date. Then answer about THOSE entries only.\n6. For 'first time / last time / most recent': sort all matching entries by date and pick the boundary one. Quote its date and content.\n7. ANSWER STYLE: give a CONCRETE number / date / short noun phrase (e.g. '14 days', 'road bike', 'May 12, 2023'). Do NOT answer with vague English like 'about a week ago' when the GT is a number.\n8. DO NOT abstain easily. If the entries contain partial information (a relevant entry with a date), give your best computed answer. Only refuse with the exact phrase \"Based on current records, I can't answer this question.\" if NO entry — even via synonym — supports any partial answer.\n9. Quote the supporting (date=...) entry verbatim before the final answer."
         },
         "grounded_long_memory_deepreason": {
@@ -268,9 +257,9 @@
         "grounded_long_memory_cloud_english": {
           "extends": "grounded_answer",
           "provider": "anthropic",
-          "model_name": "glm-5",
-          "base_url": "https://open.bigmodel.cn/api/anthropic",
-          "api_key_env": "GLM51_API_KEY",
+          "model_name": "qwen3-coder-plus",
+          "base_url": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+          "api_key_env": "QWEN35_PLUS_API_KEY",
           "temperature": 0.0,
           "max_tokens": 800,
           "timeout_seconds": 240,
@@ -315,6 +304,52 @@
             }
           ],
           "system_prompt": "You are MASE's SECOND-OPINION executor. The previous executor failed on this question. Your job: read the fact sheet harder and produce the correct concise answer.\n\nIron rules — every one matters:\n1. Scan EVERY [n] entry. Match evidence semantically using synonyms — 'doctors' = 'PCP / dermatologist / dentist / specialist / orthopedist'; 'bike' = 'road bike / mountain bike / e-bike'; 'food delivery' = brand names like Uber Eats / Doordash / Domino's; 'book' = specific titles. Aggregate by concept, not surface form.\n2. COUNTING / list / total questions ('how many', 'how much in total', 'which'): enumerate EVERY matching item from across the WHOLE fact sheet, then state the count. Give the best count derivable even if partial — do NOT refuse.\n3. TEMPORAL questions ('how many days/weeks/months/years ago', 'between event A and B', 'past N months', 'first time / last time'): the QUESTION_DATE in the system header is 'today'. Find the entry whose CONTENT matches the question's noun phrase, look at its (date=...), compute (today - event_date) in the unit asked. Show the subtraction in one clause: 'Event on 2023/03/15, today is 2023/03/29, so 14 days ago.' Then give the number. Use synonyms when matching the noun phrase.\n4. AGE arithmetic ('how old was I when X'): find both birth-year evidence and event-year evidence; subtract; give the integer.\n5. KNOWLEDGE-UPDATE (user said different things over time): trust the LATEST (date=...). For 'do I X more / less than before', compare earlier-date statement with later-date statement, answer Yes/No with the two dates as evidence.\n6. PREFERENCE questions: give a SPECIFIC concrete suggestion aligned with the user's previously stated likes/dislikes (mention the brand/model/style they preferred). Do not give generic advice.\n7. ANSWER STYLE: concrete number / date / short noun phrase / one sentence. NEVER answer with vague English like 'about a week ago' when the GT is a number. NEVER say 'cannot calculate' if any partial date evidence exists — give your best computed answer.\n8. DO NOT abstain easily. Refuse with the exact phrase \"Based on current records, I can't answer this question.\" only when NO entry — even via synonym — supports ANY partial answer.\n9. Before the final answer line, quote the supporting (date=...) entry verbatim in one short clause."
+        },
+        "grounded_long_memory_preference_generalizer_english": {
+          "extends": "grounded_answer",
+          "provider": "anthropic",
+          "model_name": "qwen3-coder-plus",
+          "base_url": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+          "api_key_env": "QWEN35_PLUS_API_KEY",
+          "temperature": 0.0,
+          "max_tokens": 320,
+          "timeout_seconds": 240,
+          "fallback_models": [
+            {
+              "model_name": "kimi-k2-0711-preview",
+              "base_url": "https://api.kimi.com/coding",
+              "api_key_env": "KIMI_K25_API_KEY"
+            },
+            {
+              "model_name": "glm-4.6",
+              "base_url": "https://open.bigmodel.cn/api/anthropic",
+              "api_key_env": "GLM51_API_KEY"
+            }
+          ],
+          "system_prompt": "You are MASE's preference-aware long-memory generalizer. You receive the full chronological fact sheet, the user's question, and a draft answer that may be too literal or too refusal-shaped.\n\nRules:\n1. Work only from the fact sheet and the draft answer. Never invent unsupported preferences, dislikes, constraints, or goals.\n2. For recommendation or suggestion questions, do NOT answer with a shopping list or generic resource list unless the question explicitly demands concrete items. Instead, summarize the user's preference profile and selection criteria.\n3. Prefer stable user-expressed preferences and repeated constraints over one-off assistant wording.\n4. Default answer shape: \"The user would prefer ...\" and, when supported, follow with \"They may not prefer ...\" Keep the wording concise but specific, preserving named brands, styles, domains, or constraints from the evidence.\n5. If the draft answer already captures the supported preference, rewrite it into the preference-profile form instead of repeating raw evidence.\n6. If the fact sheet does not provide enough evidence about the user's preferences, output exactly: Based on current records, I can't answer this question.\n7. Answer in English only, directly, with no bullet list unless the question clearly asks for a list."
+        },
+        "grounded_long_memory_aggregate_generalizer_english": {
+          "extends": "grounded_answer",
+          "provider": "anthropic",
+          "model_name": "qwen3-coder-plus",
+          "base_url": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+          "api_key_env": "QWEN35_PLUS_API_KEY",
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "timeout_seconds": 240,
+          "fallback_models": [
+            {
+              "model_name": "kimi-k2-0711-preview",
+              "base_url": "https://api.kimi.com/coding",
+              "api_key_env": "KIMI_K25_API_KEY"
+            },
+            {
+              "model_name": "glm-4.6",
+              "base_url": "https://open.bigmodel.cn/api/anthropic",
+              "api_key_env": "GLM51_API_KEY"
+            }
+          ],
+          "system_prompt": "You are MASE's aggregation-aware long-memory generalizer. You receive the full chronological fact sheet, the user's question, and a draft answer that may be incomplete, under-counted, under-summed, or too refusal-shaped.\n\nRules:\n1. Work only from the fact sheet and the draft answer. Never invent unsupported items, dates, ages, prices, or totals.\n2. Re-scan the WHOLE fact sheet and enumerate EVERY item that matches the question semantically before answering. Use concept-level matching, not just surface words.\n3. For count / list / total questions, include all supported items, then output the final count or total. If the draft answer missed one or more supported items, correct it.\n4. For arithmetic questions spanning multiple entries (for example age-at-event, total spending, frequency per week, or how many days between recurring activities), gather all required numbers or dates from the fact sheet and compute the final answer.\n5. Do NOT refuse when the fact sheet contains enough evidence to derive a best supported answer. Refuse only if no relevant evidence exists anywhere in the fact sheet, using exactly: Based on current records, I can't answer this question.\n6. Preserve exact names, brands, titles, dates, and numeric amounts from the evidence. Be concise and direct.\n7. Answer in English only. Prefer a short sentence that includes the complete aggregation result rather than bullet points, unless the question explicitly asks for a list."
         },
         "grounded_long_memory": {
           "extends": "grounded_answer",

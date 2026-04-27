@@ -13,6 +13,7 @@ from event_bus import (
     query_event_bus,
 )
 from executor import ExecutorAgent
+from legacy_archive import legacy as legacy_tools
 from mase_tools import legacy as tools
 from memory_reflection import build_fact_card
 from notetaker_agent import NotetakerAgent
@@ -452,6 +453,82 @@ def test_search_memory_uses_event_bus_for_latest_relocation_queries(monkeypatch)
     finally:
         if base_dir.exists():
             shutil.rmtree(base_dir)
+
+
+def test_search_memory_prefers_event_bus_current_result_across_backend_merges(monkeypatch) -> None:
+    legacy_old_result = {
+        "date": "2024-05-03",
+        "time": "09-00-00",
+        "summary": "Rachel used to live in Austin.",
+        "user_query": "Rachel used to live in Austin.",
+        "assistant_response": "",
+        "timestamp": "2024-05-03T09:00:00",
+        "language": "en",
+        "key_entities": ["Rachel", "Austin"],
+        "filepath": "memory\\2024-05-03\\09-00-00.json",
+        "thread_id": "thread-rachel",
+        "thread_label": "relocation",
+        "topic_tokens": ["Rachel", "relocation"],
+        "memory_profile": {},
+        "scope_hints": {},
+        "metadata": {},
+        "_priority": 10,
+        "_index": 0,
+    }
+    current_event_bus_result = {
+        "date": "2024-05-03",
+        "time": "18-00-00",
+        "summary": "Rachel moved to Denver after her recent relocation.",
+        "user_query": "Rachel moved to Denver after her recent relocation.",
+        "assistant_response": "",
+        "timestamp": "2024-05-03T18:00:00",
+        "language": "en",
+        "key_entities": ["Rachel", "Denver"],
+        "filepath": "memory\\2024-05-03\\18-00-00.json",
+        "thread_id": "thread-rachel",
+        "thread_label": "relocation",
+        "topic_tokens": ["Rachel", "relocation"],
+        "memory_profile": {},
+        "scope_hints": {},
+        "metadata": {},
+        "_priority": 100,
+        "_index": 1,
+        "event_bus_view_role": "current",
+        "event_bus_match": {
+            "event_id": "home-merge-v2",
+            "logical_event_id": "residence|rachel home",
+            "event_type": "residence",
+            "status": "active",
+            "source": "Rachel moved to Denver after her recent relocation.",
+            "timestamp": "2024-05-03T18:00:00",
+            "entities": ["Rachel", "Denver"],
+            "attributes": {"location": "Denver"},
+        },
+    }
+
+    monkeypatch.setattr(legacy_tools, "_search_english_memory", lambda *args, **kwargs: [dict(legacy_old_result)])
+    monkeypatch.setattr(
+        legacy_tools,
+        "search_fact_cards",
+        lambda *args, **kwargs: [dict(legacy_old_result, fact_card={"event_type": "residence"})],
+    )
+    monkeypatch.setattr(
+        legacy_tools,
+        "_search_event_bus_for_state_queries",
+        lambda **kwargs: [dict(current_event_bus_result)],
+    )
+    monkeypatch.setattr(legacy_tools, "semantic_search_memory", lambda *args, **kwargs: [])
+
+    results = tools.search_memory(
+        keywords=["Rachel", "relocation"],
+        full_query="Where did Rachel move to after her recent relocation?",
+        semantic_query="Where did Rachel move to after her recent relocation?",
+        limit=5,
+    )
+
+    assert results[0].get("event_bus_view_role") == "current"
+    assert "Denver" in str(results[0].get("summary") or results[0].get("user_query") or "")
+    assert "Denver" in str(results[0].get("event_bus_match", {}).get("source") or "")
 
 
 def test_search_memory_uses_event_bus_for_personal_best_queries(monkeypatch) -> None:

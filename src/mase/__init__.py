@@ -12,8 +12,9 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from .benchmark_notetaker import BenchmarkNotetaker
+from .benchmark_notetaker import BenchmarkNotetaker, get_notetaker
 from .engine import MASESystem, get_system, reload_system
+from .memory_service import MemoryService
 from .models import OrchestrationTrace, PlannerSnapshot, RouteDecision
 from .router import ROUTER_SYSTEM
 
@@ -90,6 +91,8 @@ def mase_ask(user_question: str, log: bool = True) -> str:
 __all__ = [
     "MASESystem",
     "BenchmarkNotetaker",
+    "MemoryService",
+    "get_notetaker",
     "OrchestrationTrace",
     "RouteDecision",
     "PlannerSnapshot",

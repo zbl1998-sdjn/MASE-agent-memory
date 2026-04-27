@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import atexit
 import os
+import re
 import threading
 import uuid
 from pathlib import Path
@@ -27,6 +28,8 @@ from .mode_selector import (
     is_long_context_qa,
     is_long_memory,
     is_multidoc_long_context,
+    lme_qtype_routing_enabled,
+    lme_question_type,
     long_context_search_limit,
     select_executor_mode,
     select_notetaker_mode,
@@ -36,6 +39,7 @@ from .mode_selector import (
 from .model_interface import ModelInterface, resolve_config_path
 from .models import OrchestrationTrace, PlannerSnapshot, RouteDecision
 from .notetaker import append_markdown_log
+from .problem_classifier import build_retrieval_plan
 from .reasoning_engine import build_reasoning_workspace
 from .router import ROUTER_SYSTEM
 from .topic_threads import derive_thread_context, detect_text_language
@@ -170,6 +174,16 @@ class MASESystem:
             summary = str(item.get("summary") or "").strip()
             thread_label = str(item.get("thread_label") or "").strip()
             parts = [f"[{index}] {content}"]
+            for key in ("_source", "retrieval_reason", "freshness", "conflict_status", "source_reason"):
+                value = str(item.get(key) or "").strip()
+                if value:
+                    parts.append(f"{key.lstrip('_')}={value}")
+            if item.get("history_depth"):
+                parts.append(f"history_depth={item['history_depth']}")
+            for key in ("updated_at", "superseded_at"):
+                value = str(item.get(key) or "").strip()
+                if value:
+                    parts.append(f"{key}={value}")
             if summary:
                 parts.append(f"summary={summary}")
             if thread_label:
@@ -185,7 +199,10 @@ class MASESystem:
     ) -> tuple[str, str]:
         raw_fact_sheet = self.notetaker_agent.build_fact_sheet(search_results, question=user_question)
         if not search_results:
-            return raw_fact_sheet, "none"
+            # Guard: keep executor grounded even when memory search returned nothing.
+            # "无相关记忆。" would cause select_executor_mode → general_answer_reasoning
+            # (hallucination risk). The explicit no-evidence text keeps mode grounded.
+            return "未找到相关记忆证据；不要猜测具体值。", "none"
         if use_deterministic_fact_sheet():
             return (
                 build_long_context_fact_sheet(
@@ -247,8 +264,11 @@ class MASESystem:
         instruction_package: str = "",
         draft_answer: str = "",
     ) -> str:
+        question_reference_time = str(os.environ.get("MASE_QUESTION_REFERENCE_TIME") or "").strip()
         if detect_text_language(user_question) == "en":
             parts = [f"Fact sheet:\n{fact_sheet}"]
+            if question_reference_time:
+                parts.append(f"QUESTION_DATE:\n{question_reference_time}")
             if instruction_package.strip():
                 parts.append(f"Instruction package:\n{instruction_package}")
             if draft_answer.strip():
@@ -256,6 +276,8 @@ class MASESystem:
             parts.append(f"Question:\n{user_question}")
             return "\n\n".join(parts)
         parts = [f"事实备忘录：\n{fact_sheet}"]
+        if question_reference_time:
+            parts.append(f"QUESTION_DATE:\n{question_reference_time}")
         if instruction_package.strip():
             parts.append(f"指令包：\n{instruction_package}")
         if draft_answer.strip():
@@ -264,7 +286,20 @@ class MASESystem:
         return "\n\n".join(parts)
 
     @staticmethod
-    def _extract_answer(mode: str, content: str, user_question: str) -> str:
+    def _candidate_names_from_fact_sheet(fact_sheet: str) -> list[str]:
+        names: list[str] = []
+        seen: set[str] = set()
+        for match in re.finditer(r"^\[C\d+\]\s+name=([^|\n]+)", fact_sheet, flags=re.MULTILINE):
+            name = str(match.group(1) or "").strip()
+            lowered = name.lower()
+            if not name or lowered in seen:
+                continue
+            seen.add(lowered)
+            names.append(name)
+        return names
+
+    @classmethod
+    def _extract_answer(cls, mode: str, content: str, user_question: str, fact_sheet: str = "") -> str:
         cleaned = str(content or "").strip()
         if not cleaned:
             return "Based on current records, I can't answer this question." if detect_text_language(user_question) == "en" else "根据现有记录，我无法回答这个问题。"
@@ -277,6 +312,11 @@ class MASESystem:
                     return final_answer
                 if sufficient is False:
                     return "Based on current records, I can't answer this question." if detect_text_language(user_question) == "en" else "根据现有记录，我无法回答这个问题。"
+        if "Candidate table:" in fact_sheet or mode.startswith("grounded_disambiguation"):
+            lowered_cleaned = cleaned.lower()
+            for candidate in cls._candidate_names_from_fact_sheet(fact_sheet):
+                if candidate.lower() in lowered_cleaned:
+                    return candidate
         return cleaned
 
     # ---- planner / collaboration ----
@@ -328,6 +368,8 @@ class MASESystem:
             return configured
         if not fact_sheet.strip() or fact_sheet.strip() == "无相关记忆。":
             return "off"
+        if is_long_memory() and lme_qtype_routing_enabled() and lme_question_type() in {"single-session-preference", "multi-session"}:
+            return "split"
         workspace = build_reasoning_workspace(user_question, fact_sheet)
         if workspace.verifier_action == "verify":
             return "verify"
@@ -399,7 +441,7 @@ class MASESystem:
             mode=mode,
         )
         content = str((response.get("message") or {}).get("content") or "")
-        draft_answer = self._extract_answer(mode, content, user_question)
+        draft_answer = self._extract_answer(mode, content, user_question, fact_sheet)
         if effective_collaboration == "verify":
             verify_mode = verify_mode_for_question(user_question)
             verify_response = self.model_interface.chat(
@@ -408,7 +450,7 @@ class MASESystem:
                 mode=verify_mode,
             )
             verified_content = str((verify_response.get("message") or {}).get("content") or "").strip()
-            final_ans = self._extract_answer(verify_mode, verified_content or draft_answer, user_question)
+            final_ans = self._extract_answer(verify_mode, verified_content or draft_answer, user_question, fact_sheet)
             # iter3 safety-net: for abstention bucket, if the model expresses
             # "I don't have this info" in ANY phrasing, rewrite to the exact
             # LongMemEval GT template. 21/29 iter2 abstention fails were
@@ -425,7 +467,7 @@ class MASESystem:
                 mode=generalizer_mode,
             )
             final_content = str((final_response.get("message") or {}).get("content") or "").strip()
-            return self._extract_answer(generalizer_mode, final_content or draft_answer, user_question)
+            return self._extract_answer(generalizer_mode, final_content or draft_answer, user_question, fact_sheet)
         return draft_answer
 
     def summarize_interaction(self, user_question: str, assistant_response: str) -> str:
@@ -466,6 +508,7 @@ class MASESystem:
         fact_sheet = "无相关记忆。"
         memory_heat: str | None = None
         notetaker_mode = "none"
+        retrieval_plan = None
         if route.action == "search_memory":
             memory_heat = determine_memory_heat(user_question)
             if is_multidoc_long_context():
@@ -476,11 +519,22 @@ class MASESystem:
                 search_limit = 60
             else:
                 search_limit = 5
-            search_results = self.notetaker_agent.search(keywords or [user_question], full_query=user_question, limit=search_limit)
+            retrieval_plan = build_retrieval_plan(
+                user_question,
+                route_keywords=keywords,
+                base_limit=search_limit,
+            )
+            search_limit = retrieval_plan.search_limit
+            search_results = self.notetaker_agent.search(
+                keywords or [user_question],
+                full_query=user_question,
+                limit=search_limit,
+                **retrieval_plan.to_search_kwargs(),
+            )
             try:
                 from .multipass_retrieval import is_enabled as _mp_enabled
                 from .multipass_retrieval import multipass_search as _mp_search
-                if _mp_enabled():
+                if retrieval_plan.use_multipass and _mp_enabled():
                     mp_rows = _mp_search(
                         self.notetaker_agent,
                         keywords or [user_question],
@@ -493,7 +547,12 @@ class MASESystem:
                 pass
             bus.publish(
                 Topics.NOTETAKER_SEARCH_DONE,
-                {"hit_count": len(search_results), "search_limit": search_limit, "keywords": keywords},
+                {
+                    "hit_count": len(search_results),
+                    "search_limit": search_limit,
+                    "keywords": keywords,
+                    "problem_type": retrieval_plan.classification.problem_type if retrieval_plan else "none",
+                },
                 trace_id=trace_id,
             )
             if is_long_memory():
@@ -531,8 +590,10 @@ class MASESystem:
             # the heuristic planner / reasoning workspace adds noise.
             instruction_package = ""
             collaboration_mode = "off"
+            if lme_qtype_routing_enabled() and lme_question_type() in {"single-session-preference", "multi-session"}:
+                collaboration_mode = "split"
             # Iter2 escape hatch: env-gated verifier for LME (default off → backward compatible).
-            if str(os.environ.get("MASE_LME_VERIFY") or "").strip() in {"1", "true", "yes"}:
+            elif str(os.environ.get("MASE_LME_VERIFY") or "").strip() in {"1", "true", "yes"}:
                 collaboration_mode = "verify"
                 # iter3: "regular" bucket regressed under verifier (70.4% → 69.6%).
                 # Skip verifier for regular — let executor answer stand.
@@ -569,6 +630,33 @@ class MASESystem:
             {"executor_mode": executor_mode, "answer_chars": len(answer)},
             trace_id=trace_id,
         )
+        evidence_assessment = {
+            "router_observed": routed_payload,
+            "notetaker_mode": notetaker_mode,
+            "memory_heat": memory_heat,
+            "collaboration_mode": collaboration_mode,
+            "instruction_package": instruction_package,
+            "retrieval_plan": retrieval_plan.to_dict() if retrieval_plan else None,
+            "reasoning_workspace": build_reasoning_workspace(user_question, fact_sheet).to_dict(),
+            "trace_id": trace_id,
+        }
+        record_path = ""
+        try:
+            from .trace_recorder import record_trace_payload
+
+            record_path = record_trace_payload(
+                user_question=user_question,
+                route=route,
+                planner=planner,
+                thread=thread,
+                executor_target=executor_target,
+                answer=answer,
+                search_results=search_results,
+                fact_sheet=fact_sheet,
+                evidence_assessment=evidence_assessment,
+            )
+        except (ImportError, OSError, ValueError):
+            record_path = ""
         if log:
             self.notetaker_agent.write(
                 user_query=user_question,
@@ -634,15 +722,8 @@ class MASESystem:
             answer=answer,
             search_results=search_results,
             fact_sheet=fact_sheet,
-            evidence_assessment={
-                "router_observed": routed_payload,
-                "notetaker_mode": notetaker_mode,
-                "memory_heat": memory_heat,
-                "collaboration_mode": collaboration_mode,
-                "instruction_package": instruction_package,
-                "reasoning_workspace": build_reasoning_workspace(user_question, fact_sheet).to_dict(),
-                "trace_id": trace_id,
-            },
+            evidence_assessment=evidence_assessment,
+            record_path=record_path,
         )
         bus.publish(
             Topics.RUN_DONE,

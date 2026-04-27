@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 from dataclasses import dataclass
 from typing import Any
@@ -239,7 +240,24 @@ def _record_thread_context(record: dict[str, Any]) -> ThreadContext | None:
     if not thread_id:
         return None
     label = str(record.get("thread_label") or "").strip() or "未命名线程"
-    topic_tokens = [str(item).strip() for item in record.get("topic_tokens", []) if str(item).strip()]
+    raw_topic_tokens = record.get("topic_tokens")
+    if raw_topic_tokens is None:
+        topic_tokens = []
+    elif isinstance(raw_topic_tokens, str):
+        text = raw_topic_tokens.strip()
+        if not text:
+            topic_tokens = []
+        elif text.startswith("["):
+            try:
+                parsed = json.loads(text)
+            except json.JSONDecodeError:
+                topic_tokens = [item.strip() for item in text.split(",") if item.strip()]
+            else:
+                topic_tokens = [str(item).strip() for item in parsed if str(item).strip()]
+        else:
+            topic_tokens = [item.strip() for item in text.split(",") if item.strip()]
+    else:
+        topic_tokens = [str(item).strip() for item in raw_topic_tokens if str(item).strip()]
     return ThreadContext(
         thread_id=thread_id,
         label=label,

@@ -186,6 +186,17 @@
           "max_tokens": 256,
           "system_prompt": "You are the MASE long-context needle-in-haystack executor for an adversarial stress-test benchmark.\n\n[KEY PATTERN - MUST INTERNALIZE]\nThe fact sheet typically contains two kinds of statements:\n- [COMMON-KNOWLEDGE/DISTRACTOR]: clean syntax, consistent with real-world facts, closely matches the question template (e.g. \"X is the founder of modern Y\").\n- [PLANTED NEEDLE/TRUE ANSWER]: usually has at least one unusual feature:\n  * Typo or extra/missing character in a key term\n  * Implausible nationality/era combination (e.g. \"German-American scholar in the year 1900 BCE\")\n  * Statement contradicting widely known real-world facts (e.g. casting a musician as a physicist)\n  * Awkward, redundant or seemingly stitched-together phrasing\n\n[IRON RULE]\nIn this benchmark the true answer is ALWAYS the planted needle, not the common-knowledge statement.\nWhen the fact sheet contains both \"X is the founder of modern Y\" (clean, on-template) and \"Z studied Y theory\" (with a typo / awkward / counter-factual), prefer Z. Never prefer the clean common-knowledge sentence.\nDo NOT inject answers from world knowledge — the answer must be a literal substring quoted from the fact sheet.\n\n[ANSWER STEPS]\n1. Scan all windows of the fact sheet, list all candidate names/numbers/dates.\n2. For each candidate: is it a common-knowledge match, or does it have an unusual feature?\n3. Pick the candidate with the unusual feature.\n4. Output only the name/number/date, no explanation, no repetition of the question.\n5. If no candidate in the fact sheet is relevant, output \"Cannot answer\"."
         },
+        "grounded_long_context_nolima_english": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "qwen2.5:7b",
+          "ollama_options": {
+            "num_ctx": 16384
+          },
+          "temperature": 0.0,
+          "max_tokens": 256,
+          "system_prompt": "You are MASE's long-context entity extractor for noisy book snippets.\n\nRules:\n1. The fact sheet may contain many irrelevant names, places, and events. Identify the single character explicitly supported by the snippet for the asked relation, attribute, location, possession, or action.\n2. Pay special attention to negation and constraints such as cannot, never, allergic, not, without, unable, or excluded.\n3. If the question asks \"Which character ...\", the final answer must be a character name from the snippet, not a place, object, or explanation.\n4. Prefer the most direct local evidence over broader plausibility or nearby distractors.\n5. If the snippet truly does not support any character answer, output exactly: Cannot answer.\n6. Output only the final character name, no explanation."
+        },
         "grounded_long_context_multidoc": {
           "extends": "grounded_answer",
           "provider": "ollama",
@@ -343,6 +354,17 @@
           "max_tokens": 384,
           "system_prompt": "你是 MASE 的深度核查执行器。请只根据事实备忘录审核回答草稿。\n- 草稿正确时，可以保持原意并直接给出最终回答。\n- 草稿错误、遗漏或超出备忘录时，必须修正。\n- 备忘录不足时，必须明确拒答。\n- 禁止使用外部常识纠偏。"
         },
+        "grounded_verify_long_context": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "system_prompt": "你是 MASE 长上下文针式问答的核查执行器。你会收到事实备忘录和一个回答草稿。\n\n铁律：\n1. 只能依据事实备忘录复核草稿，不能引入外部常识。\n2. 这是对抗性长上下文基准，真答案通常是植入针，而不是看起来更像常识的干扰项。\n3. 如果草稿选了更符合现实常识、但不符合备忘录植入规律的候选，你必须改正。\n4. 如果备忘录中同时出现多个候选名字/数字/日期，优先保留带有反常识、拼写异常、年代/身份古怪或明显拼接痕迹的那个候选。\n5. 最终只输出一个名字、数字或日期；不要解释，不要复述问题。"
+        },
         "grounded_verify_english_reasoning": {
           "extends": "grounded_answer",
           "provider": "ollama",
@@ -356,6 +378,20 @@
             "think": true
           },
           "system_prompt": "You are MASE's English verification executor. Use only the fact sheet. Never answer in Chinese. Correct unsupported or incomplete draft answers and avoid refusals when the fact sheet already contains the answer."
+        },
+        "grounded_verify_long_context_english": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 65536
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "extra_body": {
+            "think": true
+          },
+          "system_prompt": "You are MASE's long-context verification executor for an adversarial needle-in-haystack benchmark. You will receive a fact sheet and a draft answer.\n\nRules:\n1. Use only the fact sheet. Never repair the answer with world knowledge.\n2. In this benchmark the correct answer is often the planted needle, not the cleaner common-knowledge distractor.\n3. If the draft answer picks the more world-plausible candidate over the planted counterfactual candidate, you must correct it.\n4. When multiple candidates appear, prefer the candidate whose evidence is more unusual, counter-factual, typo-like, or awkwardly stitched together.\n5. Output only the final name/number/date. No explanation."
         },
         "grounded_answer_general": {
           "extends": "grounded_answer",

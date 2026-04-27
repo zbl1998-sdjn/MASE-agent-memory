@@ -21,7 +21,7 @@ except ImportError as e:  # pragma: no cover
         "需要安装 LlamaIndex: pip install llama-index-core"
     ) from e
 
-from mase import BenchmarkNotetaker  # noqa: E402
+from mase import get_notetaker  # noqa: E402
 
 
 class MASELlamaMemory(BaseMemory):
@@ -36,8 +36,9 @@ class MASELlamaMemory(BaseMemory):
         return "MASELlamaMemory"
 
     def __init__(self, **kwargs: Any) -> None:
+        injected_notetaker = kwargs.pop("notetaker", None)
         super().__init__(**kwargs)
-        object.__setattr__(self, "notetaker", BenchmarkNotetaker())
+        object.__setattr__(self, "notetaker", get_notetaker(injected_notetaker))
 
     def get(self, input: str | None = None, **kwargs: Any) -> list[ChatMessage]:
         query = (input or "").strip()

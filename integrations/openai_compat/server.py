@@ -27,9 +27,10 @@ except ImportError as e:  # pragma: no cover
         "需要安装: pip install fastapi uvicorn"
     ) from e
 
-from mase import mase_ask  # noqa: E402
+from mase import MemoryService, mase_ask  # noqa: E402
 
 app = FastAPI(title="MASE OpenAI-Compatible API")
+memory_service = MemoryService()
 
 
 class ChatMessage(BaseModel):
@@ -45,11 +46,44 @@ class ChatCompletionRequest(BaseModel):
     max_tokens: int | None = None
 
 
+class MemoryRecallRequest(BaseModel):
+    query: str
+    top_k: int = 5
+    include_history: bool = False
+    tenant_id: str | None = None
+    workspace_id: str | None = None
+    visibility: str | None = None
+
+
+class MemoryTimelineRequest(BaseModel):
+    thread_id: str | None = None
+    limit: int = 20
+    tenant_id: str | None = None
+    workspace_id: str | None = None
+    visibility: str | None = None
+
+
 def _last_user(msgs: list[ChatMessage]) -> str:
     for m in reversed(msgs):
         if m.role == "user":
             return m.content
     return ""
+
+
+def _scope_from_request(req: Any) -> dict[str, Any]:
+    return {
+        key: value
+        for key in ("tenant_id", "workspace_id", "visibility")
+        if (value := getattr(req, key, None)) not in (None, "")
+    }
+
+
+def _source_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        source = str(row.get("_source") or row.get("source") or "unknown")
+        counts[source] = counts.get(source, 0) + 1
+    return counts
 
 
 @app.get("/v1/models")
@@ -117,6 +151,52 @@ def chat_completions(req: ChatCompletionRequest) -> Any:
         yield "data: [DONE]\n\n"
 
     return StreamingResponse(_stream(), media_type="text/event-stream")
+
+
+@app.post("/v1/memory/recall")
+def memory_recall(req: MemoryRecallRequest) -> dict[str, Any]:
+    scope = _scope_from_request(req)
+    hits = memory_service.search_memory(
+        req.query.split(),
+        full_query=req.query,
+        limit=req.top_k,
+        include_history=req.include_history,
+        scope_filters=scope,
+    )
+    return {
+        "object": "mase.memory.recall",
+        "data": hits,
+        "metadata": {"scope": scope, "result_count": len(hits), "source_counts": _source_counts(hits)},
+    }
+
+
+@app.post("/v1/memory/current-state")
+def memory_current_state(req: MemoryRecallRequest) -> dict[str, Any]:
+    scope = _scope_from_request(req)
+    hits = memory_service.recall_current_state(req.query.split(), limit=req.top_k, scope_filters=scope)
+    return {
+        "object": "mase.memory.current_state",
+        "data": hits,
+        "metadata": {"scope": scope, "result_count": len(hits), "source_counts": _source_counts(hits)},
+    }
+
+
+@app.post("/v1/memory/timeline")
+def memory_timeline(req: MemoryTimelineRequest) -> dict[str, Any]:
+    scope = _scope_from_request(req)
+    rows = memory_service.recall_timeline(thread_id=req.thread_id, limit=req.limit, scope_filters=scope)
+    return {
+        "object": "mase.memory.timeline",
+        "data": rows,
+        "metadata": {"scope": scope, "result_count": len(rows)},
+    }
+
+
+@app.post("/v1/memory/explain")
+def memory_explain(req: MemoryRecallRequest) -> dict[str, Any]:
+    scope = _scope_from_request(req)
+    payload = memory_service.explain_memory_answer(req.query, limit=req.top_k, scope_filters=scope)
+    return {"object": "mase.memory.explain", "data": payload, "metadata": payload.get("metadata", {})}
 
 
 def main() -> None:

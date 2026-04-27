@@ -8,6 +8,7 @@ disturbing the orchestration engine.
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from .mode_selector import long_context_window_radius
@@ -88,12 +89,133 @@ def _parse_metadata(row: dict[str, Any]) -> dict[str, Any]:
     return raw if isinstance(raw, dict) else {}
 
 
+_EN_CANDIDATE_STOPWORDS = {
+    "user",
+    "assistant",
+    "summary",
+    "entities",
+    "question",
+    "answer",
+    "cannot answer",
+}
+
+
+def _candidate_query_tokens(user_question: str) -> list[str]:
+    stopwords = {
+        "what",
+        "which",
+        "whose",
+        "name",
+        "the",
+        "is",
+        "of",
+        "as",
+    }
+    tokens = re.findall(r"[A-Za-z][A-Za-z\-']{2,}", user_question)
+    return [token.lower() for token in tokens if token.lower() not in stopwords]
+
+
+def _extract_english_name_candidates(text: str) -> list[str]:
+    matches = re.findall(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,2}\b", text)
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for match in matches:
+        lowered = match.lower()
+        if lowered in _EN_CANDIDATE_STOPWORDS or lowered in seen:
+            continue
+        seen.add(lowered)
+        deduped.append(match)
+    return deduped
+
+
+def _earliest_query_anchor(text: str, query_tokens: list[str]) -> int:
+    lowered = text.lower()
+    positions = [lowered.find(token) for token in query_tokens if token and lowered.find(token) >= 0]
+    return min(positions) if positions else -1
+
+
+def _nearest_preceding_name(text: str, anchor_index: int) -> str:
+    if anchor_index < 0:
+        return ""
+    start = max(0, anchor_index - 360)
+    prefix = text[start:anchor_index]
+    names = _extract_english_name_candidates(prefix)
+    return names[-1] if names else ""
+
+
+def _candidate_evidence_snippet(content: str, candidate_name: str, anchor_index: int, fallback_snippet: str) -> str:
+    lowered = content.lower()
+    candidate_lower = candidate_name.lower()
+    name_index = lowered.rfind(candidate_lower, 0, anchor_index if anchor_index > 0 else len(content))
+    if name_index < 0:
+        return fallback_snippet
+    start = max(0, name_index - 40)
+    end = min(len(content), max(anchor_index + 220, name_index + len(candidate_name) + 220))
+    snippet = " ".join(content[start:end].split())
+    if start > 0:
+        snippet = "…" + snippet
+    if end < len(content):
+        snippet = snippet + "…"
+    return snippet
+
+
+def _build_candidate_table(
+    user_question: str,
+    search_results: list[dict[str, Any]],
+    terms_sorted: list[str],
+) -> list[str]:
+    lowered_question = user_question.lower()
+    if not any(marker in lowered_question for marker in ("who", "which", "what is the name", "what's the name")):
+        return []
+    query_tokens = _candidate_query_tokens(user_question)
+    candidate_rows: list[tuple[str, str]] = []
+    seen_names: set[str] = set()
+    for item in search_results[:8]:
+        content = strip_memory_prefixes(str(item.get("content") or "").strip())
+        if not content:
+            continue
+        anchor_index = _earliest_query_anchor(content, query_tokens)
+        snippet = extract_focused_window(
+            content,
+            terms_sorted or query_tokens,
+            radius=180,
+            max_windows=1,
+        )
+        lowered_content = content.lower()
+        hit_count = sum(1 for token in query_tokens if token in lowered_content)
+        if query_tokens and hit_count < 1:
+            continue
+        candidate_names = _extract_english_name_candidates(snippet)
+        preceding_name = _nearest_preceding_name(content, anchor_index)
+        if preceding_name:
+            candidate_names = [preceding_name, *candidate_names]
+        for name in candidate_names:
+            key = name.lower()
+            if key in seen_names:
+                continue
+            seen_names.add(key)
+            evidence = _candidate_evidence_snippet(content, name, anchor_index, snippet)
+            candidate_rows.append((name, evidence))
+            break
+        if len(candidate_rows) >= 4:
+            break
+    if len(candidate_rows) < 2:
+        return []
+    lines = [
+        "Candidate table: compare the named candidates below before answering. Prefer the candidate best supported by the retrieved evidence, not the most world-plausible one."
+    ]
+    for index, (name, snippet) in enumerate(candidate_rows, start=1):
+        lines.append(f"[C{index}] name={name} | evidence={snippet}")
+    return lines
+
+
 def build_long_memory_full_fact_sheet(
     user_question: str,
     all_rows: list[dict[str, Any]],
     priority_ids: set[int] | None = None,
     char_budget: int = 220_000,
     max_priority: int = 60,
+    max_session_halo_per_session: int = 6,
 ) -> str:
     """Hand the cloud executor the search-ranked top-K rows in chronological order."""
     if not all_rows:
@@ -119,11 +241,57 @@ def build_long_memory_full_fact_sheet(
         return f"[{idx}]{tag} {content}"
 
     priority_rows = [r for r in all_rows if int(r.get("id") or 0) in priority_ids][:max_priority]
-    non_priority_rows = [r for r in all_rows if int(r.get("id") or 0) not in priority_ids]
+    priority_row_ids = {int(r.get("id") or 0) for r in priority_rows}
+    halo_row_ids: set[int] = set()
+    halo_counts_by_session: dict[str, int] = {}
+    for index, row in enumerate(all_rows):
+        row_id = int(row.get("id") or 0)
+        if row_id not in priority_row_ids:
+            continue
+        session_id = str(_parse_metadata(row).get("session_id") or "").strip()
+        if not session_id:
+            continue
+        for neighbor_index in range(index - 1, -1, -1):
+            neighbor = all_rows[neighbor_index]
+            neighbor_meta = _parse_metadata(neighbor)
+            if str(neighbor_meta.get("session_id") or "").strip() != session_id:
+                break
+            if halo_counts_by_session.get(session_id, 0) >= max_session_halo_per_session:
+                break
+            neighbor_id = int(neighbor.get("id") or 0)
+            if neighbor_id not in priority_row_ids:
+                halo_row_ids.add(neighbor_id)
+                halo_counts_by_session[session_id] = halo_counts_by_session.get(session_id, 0) + 1
+        for neighbor_index in range(index + 1, len(all_rows)):
+            neighbor = all_rows[neighbor_index]
+            neighbor_meta = _parse_metadata(neighbor)
+            if str(neighbor_meta.get("session_id") or "").strip() != session_id:
+                break
+            if halo_counts_by_session.get(session_id, 0) >= max_session_halo_per_session:
+                break
+            neighbor_id = int(neighbor.get("id") or 0)
+            if neighbor_id not in priority_row_ids:
+                halo_row_ids.add(neighbor_id)
+                halo_counts_by_session[session_id] = halo_counts_by_session.get(session_id, 0) + 1
+
+    halo_rows = [r for r in all_rows if int(r.get("id") or 0) in halo_row_ids]
+    non_priority_rows = [
+        r
+        for r in all_rows
+        if int(r.get("id") or 0) not in priority_row_ids and int(r.get("id") or 0) not in halo_row_ids
+    ]
 
     kept_rows: list[dict[str, Any]] = []
     used = 0
     for row in priority_rows:
+        line = _render(row, 0)
+        if not line:
+            continue
+        if used + len(line) + 1 > char_budget:
+            break
+        kept_rows.append(row)
+        used += len(line) + 1
+    for row in halo_rows:
         line = _render(row, 0)
         if not line:
             continue
@@ -189,6 +357,10 @@ def build_long_context_fact_sheet(
             else "检索到的候选证据（按相关性分数从高到低，匹配词周围的原文窗口）："
         )
     lines: list[str] = [header]
+    if is_en:
+        candidate_table = _build_candidate_table(user_question, search_results, terms_sorted)
+        if candidate_table:
+            lines.extend(candidate_table)
     for index, item in enumerate(search_results, start=1):
         content = strip_memory_prefixes(str(item.get("content") or "").strip())
         if not content:

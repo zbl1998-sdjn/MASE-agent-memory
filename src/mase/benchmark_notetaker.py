@@ -3,6 +3,11 @@
 Two-stage retrieval: FTS5 BM25 candidate gathering + Python-side
 co-occurrence/density rerank with substring fallback so recall stays high
 even when FTS misses a partial / fuzzy term.
+
+Facts-first recall: when the underlying DB has an ``entity_state`` table
+(shared DB via ``MASE_DB_PATH`` or auto-created), ``search()`` prepends
+current entity facts before session/event-log evidence.  Each result carries
+``_source`` ('entity_state' or 'memory_log') for audit visibility.
 """
 from __future__ import annotations
 
@@ -14,7 +19,15 @@ from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
-from .utils import memory_root
+from mase_tools.memory.db_core import (
+    add_memory_log,
+    fetch_memory_rows,
+    get_connection,
+    init_db,
+    resolve_db_path,
+    search_entity_fact_history_by_keyword,
+    search_entity_facts_by_keyword,
+)
 
 try:
     from mase_tools.memory import tri_vault as _tri_vault  # opt-in mirror
@@ -26,7 +39,7 @@ class BenchmarkNotetaker:
     """Simple per-run SQLite-backed memory used by the benchmark runner."""
 
     def __init__(self, config_path: str | Path | None = None) -> None:
-        self.db_path = memory_root(config_path) / "benchmark_memory.sqlite3"
+        self.db_path = resolve_db_path(config_path)
         self._init_db()
 
     @contextmanager
@@ -46,14 +59,7 @@ class BenchmarkNotetaker:
         callsite changes required (the ``with self._connect() as conn:``
         idiom continues to work).
         """
-        conn = sqlite3.connect(str(self.db_path), timeout=5.0)
-        conn.row_factory = sqlite3.Row
-        try:
-            conn.execute("PRAGMA journal_mode=WAL")
-            conn.execute("PRAGMA synchronous=NORMAL")
-            conn.execute("PRAGMA busy_timeout=5000")
-        except sqlite3.DatabaseError:
-            pass
+        conn = get_connection(self.db_path)
         try:
             yield conn
             conn.commit()
@@ -64,45 +70,31 @@ class BenchmarkNotetaker:
             conn.close()
 
     def _init_db(self) -> None:
+        init_db(self.db_path)
         with self._connect() as conn:
-            conn.execute(
-                """
-                CREATE TABLE IF NOT EXISTS memory_log (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    thread_id TEXT,
-                    thread_label TEXT,
-                    role TEXT,
-                    content TEXT NOT NULL,
-                    summary TEXT,
-                    topic_tokens TEXT,
-                    metadata TEXT,
-                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                )
-                """
-            )
-            try:
-                conn.execute(
-                    "CREATE VIRTUAL TABLE IF NOT EXISTS memory_fts USING fts5(content, summary, thread_label, tokenize='unicode61')"
-                )
-                conn.execute(
-                    """
-                    CREATE TRIGGER IF NOT EXISTS memory_log_ai AFTER INSERT ON memory_log BEGIN
-                        INSERT INTO memory_fts(rowid, content, summary, thread_label)
-                        VALUES (new.id, COALESCE(new.content,''), COALESCE(new.summary,''), COALESCE(new.thread_label,''));
-                    END;
-                    """
-                )
-                conn.execute(
-                    """
-                    CREATE TRIGGER IF NOT EXISTS memory_log_ad AFTER DELETE ON memory_log BEGIN
-                        DELETE FROM memory_fts WHERE rowid = old.id;
-                    END;
-                    """
-                )
-                self._fts_enabled = True
-            except sqlite3.OperationalError:
-                self._fts_enabled = False
-            conn.commit()
+            row = conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='memory_fts'"
+            ).fetchone()
+        self._fts_enabled = row is not None
+
+    def _search_entity_state(
+        self,
+        terms: list[str],
+        *,
+        limit: int,
+        scope_filters: dict[str, Any] | None = None,
+    ) -> list[dict[str, Any]]:
+        if not terms:
+            return []
+        scope = dict(scope_filters or {})
+        return search_entity_facts_by_keyword(
+            terms,
+            limit=limit,
+            db_path=self.db_path,
+            tenant_id=scope.get("tenant_id"),
+            workspace_id=scope.get("workspace_id"),
+            visibility=scope.get("visibility"),
+        )
 
     def _extract_terms(self, keywords: list[str], full_query: str | None = None, query_variants: list[str] | None = None) -> list[str]:
         raw_terms = [str(item or "").strip() for item in [*(keywords or []), *(query_variants or [])] if str(item or "").strip()]
@@ -183,24 +175,16 @@ class BenchmarkNotetaker:
         if key_entities:
             content_parts.append("Entities: " + ", ".join(str(item) for item in key_entities if str(item).strip()))
         content = "\n".join(part for part in content_parts if part)
-        with self._connect() as conn:
-            cursor = conn.execute(
-                """
-                INSERT INTO memory_log (thread_id, thread_label, role, content, summary, topic_tokens, metadata)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    thread_id or "default",
-                    thread_label or "",
-                    "assistant" if str(assistant_response or "").strip() else "user",
-                    content or str(user_query or "").strip(),
-                    summary or "",
-                    json.dumps(topic_tokens or [], ensure_ascii=False),
-                    json.dumps(metadata or {}, ensure_ascii=False),
-                ),
-            )
-            conn.commit()
-            row_id = cursor.lastrowid
+        row_id = add_memory_log(
+            thread_id or "default",
+            "assistant" if str(assistant_response or "").strip() else "user",
+            content or str(user_query or "").strip(),
+            thread_label=thread_label or "",
+            summary=summary or "",
+            topic_tokens=json.dumps(topic_tokens or [], ensure_ascii=False),
+            metadata=json.dumps(metadata or {}, ensure_ascii=False),
+            db_path=self.db_path,
+        )
         # Tri-vault opt-in mirror: when MASE_MEMORY_LAYOUT=tri the same write
         # is reflected as a JSON file under <vault>/sessions/<row_id>.json,
         # so users can `git diff` the memory bucket. No-op otherwise — keeps
@@ -239,11 +223,26 @@ class BenchmarkNotetaker:
         query_variants: list[str] | None = None,
         scope_filters: dict[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
-        del date_hint, top_k, semantic_query, scope_filters
+        del date_hint, top_k, semantic_query
+        scope = dict(scope_filters or {})
         terms = self._extract_terms(keywords, full_query=full_query, query_variants=query_variants)
         if not terms:
             return []
         effective_limit = int(limit or 5)
+
+        # --- Facts-first: query entity_state before touching memory_log ---
+        entity_results = self._search_entity_state(terms, limit=effective_limit, scope_filters=scope)
+        history_results: list[dict[str, Any]] = []
+        if scope.get("include_history"):
+            history_results = search_entity_fact_history_by_keyword(
+                terms,
+                limit=max(1, min(effective_limit, 3)),
+                db_path=self.db_path,
+                tenant_id=scope.get("tenant_id"),
+                workspace_id=scope.get("workspace_id"),
+                visibility=scope.get("visibility"),
+            )
+
         primary_terms = sorted({t for t in terms if len(t) >= 3}, key=len, reverse=True)[:8]
         # Fuzzy CJK regex: for Chinese tokens >=3 chars, build a pattern allowing
         # up to 1 char insertion between adjacent chars. Catches morphological
@@ -282,8 +281,14 @@ class BenchmarkNotetaker:
                             candidate_ids.add(int(r[0]))
             except sqlite3.OperationalError:
                 pass
-        with self._connect() as conn:
-            all_rows = [dict(row) for row in conn.execute("SELECT * FROM memory_log ORDER BY id DESC").fetchall()]
+        all_rows = fetch_memory_rows(
+            db_path=self.db_path,
+            chronological=False,
+            include_superseded=False,
+            tenant_id=scope.get("tenant_id"),
+            workspace_id=scope.get("workspace_id"),
+            visibility=scope.get("visibility"),
+        )
         scored: list[dict[str, Any]] = []
         for row in all_rows:
             content = str(row.get("content") or "")
@@ -325,7 +330,20 @@ class BenchmarkNotetaker:
             row["score"] = score
             scored.append(row)
         scored.sort(key=lambda item: (-int(item.get("score") or 0), -int(item.get("id") or 0)))
-        return scored[:effective_limit]
+        if scope.get("use_hybrid_rerank") and scored:
+            from .hybrid_recall import HybridReranker
+
+            scored = HybridReranker().rerank(full_query or " ".join(terms), scored)
+        # Tag log results with source marker
+        for item in scored:
+            item.setdefault("_source", "memory_log")
+            item.setdefault("confidence", "medium")
+            item.setdefault("retrieval_reason", "event_log_evidence")
+        primary = entity_results[:effective_limit]
+        remaining = max(0, effective_limit - len(primary))
+        history_slice = history_results[:remaining]
+        remaining -= len(history_slice)
+        return primary + history_slice + scored[:remaining]
 
     def build_fact_sheet(
         self,
@@ -342,19 +360,51 @@ class BenchmarkNotetaker:
             content = str(item.get("content") or "").strip()
             if not content:
                 continue
-            lines.append(f"[{index}] {content}")
+            source = item.get("_source", "memory_log")
+            detail_bits: list[str] = []
+            if source == "entity_state":
+                src_tag = "[FACT]"
+                if item.get("conflict_status"):
+                    detail_bits.append(f"state={item['conflict_status']}")
+                if item.get("freshness"):
+                    detail_bits.append(f"freshness={item['freshness']}")
+                if item.get("history_depth"):
+                    detail_bits.append(f"history={item['history_depth']}")
+                if item.get("updated_at"):
+                    detail_bits.append(f"updated={item['updated_at']}")
+                if item.get("source_log_id") is not None:
+                    detail_bits.append(f"src_log={item['source_log_id']}")
+                if item.get("source_reason"):
+                    detail_bits.append(f"reason={item['source_reason']}")
+                evidence = str(item.get("source_content") or "").strip()
+                if evidence:
+                    detail_bits.append(f"evidence={evidence[:120]}")
+            elif source == "entity_state_history":
+                src_tag = "[HIST]"
+                if item.get("freshness"):
+                    detail_bits.append(f"freshness={item['freshness']}")
+                if item.get("supersede_reason"):
+                    detail_bits.append(f"reason={item['supersede_reason']}")
+                if item.get("superseded_at"):
+                    detail_bits.append(f"ts={item['superseded_at']}")
+                if item.get("source_log_id") is not None:
+                    detail_bits.append(f"src_log={item['source_log_id']}")
+            else:
+                src_tag = "[LOG]"
+                if item.get("thread_id"):
+                    detail_bits.append(f"thread={item['thread_id']}")
+                if item.get("freshness"):
+                    detail_bits.append(f"freshness={item['freshness']}")
+                timestamp = str(item.get("event_timestamp") or item.get("timestamp") or item.get("created_at") or "").strip()
+                if timestamp:
+                    detail_bits.append(f"ts={timestamp}")
+            suffix = f" ({'; '.join(detail_bits)})" if detail_bits else ""
+            lines.append(f"[{index}]{src_tag} {content}{suffix}")
         return "\n".join(lines) if lines else "无相关记忆。"
 
     def fetch_all_chronological(self, limit: int | None = None) -> list[dict[str, Any]]:
         """Return every memory_log row ordered by ascending id (chronological)."""
-        with self._connect() as conn:
-            sql = "SELECT * FROM memory_log ORDER BY id ASC"
-            params: tuple[Any, ...] = ()
-            if limit is not None:
-                sql += " LIMIT ?"
-                params = (int(limit),)
-            rows = [dict(row) for row in conn.execute(sql, params).fetchall()]
-        return rows
+        return fetch_memory_rows(db_path=self.db_path, limit=limit, chronological=True)
 
     def list_dates(self) -> list[str]:
         with self._connect() as conn:
@@ -362,12 +412,43 @@ class BenchmarkNotetaker:
         return [str(row["day"]) for row in rows if row["day"]]
 
     def fetch_recent_records(self, n: int = 5) -> list[dict[str, Any]]:
-        with self._connect() as conn:
-            rows = conn.execute("SELECT * FROM memory_log ORDER BY id DESC LIMIT ?", (max(1, int(n)),)).fetchall()
-        return [dict(row) for row in rows]
+        return fetch_memory_rows(db_path=self.db_path, limit=max(1, int(n)))
 
     def fetch_records_by_topic(self, topic: str, limit: int | None = None) -> list[dict[str, Any]]:
         return self.search([topic], full_query=topic, limit=limit or 5, thread_hint=topic)
 
 
-__all__ = ["BenchmarkNotetaker"]
+def get_notetaker(
+    notetaker: BenchmarkNotetaker | None = None,
+    *,
+    config_path: str | Path | None = None,
+    backend: str | None = None,  # reserved for future routing; currently unused
+) -> BenchmarkNotetaker:
+    """Compatibility factory: return an injected notetaker or create a default one.
+
+    This is the single entrypoint integrations should use so the backend can be
+    swapped via constructor injection, env var (``MASE_BACKEND_CONFIG``), or
+    ``config_path`` — without introducing a third backend or changing existing
+    call surfaces.
+
+    Priority:
+    1. ``notetaker`` argument (direct injection, e.g. from tests or DI containers)
+    2. ``config_path`` argument
+    3. ``MASE_BACKEND_CONFIG`` env var (path to a config file)
+    4. Default ``BenchmarkNotetaker()`` (existing behaviour)
+    """
+    import os
+
+    if notetaker is not None:
+        return notetaker
+
+    effective_config = config_path
+    if effective_config is None:
+        env_cfg = os.environ.get("MASE_BACKEND_CONFIG")
+        if env_cfg:
+            effective_config = env_cfg
+
+    return BenchmarkNotetaker(config_path=effective_config)
+
+
+__all__ = ["BenchmarkNotetaker", "get_notetaker"]

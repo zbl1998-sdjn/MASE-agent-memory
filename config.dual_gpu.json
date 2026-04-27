@@ -148,10 +148,10 @@
       },
       "temperature": 0.2,
       "max_tokens": 1024,
-      "system_prompt": "你是执行智能体，运行在一个具备外部记忆系统的AI架构中。",
-      "routing": {
+        "system_prompt": "你是执行智能体，运行在一个具备外部记忆系统的AI架构中。",
+        "routing": {
         "default_collaboration_mode": "off"
-      },
+        },
       "modes": {
         "grounded_answer": {
           "provider": "ollama",
@@ -387,6 +387,17 @@
           "max_tokens": 384,
           "system_prompt": "你是 MASE 的深度核查执行器。请只根据事实备忘录审核回答草稿。\n- 草稿正确时，可以保持原意并直接给出最终回答。\n- 草稿错误、遗漏或超出备忘录时，必须修正。\n- 备忘录不足时，必须明确拒答。\n- 禁止使用外部常识纠偏。"
         },
+        "grounded_verify_long_context": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "system_prompt": "你是 MASE 长上下文针式问答的核查执行器。你会收到事实备忘录和一个回答草稿。\n\n铁律：\n1. 只能依据事实备忘录复核草稿，不能引入外部常识。\n2. 这是对抗性长上下文基准，真答案通常是植入针，而不是看起来更像常识的干扰项。\n3. 如果草稿选了更符合现实常识、但不符合备忘录植入规律的候选，你必须改正。\n4. 如果备忘录中同时出现多个候选名字/数字/日期，优先保留带有反常识、拼写异常、年代/身份古怪或明显拼接痕迹的那个候选。\n5. 最终只输出一个名字、数字或日期；不要解释，不要复述问题。"
+        },
         "grounded_verify_english_reasoning": {
           "extends": "grounded_answer",
           "provider": "ollama",
@@ -400,6 +411,20 @@
             "think": true
           },
           "system_prompt": "You are MASE's English verification executor. Use only the fact sheet. Never answer in Chinese. Correct unsupported or incomplete draft answers and avoid refusals when the fact sheet already contains the answer."
+        },
+        "grounded_verify_long_context_english": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "extra_body": {
+            "think": true
+          },
+          "system_prompt": "You are MASE's long-context verification executor for an adversarial needle-in-haystack benchmark. You will receive a fact sheet and a draft answer.\n\nRules:\n1. Use only the fact sheet. Never repair the answer with world knowledge.\n2. In this benchmark the correct answer is often the planted needle, not the cleaner common-knowledge distractor.\n3. If the draft answer picks the more world-plausible candidate over the planted counterfactual candidate, you must correct it.\n4. When multiple candidates appear, prefer the candidate whose evidence is more unusual, counter-factual, typo-like, or awkwardly stitched together.\n5. Output only the final name/number/date. No explanation."
         },
         "grounded_answer_general": {
           "extends": "grounded_answer",

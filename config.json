@@ -247,6 +247,52 @@
           ],
           "system_prompt": "你是 MASE 长程聊天记忆执行器（云端高质量模式）。事实备忘录是用户全部历史聊天记录按时间顺序排列的若干条目，每条带 (date=..., sid=...) 标签。\n\n铁律：\n1. 必须扫描全部 [n] 条目，按问题的语义匹配证据。问题里的关键名词可能用同义词出现：'医生' 可能写成 '内科医生/耳鼻喉/皮肤科医生'，'食物配送服务' 可能写成具体品牌名，'书' 可能写成具体书名。要按概念聚合，不要只搜表面词。\n2. 多会话聚合（合计、列举、计数）：从多个 [n] 条目逐一收集证据再聚合并答出明确数字/列表。\n3. 时间相关问题（'上周/上个月/今年'…）结合 (date=...) 与问题日期判断。'past month/two months' 等需筛选 date 在该窗口内的条目。\n4. 知识更新型（用户先后说过不同事实）：以 (date=...) 最新的为准。\n5. 用户在 'User:' 段里的自述是最可靠的来源；助手回复转述也可作为佐证。偏好类问题需根据用户在过往聊天中表达过的喜好/限制给出符合其偏好的具体建议（资源、活动、做法）。\n6. 答案必须从备忘录原文摘取（人名/数字/日期/地名/多词短语保持原样、字数不变）；可以是一个名字、数字、短句，也可以是聚合后的一句话；不要解释，不要复述问题。\n7. 仅当所有条目都没有任何相关证据时，才回答：\"根据现有记录，我无法回答这个问题。\""
         },
+        "grounded_long_memory_preference_generalizer_english": {
+          "extends": "grounded_answer",
+          "provider": "anthropic",
+          "model_name": "glm-5",
+          "base_url": "https://open.bigmodel.cn/api/anthropic",
+          "api_key_env": "GLM51_API_KEY",
+          "temperature": 0.0,
+          "max_tokens": 320,
+          "timeout_seconds": 240,
+          "fallback_models": [
+            {
+              "model_name": "kimi-k2-0711-preview",
+              "base_url": "https://api.kimi.com/coding",
+              "api_key_env": "KIMI_K25_API_KEY"
+            },
+            {
+              "model_name": "glm-4.6",
+              "base_url": "https://open.bigmodel.cn/api/anthropic",
+              "api_key_env": "GLM51_API_KEY"
+            }
+          ],
+          "system_prompt": "You are MASE's preference-aware long-memory generalizer. You receive the full chronological fact sheet, the user's question, and a draft answer that may be too literal or too refusal-shaped.\n\nRules:\n1. Work only from the fact sheet and the draft answer. Never invent unsupported preferences, dislikes, constraints, or goals.\n2. For recommendation or suggestion questions, do NOT answer with a shopping list or generic resource list unless the question explicitly demands concrete items. Instead, summarize the user's preference profile and selection criteria.\n3. Prefer stable user-expressed preferences and repeated constraints over one-off assistant wording.\n4. Default answer shape: \"The user would prefer ...\" and, when supported, follow with \"They may not prefer ...\" Keep the wording concise but specific, preserving named brands, styles, domains, or constraints from the evidence.\n5. If the draft answer already captures the supported preference, rewrite it into the preference-profile form instead of repeating raw evidence.\n6. If the fact sheet does not provide enough evidence about the user's preferences, output exactly: Based on current records, I can't answer this question.\n7. Answer in English only, directly, with no bullet list unless the question clearly asks for a list."
+        },
+        "grounded_long_memory_aggregate_generalizer_english": {
+          "extends": "grounded_answer",
+          "provider": "anthropic",
+          "model_name": "qwen3-coder-plus",
+          "base_url": "https://coding.dashscope.aliyuncs.com/apps/anthropic",
+          "api_key_env": "QWEN35_PLUS_API_KEY",
+          "temperature": 0.0,
+          "max_tokens": 400,
+          "timeout_seconds": 240,
+          "fallback_models": [
+            {
+              "model_name": "kimi-k2-0711-preview",
+              "base_url": "https://api.kimi.com/coding",
+              "api_key_env": "KIMI_K25_API_KEY"
+            },
+            {
+              "model_name": "glm-4.6",
+              "base_url": "https://open.bigmodel.cn/api/anthropic",
+              "api_key_env": "GLM51_API_KEY"
+            }
+          ],
+          "system_prompt": "You are MASE's aggregation-aware long-memory generalizer. You receive the full chronological fact sheet, the user's question, and a draft answer that may be incomplete, under-counted, under-summed, or too refusal-shaped.\n\nRules:\n1. Work only from the fact sheet and the draft answer. Never invent unsupported items, dates, ages, prices, or totals.\n2. Re-scan the WHOLE fact sheet and enumerate EVERY item that matches the question semantically before answering. Use concept-level matching, not just surface words.\n3. For count / list / total questions, include all supported items, then output the final count or total. If the draft answer missed one or more supported items, correct it.\n4. For arithmetic questions spanning multiple entries (for example age-at-event, total spending, frequency per week, or how many days between recurring activities), gather all required numbers or dates from the fact sheet and compute the final answer.\n5. Do NOT refuse when the fact sheet contains enough evidence to derive a best supported answer. Refuse only if no relevant evidence exists anywhere in the fact sheet, using exactly: Based on current records, I can't answer this question.\n6. Preserve exact names, brands, titles, dates, and numeric amounts from the evidence. Be concise and direct.\n7. Answer in English only. Prefer a short sentence that includes the complete aggregation result rather than bullet points, unless the question explicitly asks for a list."
+        },
         "grounded_long_memory_cloud_english": {
           "extends": "grounded_answer",
           "provider": "anthropic",
@@ -343,6 +389,17 @@
           "max_tokens": 384,
           "system_prompt": "你是 MASE 的深度核查执行器。请只根据事实备忘录审核回答草稿。\n- 草稿正确时，可以保持原意并直接给出最终回答。\n- 草稿错误、遗漏或超出备忘录时，必须修正。\n- 备忘录不足时，必须明确拒答。\n- 禁止使用外部常识纠偏。"
         },
+        "grounded_verify_long_context": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "deepseek-r1:7b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "system_prompt": "你是 MASE 长上下文针式问答的核查执行器。你会收到事实备忘录和一个回答草稿。\n\n铁律：\n1. 只能依据事实备忘录复核草稿，不能引入外部常识。\n2. 这是对抗性长上下文基准，真答案通常是植入针，而不是看起来更像常识的干扰项。\n3. 如果草稿选了更符合现实常识、但不符合备忘录植入规律的候选，你必须改正。\n4. 如果备忘录中同时出现多个候选名字/数字/日期，优先保留带有反常识、拼写异常、年代/身份古怪或明显拼接痕迹的那个候选。\n5. 最终只输出一个名字、数字或日期；不要解释，不要复述问题。"
+        },
         "grounded_verify_english_reasoning": {
           "extends": "grounded_answer",
           "provider": "ollama",
@@ -356,6 +413,20 @@
             "think": true
           },
           "system_prompt": "You are MASE's English verification executor. Use only the fact sheet. Never answer in Chinese. Correct unsupported or incomplete draft answers and avoid refusals when the fact sheet already contains the answer."
+        },
+        "grounded_verify_long_context_english": {
+          "extends": "grounded_answer",
+          "provider": "ollama",
+          "model_name": "ibm/granite3.3:2b",
+          "ollama_options": {
+            "num_ctx": 8192
+          },
+          "temperature": 0.0,
+          "max_tokens": 384,
+          "extra_body": {
+            "think": true
+          },
+          "system_prompt": "You are MASE's long-context verification executor for an adversarial needle-in-haystack benchmark. You will receive a fact sheet and a draft answer.\n\nRules:\n1. Use only the fact sheet. Never repair the answer with world knowledge.\n2. In this benchmark the correct answer is often the planted needle, not the cleaner common-knowledge distractor.\n3. If the draft answer picks the more world-plausible candidate over the planted counterfactual candidate, you must correct it.\n4. When multiple candidates appear, prefer the candidate whose evidence is more unusual, counter-factual, typo-like, or awkwardly stitched together.\n5. Output only the final name/number/date. No explanation."
         },
         "grounded_answer_general": {
           "extends": "grounded_answer",

@@ -36,6 +36,21 @@ def test_temporal_cue_boosts_recent():
     assert out[0]["id"] == "new", f"expected recent doc to win with temporal cue, got {[c['id'] for c in out]}"
 
 
+def test_temporal_cue_coerces_epoch_ts_field():
+    now = datetime(2025, 1, 10, 12, 0, 0)
+    one_hour_ago = now - timedelta(hours=1)
+    forty_days_ago = now - timedelta(days=40)
+    candidates = [
+        {"id": "old", "text": "meeting notes", "score": 0.5, "ts": forty_days_ago.timestamp()},
+        {"id": "new", "text": "meeting notes", "score": 0.5, "ts": one_hour_ago.timestamp()},
+    ]
+
+    reranker = HybridReranker(alpha=0.0, beta=0.0, gamma=1.0)
+    out = reranker.rerank("what did we discuss today?", candidates, query_time=now)
+
+    assert out[0]["id"] == "new", f"expected epoch ts coercion to prefer latest doc, got {[c['id'] for c in out]}"
+
+
 def test_dense_only_fallback_preserves_order():
     candidates = [
         {"id": "x", "text": "alpha", "score": 0.9},

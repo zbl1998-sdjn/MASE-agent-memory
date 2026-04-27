@@ -106,6 +106,18 @@ def determine_memory_heat(user_question: str) -> str:
     return "cold"
 
 
+def benchmark_profile() -> str:
+    return str(os.environ.get("MASE_BENCHMARK_PROFILE") or "").strip().lower()
+
+
+def lme_question_type() -> str:
+    return str(os.environ.get("MASE_QTYPE") or "").strip().lower()
+
+
+def lme_qtype_routing_enabled() -> bool:
+    return str(os.environ.get("MASE_LME_QTYPE_ROUTING") or "").strip() in {"1", "true", "yes"}
+
+
 def select_notetaker_mode(user_question: str, memory_heat: str) -> str:
     language = detect_text_language(user_question)
     if language == "en":
@@ -117,6 +129,10 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
     language = detect_text_language(user_question)
     if not fact_sheet.strip() or fact_sheet.strip() == "无相关记忆。":
         return "general_answer_reasoning"
+    if benchmark_profile() == "nolima_wrapper":
+        return "grounded_answer_english_reasoning" if language == "en" else "grounded_answer"
+    if benchmark_profile() == "nolima_wrapper_extract":
+        return "grounded_long_context_nolima_english" if language == "en" else "grounded_long_context"
     if is_long_context_qa():
         if str(os.environ.get("MASE_LONG_CONTEXT_VARIANT") or "").strip().lower() == "mc":
             return "grounded_long_context_mc"
@@ -134,8 +150,8 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
         # (deepseek-r1:7b) instead of the cloud GLM-5 chain. User explicitly
         # opted in for this category; the general "deepseek = lowest priority"
         # rule still applies to all other paths.
-        if str(os.environ.get("MASE_LME_QTYPE_ROUTING") or "").strip() in {"1", "true", "yes"}:
-            qtype = (os.environ.get("MASE_QTYPE") or "").strip().lower()
+        if lme_qtype_routing_enabled():
+            qtype = lme_question_type()
             if qtype == "temporal-reasoning":
                 return "grounded_long_memory_deepreason_english" if language == "en" else "grounded_long_memory_deepreason"
         return "grounded_long_memory_cloud_english" if language == "en" else "grounded_long_memory_cloud"
@@ -154,6 +170,8 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
 
 def verify_mode_for_question(user_question: str) -> str:
     is_en = detect_text_language(user_question) == "en"
+    if is_long_context_qa():
+        return "grounded_verify_long_context_english" if is_en else "grounded_verify_long_context"
     # When LME verifier escape hatch is on AND we're in long_memory context,
     # use cloud LME-tuned verifier (kimi-k2.5 + temporal/multi-session checklist).
     if is_long_memory() and str(os.environ.get("MASE_LME_VERIFY") or "").strip() in {"1", "true", "yes"}:
@@ -173,6 +191,20 @@ def verify_mode_for_question(user_question: str) -> str:
 
 
 def generalizer_mode_for_question(user_question: str) -> str:
+    if is_long_memory() and lme_qtype_routing_enabled():
+        qtype = lme_question_type()
+        if qtype == "single-session-preference":
+            return (
+                "grounded_long_memory_preference_generalizer_english"
+                if detect_text_language(user_question) == "en"
+                else "grounded_answer"
+            )
+        if qtype == "multi-session":
+            return (
+                "grounded_long_memory_aggregate_generalizer_english"
+                if detect_text_language(user_question) == "en"
+                else "grounded_answer"
+            )
     return "grounded_answer_english_reasoning" if detect_text_language(user_question) == "en" else "grounded_answer"
 
 
@@ -188,6 +220,9 @@ __all__ = [
     "is_factrecall_long_context",
     "is_multidoc_long_context",
     "determine_memory_heat",
+    "benchmark_profile",
+    "lme_question_type",
+    "lme_qtype_routing_enabled",
     "select_notetaker_mode",
     "select_executor_mode",
     "verify_mode_for_question",
