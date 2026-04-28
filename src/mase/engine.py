@@ -31,6 +31,7 @@ from .mode_selector import (
     lme_qtype_routing_enabled,
     lme_question_type,
     long_context_search_limit,
+    multipass_allowed_for_task,
     select_executor_mode,
     select_notetaker_mode,
     use_deterministic_fact_sheet,
@@ -312,7 +313,16 @@ class MASESystem:
                     return final_answer
                 if sufficient is False:
                     return "Based on current records, I can't answer this question." if detect_text_language(user_question) == "en" else "根据现有记录，我无法回答这个问题。"
-        if "Candidate table:" in fact_sheet or mode.startswith("grounded_disambiguation"):
+        has_candidate_table = (
+            "Candidate table:" in fact_sheet
+            or "候选裁决表" in fact_sheet
+            or "NOLIMA CANDIDATE EVIDENCE" in fact_sheet
+        )
+        if "候选裁决表" in fact_sheet:
+            candidates = cls._candidate_names_from_fact_sheet(fact_sheet)
+            if len(candidates) == 1:
+                return candidates[0]
+        if has_candidate_table or mode.startswith(("grounded_disambiguation", "grounded_nolima")):
             lowered_cleaned = cleaned.lower()
             for candidate in cls._candidate_names_from_fact_sheet(fact_sheet):
                 if candidate.lower() in lowered_cleaned:
@@ -534,7 +544,7 @@ class MASESystem:
             try:
                 from .multipass_retrieval import is_enabled as _mp_enabled
                 from .multipass_retrieval import multipass_search as _mp_search
-                if retrieval_plan.use_multipass and _mp_enabled():
+                if (retrieval_plan.use_multipass or multipass_allowed_for_task()) and _mp_enabled():
                     mp_rows = _mp_search(
                         self.notetaker_agent,
                         keywords or [user_question],

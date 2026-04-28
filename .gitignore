@@ -73,6 +73,9 @@ data/**/*.jsonl
 # External third-party benchmarks (NoLiMa/BAMBOO) — fetch separately, see benchmarks/external-benchmarks/README.md
 /benchmarks/external-benchmarks/*
 !/benchmarks/external-benchmarks/README.md
+!/benchmarks/external-benchmarks/NoLiMa/
+/benchmarks/external-benchmarks/NoLiMa/*
+!/benchmarks/external-benchmarks/NoLiMa/run_mase_official.py
 
 /run_artifacts/
 scripts/_*.py

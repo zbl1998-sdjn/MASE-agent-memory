@@ -55,7 +55,7 @@ json.dump(src_cfg, open(cfg_path, 'w', encoding='utf-8'), ensure_ascii=False, in
 print(f'patched config -> {cfg_path}')
 
 os.environ['MASE_CONFIG_PATH'] = cfg_path
-os.environ.pop('MASE_MULTIPASS', None)
+# MASE_MULTIPASS is intentionally NOT popped; callers may enable it for EN long-context.
 
 from benchmarks.runner import BenchmarkRunner
 

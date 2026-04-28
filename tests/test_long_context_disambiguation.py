@@ -13,7 +13,13 @@ for path in (SRC, ROOT):
 
 from mase.fact_sheet import build_long_context_fact_sheet, build_long_memory_full_fact_sheet
 from mase.engine import MASESystem
-from mase.mode_selector import generalizer_mode_for_question, select_executor_mode, verify_mode_for_question
+from mase.mode_selector import (
+    generalizer_mode_for_question,
+    long_context_search_limit,
+    multipass_allowed_for_task,
+    select_executor_mode,
+    verify_mode_for_question,
+)
 
 
 class _DummyNotetaker:
@@ -52,6 +58,38 @@ def test_long_context_fact_sheet_adds_candidate_table_for_english_name_disambigu
     assert "Candidate table:" in fact_sheet
     assert "name=David Beckham" in fact_sheet
     assert "name=Ludwig Beethoven" in fact_sheet
+
+
+def test_long_context_fact_sheet_adds_candidate_table_for_chinese_name_disambiguation() -> None:
+    question = "被世人广泛推崇为现代物理学奠基人的科学家叫什么名字？"
+    results = [
+        {
+            "content": (
+                "基准历史：庚子年间，贝多芬，乃一德裔美籍学士，研究于物理理学。"
+                "彼探求相对论、量子力学，实乃现代物理学之奠基者。"
+            ),
+            "score": 40,
+        },
+        {
+            "content": (
+                "贝克汉姆乃为意大利一代名天文、物理、数学、哲学俱备之士，"
+                "为今日现代天文之奠基者。"
+            ),
+            "score": 23,
+        },
+    ]
+
+    fact_sheet = build_long_context_fact_sheet(
+        user_question=question,
+        search_results=results,
+        notetaker=_DummyNotetaker(),
+        multidoc=False,
+        long_memory=False,
+    )
+
+    assert "候选裁决表" in fact_sheet
+    assert "name=贝多芬" in fact_sheet
+    assert "name=贝克汉姆" in fact_sheet
 
 
 def test_candidate_table_can_recover_name_before_matched_phrase() -> None:
@@ -157,6 +195,69 @@ def test_long_context_answer_with_candidate_table_is_collapsed_to_candidate_name
     assert answer == "Ludwig Beethoven"
 
 
+def test_chinese_candidate_table_answer_is_collapsed_to_candidate_name() -> None:
+    fact_sheet = (
+        "候选裁决表：回答前必须逐项比较下面的候选名。\n"
+        "[C1] name=贝多芬 | evidence=... 研究于物理理学 ... 现代物理学之奠基者 ...\n"
+        "[C2] name=贝克汉姆 | evidence=... 现代天文之奠基者 ..."
+    )
+    answer = MASESystem._extract_answer(
+        "grounded_long_context",
+        "应选择贝多芬。",
+        "被世人广泛推崇为现代物理学奠基人的科学家叫什么名字？",
+        fact_sheet,
+    )
+
+    assert answer == "贝多芬"
+
+
+def test_chinese_candidate_table_still_collapses_to_mentioned_candidate() -> None:
+    fact_sheet = (
+        "候选裁决表：回答前必须逐项比较下面的候选名。\n"
+        "[C1] name=贝多芬 | evidence=... 研究于物理理学 ... 现代物理学之奠基者 ...\n"
+        "[C2] name=贝克汉姆 | evidence=... 现代天文之奠基者 ..."
+    )
+    answer = MASESystem._extract_answer(
+        "grounded_long_context",
+        "贝克汉姆",
+        "被世人广泛推崇为现代物理学奠基人的科学家叫什么名字？",
+        fact_sheet,
+    )
+
+    assert answer == "贝克汉姆"
+
+
+def test_single_chinese_candidate_table_answers_with_only_supported_name() -> None:
+    fact_sheet = (
+        "候选裁决表：回答前必须逐项比较下面的候选名。\n"
+        "[C1] name=贝多芬 | evidence=... 研究于物理理学 ..."
+    )
+    answer = MASESystem._extract_answer(
+        "grounded_long_context",
+        "声名",
+        "被世人广泛推崇为现代物理学奠基人的科学家叫什么名字？",
+        fact_sheet,
+    )
+
+    assert answer == "贝多芬"
+
+
+def test_nolima_candidate_evidence_collapses_to_candidate_name() -> None:
+    fact_sheet = (
+        "NOLIMA CANDIDATE EVIDENCE (derived from the snippet; not gold):\n"
+        "[C1] name=Veronica | direct_hits=lactose | evidence=... lactose intolerant ...\n"
+        "[C2] name=Mandy | direct_hits=none | evidence=..."
+    )
+    answer = MASESystem._extract_answer(
+        "grounded_nolima_main_english",
+        "Veronica cannot drink milk because she is lactose intolerant.\n\nAnswer: Veronica",
+        "Which character cannot drink milk?",
+        fact_sheet,
+    )
+
+    assert answer == "Veronica"
+
+
 def test_long_context_questions_use_long_context_verifier(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("MASE_TASK_TYPE", "long_context_qa")
     monkeypatch.setenv("MASE_LVEVAL_DATASET", "factrecall_en_128k")
@@ -177,7 +278,7 @@ def test_nolima_wrapper_uses_nolima_long_context_mode(monkeypatch: pytest.Monkey
         "A noisy book snippet with many names and places.",
     )
 
-    assert mode == "grounded_answer_english_reasoning"
+    assert mode == "grounded_nolima_main_english"
 
 
 def test_nolima_extract_wrapper_uses_nolima_long_context_mode(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -292,3 +393,60 @@ def test_executor_prompt_includes_question_date_for_long_memory(monkeypatch: pyt
 
     assert "QUESTION_DATE:" in prompt
     assert "2023/05/30 (Tue) 22:03" in prompt
+
+
+# ---------------------------------------------------------------------------
+# search_limit 128k bucket regression guard (25 → 30)
+# ---------------------------------------------------------------------------
+
+def test_long_context_search_limit_128k_returns_30(monkeypatch: pytest.MonkeyPatch) -> None:
+    """128k bucket must return 30 (raised from 25) for better EN 128k retrieval."""
+    monkeypatch.setenv("MASE_TASK_TYPE", "long_context_qa")
+    monkeypatch.setenv("MASE_LVEVAL_DATASET", "factrecall_en_128k")
+    assert long_context_search_limit() == 30
+
+
+def test_long_context_search_limit_256k_still_returns_30(monkeypatch: pytest.MonkeyPatch) -> None:
+    """256k bucket must remain at 30 — regression guard."""
+    monkeypatch.setenv("MASE_TASK_TYPE", "long_context_qa")
+    monkeypatch.setenv("MASE_LVEVAL_DATASET", "factrecall_en_256k")
+    assert long_context_search_limit() == 30
+
+
+def test_long_context_search_limit_smaller_buckets_unchanged(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Smaller buckets must not be affected by the 128k change."""
+    for dataset, expected in [
+        ("factrecall_en_16k", 12),
+        ("factrecall_en_32k", 15),
+        ("factrecall_en_64k", 20),
+    ]:
+        monkeypatch.setenv("MASE_LVEVAL_DATASET", dataset)
+        assert long_context_search_limit() == expected, f"{dataset}: expected {expected}"
+
+
+# ---------------------------------------------------------------------------
+# multipass_allowed_for_task gate
+# ---------------------------------------------------------------------------
+
+def test_multipass_allowed_for_long_context_qa(monkeypatch: pytest.MonkeyPatch) -> None:
+    """long_context_qa tasks must be allowed to use multipass (EN LV-Eval path)."""
+    monkeypatch.setenv("MASE_TASK_TYPE", "long_context_qa")
+    assert multipass_allowed_for_task() is True
+
+
+def test_multipass_allowed_for_long_memory(monkeypatch: pytest.MonkeyPatch) -> None:
+    """long_memory tasks (LME) must also be allowed (LME scripts set MASE_MULTIPASS=1)."""
+    monkeypatch.setenv("MASE_TASK_TYPE", "long_memory")
+    assert multipass_allowed_for_task() is True
+
+
+def test_multipass_not_allowed_for_casual_tasks(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Non-benchmark tasks must NOT be allowed, so a stray env var can't activate
+    the heavyweight pipeline in production."""
+    monkeypatch.delenv("MASE_TASK_TYPE", raising=False)
+    assert multipass_allowed_for_task() is False
+
+
+def test_multipass_not_allowed_for_unknown_task_type(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("MASE_TASK_TYPE", "some_other_task")
+    assert multipass_allowed_for_task() is False

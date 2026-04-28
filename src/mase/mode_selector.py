@@ -64,7 +64,7 @@ def long_context_search_limit(default: int = 10) -> int:
         "16k": 12,
         "32k": 15,
         "64k": 20,
-        "128k": 25,
+        "128k": 30,
         "256k": 30,
     }.get(bucket, default)
 
@@ -78,6 +78,21 @@ def long_context_window_radius(default: int = 220) -> int:
         "128k": 380,
         "256k": 420,
     }.get(bucket, default)
+
+
+def multipass_allowed_for_task() -> bool:
+    """Return True when the current task type can benefit from multipass retrieval.
+
+    Acts as the *task-level* gate inside the engine.  The caller is still
+    responsible for checking ``MASE_MULTIPASS=1`` via
+    ``multipass_retrieval.is_enabled()`` — this function only answers "is this
+    a task family where multipass is architecturally appropriate?".
+
+    Covers ``long_context_qa`` (LV-Eval EN/ZH) and ``long_memory`` (LME) tasks;
+    casual conversation is excluded so a stray MASE_MULTIPASS env var in the
+    caller process cannot accidentally trigger the heavyweight pipeline.
+    """
+    return is_long_context_qa() or is_long_memory()
 
 
 def is_factrecall_long_context() -> bool:
@@ -130,7 +145,7 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
     if not fact_sheet.strip() or fact_sheet.strip() == "无相关记忆。":
         return "general_answer_reasoning"
     if benchmark_profile() == "nolima_wrapper":
-        return "grounded_answer_english_reasoning" if language == "en" else "grounded_answer"
+        return "grounded_nolima_main_english" if language == "en" else "grounded_answer"
     if benchmark_profile() == "nolima_wrapper_extract":
         return "grounded_long_context_nolima_english" if language == "en" else "grounded_long_context"
     if is_long_context_qa():
@@ -217,6 +232,7 @@ __all__ = [
     "long_context_length_bucket",
     "long_context_search_limit",
     "long_context_window_radius",
+    "multipass_allowed_for_task",
     "is_factrecall_long_context",
     "is_multidoc_long_context",
     "determine_memory_heat",

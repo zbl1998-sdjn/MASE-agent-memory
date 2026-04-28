@@ -6,7 +6,8 @@ import time
 
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ.setdefault('MASE_CONFIG_PATH', r'E:\MASE-demo\config.dual_gpu.json')
-os.environ.pop('MASE_MULTIPASS', None)
+# MASE_MULTIPASS is intentionally NOT popped here; callers may set it to "1"
+# to enable the multi-pass retrieval pipeline on the EN long-context path.
 
 from benchmarks.runner import BenchmarkRunner
 
