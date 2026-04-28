@@ -13,9 +13,8 @@ Output:
 
 Judge model:
     Reuses benchmarks/llm_judge.py which loads ModelInterface from
-    MASE_CONFIG_PATH. We force it to use deepseek-chat (cheapest cloud) by
-    pointing at config.lme_glm5.json + setting the executor mode to one that
-    is cheap. The judge prompt is fixed inside llm_judge.py.
+    MASE_CONFIG_PATH. This uses cloud models and is therefore opt-in only:
+    set MASE_ALLOW_CLOUD_MODELS=1 after explicit user approval.
 """
 from __future__ import annotations
 
@@ -29,6 +28,12 @@ from pathlib import Path
 REPO = Path(r"E:\MASE-demo")
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "src"))
+
+if os.environ.get("MASE_ALLOW_CLOUD_MODELS") != "1":
+    raise SystemExit(
+        "Refusing to run LLM judge: it uses cloud models. "
+        "Set MASE_ALLOW_CLOUD_MODELS=1 only after explicit user approval."
+    )
 
 os.environ.setdefault("MASE_CONFIG_PATH", str(REPO / "config.lme_glm5.json"))
 os.environ["MASE_USE_LLM_JUDGE"] = "1"
@@ -54,6 +59,14 @@ def _gt_of(sample: dict) -> str:
     return str(sample.get("ground_truth") or "").strip()
 
 
+def _qtype_of(sample: dict) -> str | None:
+    metadata = sample.get("sample_metadata") or {}
+    if not isinstance(metadata, dict):
+        return None
+    qtype = metadata.get("question_type")
+    return str(qtype).strip() if qtype else None
+
+
 def rescore_one(sample: dict) -> tuple[str, bool, bool, str]:
     qid = str(sample.get("id") or "")
     if _is_pass(sample):
@@ -61,10 +74,11 @@ def rescore_one(sample: dict) -> tuple[str, bool, bool, str]:
     ans = _answer_of(sample)
     gt = _gt_of(sample)
     q = str(sample.get("question") or "")
+    qtype = _qtype_of(sample)
     if not ans or not gt:
         return qid, False, False, "empty"
     try:
-        verdict = judge_answer(q, gt, ans, mode=JUDGE_MODE)
+        verdict = judge_answer(q, gt, ans, question_type=qtype, mode=JUDGE_MODE)
     except Exception as e:
         return qid, False, False, f"judge_err:{type(e).__name__}"
     if verdict is True:

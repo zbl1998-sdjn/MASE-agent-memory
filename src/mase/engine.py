@@ -304,6 +304,15 @@ class MASESystem:
         cleaned = str(content or "").strip()
         if not cleaned:
             return "Based on current records, I can't answer this question." if detect_text_language(user_question) == "en" else "根据现有记录，我无法回答这个问题。"
+        temporal_match = re.search(r"^\s*-\s*Deterministic temporal answer:\s*([^\n]+)", fact_sheet, flags=re.MULTILINE)
+        if temporal_match:
+            return str(temporal_match.group(1) or "").strip()
+        aggregate_match = re.search(r"^\s*-\s*Deterministic aggregate answer:\s*([^\n]+)", fact_sheet, flags=re.MULTILINE)
+        if aggregate_match:
+            return str(aggregate_match.group(1) or "").strip()
+        preference_match = re.search(r"^\s*-\s*Deterministic preference answer:\s*([^\n]+)", fact_sheet, flags=re.MULTILINE)
+        if preference_match:
+            return str(preference_match.group(1) or "").strip()
         if mode.startswith("grounded_analysis"):
             parsed = normalize_json_text(cleaned)
             if parsed is not None:

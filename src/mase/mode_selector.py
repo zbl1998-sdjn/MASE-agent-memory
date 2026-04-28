@@ -133,6 +133,14 @@ def lme_qtype_routing_enabled() -> bool:
     return str(os.environ.get("MASE_LME_QTYPE_ROUTING") or "").strip() in {"1", "true", "yes"}
 
 
+def local_only_models_enabled() -> bool:
+    return str(os.environ.get("MASE_LOCAL_ONLY") or os.environ.get("MASE_LME_LOCAL_ONLY") or "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    }
+
+
 def select_notetaker_mode(user_question: str, memory_heat: str) -> str:
     language = detect_text_language(user_question)
     if language == "en":
@@ -155,6 +163,10 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
             return "grounded_long_context_multidoc_english" if language == "en" else "grounded_long_context_multidoc"
         return "grounded_long_context_english" if language == "en" else "grounded_long_context"
     if is_long_memory():
+        if local_only_models_enabled():
+            if lme_qtype_routing_enabled() and lme_question_type() == "temporal-reasoning":
+                return "grounded_long_memory_deepreason_english" if language == "en" else "grounded_long_memory_deepreason"
+            return "grounded_long_memory_english" if language == "en" else "grounded_long_memory"
         # iter4-retry: when MASE_LME_RETRY=1, force every question to the
         # second-opinion executor (kimi-k2.5 + non-abstain bias prompt).
         # Used by scripts/run_lme_iter4_retry.py for the 103-fail slice.
@@ -187,6 +199,8 @@ def verify_mode_for_question(user_question: str) -> str:
     is_en = detect_text_language(user_question) == "en"
     if is_long_context_qa():
         return "grounded_verify_long_context_english" if is_en else "grounded_verify_long_context"
+    if is_long_memory() and local_only_models_enabled():
+        return "grounded_verify_english_reasoning" if is_en else "grounded_verify_reasoning"
     # When LME verifier escape hatch is on AND we're in long_memory context,
     # use cloud LME-tuned verifier (kimi-k2.5 + temporal/multi-session checklist).
     if is_long_memory() and str(os.environ.get("MASE_LME_VERIFY") or "").strip() in {"1", "true", "yes"}:
@@ -206,6 +220,10 @@ def verify_mode_for_question(user_question: str) -> str:
 
 
 def generalizer_mode_for_question(user_question: str) -> str:
+    if is_long_memory() and local_only_models_enabled():
+        if lme_qtype_routing_enabled() and lme_question_type() == "multi-session":
+            return "grounded_analysis_english_reasoning" if detect_text_language(user_question) == "en" else "grounded_analysis_reasoning"
+        return "grounded_answer_english_reasoning" if detect_text_language(user_question) == "en" else "grounded_answer"
     if is_long_memory() and lme_qtype_routing_enabled():
         qtype = lme_question_type()
         if qtype == "single-session-preference":
@@ -239,6 +257,7 @@ __all__ = [
     "benchmark_profile",
     "lme_question_type",
     "lme_qtype_routing_enabled",
+    "local_only_models_enabled",
     "select_notetaker_mode",
     "select_executor_mode",
     "verify_mode_for_question",

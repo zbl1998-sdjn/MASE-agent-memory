@@ -1,4 +1,8 @@
-"""Run LongMemEval-500 full and report by question_type."""
+"""Run LongMemEval-500 full locally and report by question_type.
+
+Cloud model calls are blocked by default. Set ``MASE_ALLOW_CLOUD_MODELS=1``
+only after explicit user approval.
+"""
 import json
 import os
 import sys
@@ -6,6 +10,9 @@ import time
 
 sys.path.insert(0, r'E:\MASE-demo'); sys.path.insert(0, r'E:\MASE-demo\src')
 os.environ['MASE_CONFIG_PATH'] = r'E:\MASE-demo\config.lme_glm5.json'
+os.environ.setdefault('MASE_ALLOW_CLOUD_MODELS', '0')
+os.environ['MASE_LOCAL_ONLY'] = '1'
+os.environ['MASE_LME_LOCAL_ONLY'] = '1'
 os.environ['MASE_MULTIPASS'] = '1'
 os.environ.setdefault('MASE_MULTIPASS_VARIANTS', '2')
 os.environ.setdefault('MASE_MULTIPASS_HYDE', '1')
@@ -13,8 +20,9 @@ os.environ.setdefault('MASE_MULTIPASS_RERANK', '1')
 os.environ.setdefault('MASE_MULTIPASS_RERANK_TOP', '40')
 os.environ['MASE_MULTIPASS_RERANK_TOP_MULTISESSION'] = '80'
 os.environ['MASE_LME_VERIFY'] = '1'
-os.environ['MASE_LME_ROUTE_BY_QID'] = '0'
+os.environ['MASE_LME_ROUTE_BY_QID'] = '1'
 os.environ['MASE_LME_QTYPE_ROUTING'] = '1'
+os.environ['MASE_USE_LLM_JUDGE'] = '0'
 
 from benchmarks.runner import BenchmarkRunner
 
@@ -22,7 +30,7 @@ PATH = r'E:\MASE-demo\data\longmemeval_official\longmemeval_s_500.json'
 data = json.load(open(PATH, encoding='utf-8'))
 total_n = len(data)
 print(f'Running LongMemEval full {total_n} samples')
-print('Preset: config.lme_glm5 + multipass + verifier + qtype routing')
+print('Preset: local-only config.lme_glm5 + multipass + local verifier + qtype routing; LLM judge disabled')
 
 runner = BenchmarkRunner(baseline_profile='none')
 t0 = time.time()

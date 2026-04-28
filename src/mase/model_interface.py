@@ -17,6 +17,8 @@ import ollama
 from .health_tracker import get_tracker
 
 BASE_DIR = Path(__file__).resolve().parents[2]
+_LOCAL_PROVIDERS = {"ollama", "llama_cpp"}
+_TRUTHY = {"1", "true", "yes", "y", "on"}
 
 
 def resolve_config_path(config_path: str | Path | None = None) -> Path:
@@ -66,6 +68,22 @@ def _resolve_relative_path(raw_path: str | Path, base_dir: Path) -> Path:
     if path.is_absolute():
         return path.resolve()
     return (base_dir / path).resolve()
+
+
+def cloud_models_allowed() -> bool:
+    return str(os.environ.get("MASE_ALLOW_CLOUD_MODELS") or "").strip().lower() in _TRUTHY
+
+
+def _enforce_cloud_model_policy(provider: str, agent_type: str, mode: str | None, model_name: str) -> None:
+    normalized_provider = str(provider or "").strip().lower()
+    if normalized_provider in _LOCAL_PROVIDERS or cloud_models_allowed():
+        return
+    mode_label = mode or "<default>"
+    raise RuntimeError(
+        "Cloud model call blocked by policy. "
+        "Set MASE_ALLOW_CLOUD_MODELS=1 only after explicit user approval. "
+        f"Blocked provider={provider}, model={model_name}, agent={agent_type}, mode={mode_label}."
+    )
 
 
 def load_memory_settings(config_path: str | Path | None = None) -> dict[str, Path]:
@@ -198,6 +216,7 @@ class ModelInterface:
         agent_config = self.get_effective_agent_config(agent_type, mode=mode)
         provider = agent_config.get("provider", "ollama")
         model_name = agent_config["model_name"]
+        _enforce_cloud_model_policy(str(provider), agent_type, mode, str(model_name))
         temperature = agent_config.get("temperature", 0.7)
         max_tokens = agent_config.get("max_tokens", 512)
         # MC self-consistency hook: env override applies only when explicitly set.
@@ -328,7 +347,7 @@ class ModelInterface:
     def _is_transient_openai_error(self, error: Exception) -> bool:
         if isinstance(error, httpx.HTTPStatusError):
             return error.response.status_code in {408, 409, 429, 500, 502, 503, 504}
-        return isinstance(error, (httpx.TimeoutException, httpx.NetworkError, httpx.RemoteProtocolError))
+        return isinstance(error, httpx.TimeoutException | httpx.NetworkError | httpx.RemoteProtocolError)
 
     def _call_ollama(
         self,
@@ -379,7 +398,7 @@ class ModelInterface:
             raw_value = agent_config.get("keep_alive", self.fallbacks.get("ollama_keep_alive"))
         if raw_value is None:
             return None
-        if isinstance(raw_value, (int, float)):
+        if isinstance(raw_value, int | float):
             return raw_value
         text = str(raw_value).strip()
         if not text:
