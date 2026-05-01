@@ -172,7 +172,7 @@ def _parse_suite_metrics(name: str, command_runs: list[dict[str, Any]]) -> dict[
 def _metric_to_float(value: Any) -> float | None:
     if value is None:
         return None
-    if isinstance(value, (int, float)):
+    if isinstance(value, int | float):
         return float(value)
     match = re.search(r"-?\d+(?:\.\d+)?", str(value))
     return float(match.group(0)) if match else None

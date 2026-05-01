@@ -1,11 +1,25 @@
 [project]
-name = "mase-demo"
+name = "mase-memory"
 version = "0.4.0"
-description = "MASE: Memory-Augmented System Executor"
+description = "MASE: a dual-whitebox memory engine for LLM agents"
 authors = [
-    {name = "Developer", email = "dev@example.com"},
+    {name = "zbl1998-sdjn"},
 ]
+readme = "README.md"
+license = "Apache-2.0"
 requires-python = ">=3.10"
+keywords = ["llm", "agent-memory", "long-context", "sqlite", "mcp"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
     "httpx>=0.25,<1.0",
     "ollama>=0.1,<1.0",
@@ -15,6 +29,28 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+server = [
+    "fastapi>=0.110,<1.0",
+    "uvicorn>=0.27,<1.0",
+]
+mcp = [
+    "mcp>=1.0,<2.0",
+]
+langchain = [
+    "langchain>=0.1,<1.0",
+    "langchain-core>=0.1,<1.0",
+]
+llamaindex = [
+    "llama-index-core>=0.10,<1.0",
+]
+all = [
+    "fastapi>=0.110,<1.0",
+    "uvicorn>=0.27,<1.0",
+    "mcp>=1.0,<2.0",
+    "langchain>=0.1,<1.0",
+    "langchain-core>=0.1,<1.0",
+    "llama-index-core>=0.10,<1.0",
+]
 dev = [
     "pytest>=8.0,<9.0",
     "pytest-xdist>=3.0,<4.0",
@@ -22,6 +58,12 @@ dev = [
     "mypy>=1.10,<2.0",
     "pre-commit>=3.5,<5.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/zbl1998-sdjn/MASE"
+Repository = "https://github.com/zbl1998-sdjn/MASE"
+Issues = "https://github.com/zbl1998-sdjn/MASE/issues"
+Documentation = "https://github.com/zbl1998-sdjn/MASE#readme"
 
 [build-system]
 requires = ["hatchling"]

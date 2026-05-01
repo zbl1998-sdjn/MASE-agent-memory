@@ -75,6 +75,20 @@ def test_claim_manifests_evidence_status_values() -> None:
                 )
 
 
+def test_publishable_claim_lanes_use_tracked_evidence() -> None:
+    for manifest_path in _discover_manifests():
+        payload = _load(manifest_path)
+        name = manifest_path.name
+        for lane, claim in payload["claims"].items():
+            if claim.get("publishable_headline") is False:
+                continue
+            for idx, item in enumerate(claim.get("evidence", [])):
+                assert item.get("status") == "tracked", (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: "
+                    "publishable lanes must use tracked evidence"
+                )
+
+
 def test_public_docs_reference_tracked_claim_language() -> None:
     readme = _read_text("README.md")
     readme_en = _read_text("docs/README_en.md")
@@ -91,7 +105,8 @@ def test_longmemeval_claim_lane_is_spelled_out() -> None:
     readme = _read_text("README.md")
     benchmarks = _read_text("BENCHMARKS.md")
 
-    assert "84.8% (424/500)" in readme
     assert "61.0% (305/500)" in readme
-    assert "LLM-judge, full_500 combined lane" in benchmarks
+    assert "80.2% (401/500)" in readme
+    assert "post-hoc combined/retry diagnostic" in readme
+    assert "LLM-judge lane on the same iter2 full_500 run" in benchmarks
     assert "official substring-comparable lane" in benchmarks

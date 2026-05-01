@@ -1,0 +1,18 @@
+{
+  "benchmark": "LongMemEval-S",
+  "run": "iter2_full_500",
+  "sample_count": 500,
+  "configuration": "multipass + kimi-k2.5 verifier; qid-bucket routing disabled",
+  "official_substring": {
+    "pass_count": 305,
+    "score_pct": 61.0
+  },
+  "llm_judge": {
+    "pass_count": 401,
+    "score_pct": 80.2
+  },
+  "notes": [
+    "This is the conservative publishable LongMemEval lane after overfit audit.",
+    "The LLM-judge lane is reported separately from the official substring-comparable lane."
+  ]
+}

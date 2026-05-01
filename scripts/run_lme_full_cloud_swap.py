@@ -1,7 +1,10 @@
-"""Run LongMemEval-500 full locally and report by question_type.
+"""Run LongMemEval-500 full with cloud-swapped models per user spec.
 
-Cloud model calls are blocked by default. Set ``MASE_ALLOW_CLOUD_MODELS=1``
-only after explicit user approval.
+Final Extractor: deepseek-v4-pro
+Verifier:        glm-5.1
+Decomposer:      deepseek-v4-flash
+
+Cloud calls REQUIRE explicit user approval. This script reflects that.
 """
 import json
 import os
@@ -12,10 +15,22 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / 'src'))
+
+# Load .env
+env_path = REPO / '.env'
+if env_path.exists():
+    for line in env_path.read_text(encoding='utf-8').splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        k, v = line.split('=', 1)
+        os.environ.setdefault(k.strip(), v.strip())
+
 os.environ['MASE_CONFIG_PATH'] = str(REPO / 'config.lme_glm5.json')
-os.environ.setdefault('MASE_ALLOW_CLOUD_MODELS', '0')
-os.environ['MASE_LOCAL_ONLY'] = '1'
-os.environ['MASE_LME_LOCAL_ONLY'] = '1'
+os.environ['MASE_ALLOW_CLOUD_MODELS'] = '1'
+os.environ['MASE_LOCAL_ONLY'] = '0'
+os.environ['MASE_LME_LOCAL_ONLY'] = '0'
+os.environ['MASE_QUERY_VARIANTS_MODE'] = 'query_variants_cloud'
 os.environ['MASE_MULTIPASS'] = '1'
 os.environ.setdefault('MASE_MULTIPASS_VARIANTS', '2')
 os.environ.setdefault('MASE_MULTIPASS_HYDE', '1')
@@ -35,8 +50,8 @@ from benchmarks.runner import BenchmarkRunner
 PATH = REPO / 'data' / 'longmemeval_official' / 'longmemeval_s_500.json'
 data = json.loads(PATH.read_text(encoding='utf-8'))
 total_n = len(data)
-print(f'Running LongMemEval full {total_n} samples')
-print('Preset: local-only config.lme_glm5 + multipass + local verifier + qtype routing; LLM judge disabled')
+print(f'Running LongMemEval CLOUD-SWAP full {total_n} samples')
+print('Final Extractor: deepseek-v4-pro | Verifier: glm-5.1 | Decomposer: deepseek-v4-flash')
 
 runner = BenchmarkRunner(baseline_profile='none')
 t0 = time.time()
@@ -62,17 +77,9 @@ for qt, (c, t) in sorted(type_stats.items()):
     print(f'  {qt:35s} {c}/{t} = {100*c/max(1,t):.2f}%')
 
 fails = [{'id': r['id'], 'qt': (r.get('sample_metadata') or {}).get('question_type'),
-          'q': r['question'], 'gt': r['ground_truth'], 'ans': r['mase'].get('answer','')[:300]}
+          'q': r['question'], 'gt': r['ground_truth'], 'ans': r['mase'].get('answer', '')[:300]}
          for r in results if not (r['mase'].get('score') or {}).get('all_matched')]
-fails_path = REPO / 'scripts' / '_lme_full_fails.json'
-fails_path.write_text(json.dumps(fails, ensure_ascii=False, indent=2), encoding='utf-8')
-print(f'\n{len(fails)} failures dumped to scripts/_lme_full_fails.json')
-
-summary = {
-    'total': total, 'correct': correct, 'overall_pct': round(100*correct/max(1,total), 2),
-    'elapsed_seconds': round(elapsed, 1), 'by_type': {qt: {'pass': c, 'total': t,
-        'pct': round(100*c/max(1,t),2)} for qt, (c,t) in type_stats.items()},
-}
-summary_path = REPO / 'scripts' / '_lme_full_summary.json'
-summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding='utf-8')
-print('summary -> scripts/_lme_full_summary.json')
+out_path = REPO / 'results' / 'lme_cloud_swap_full_fails.json'
+out_path.parent.mkdir(parents=True, exist_ok=True)
+out_path.write_text(json.dumps(fails, ensure_ascii=False, indent=2), encoding='utf-8')
+print(f'\nWrote {len(fails)} fails to {out_path}')

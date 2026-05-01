@@ -51,7 +51,7 @@ class Metrics:
         with self._lock:
             self._counters[topic] += 1
             latency = event.payload.get("latency_ms")
-            if isinstance(latency, (int, float)) and latency > 0:
+            if isinstance(latency, int | float) and latency > 0:
                 self._latency_sum_ms[topic] += float(latency)
                 self._latency_count[topic] += 1
 

@@ -143,9 +143,7 @@ def build_long_memory_full_fact_sheet(
     sections = [header]
     if local_only and evidence_scan:
         # Renumber [E1]..[EK] → [1]..[K] so it matches the system_prompt's
-        # "Walk through ALL windows [1]…[K]" instruction. Drop the
-        # chronological dump entirely; the evidence_scan already includes
-        # every lexically-relevant window plus halo neighbors.
+        # "Walk through ALL windows [1]…[K]" instruction.
         import re as _re
         renumbered: list[str] = []
         counter = 0
@@ -156,6 +154,30 @@ def build_long_memory_full_fact_sheet(
             else:
                 renumbered.append(ln)
         sections.append("\n".join(renumbered))
+        priority_context_rows = sorted(
+            [r for r in all_rows if int(r.get("id") or 0) in (priority_row_ids | halo_row_ids)],
+            key=lambda row: int(row.get("id") or 0),
+        )
+        if priority_context_rows:
+            local_context_budget = 3200
+            local_context_used = 0
+            local_context_lines: list[str] = []
+            for idx, row in enumerate(priority_context_rows, start=1):
+                line = _render(row, idx)
+                if not line:
+                    continue
+                if local_context_used + len(line) + 1 > local_context_budget:
+                    break
+                local_context_lines.append(line)
+                local_context_used += len(line) + 1
+            if local_context_lines:
+                label = (
+                    "Priority evidence rows (verbatim chronology for exact wording):"
+                    if is_en
+                    else "重点证据原文（保留原始时间顺序，便于抽取精确措辞）："
+                )
+                sections.append(label)
+                sections.append("\n".join(local_context_lines))
         return "\n".join(sections)
     if evidence_scan:
         sections.append("\n".join(evidence_scan))

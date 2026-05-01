@@ -25,9 +25,9 @@
   - 文档 `examples/README_10.md`
 
 ### Changed
-- **README LongMemEval 行**: `80.2%` → **`84.8% (424/500) LLM-judge`**
-  - iter4 + Plan A 二号意见检索, 27 题真升级, 零回退
-  - 框架重定位为 "on par with frontier models" — 明确标注 LongMemEval 不是 MASE 主战场
+- **README LongMemEval 行**: 公开 headline 收口为 **61.0% official substring / 80.2% LLM-judge**
+  - 84.8% combined/retry 结果保留为 diagnostic, 不再作为 public headline
+  - 明确标注 LongMemEval 不是 MASE 主战场
 - **DECISIONS.md / iter3 status block**: 移除 "≥85% 之前不发布" 的承诺，替换为 "84.8% 已发布, 不刷分"
 - `examples/README.md`: 索引新增 #10，原 MCP TODO 顺延为 #11
 
@@ -41,7 +41,7 @@
 
 ### Won't Do (设计哲学一致性)
 - ❌ BAMBOO altqa/senhallu/abshallu — 反事实改写与 MASE 忠实事实证据原则冲突，README 已透明披露 (15.0% smoke-test)
-- ❌ 强行刷 LongMemEval ≥85% — 84.8% 已是诚实可复现数字，再刷即过拟合，违背防过拟合原则
+- ❌ 强行刷 LongMemEval ≥85% — qid-bucket / post-hoc retry 结果只作为 diagnostic, public headline 采用更保守的双通道数字
 
 ### Files Touched (本轮)
 ```
@@ -75,4 +75,4 @@ CHANGELOG.md                   (this file, new)
 
 ### Test Status
 - 17 new tests added, **all passing** (`pytest tests/test_tri_vault_wire.py tests/test_hybrid_recall.py tests/test_adaptive_verify.py` → 17/17 in 0.59s)
-- All new modules default OFF — existing 84.8% LongMemEval baseline guaranteed unchanged.
+- All new modules default OFF — publishable LongMemEval baseline (61.0% official / 80.2% judge) guaranteed unchanged.

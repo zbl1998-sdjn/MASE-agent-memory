@@ -10,10 +10,10 @@
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
-![Tests](https://img.shields.io/badge/tests-69%2F69%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-371%2F371%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
-![LongMemEval](https://img.shields.io/badge/LongMemEval--S-84.8%25-blueviolet)
+![LongMemEval](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
 
 <a href="../README.md"><b>中文</b></a> | <b>English</b>
 
@@ -55,11 +55,12 @@ MASE's primary narrative is the memory system, not a runtime feature list.
 |---|---|---|---|---|
 | LV-Eval EN 256k | qwen2.5:7b local | **88.71%** | **4.84%** | **+84pp** |
 | NoLiMa ONLYDirect 32k | qwen2.5:7b local, MASE chunked | **60.71%** | **1.79%** | **+58.9pp** |
-| LongMemEval-S 500 | GLM-5 + kimi-k2.5 second-opinion + LLM-judge | **84.8%** (424/500) | **70.4%** | **+14.4pp** |
+| LongMemEval-S 500 | GLM-5 + kimi-k2.5 verifier | **61.0% official substring** / **80.2% LLM-judge** | **70.4% substring** / **72.4% LLM-judge** | **+7.8pp judge** |
 
 > LongMemEval reports two scoring lanes (see `docs/benchmark_claims/`):
-> - 84.8% (424/500) — LLM-judge, full_500 combined lane
 > - 61.0% (305/500) — official substring-comparable lane
+> - 80.2% (401/500) — LLM-judge lane, same iter2 full_500 run
+> - 84.8% (424/500) — post-hoc combined/retry diagnostic, **not** the public headline
 
 - MASE is not just able to remember; it can distill facts reliably under long context.
 - Architecture, not parameter count, determines whether long context remains usable.
@@ -130,7 +131,7 @@ MASE welcomes contributions. If you'd like to help, please consider:
   title = {{MASE}: Memory-Augmented Smart Entity — Schema-less SQLite memory for LLM agents},
   year = {2026},
   url = {https://github.com/zbl1998-sdjn/MASE},
-  note = {Lifts qwen2.5:7b from 1.79\% to 60.71\% on NoLiMa-32k; 84.8\% on LongMemEval-S}
+  note = {Lifts qwen2.5:7b from 1.79\% to 60.71\% on NoLiMa-32k; 61.0\% official substring / 80.2\% LLM-judge on LongMemEval-S}
 }
 ```
 

@@ -37,7 +37,7 @@ def load_mase() -> tuple[list[float], list[float]]:
             task = row.get("task")
             ctx = row.get("context_length")
             acc = row.get("accuracy")
-            if not isinstance(ctx, int) or not isinstance(acc, (int, float)):
+            if not isinstance(ctx, int) or not isinstance(acc, int | float):
                 continue
             if task == "nolima_ONLYDirect":
                 single[ctx] = float(acc) * 100.0

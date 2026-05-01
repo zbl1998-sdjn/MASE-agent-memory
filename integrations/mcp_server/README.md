@@ -25,8 +25,8 @@ python -m integrations.mcp_server.server
     "mase-memory": {
       "command": "python",
       "args": ["-m", "integrations.mcp_server.server"],
-      "cwd": "E:\\MASE-demo",
-      "env": {"PYTHONPATH": "E:\\MASE-demo\\src"}
+      "cwd": "C:\\path\\to\\MASE",
+      "env": {"PYTHONPATH": "C:\\path\\to\\MASE\\src"}
     }
   }
 }

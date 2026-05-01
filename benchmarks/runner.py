@@ -602,22 +602,19 @@ class BenchmarkRunner:
         previous_question_reference_time = os.environ.get("MASE_QUESTION_REFERENCE_TIME")
         previous_task_type = os.environ.get("MASE_TASK_TYPE")
         previous_lveval_dataset = os.environ.get("MASE_LVEVAL_DATASET")
+        previous_qtype = os.environ.get("MASE_QTYPE")
+        previous_current_qid = os.environ.get("MASE_CURRENT_QID")
+        previous_qid_bucket = os.environ.get("MASE_QID_BUCKET")
         os.environ["MASE_MEMORY_DIR"] = str(case_memory_dir.resolve())
         os.environ["MASE_TASK_TYPE"] = str(sample.task_type or "")
         ds_name = ""
         if isinstance(sample.metadata, dict):
             ds_name = str(sample.metadata.get("dataset") or "").strip().lower()
         os.environ["MASE_LVEVAL_DATASET"] = ds_name
-        # iter3: expose question_id bucket so mode_selector can route verifier
-        # (abstention / gpt4_gen / regular) — only active when
-        # MASE_LME_ROUTE_BY_QID=1. Default off → no behaviour change.
         qid = str(sample.id or "")
-        if qid.endswith("_abs"):
-            os.environ["MASE_QID_BUCKET"] = "abstention"
-        elif qid.startswith("gpt4_"):
-            os.environ["MASE_QID_BUCKET"] = "gpt4_gen"
-        else:
-            os.environ["MASE_QID_BUCKET"] = "regular"
+        # Keep the raw qid only for trace/debug output. Runtime routing must not
+        # branch on benchmark-specific qid naming patterns; that would overfit
+        # LongMemEval rather than generalize to real user traffic.
         os.environ["MASE_CURRENT_QID"] = qid
         # iter5: expose LongMemEval question_type (single-session-user / multi-session
         # / temporal-reasoning / single-session-preference / knowledge-update) so that
@@ -765,6 +762,18 @@ class BenchmarkRunner:
                 os.environ.pop("MASE_LVEVAL_DATASET", None)
             else:
                 os.environ["MASE_LVEVAL_DATASET"] = previous_lveval_dataset
+            if previous_qtype is None:
+                os.environ.pop("MASE_QTYPE", None)
+            else:
+                os.environ["MASE_QTYPE"] = previous_qtype
+            if previous_current_qid is None:
+                os.environ.pop("MASE_CURRENT_QID", None)
+            else:
+                os.environ["MASE_CURRENT_QID"] = previous_current_qid
+            if previous_qid_bucket is None:
+                os.environ.pop("MASE_QID_BUCKET", None)
+            else:
+                os.environ["MASE_QID_BUCKET"] = previous_qid_bucket
 
     def run_sample(self, sample: BenchmarkSample, run_root: Path) -> dict[str, Any]:
         max_attempts = self.sample_retry_count + 1

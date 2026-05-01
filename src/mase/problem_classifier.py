@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 from typing import Any
@@ -76,6 +77,19 @@ _UPDATE_MARKERS = (
     "updated to",
     "now set to",
 )
+_UPDATE_STYLE_MARKERS = (
+    "latest",
+    "most recent",
+    "most recently",
+    "currently",
+    "initially",
+    "at first",
+    "when i just started",
+    "when i first started",
+    "when i first",
+    "previously",
+    "used to",
+)
 _PREFERENCE_MARKERS = (
     "喜欢",
     "偏好",
@@ -83,6 +97,16 @@ _PREFERENCE_MARKERS = (
     "习惯",
     "prefer",
     "favorite",
+)
+_RECOMMENDATION_MARKERS = (
+    "recommend",
+    "suggest",
+    "tips",
+    "advice",
+    "ideas",
+    "what should i",
+    "what to look for",
+    "what to do",
 )
 _PROCEDURAL_MARKERS = (
     "流程",
@@ -182,11 +206,15 @@ class RetrievalPlan:
 class ProblemClassifier:
     def classify(self, question: str, route_keywords: list[str] | None = None) -> ProblemClassification:
         lowered = question.lower()
+        qtype = str(os.environ.get("MASE_QTYPE") or "").strip().lower()
+        recommendation_like = _contains_any(lowered, _RECOMMENDATION_MARKERS)
         signals: list[str] = []
         if _contains_any(lowered, _CONFLICT_MARKERS):
             signals.append("conflict-marker")
         if _contains_any(lowered, _UPDATE_MARKERS):
             signals.append("update-marker")
+        if _contains_any(lowered, _UPDATE_STYLE_MARKERS):
+            signals.append("update-style-marker")
         if _contains_any(lowered, _TEMPORAL_MARKERS):
             signals.append("temporal-marker")
         if _contains_any(lowered, _AGGREGATE_MARKERS):
@@ -195,6 +223,12 @@ class ProblemClassifier:
             signals.append("cross-session-marker")
         if _contains_any(lowered, _PREFERENCE_MARKERS):
             signals.append("preference-marker")
+        if recommendation_like:
+            signals.append("recommendation-marker")
+        if qtype == "single-session-preference":
+            signals.append("qtype-single-session-preference")
+        if qtype == "knowledge-update":
+            signals.append("qtype-knowledge-update")
         if _contains_any(lowered, _PROCEDURAL_MARKERS):
             signals.append("procedural-marker")
         if _contains_any(lowered, _CURRENT_STATE_MARKERS):
@@ -214,7 +248,11 @@ class ProblemClassifier:
             problem_type = "aggregate"
         elif _contains_any(lowered, _TEMPORAL_MARKERS):
             problem_type = "temporal"
-        elif _contains_any(lowered, _PREFERENCE_MARKERS):
+        elif qtype == "knowledge-update":
+            problem_type = "update"
+        elif qtype == "single-session-preference":
+            problem_type = "preference"
+        elif _contains_any(lowered, _PREFERENCE_MARKERS) or recommendation_like:
             problem_type = "preference"
         elif _contains_any(lowered, _PROCEDURAL_MARKERS):
             problem_type = "procedural"
@@ -236,6 +274,7 @@ def build_retrieval_plan(
     base_limit: int = 5,
 ) -> RetrievalPlan:
     classification = ProblemClassifier().classify(question, route_keywords=route_keywords)
+    qtype = str(os.environ.get("MASE_QTYPE") or "").strip().lower()
     search_limit = max(1, int(base_limit or 5))
     include_history = False
     use_hybrid_rerank = False
@@ -247,6 +286,13 @@ def build_retrieval_plan(
         include_history = True
         search_limit = max(search_limit, 8)
         reasons.append("include-fact-history")
+    elif (
+        classification.problem_type in {"current_state", "aggregate", "general_recall", "low_confidence"}
+        and _contains_any(question, _UPDATE_STYLE_MARKERS)
+    ):
+        include_history = True
+        search_limit = max(search_limit, 8)
+        reasons.extend(["facts-first-priority", "include-fact-history"])
     elif classification.problem_type == "temporal":
         include_history = True
         use_hybrid_rerank = True
@@ -260,7 +306,13 @@ def build_retrieval_plan(
         use_hybrid_rerank = True
         search_limit = max(search_limit, 8)
         reasons.extend(["ambiguous-reference", "hybrid-rerank"])
-    elif classification.problem_type in {"preference", "procedural"}:
+    elif classification.problem_type == "preference":
+        search_limit = max(search_limit, 10 if qtype == "single-session-preference" else 6)
+        use_hybrid_rerank = True
+        reasons.extend(["preference-profile", "hybrid-rerank"])
+        if "__FULL_QUERY__" not in query_variants:
+            query_variants.append("__FULL_QUERY__")
+    elif classification.problem_type == "procedural":
         search_limit = max(search_limit, 6)
         reasons.append("slight-widening")
     elif classification.problem_type == "current_state":

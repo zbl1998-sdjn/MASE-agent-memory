@@ -1,0 +1,15 @@
+{
+  "benchmark": "LongMemEval-S",
+  "run": "iter4_combined_full_500",
+  "sample_count": 500,
+  "llm_judge": {
+    "pass_count": 424,
+    "score_pct": 84.8
+  },
+  "diagnostic_only": true,
+  "publishable_headline": false,
+  "notes": [
+    "This combined/retry result is retained as an internal diagnostic reference.",
+    "It is not used as the public headline because post-hoc retry/combined lanes carry higher overfitting risk."
+  ]
+}

@@ -8,7 +8,7 @@ Run through this **once** before going public. Everything is automated by `scrip
 > in `docs/benchmark_claims/`. Run `pytest tests/test_benchmark_claim_manifest.py -q` to confirm.
 
 ```powershell
-cd E:\MASE-demo
+cd C:\path\to\MASE
 # Search for accidentally-committed API keys
 Select-String -Path . -Pattern "sk-[A-Za-z0-9]{20,}|ZHIPU_API_KEY\s*=\s*[A-Za-z]|MOONSHOT_API_KEY\s*=\s*[A-Za-z]" -Recurse -Exclude "*.md","*.log","*.json" | Select-Object -First 10
 ```
@@ -87,7 +87,7 @@ If HN front-pages, you'll get questions. Have these ready:
 | "Does it support Claude/GPT-4?" | Yes — `MASE_CONFIG_PATH=config.lme_glm5.json` swaps the model set. Default is local Ollama. |
 | "Will it work on Linux/Mac?" | Yes — `MASE_DB_PATH` env removes the previously-hardcoded Windows path. |
 | "What about hallucination?" | iron-rule prompt + grounded verifier; see ablation in docs/ADAPTIVE_VERIFY.md |
-| "Why is LongMemEval only 84.8%?" | Because it's not our main benchmark — we publish it for transparency. The architectural win is NoLiMa 32k +58.9pp. |
+| "Why not headline the 84.8% LongMemEval run?" | Because it is a post-hoc combined/retry diagnostic. The publishable lanes are 61.0% official substring and 80.2% LLM-judge; the architectural win is NoLiMa 32k +58.9pp. |
 
 Don't engage trolls. Reply to genuine questions within 30 min. Star count grows during this window or never.
 

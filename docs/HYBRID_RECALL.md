@@ -3,7 +3,8 @@
 ## Status
 
 **Optional / pluggable.** Disabled by default. Zero impact on the current
-84.8% LongMemEval baseline unless you opt in via environment flag.
+publishable LongMemEval baseline (61.0% official substring / 80.2% LLM-judge)
+unless you opt in via environment flag.
 (Baseline tracked in `docs/benchmark_claims/longmemeval.json`.)
 
 ## Rationale
@@ -106,10 +107,10 @@ candidate is a shallow copy with two extra keys: `hybrid_score` and
 ## Ablation plan
 
 Goal: lift LongMemEval **temporal-reasoning** qtype from 72.2% → ~78%
-without regressing the overall 84.8%.
+without regressing the publishable overall baseline.
 
 ```bash
-# Baseline (flag OFF — should reproduce 84.8%)
+# Baseline (flag OFF — should reproduce 61.0% official / 80.2% judge)
 python scripts/run_lme_iter4_retry_part2.py
 
 # With hybrid recall
@@ -126,7 +127,7 @@ Compare per-qtype accuracy; in particular monitor:
 
 - `temporal-reasoning` (target: +5 pp)
 - `single-session-preference` (must not regress)
-- overall accuracy (must remain ≥ 84.8%)
+- overall accuracy (must remain at or above the publishable baseline)
 
 ## Safety
 

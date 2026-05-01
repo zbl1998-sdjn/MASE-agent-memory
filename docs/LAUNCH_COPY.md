@@ -13,8 +13,8 @@ We just lifted a 7B local model from 1.79% → 60.71% on NoLiMa-32k.
 
 No fine-tuning. No frontier model. Just a chunked-recall architecture that survives where context windows die.
 
-MASE — schema-less SQLite memory, ~zero hallucination, 84.8% LongMemEval.
-github.com/<your-handle>/MASE-demo
+MASE — schema-less SQLite memory, white-box recall, 61.0% official / 80.2% judge on LongMemEval.
+github.com/zbl1998-sdjn/MASE
 ```
 
 **附图**: `docs/assets/nolima_3way_lineplot.png`
@@ -41,16 +41,16 @@ MASE is a memory-augmented architecture for LLM agents. Two design choices:
    truncates the needle). Same model under MASE chunked pipeline: 60.71%.
    No fine-tuning, no model swap.
 
-Honest numbers (LLM-judge):
+Honest numbers:
   - LV-Eval EN 256k: 88.71% (vs 4.84% baseline)
   - NoLiMa 32k:      60.71% (vs 1.79%)
-  - LongMemEval-S:   84.8%  (on par with frontier API models)
+  - LongMemEval-S:   61.0% official substring / 80.2% LLM-judge
 
 LongMemEval is NOT our primary target — it assumes full history fits in the
 context window, which sidesteps MASE's whole point. We publish the number
 because it's where the field looks. NoLiMa is where MASE actually wins.
 
-Repo, reproducible runs, all source: github.com/<your-handle>/MASE-demo
+Repo, reproducible runs, all source: github.com/zbl1998-sdjn/MASE
 ```
 
 ---
@@ -64,7 +64,7 @@ Repo, reproducible runs, all source: github.com/<your-handle>/MASE-demo
 - 突破 ollama 8K context 截断，长上下文 needle-in-haystack 大幅提升
 - 完整白盒：内存就是 .db + .md 两种文本格式，可以 SELECT、可以 git diff
 - 一个 30 行 demo 演示 Ctrl-C 重启后的持久化记忆 (`examples/10_persistent_chat_cli.py`)
-- 84.8% LongMemEval 与 GPT-4o / Claude 3.5 / Gemini 1.5 Pro 同档 — 但**不是**主战场，主战场是长上下文窗口
+- LongMemEval 同时报告 official substring 与 LLM-judge 两条通道；主战场仍是长上下文窗口
 
 ---
 

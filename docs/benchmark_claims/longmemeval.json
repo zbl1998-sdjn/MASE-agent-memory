@@ -1,16 +1,16 @@
 {
   "benchmark": "LongMemEval-S",
   "claims": {
-    "headline_full_500_llm_judge": {
-      "score_pct": 84.8,
-      "pass_count": 424,
+    "publishable_full_500_llm_judge": {
+      "score_pct": 80.2,
+      "pass_count": 401,
       "sample_count": 500,
       "metric": "llm_judge",
       "config_profile": "published-cloud-longmemeval",
       "evidence": [
         {
-          "path": "scripts/_lme_iter4_combined_summary.json",
-          "status": "local_generated_untracked"
+          "path": "docs/benchmark_claims/evidence/longmemeval_iter2_dual_lane_summary.json",
+          "status": "tracked"
         }
       ]
     },
@@ -22,8 +22,22 @@
       "config_profile": "published-cloud-longmemeval",
       "evidence": [
         {
-          "path": "scripts/_lme_iter2_summary.json",
-          "status": "local_generated_untracked"
+          "path": "docs/benchmark_claims/evidence/longmemeval_iter2_dual_lane_summary.json",
+          "status": "tracked"
+        }
+      ]
+    },
+    "diagnostic_combined_full_500_llm_judge": {
+      "score_pct": 84.8,
+      "pass_count": 424,
+      "sample_count": 500,
+      "metric": "llm_judge_diagnostic",
+      "config_profile": "internal-diagnostic-longmemeval",
+      "publishable_headline": false,
+      "evidence": [
+        {
+          "path": "docs/benchmark_claims/evidence/longmemeval_iter4_combined_diagnostic.json",
+          "status": "tracked"
         }
       ]
     }

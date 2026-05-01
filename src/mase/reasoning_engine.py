@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 from typing import Any
@@ -31,6 +32,25 @@ ENGLISH_REASONING_STOPWORDS = {
     "who",
     "with",
 }
+
+_UPDATE_LATEST_HINT_MARKERS = (
+    "latest",
+    "most recent",
+    "most recently",
+    "current",
+    "currently",
+    "now",
+)
+
+_UPDATE_INITIAL_HINT_MARKERS = (
+    "initial",
+    "initially",
+    "at first",
+    "when i just started",
+    "when i first started",
+    "when i first",
+    "used to",
+)
 
 
 @dataclass(frozen=True)
@@ -100,6 +120,12 @@ def _is_english_question(question: str) -> bool:
 
 def _classify_operation(question: str) -> str:
     lowered = str(question or "").lower()
+    if (
+        str(os.environ.get("MASE_QTYPE") or "").strip().lower() == "knowledge-update"
+        or any(marker in lowered for marker in _UPDATE_LATEST_HINT_MARKERS)
+        or any(marker in lowered for marker in _UPDATE_INITIAL_HINT_MARKERS)
+    ):
+        return "update"
     if any(marker in lowered for marker in ("how much more", "how much less", "difference", "compare")):
         return "difference"
     if any(marker in lowered for marker in ("how long", "how many days", "how many weeks", "how many hours", "duration")):
@@ -183,6 +209,8 @@ def _extract_deterministic_answer(fact_sheet: str) -> str:
         r"Deterministic money total:\s*([^\n]+)",
         r"Deterministic money sum:\s*([^\n]+)",
         r"Deterministic sum:\s*([^\n]+)",
+        r"Deterministic ratio:\s*([^\n]+)",
+        r"Deterministic aggregate answer:\s*([^\n]+)",
         r"Deterministic answer:\s*([^\n]+)",
     ]
     for pattern in direct_patterns:
@@ -197,19 +225,23 @@ def _extract_deterministic_answer(fact_sheet: str) -> str:
 
 
 def _default_sub_tasks(operation: str) -> list[str]:
+    if operation == "update":
+        return ["retrieve evidence", "compare boundary rows", "ignore stale history", "final answer"]
     if operation in {"count", "money", "difference", "duration"}:
         return ["retrieve evidence", "verify coverage", f"deterministic {operation}", "final answer"]
     if operation == "chronology":
         return ["retrieve evidence", "order by time", "select best candidate", "final answer"]
     if operation == "disambiguation":
         return ["retrieve candidates", "compare supports", "reject distractors", "final answer"]
-    return ["retrieve evidence", "verify support", "final answer"]
+    return ["retrieve evidence", "extract exact supported value", "final answer"]
 
 
 def _default_verification_focus(operation: str, question: str) -> list[str]:
     lowered = str(question or "").lower()
     focus: list[str] = []
-    if operation == "count":
+    if operation == "update":
+        focus.extend(["latest/earliest boundary selection", "entity-value binding", "stale-history suppression"])
+    elif operation == "count":
         focus.extend(["duplicate suppression", "entity coverage"])
     elif operation == "money":
         focus.extend(["entity-amount binding", "duplicate suppression"])
@@ -221,8 +253,14 @@ def _default_verification_focus(operation: str, question: str) -> list[str]:
         focus.extend(["time ordering", "latest/earliest selection"])
     elif operation == "disambiguation":
         focus.extend(["candidate separation", "direct evidence"])
+    else:
+        focus.extend(["exact value extraction", "avoid evidence echo"])
     if "name" in lowered or "who" in lowered:
         focus.append("name completeness")
+    if any(marker in lowered for marker in ("rotation", "shift", "schedule", "table", "list", "day of the week")):
+        focus.append("table/list wording completeness")
+    if lowered.startswith(("where ", "when ", "what day", "which ", "what color")):
+        focus.append("return exact value only")
     if "total" in lowered or "in total" in lowered:
         focus.append("aggregation completeness")
     return _dedupe_strings(focus)

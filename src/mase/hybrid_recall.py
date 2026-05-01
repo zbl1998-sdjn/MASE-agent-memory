@@ -82,7 +82,7 @@ def _coerce_timestamp(value: Any) -> datetime | None:
         return None
     if isinstance(value, datetime):
         return value
-    if isinstance(value, (int, float)):
+    if isinstance(value, int | float):
         try:
             return datetime.fromtimestamp(float(value))
         except (OverflowError, OSError, ValueError):

@@ -98,10 +98,10 @@ def _generate_query_variants_cached(question: str, n: int) -> tuple[str, ...]:
     )
     try:
         mi = ModelInterface()
-        # Use small, fast model from cluster.
+        variants_mode = os.environ.get("MASE_QUERY_VARIANTS_MODE", "router").strip() or "router"
         out = mi.chat(
             messages=[{"role": "user", "content": prompt}],
-            mode="router",  # router uses qwen0.5b/1.5b -- cheapest tier
+            mode=variants_mode,
         )
         text = (out or {}).get("content") if isinstance(out, dict) else str(out)
     except Exception:

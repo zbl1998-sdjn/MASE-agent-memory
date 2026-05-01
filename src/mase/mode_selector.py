@@ -111,6 +111,18 @@ def is_multidoc_long_context() -> bool:
     return not ds.startswith("factrecall")
 
 
+def local_only_models_enabled() -> bool:
+    return str(os.environ.get("MASE_LOCAL_ONLY") or os.environ.get("MASE_LME_LOCAL_ONLY") or "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    }
+
+
+def prefer_stable_local_temporal_executor() -> bool:
+    return str(os.environ.get("MASE_LME_TEMPORAL_DEEPREASON") or "").strip().lower() not in {"1", "true", "yes"}
+
+
 # ---- Heat / mode selection ----
 def determine_memory_heat(user_question: str) -> str:
     lowered = str(user_question or "").lower()
@@ -131,14 +143,6 @@ def lme_question_type() -> str:
 
 def lme_qtype_routing_enabled() -> bool:
     return str(os.environ.get("MASE_LME_QTYPE_ROUTING") or "").strip() in {"1", "true", "yes"}
-
-
-def local_only_models_enabled() -> bool:
-    return str(os.environ.get("MASE_LOCAL_ONLY") or os.environ.get("MASE_LME_LOCAL_ONLY") or "").strip().lower() in {
-        "1",
-        "true",
-        "yes",
-    }
 
 
 def select_notetaker_mode(user_question: str, memory_heat: str) -> str:
@@ -165,6 +169,8 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
     if is_long_memory():
         if local_only_models_enabled():
             if lme_qtype_routing_enabled() and lme_question_type() == "temporal-reasoning":
+                if prefer_stable_local_temporal_executor():
+                    return "grounded_long_memory_english" if language == "en" else "grounded_long_memory"
                 return "grounded_long_memory_deepreason_english" if language == "en" else "grounded_long_memory_deepreason"
             return "grounded_long_memory_english" if language == "en" else "grounded_long_memory"
         # iter4-retry: when MASE_LME_RETRY=1, force every question to the
@@ -202,27 +208,29 @@ def verify_mode_for_question(user_question: str) -> str:
     if is_long_memory() and local_only_models_enabled():
         return "grounded_verify_english_reasoning" if is_en else "grounded_verify_reasoning"
     # When LME verifier escape hatch is on AND we're in long_memory context,
-    # use cloud LME-tuned verifier (kimi-k2.5 + temporal/multi-session checklist).
+    # use the generic cloud LME-tuned verifier. Do not branch on benchmark qid
+    # naming patterns; that overfits LongMemEval instead of real memory tasks.
     if is_long_memory() and str(os.environ.get("MASE_LME_VERIFY") or "").strip() in {"1", "true", "yes"}:
-        # iter3: type-aware verifier routing (MASE_LME_ROUTE_BY_QID=1).
-        # iter2 post-mortem (61.0% overall): regular 69.6% (verifier hurts -0.8pp),
-        # gpt4_gen 47.1% (abstract reasoning weak), abstention 3.3%
-        # (21/29 semantically correct but phrasing mismatch, 8 true hallucinate).
-        if str(os.environ.get("MASE_LME_ROUTE_BY_QID") or "").strip() in {"1", "true", "yes"}:
-            bucket = (os.environ.get("MASE_QID_BUCKET") or "").strip().lower()
-            if bucket == "abstention":
-                return "grounded_verify_lme_abstention_english" if is_en else "grounded_verify_lme_abstention"
-            if bucket == "gpt4_gen":
-                return "grounded_verify_lme_cot_english" if is_en else "grounded_verify_lme_cot"
-            # bucket == "regular" → fall through to lighter verifier
         return "grounded_verify_lme_english" if is_en else "grounded_verify_lme"
     return "grounded_verify_english_reasoning" if is_en else "grounded_verify_reasoning"
 
 
 def generalizer_mode_for_question(user_question: str) -> str:
     if is_long_memory() and local_only_models_enabled():
-        if lme_qtype_routing_enabled() and lme_question_type() == "multi-session":
-            return "grounded_analysis_english_reasoning" if detect_text_language(user_question) == "en" else "grounded_analysis_reasoning"
+        if lme_qtype_routing_enabled():
+            qtype = lme_question_type()
+            if qtype == "single-session-preference":
+                return (
+                    "grounded_long_memory_preference_generalizer_local_english"
+                    if detect_text_language(user_question) == "en"
+                    else "grounded_answer"
+                )
+            if qtype == "multi-session":
+                return (
+                    "grounded_long_memory_aggregate_generalizer_local_english"
+                    if detect_text_language(user_question) == "en"
+                    else "grounded_analysis_reasoning"
+                )
         return "grounded_answer_english_reasoning" if detect_text_language(user_question) == "en" else "grounded_answer"
     if is_long_memory() and lme_qtype_routing_enabled():
         qtype = lme_question_type()

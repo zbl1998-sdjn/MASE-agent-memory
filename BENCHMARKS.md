@@ -19,7 +19,9 @@ contribution of the architecture itself.
 |---|---|---|---|
 | **MASE + qwen2.5:7b (local)** | **91.49%** | **83.23%** | **88.71%** |
 | Bare qwen2.5:7b (no MASE) | 22.34% | 10.78% | 4.84% |
-| **MASE + GLM-5 (cloud swap)** | _n/a_ | _<filled by P0-B>_ | _<filled by P0-B>_ |
+
+> Model-swap runs are tracked as future work until completed; pending GLM-5
+> numbers are intentionally excluded from the headline table.
 
 > **Key claim**: MASE decouples *what the model can see* from *what the task
 > requires*. Architecture, not raw window size, is the long-context lever.
@@ -66,14 +68,10 @@ contribution of the architecture itself.
 >
 > 这是 MASE 项目最核心的一张图: **长上下文表现的瓶颈不是模型参数量, 是上下文管理架构**. MASE 的检索 + 工作内存 + iron-rule prompt 能把 7B 推到远超其原生能力的位置, 而且窗口越大优势越显.
 
-### 1.4 Model-swap experiment (MASE + GLM-5 cloud)
+### 1.4 Future model-swap experiment (MASE + GLM-5 cloud)
 
-> _Pending — `scripts/run_lveval_en_glm5_swap.py`._
-
-| Slice | MASE + GLM-5 | MASE + 7B | **Δ** |
-|---|---|---|---|
-| 128k | _t.b.f._ | 83.23% | _t.b.f._ |
-| 256k | _t.b.f._ | 88.71% | _t.b.f._ |
+Pending runs are kept out of published result tables until a full summary and
+claim manifest evidence are available.
 
 ---
 
@@ -100,19 +98,23 @@ contribution of the architecture itself.
 | **best stable run** (multipass + length-aware) | 500 | 75.4 | **77.2** | +1.8 |
 | **iter2 (multipass + kimi-k2.5 verifier)** | 500 | 61.0 | **🏆 80.2** | **+19.2** |
 | iter3 dev_250 (type-aware verifier, partial 54) | 54 | 64.8 | **83.3** | +18.5 |
-| **iter4 combined (multipass + type-aware, full_500)** | 500 | — | **🏆 84.8** | — |
+| iter4 combined/retry diagnostic | 500 | — | 84.8 | post-hoc diagnostic, not headline |
 
 > **Headline lanes** (tracked in `docs/benchmark_claims/longmemeval.json`):
-> - 84.8% (424/500) — LLM-judge, full_500 combined lane
 > - 61.0% (305/500) — official substring-comparable lane
+> - 80.2% (401/500) — LLM-judge lane on the same iter2 full_500 run
+>
+> The 84.8% combined/retry result is retained as a diagnostic reference only.
+> It is not the public headline because post-hoc retry lanes carry higher
+> overfitting risk.
 
 **Why iter2's substring score collapsed to 61%**: the kimi-k2.5 verifier
 rewrites the executor's draft into its own phrasing (often correctly adding
 context like *"You did not mention the iPad. You mentioned Sony WH-1000XM4
 headphones."*). That richer phrasing **passes the official LLM judge** but
 **fails substring matching** because the GT keyword string changed. iter2
-verifier is therefore the strongest run we have published — the 80.2% number
-is the headline LongMemEval result.
+verifier is therefore reported on both lanes: 61.0% for official substring
+comparability and 80.2% for the LLM-judge lane.
 
 > Reproduce: `python scripts/rescore_with_llm_judge.py <result_file>` walks
 > any benchmark result and emits a `*.rescored.json` plus a side-by-side
@@ -183,6 +185,9 @@ Each script writes a JSON summary into `scripts/_*.json`.
 - **No leaks**: judging is rule-based string match (LV-Eval) or LLM-judge
   upgrade for synonym/abstain handling (LongMemEval). All env-gated changes
   are validated with regression runs against prior watermarks.
+- **No qid-bucket routing in publishable lanes**: LongMemEval routing may use
+  general `question_type` metadata for analysis, but runtime verifier selection
+  no longer branches on benchmark-specific question-id prefixes/suffixes.
 - **Hardware**: dual 4090 (one for ollama LLM, one for bge-reranker-v2-m3).
   Cloud runs use api.deepseek.com / api.bigmodel.cn / api.kimi.com.
 

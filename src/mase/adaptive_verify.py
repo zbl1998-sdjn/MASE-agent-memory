@@ -84,7 +84,7 @@ class AdaptiveVerifyPolicy:
         if isinstance(c, dict):
             for key in ("score", "similarity", "rerank_score", "confidence"):
                 v = c.get(key)
-                if isinstance(v, (int, float)):
+                if isinstance(v, int | float):
                     return float(v)
         return None
 

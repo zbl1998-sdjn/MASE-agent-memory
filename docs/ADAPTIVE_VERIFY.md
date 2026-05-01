@@ -2,7 +2,7 @@
 
 Pluggable policy that varies verifier depth based on retrieval confidence.
 Default OFF — gated by `MASE_ADAPTIVE_VERIFY=1`. Zero behavioral change when
-disabled (LME 84.8% baseline must hold).
+disabled (LME publishable baseline: 61.0% official substring / 80.2% LLM-judge).
 (Baseline tracked in `docs/benchmark_claims/longmemeval.json`.)
 
 ## Motivation
@@ -80,7 +80,7 @@ Run on the LongMemEval 500-question set (or msr_slice20 for fast smoke):
 
 | Run | `MASE_ADAPTIVE_VERIFY` | Skip thresh | Dual thresh | Notes                           |
 | --- | ---------------------- | ----------- | ----------- | ------------------------------- |
-| A   | `0`                    | —           | —           | baseline (must reproduce 84.8%) |
+| A   | `0`                    | —           | —           | baseline (must reproduce 61.0% official / 80.2% judge) |
 | B   | `1`                    | `0.85`      | `0.5`       | defaults                        |
 | C   | `1`                    | `0.90`      | `0.5`       | conservative skip               |
 | D   | `1`                    | `0.85`      | `0.6`       | aggressive dual                 |

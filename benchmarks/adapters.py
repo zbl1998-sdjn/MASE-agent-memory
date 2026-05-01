@@ -13,7 +13,7 @@ def _stringify(value: Any) -> str:
         return ""
     if isinstance(value, str):
         return value
-    if isinstance(value, (dict, list)):
+    if isinstance(value, dict | list):
         return json.dumps(value, ensure_ascii=False)
     return str(value)
 
