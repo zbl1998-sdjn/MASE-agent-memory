@@ -399,6 +399,35 @@ main {
   margin-top: 0.2rem;
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.lang-toggle {
+  flex-shrink: 0;
+  align-self: flex-end;
+  height: 2.15rem;
+  padding: 0 0.9rem;
+  border-radius: 10px;
+  background: rgba(125, 211, 252, 0.1);
+  border: 1px solid rgba(125, 211, 252, 0.28) !important;
+  color: var(--cyan);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.lang-toggle:hover {
+  background: rgba(125, 211, 252, 0.18);
+  border-color: rgba(125, 211, 252, 0.5) !important;
+}
+
 .scope-bar,
 .toolbar,
 .row-form {

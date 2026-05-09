@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { api, getInternalApiKey, saveInternalApiKey } from "./api";
+import { type Lang, detectDefaultLang, saveLang, translations } from "./i18n";
 import { ScopeBar } from "./components/ScopeBar";
 import { ScopeGuard } from "./components/ScopeGuard";
 import { AuditLogPage } from "./pages/AuditLogPage";
@@ -29,44 +30,40 @@ import { readStoredScope, saveStoredScope } from "./utils";
 
 const apiLabel = import.meta.env.VITE_API_BASE || window.location.origin;
 
-type NavItem = {
-  key: NavKey;
-  label: string;
-  description: string;
-  group: "Overview" | "Reliability" | "Operations" | "Memory";
-  icon: string;
-};
+type NavGroup = "Overview" | "Reliability" | "Operations" | "Memory";
 
-const navItems: NavItem[] = [
-  { key: "dashboard", label: "运营 cockpit", description: "指标 / 图表 / 系统地图", group: "Overview", icon: "01" },
-  { key: "observability", label: "Memory Observatory", description: "成本 / 健康 / 事件", group: "Overview", icon: "02" },
-  { key: "cost", label: "Cost Center", description: "定价 / 预算 / 云成本", group: "Overview", icon: "03" },
-  { key: "audit", label: "Audit Log", description: "权限 / 写入 / 追责", group: "Operations", icon: "04" },
-  { key: "privacy", label: "Privacy Guard", description: "脱敏 / 敏感记忆", group: "Operations", icon: "05" },
-  { key: "lifecycle", label: "Lifecycle", description: "TTL / 契约 / 分层", group: "Operations", icon: "06" },
-  { key: "quality", label: "Quality Score", description: "质量分 / 风险项", group: "Reliability", icon: "07" },
-  { key: "answer-support", label: "Answer Support", description: "答案证据支撑", group: "Reliability", icon: "08" },
-  { key: "refusal-quality", label: "Refusal Quality", description: "拒答 / 无证据", group: "Reliability", icon: "09" },
-  { key: "why-not", label: "Why Not Remembered", description: "未记住诊断", group: "Reliability", icon: "10" },
-  { key: "synthetic-replay", label: "Synthetic Replay", description: "合成记忆回放", group: "Reliability", icon: "11" },
-  { key: "golden-tests", label: "Golden Tests", description: "黄金回归门禁", group: "Reliability", icon: "12" },
-  { key: "slo-dashboard", label: "SLO Dashboard", description: "可靠性目标", group: "Reliability", icon: "13" },
-  { key: "drift", label: "Drift Detector", description: "漂移 / 冲突", group: "Reliability", icon: "14" },
-  { key: "incidents", label: "Incidents", description: "事件 / 插件", group: "Operations", icon: "15" },
-  { key: "repair", label: "Repair Center", description: "Agent 修复工单", group: "Operations", icon: "16" },
-  { key: "chat", label: "Trace Studio", description: "聊天、路由和审计链", group: "Memory", icon: "17" },
-  { key: "recall", label: "Recall Lab", description: "召回、解释和证据", group: "Memory", icon: "18" },
-  { key: "facts", label: "Fact Center", description: "事实治理与历史", group: "Memory", icon: "19" },
-  { key: "timeline", label: "Timeline Ops", description: "流水账、纠错、快照", group: "Memory", icon: "20" },
-  { key: "sessions", label: "Session Vault", description: "短期上下文与 TTL", group: "Memory", icon: "21" },
-  { key: "procedures", label: "Procedure Hub", description: "规则与工作流记忆", group: "Memory", icon: "22" }
+type NavBase = { key: NavKey; group: NavGroup; icon: string };
+
+const NAV_BASE: NavBase[] = [
+  { key: "dashboard",        group: "Overview",     icon: "01" },
+  { key: "observability",    group: "Overview",     icon: "02" },
+  { key: "cost",             group: "Overview",     icon: "03" },
+  { key: "audit",            group: "Operations",   icon: "04" },
+  { key: "privacy",          group: "Operations",   icon: "05" },
+  { key: "lifecycle",        group: "Operations",   icon: "06" },
+  { key: "quality",          group: "Reliability",  icon: "07" },
+  { key: "answer-support",   group: "Reliability",  icon: "08" },
+  { key: "refusal-quality",  group: "Reliability",  icon: "09" },
+  { key: "why-not",          group: "Reliability",  icon: "10" },
+  { key: "synthetic-replay", group: "Reliability",  icon: "11" },
+  { key: "golden-tests",     group: "Reliability",  icon: "12" },
+  { key: "slo-dashboard",    group: "Reliability",  icon: "13" },
+  { key: "drift",            group: "Reliability",  icon: "14" },
+  { key: "incidents",        group: "Operations",   icon: "15" },
+  { key: "repair",           group: "Operations",   icon: "16" },
+  { key: "chat",             group: "Memory",       icon: "17" },
+  { key: "recall",           group: "Memory",       icon: "18" },
+  { key: "facts",            group: "Memory",       icon: "19" },
+  { key: "timeline",         group: "Memory",       icon: "20" },
+  { key: "sessions",         group: "Memory",       icon: "21" },
+  { key: "procedures",       group: "Memory",       icon: "22" },
 ];
 
-const navGroups: Array<NavItem["group"]> = ["Overview", "Reliability", "Operations", "Memory"];
+const navGroups: NavGroup[] = ["Overview", "Reliability", "Operations", "Memory"];
 
 function readHash(): NavKey {
   const key = window.location.hash.replace("#", "") as NavKey;
-  return navItems.some((item) => item.key === key) ? key : "dashboard";
+  return NAV_BASE.some((item) => item.key === key) ? key : "dashboard";
 }
 
 export default function App() {
@@ -75,6 +72,16 @@ export default function App() {
   const [categories, setCategories] = useState<string[]>([]);
   const [apiKey, setApiKey] = useState(() => getInternalApiKey());
   const [platformMode, setPlatformMode] = useState({ authRequired: false, readOnly: false });
+  const [lang, setLang] = useState<Lang>(detectDefaultLang);
+
+  const t = translations[lang];
+
+  const navItems = NAV_BASE.map((item) => ({
+    ...item,
+    label: t.nav.items[item.key].label,
+    description: t.nav.items[item.key].description,
+  }));
+
   const activeItem = navItems.find((item) => item.key === active);
 
   useEffect(() => {
@@ -102,6 +109,12 @@ export default function App() {
   function updateApiKey(value: string) {
     setApiKey(value);
     saveInternalApiKey(value);
+  }
+
+  function toggleLang() {
+    const next: Lang = lang === "zh" ? "en" : "zh";
+    setLang(next);
+    saveLang(next);
   }
 
   const page = useMemo(() => {
@@ -160,32 +173,32 @@ export default function App() {
           <span className="logo">M</span>
           <div>
             <h1>MASE</h1>
-            <p>Memory reliability console</p>
+            <p>{t.brand}</p>
           </div>
         </div>
         <div className="sidebar-card">
           <span className="live-dot" />
           <div>
-            <strong>{platformMode.readOnly ? "Read-only audit mode" : "Local product mode"}</strong>
-            <p>{platformMode.authRequired ? "API key required for writes" : "FastAPI + React visual platform"}</p>
+            <strong>{platformMode.readOnly ? t.readOnlyAudit : t.localProduct}</strong>
+            <p>{platformMode.authRequired ? t.apiKeyRequired : t.fastApiReact}</p>
           </div>
         </div>
         <div className="sidebar-card vertical">
           <label>
-            Internal API Key
+            {t.internalApiKey}
             <input
               type="password"
               value={apiKey}
-              placeholder={platformMode.authRequired ? "Required for write actions" : "Optional"}
+              placeholder={platformMode.authRequired ? t.apiKeyPlaceholder.required : t.apiKeyPlaceholder.optional}
               onChange={(event) => updateApiKey(event.target.value)}
             />
           </label>
-          {platformMode.readOnly && <p className="mode-note">写入、删除、纠错、快照生成已由后端强制禁用。</p>}
+          {platformMode.readOnly && <p className="mode-note">{t.readOnlyNote}</p>}
         </div>
         <nav className="nav-stack" aria-label="MASE product navigation">
           {navGroups.map((group) => (
             <section className="nav-section" key={group}>
-              <p>{group}</p>
+              <p>{t.nav.groups[group]}</p>
               {navItems
                 .filter((item) => item.group === group)
                 .map((item) => (
@@ -204,14 +217,19 @@ export default function App() {
       <main>
         <header className="topbar">
           <div className="topbar-title">
-            <p className="eyebrow">Local API · {apiLabel}</p>
+            <p className="eyebrow">{t.localApi} · {apiLabel}</p>
             <h2>{activeItem?.label}</h2>
             <span>{activeItem?.description}</span>
           </div>
-          <ScopeBar scope={scope} onChange={setScope} />
+          <div className="topbar-actions">
+            <button className="lang-toggle" onClick={toggleLang} title="Switch language / 切换语言">
+              {t.langToggle}
+            </button>
+            <ScopeBar scope={scope} onChange={setScope} />
+          </div>
         </header>
         {platformMode.readOnly && (
-          <div className="mode-banner">Read-only audit mode：当前只能观察、检索和调试，所有持久写入已禁用。</div>
+          <div className="mode-banner">{t.readOnlyBanner}</div>
         )}
         <ScopeGuard scope={scope} />
         {page}
