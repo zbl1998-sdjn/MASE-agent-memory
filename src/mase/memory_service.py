@@ -21,6 +21,49 @@ class MemoryService:
             counts[source] = counts.get(source, 0) + 1
         return counts
 
+    @staticmethod
+    def _scope_mismatches(row: dict[str, Any], scope: dict[str, Any]) -> list[str]:
+        mismatches: list[str] = []
+        for key, expected in scope.items():
+            actual = row.get(key)
+            if actual not in (None, "", expected):
+                mismatches.append(key)
+        return mismatches
+
+    def _inspect_recall_hits(self, hits: list[dict[str, Any]], scope: dict[str, Any]) -> list[dict[str, Any]]:
+        inspections: list[dict[str, Any]] = []
+        for rank, item in enumerate(hits, start=1):
+            source = str(item.get("_source") or item.get("source") or "unknown")
+            freshness = str(item.get("freshness") or "")
+            conflict = str(item.get("conflict_status") or "")
+            scope_mismatches = self._scope_mismatches(item, scope)
+            risk_flags: list[str] = []
+            if item.get("superseded_at"):
+                risk_flags.append("superseded_event")
+            if freshness and freshness not in {"fresh", "current"}:
+                risk_flags.append(f"freshness:{freshness}")
+            if conflict and conflict not in {"none", "resolved"}:
+                risk_flags.append(f"conflict:{conflict}")
+            if scope_mismatches:
+                risk_flags.append(f"scope_mismatch:{','.join(scope_mismatches)}")
+            inspections.append(
+                {
+                    "rank": rank,
+                    "source": source,
+                    "evidence_type": "current_fact" if source == "entity_state" else "event_evidence",
+                    "selected_reason": item.get("retrieval_reason") or item.get("source_reason") or source,
+                    "freshness": freshness or "unknown",
+                    "conflict_status": conflict or "unknown",
+                    "scope_mismatches": scope_mismatches,
+                    "risk_flags": risk_flags,
+                    "category": item.get("category"),
+                    "entity_key": item.get("entity_key"),
+                    "thread_id": item.get("thread_id"),
+                    "content_preview": str(item.get("entity_value") or item.get("content") or "")[:240],
+                }
+            )
+        return inspections
+
     def remember_event(
         self,
         thread_id: str,
@@ -57,6 +100,14 @@ class MemoryService:
             **scope,
         )
         return {"category": category, "key": key, "value": value, "scope": scope}
+
+    def list_facts(
+        self,
+        category: str | None = None,
+        *,
+        scope_filters: dict[str, Any] | None = None,
+    ) -> list[dict[str, Any]]:
+        return api.mase2_get_facts(category, scope_filters=self._scope(scope_filters))
 
     def recall_current_state(
         self,
@@ -256,15 +307,18 @@ class MemoryService:
             include_history=True,
             scope_filters=scope,
         )
+        hit_inspections = self._inspect_recall_hits(hits, scope)
         return {
             "query": query,
             "scope": scope,
             "hits": hits,
+            "hit_inspections": hit_inspections,
             "summary": [item.get("retrieval_reason") or item.get("_source") for item in hits],
             "metadata": {
                 "hit_count": len(hits),
                 "source_counts": self._source_counts(hits),
                 "has_current_state": any(item.get("_source") == "entity_state" for item in hits),
+                "risk_count": sum(1 for item in hit_inspections if item.get("risk_flags")),
             },
         }
 

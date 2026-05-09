@@ -11,7 +11,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from .model_interface import resolve_config_path
+from .model_interface import resolve_config_path, resolve_runs_dir
 
 
 def memory_root(config_path: str | Path | None = None) -> Path:
@@ -19,6 +19,8 @@ def memory_root(config_path: str | Path | None = None) -> Path:
     raw_memory_dir = os.environ.get("MASE_MEMORY_DIR")
     if raw_memory_dir:
         root = Path(raw_memory_dir).resolve()
+    elif (runs_dir := resolve_runs_dir()) is not None:
+        root = runs_dir / "memory"
     else:
         root = resolve_config_path(config_path).parent / "memory"
     root.mkdir(parents=True, exist_ok=True)

@@ -38,6 +38,8 @@ class OrchestrationTrace:
     fact_sheet: str
     evidence_assessment: dict[str, Any] | None = None
     record_path: str = ""
+    trace_id: str = ""
+    steps: list[dict[str, Any]] | None = None
 
 
 __all__ = ["RouteDecision", "PlannerSnapshot", "OrchestrationTrace"]

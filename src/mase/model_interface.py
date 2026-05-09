@@ -7,17 +7,20 @@ import os
 import random
 import re
 import time
+import uuid
 from copy import deepcopy
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import httpx
 import ollama
 
+from .cost_center import load_pricing_catalog, resolve_price
 from .health_tracker import get_tracker
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-_LOCAL_PROVIDERS = {"ollama", "llama_cpp"}
+_LOCAL_PROVIDERS = {"ollama", "llama_cpp", "llamacpp", "llama.cpp", "local", "localhost"}
 _TRUTHY = {"1", "true", "yes", "y", "on"}
 
 
@@ -59,6 +62,8 @@ def _load_env_file(env_path: Path) -> None:
         key, value = line.split("=", 1)
         key = key.strip()
         value = value.strip().strip('"').strip("'")
+        if key == "MASE_CONFIG_PATH":
+            continue
         if key and key not in os.environ:
             os.environ[key] = value
 
@@ -68,6 +73,13 @@ def _resolve_relative_path(raw_path: str | Path, base_dir: Path) -> Path:
     if path.is_absolute():
         return path.resolve()
     return (base_dir / path).resolve()
+
+
+def resolve_runs_dir() -> Path | None:
+    raw = os.environ.get("MASE_RUNS_DIR")
+    if not raw:
+        return None
+    return Path(raw).expanduser().resolve()
 
 
 def cloud_models_allowed() -> bool:
@@ -90,11 +102,20 @@ def load_memory_settings(config_path: str | Path | None = None) -> dict[str, Pat
     path = resolve_config_path(config_path)
     config = load_config(path)
     memory_config = config.get("memory", {})
+    runs_dir = resolve_runs_dir()
 
-    json_dir = _resolve_relative_path(memory_config.get("json_dir", "memory"), path.parent)
+    raw_json_dir = memory_config.get("json_dir", "memory")
+    if runs_dir is not None and str(raw_json_dir).strip().replace("\\", "/") in {"", "memory"}:
+        json_dir = runs_dir / "memory"
+    else:
+        json_dir = _resolve_relative_path(raw_json_dir, path.parent)
     log_dir_raw = Path(memory_config.get("log_dir", "logs"))
     log_dir = log_dir_raw.resolve() if log_dir_raw.is_absolute() else (json_dir / log_dir_raw).resolve()
-    index_db = _resolve_relative_path(memory_config.get("index_db", "memory/index.db"), path.parent)
+    raw_index_db = memory_config.get("index_db", "memory/index.db")
+    if runs_dir is not None and str(raw_index_db).strip().replace("\\", "/") in {"", "memory/index.db"}:
+        index_db = runs_dir / "memory" / "index.db"
+    else:
+        index_db = _resolve_relative_path(raw_index_db, path.parent)
 
     return {
         "json_dir": json_dir,
@@ -106,10 +127,6 @@ def load_memory_settings(config_path: str | Path | None = None) -> dict[str, Pat
 class ModelInterface:
     def __init__(self, config_path: str | Path | None = None) -> None:
         self.config_path = resolve_config_path(config_path)
-        # Use setdefault so background threads (e.g. MASE_GC_AUTO daemon) don't
-        # write to os.environ — that's not thread-safe and can crash C-extension
-        # subprocesses that read env mid-fork.
-        os.environ.setdefault("MASE_CONFIG_PATH", str(self.config_path))
         self.call_log: list[dict[str, Any]] = []
         self._http_clients: dict[str, httpx.Client] = {}
         self.reload()
@@ -119,6 +136,7 @@ class ModelInterface:
         self.config = load_config(self.config_path)
         self.models_config = self.config.get("models", {})
         self.fallbacks = self.config.get("fallbacks", {})
+        self.pricing_catalog = load_pricing_catalog(config_path=self.config_path)
         env_file = self.config.get("env_file")
         if env_file:
             _load_env_file(_resolve_relative_path(env_file, self.config_path.parent))
@@ -136,6 +154,10 @@ class ModelInterface:
 
     def get_call_log(self) -> list[dict[str, Any]]:
         return [dict(item) for item in self.call_log]
+
+    @staticmethod
+    def _is_local_provider(provider: str) -> bool:
+        return str(provider or "").strip().lower() in _LOCAL_PROVIDERS
 
     def get_agent_config(self, agent_type: str) -> dict[str, Any]:
         if agent_type not in self.models_config:
@@ -181,6 +203,85 @@ class ModelInterface:
 
     def describe_executor_mode(self, mode: str) -> dict[str, Any]:
         return self.describe_agent("executor", mode=mode)
+
+    def _evaluate_cost_policy(
+        self,
+        agent_type: str,
+        mode: str | None,
+        provider: str,
+        model_name: str,
+    ) -> dict[str, Any]:
+        price = resolve_price(provider, model_name, self.pricing_catalog)
+        warnings: list[str] = []
+        action = "allow"
+        status = "ok"
+        if price.get("is_local"):
+            reason = "local_provider_free"
+        elif not cloud_models_allowed():
+            action = "blocked"
+            status = "blocked"
+            reason = "cloud_models_disabled"
+            warnings.append("cloud_model_blocked_without_explicit_approval")
+        elif not price.get("priced"):
+            status = "warn"
+            reason = str(price.get("reason") or "unpriced_cloud_model")
+            warnings.append("unpriced_cloud_model")
+        else:
+            reason = "priced_cloud_model"
+        if price.get("pricing_type") == "partial":
+            warnings.append("partial_pricing_catalog_item")
+        return {
+            "agent_type": agent_type,
+            "agent_role": agent_type,
+            "mode": mode,
+            "provider": provider,
+            "model_name": model_name,
+            "is_local": bool(price.get("is_local")),
+            "action": action,
+            "status": status,
+            "reason": reason,
+            "warnings": warnings,
+            "pricing_status": price.get("pricing_status"),
+            "pricing_type": price.get("pricing_type"),
+            "pricing_source": price.get("source"),
+            "currency": price.get("currency"),
+            "input_cost_per_1k_tokens": price.get("input_cost_per_1k_tokens"),
+            "output_cost_per_1k_tokens": price.get("output_cost_per_1k_tokens"),
+            "policy": "warn_only_unpriced_cloud",
+        }
+
+    def evaluate_cost_policy(self, agent_type: str, mode: str | None = None) -> dict[str, Any]:
+        agent_config = self.get_effective_agent_config(agent_type, mode=mode)
+        return self._evaluate_cost_policy(
+            agent_type=agent_type,
+            mode=mode,
+            provider=str(agent_config.get("provider", "ollama")),
+            model_name=str(agent_config.get("model_name") or "unknown"),
+        )
+
+    def describe_cost_routing(self) -> dict[str, Any]:
+        rows: list[dict[str, Any]] = []
+        for agent_type in sorted(self.models_config):
+            rows.append(self.evaluate_cost_policy(agent_type))
+            modes = self.models_config.get(agent_type, {}).get("modes", {})
+            if isinstance(modes, dict):
+                for mode in sorted(str(item) for item in modes):
+                    rows.append(self.evaluate_cost_policy(agent_type, mode=mode))
+        summary = {
+            "route_count": len(rows),
+            "allowed_count": sum(1 for row in rows if row["action"] == "allow"),
+            "blocked_count": sum(1 for row in rows if row["action"] == "blocked"),
+            "warning_count": sum(1 for row in rows if row["warnings"]),
+            "unpriced_count": sum(1 for row in rows if row["pricing_status"] == "unpriced"),
+            "local_free_count": sum(1 for row in rows if row["is_local"]),
+        }
+        return {
+            "policy": "warn_only_unpriced_cloud",
+            "cloud_models_allowed": cloud_models_allowed(),
+            "catalog_metadata": dict(self.pricing_catalog.get("metadata", {})),
+            "summary": summary,
+            "routes": rows,
+        }
 
     def get_system_prompt(
         self,
@@ -274,16 +375,151 @@ class ModelInterface:
         resolved_agent = response.get("resolved_agent") or {}
         elapsed_seconds = time.perf_counter() - started
         self.call_log.append(
-            {
-                "agent_type": agent_type,
-                "mode": mode,
-                "provider": resolved_agent.get("provider", provider),
-                "model_name": resolved_agent.get("model_name", model_name),
-                "elapsed_seconds": round(elapsed_seconds, 6),
-                "usage": self._extract_usage(provider, response),
-            }
+            self._build_call_ledger(
+                agent_type=agent_type,
+                mode=mode,
+                provider=str(resolved_agent.get("provider", provider)),
+                model_name=str(resolved_agent.get("model_name", model_name)),
+                elapsed_seconds=elapsed_seconds,
+                request_messages=prepared_messages,
+                response=response,
+                agent_config=agent_config,
+                resolved_agent=resolved_agent,
+            )
         )
         return response
+
+    @staticmethod
+    def _numeric(value: Any) -> float | None:
+        if isinstance(value, bool) or not isinstance(value, int | float):
+            return None
+        return float(value)
+
+    @staticmethod
+    def _estimate_text_tokens(text: str) -> int:
+        normalized = str(text or "")
+        if not normalized:
+            return 0
+        return max(1, round(len(normalized) / 4))
+
+    def _estimate_message_tokens(self, messages: list[dict[str, Any]]) -> int:
+        total = 0
+        for message in messages:
+            total += self._estimate_text_tokens(str(message.get("role") or ""))
+            total += self._estimate_text_tokens(str(message.get("content") or ""))
+        return total
+
+    def _response_text(self, response: dict[str, Any]) -> str:
+        message = response.get("message") if isinstance(response.get("message"), dict) else {}
+        content = message.get("content") if isinstance(message, dict) else ""
+        return str(content or "")
+
+    def _normalize_token_counts(
+        self,
+        usage: dict[str, Any] | None,
+        *,
+        request_messages: list[dict[str, Any]],
+        response: dict[str, Any],
+    ) -> tuple[int, int, int, str]:
+        usage = usage or {}
+        prompt = self._numeric(usage.get("prompt_tokens"))
+        if prompt is None:
+            prompt = self._numeric(usage.get("input_tokens"))
+        if prompt is None:
+            prompt = self._numeric(usage.get("prompt_eval_count"))
+        completion = self._numeric(usage.get("completion_tokens"))
+        if completion is None:
+            completion = self._numeric(usage.get("output_tokens"))
+        if completion is None:
+            completion = self._numeric(usage.get("eval_count"))
+        total = self._numeric(usage.get("total_tokens"))
+        if prompt is not None or completion is not None or total is not None:
+            prompt_i = int(prompt or max(0, (total or 0) - (completion or 0)))
+            completion_i = int(completion or max(0, (total or 0) - prompt_i))
+            total_i = int(total or prompt_i + completion_i)
+            return prompt_i, completion_i, total_i, "provider_usage"
+        prompt_i = self._estimate_message_tokens(request_messages)
+        completion_i = self._estimate_text_tokens(self._response_text(response))
+        return prompt_i, completion_i, prompt_i + completion_i, "estimated_chars_div_4"
+
+    def _resolve_token_pricing(
+        self,
+        *,
+        agent_config: dict[str, Any],
+        resolved_agent: dict[str, Any],
+        provider: str,
+    ) -> tuple[float, float, float]:
+        if self._is_local_provider(provider):
+            return 0.0, 0.0, 0.0
+        config = dict(agent_config)
+        config.update({key: value for key, value in resolved_agent.items() if value is not None})
+        flat = float(config.get("cost_per_1k_tokens") or 0.0)
+        input_cost = float(config.get("input_cost_per_1k_tokens") or config.get("prompt_cost_per_1k_tokens") or flat)
+        output_cost = float(config.get("output_cost_per_1k_tokens") or config.get("completion_cost_per_1k_tokens") or flat)
+        return input_cost, output_cost, flat
+
+    def _build_call_ledger(
+        self,
+        *,
+        agent_type: str,
+        mode: str | None,
+        provider: str,
+        model_name: str,
+        elapsed_seconds: float,
+        request_messages: list[dict[str, Any]],
+        response: dict[str, Any],
+        agent_config: dict[str, Any],
+        resolved_agent: dict[str, Any],
+    ) -> dict[str, Any]:
+        usage = self._extract_usage(provider, response)
+        prompt_tokens, completion_tokens, total_tokens, token_source = self._normalize_token_counts(
+            usage,
+            request_messages=request_messages,
+            response=response,
+        )
+        input_cost, output_cost, flat_cost = self._resolve_token_pricing(
+            agent_config=agent_config,
+            resolved_agent=resolved_agent,
+            provider=provider,
+        )
+        estimated_cost = 0.0
+        if not self._is_local_provider(provider):
+            estimated_cost = (prompt_tokens / 1000.0 * input_cost) + (completion_tokens / 1000.0 * output_cost)
+        configured_provider = str(agent_config.get("provider") or provider)
+        configured_model = str(agent_config.get("model_name") or model_name)
+        fallback_from = resolved_agent.get("fallback_from")
+        fallback_to = resolved_agent.get("fallback_to")
+        if fallback_from is None and (configured_provider, configured_model) != (provider, model_name):
+            fallback_from = f"{configured_provider}:{configured_model}"
+            fallback_to = f"{provider}:{model_name}"
+        cost_policy = self._evaluate_cost_policy(agent_type, mode, provider, model_name)
+        return {
+            "call_id": uuid.uuid4().hex,
+            "created_at": datetime.now(UTC).isoformat(),
+            "agent_type": agent_type,
+            "agent_role": agent_type,
+            "mode": mode,
+            "provider": provider,
+            "model_name": model_name,
+            "is_local": self._is_local_provider(provider),
+            "success": True,
+            "elapsed_seconds": round(elapsed_seconds, 6),
+            "latency_ms": round(elapsed_seconds * 1000.0, 3),
+            "usage": usage,
+            "prompt_tokens": prompt_tokens,
+            "completion_tokens": completion_tokens,
+            "total_tokens": total_tokens,
+            "token_source": token_source,
+            "input_cost_per_1k_tokens": input_cost,
+            "output_cost_per_1k_tokens": output_cost,
+            "cost_per_1k_tokens": flat_cost,
+            "estimated_cost_usd": round(estimated_cost, 8),
+            "fallback_from": fallback_from,
+            "fallback_to": fallback_to,
+            "cost_policy_action": cost_policy["action"],
+            "cost_policy_status": cost_policy["status"],
+            "cost_policy_warnings": cost_policy["warnings"],
+        }
 
     def _extract_usage(self, provider: str, response: dict[str, Any]) -> dict[str, Any] | None:
         usage = response.get("usage")
@@ -620,6 +856,9 @@ class ModelInterface:
             "model_name": model_name,
             "base_url": agent_config.get("base_url"),
             "endpoint": endpoint,
+            "cost_per_1k_tokens": agent_config.get("cost_per_1k_tokens"),
+            "input_cost_per_1k_tokens": agent_config.get("input_cost_per_1k_tokens"),
+            "output_cost_per_1k_tokens": agent_config.get("output_cost_per_1k_tokens"),
         }
         return response
 

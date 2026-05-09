@@ -112,7 +112,13 @@ def is_multidoc_long_context() -> bool:
 
 
 def local_only_models_enabled() -> bool:
-    return str(os.environ.get("MASE_LOCAL_ONLY") or os.environ.get("MASE_LME_LOCAL_ONLY") or "").strip().lower() in {
+    raw = (
+        os.environ.get("MASE_LOCAL_ONLY")
+        or os.environ.get("MASE_LONG_MEMORY_LOCAL_ONLY")
+        or os.environ.get("MASE_LME_LOCAL_ONLY")
+        or ""
+    )
+    return str(raw).strip().lower() in {
         "1",
         "true",
         "yes",
@@ -120,7 +126,8 @@ def local_only_models_enabled() -> bool:
 
 
 def prefer_stable_local_temporal_executor() -> bool:
-    return str(os.environ.get("MASE_LME_TEMPORAL_DEEPREASON") or "").strip().lower() not in {"1", "true", "yes"}
+    raw = os.environ.get("MASE_LONG_MEMORY_TEMPORAL_DEEPREASON") or os.environ.get("MASE_LME_TEMPORAL_DEEPREASON") or ""
+    return str(raw).strip().lower() not in {"1", "true", "yes"}
 
 
 # ---- Heat / mode selection ----
@@ -137,12 +144,32 @@ def benchmark_profile() -> str:
     return str(os.environ.get("MASE_BENCHMARK_PROFILE") or "").strip().lower()
 
 
+def task_profile() -> str:
+    raw = str(os.environ.get("MASE_TASK_PROFILE") or benchmark_profile()).strip().lower()
+    aliases = {
+        "nolima_wrapper": "candidate_evidence",
+        "nolima_wrapper_extract": "candidate_evidence_extract",
+    }
+    return aliases.get(raw, raw)
+
+
 def lme_question_type() -> str:
-    return str(os.environ.get("MASE_QTYPE") or "").strip().lower()
+    return str(os.environ.get("MASE_LONG_MEMORY_QTYPE") or os.environ.get("MASE_QTYPE") or "").strip().lower()
 
 
 def lme_qtype_routing_enabled() -> bool:
-    return str(os.environ.get("MASE_LME_QTYPE_ROUTING") or "").strip() in {"1", "true", "yes"}
+    raw = os.environ.get("MASE_LONG_MEMORY_QTYPE_ROUTING") or os.environ.get("MASE_LME_QTYPE_ROUTING") or ""
+    return str(raw).strip().lower() in {"1", "true", "yes"}
+
+
+def long_memory_verify_enabled() -> bool:
+    raw = os.environ.get("MASE_LONG_MEMORY_VERIFY") or os.environ.get("MASE_LME_VERIFY") or ""
+    return str(raw).strip().lower() in {"1", "true", "yes"}
+
+
+def long_memory_retry_enabled() -> bool:
+    raw = os.environ.get("MASE_LONG_MEMORY_RETRY") or os.environ.get("MASE_LME_RETRY") or ""
+    return str(raw).strip().lower() in {"1", "true", "yes"}
 
 
 def select_notetaker_mode(user_question: str, memory_heat: str) -> str:
@@ -156,9 +183,10 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
     language = detect_text_language(user_question)
     if not fact_sheet.strip() or fact_sheet.strip() == "无相关记忆。":
         return "general_answer_reasoning"
-    if benchmark_profile() == "nolima_wrapper":
+    profile = task_profile()
+    if profile == "candidate_evidence":
         return "grounded_nolima_main_english" if language == "en" else "grounded_answer"
-    if benchmark_profile() == "nolima_wrapper_extract":
+    if profile == "candidate_evidence_extract":
         return "grounded_long_context_nolima_english" if language == "en" else "grounded_long_context"
     if is_long_context_qa():
         if str(os.environ.get("MASE_LONG_CONTEXT_VARIANT") or "").strip().lower() == "mc":
@@ -176,7 +204,7 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
         # iter4-retry: when MASE_LME_RETRY=1, force every question to the
         # second-opinion executor (kimi-k2.5 + non-abstain bias prompt).
         # Used by scripts/run_lme_iter4_retry.py for the 103-fail slice.
-        if str(os.environ.get("MASE_LME_RETRY") or "").strip() in {"1", "true", "yes"}:
+        if long_memory_retry_enabled():
             return "grounded_long_memory_retry_kimi"
         # iter5: per-type executor routing. When MASE_LME_QTYPE_ROUTING=1,
         # route temporal-reasoning questions to a local deep-reasoning model
@@ -210,7 +238,7 @@ def verify_mode_for_question(user_question: str) -> str:
     # When LME verifier escape hatch is on AND we're in long_memory context,
     # use the generic cloud LME-tuned verifier. Do not branch on benchmark qid
     # naming patterns; that overfits LongMemEval instead of real memory tasks.
-    if is_long_memory() and str(os.environ.get("MASE_LME_VERIFY") or "").strip() in {"1", "true", "yes"}:
+    if is_long_memory() and long_memory_verify_enabled():
         return "grounded_verify_lme_english" if is_en else "grounded_verify_lme"
     return "grounded_verify_english_reasoning" if is_en else "grounded_verify_reasoning"
 
@@ -263,8 +291,11 @@ __all__ = [
     "is_multidoc_long_context",
     "determine_memory_heat",
     "benchmark_profile",
+    "task_profile",
     "lme_question_type",
     "lme_qtype_routing_enabled",
+    "long_memory_verify_enabled",
+    "long_memory_retry_enabled",
     "local_only_models_enabled",
     "select_notetaker_mode",
     "select_executor_mode",
