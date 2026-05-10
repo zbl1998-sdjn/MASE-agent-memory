@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import hashlib
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from typing import Any
+
+UTC = timezone.utc
 
 
 def _incident(kind: str, severity: str, title: str, source: str, evidence: dict[str, Any]) -> dict[str, Any]:

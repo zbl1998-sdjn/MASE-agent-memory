@@ -3,9 +3,11 @@ import os
 import re
 import sqlite3
 from contextlib import closing
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
+
+UTC = timezone.utc
 
 DEFAULT_DB_FILENAME = "benchmark_memory.sqlite3"
 

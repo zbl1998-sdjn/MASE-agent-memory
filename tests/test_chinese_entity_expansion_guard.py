@@ -6,10 +6,11 @@
 from __future__ import annotations
 
 import sys
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock
 
+UTC = timezone.utc
 _ROOT = Path(__file__).resolve().parents[1]
 _SRC = _ROOT / "src"
 for _p in (_SRC, _ROOT):

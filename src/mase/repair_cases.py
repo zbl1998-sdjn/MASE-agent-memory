@@ -3,12 +3,13 @@ from __future__ import annotations
 import json
 import os
 import uuid
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from mase.audit_log import sanitize_audit_value
 
+UTC = timezone.utc
 ROOT = Path(__file__).resolve().parents[2]
 VALID_REPAIR_CASE_STATUSES = (
     "open",

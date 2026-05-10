@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from mase.lifecycle import build_lifecycle_report, classify_fact_lifecycle, validate_fact_contract
+
+UTC = timezone.utc
 
 
 def test_lifecycle_classifies_expiring_and_long_term_facts() -> None:

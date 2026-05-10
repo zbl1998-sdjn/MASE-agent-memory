@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from mase_tools.memory.db_core import PROFILE_TEMPLATES
+
+UTC = timezone.utc
 
 
 def _parse_datetime(value: Any) -> datetime | None:

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from mase.drift_detector import detect_memory_drift
+
+UTC = timezone.utc
 
 
 def test_drift_detector_flags_conflicting_fact_values() -> None:

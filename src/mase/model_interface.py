@@ -9,9 +9,11 @@ import re
 import time
 import uuid
 from copy import deepcopy
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+UTC = timezone.utc
 
 import httpx
 import ollama

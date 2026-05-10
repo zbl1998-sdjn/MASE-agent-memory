@@ -3,12 +3,13 @@ from __future__ import annotations
 import json
 import os
 import uuid
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from mase.privacy import is_sensitive_key, redact_value
 
+UTC = timezone.utc
 ROOT = Path(__file__).resolve().parents[2]
 
 
