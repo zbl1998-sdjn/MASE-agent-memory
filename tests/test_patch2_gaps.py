@@ -67,6 +67,7 @@ class TestDbCorePathResolution:
         """MASE_CONFIG_PATH alone → config.parent/memory/benchmark_memory.sqlite3."""
         monkeypatch.delenv("MASE_DB_PATH", raising=False)
         monkeypatch.delenv("MASE_MEMORY_DIR", raising=False)
+        monkeypatch.delenv("MASE_RUNS_DIR", raising=False)
         fake_config = tmp_path / "config.json"
         fake_config.write_text("{}")
         monkeypatch.setenv("MASE_CONFIG_PATH", str(fake_config))
@@ -77,6 +78,18 @@ class TestDbCorePathResolution:
             f"Expected config sibling memory dir, got {resolved.parent}"
         )
         assert resolved.name == "benchmark_memory.sqlite3", resolved.name
+
+    def test_mase_runs_dir_used_when_no_memory_or_db_override(self, tmp_path, monkeypatch):
+        """MASE_RUNS_DIR redirects default memory DBs out of the repo root."""
+        monkeypatch.delenv("MASE_DB_PATH", raising=False)
+        monkeypatch.delenv("MASE_MEMORY_DIR", raising=False)
+        monkeypatch.delenv("MASE_CONFIG_PATH", raising=False)
+        monkeypatch.setenv("MASE_RUNS_DIR", str(tmp_path / "runs"))
+        from mase_tools.memory.db_core import resolve_db_path  # noqa: PLC0415
+
+        resolved = resolve_db_path()
+        assert resolved.parent == (tmp_path / "runs" / "memory").resolve()
+        assert resolved.name == "benchmark_memory.sqlite3"
 
     def test_import_time_resolution_does_not_create_memory_dir(self, tmp_path, monkeypatch):
         """Module import should not mkdir the config-sibling memory dir."""

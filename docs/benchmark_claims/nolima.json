@@ -9,7 +9,7 @@
       "config_profile": "published-local-default",
       "evidence": [
         {
-          "path": "README.md",
+          "path": "docs/benchmark_claims/evidence/nolima_32k_summary.json",
           "status": "tracked"
         }
       ]

@@ -12,7 +12,7 @@ for path in (SRC, ROOT):
 from mase.metric_calculator import calculate_memory_metrics
 from mase.phase5_evaluator import evaluate_memory_case
 from mase.replay_engine import replay_trace_file
-from mase.trace_recorder import record_trace_payload
+from mase.trace_recorder import COMPONENT_SOURCE_FILES, record_trace_payload
 
 
 def test_trace_recorder_and_replay_engine(tmp_path: Path, monkeypatch) -> None:
@@ -33,6 +33,17 @@ def test_trace_recorder_and_replay_engine(tmp_path: Path, monkeypatch) -> None:
     replay = replay_trace_file(trace_path)
     assert replay["count"] == 1
     assert replay["metrics"]["current-state-hit"] == 1.0
+    row = replay["rows"][0]
+    assert row["schema_version"] == "mase.trace.v1"
+    assert [step["name"] for step in row["steps"]] == [
+        "route_decision",
+        "memory_retrieval",
+        "fact_sheet_build",
+        "planner_snapshot",
+        "executor_answer",
+    ]
+    assert row["steps"][0]["source_file"] == COMPONENT_SOURCE_FILES["router"]
+    assert row["steps"][1]["component"] == "retrieval"
 
 
 def test_phase5_evaluator_and_metrics() -> None:

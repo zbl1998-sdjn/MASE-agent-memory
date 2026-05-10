@@ -66,5 +66,38 @@ def main() -> None:
     print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
+def test_load_memory_settings_uses_mase_runs_dir_for_defaults(tmp_path, monkeypatch):
+    config_path = tmp_path / "config.json"
+    config_path.write_text(
+        json.dumps(
+            {
+                "memory": {
+                    "json_dir": "memory",
+                    "log_dir": "logs",
+                    "index_db": "memory/index.db",
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    runs_dir = tmp_path / "runs"
+    monkeypatch.setenv("MASE_RUNS_DIR", str(runs_dir))
+
+    settings = load_memory_settings(config_path)
+
+    assert settings["json_dir"] == (runs_dir / "memory").resolve()
+    assert settings["log_dir"] == (runs_dir / "memory" / "logs").resolve()
+    assert settings["index_db"] == (runs_dir / "memory" / "index.db").resolve()
+
+
+def test_memory_root_uses_mase_runs_dir(tmp_path, monkeypatch):
+    from mase.utils import memory_root
+
+    monkeypatch.delenv("MASE_MEMORY_DIR", raising=False)
+    monkeypatch.setenv("MASE_RUNS_DIR", str(tmp_path / "runs"))
+
+    assert memory_root() == (tmp_path / "runs" / "memory").resolve()
+
+
 if __name__ == "__main__":
     main()

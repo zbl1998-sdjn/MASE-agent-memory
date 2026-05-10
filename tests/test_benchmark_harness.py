@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from benchmarks.runner import BenchmarkRunner
+from benchmarks.schemas import BenchmarkSample
 
 
 def _load_generalization_regression_module():
@@ -25,6 +26,7 @@ def _load_generalization_regression_module():
 def main() -> None:
     runner = BenchmarkRunner()
     benchmark_names = [
+        "generalization_smoke",
         "longmemeval_smoke",
         "lveval_smoke",
         "mmlu_smoke",
@@ -153,6 +155,51 @@ def test_nolima_official_max_metrics_are_loaded(tmp_path, monkeypatch) -> None:
     assert metrics["accuracy"] == 0.2759
 
 
+def test_nolima_smoke_metrics_are_loaded_from_runs_dir(tmp_path, monkeypatch) -> None:
+    module = _load_generalization_regression_module()
+    runs_dir = tmp_path / "runs"
+    monkeypatch.setattr(module, "RUNS_DIR", runs_dir)
+
+    summary_path = runs_dir / "results" / "nolima" / "mase-nolima-summary.json"
+    summary_path.parent.mkdir(parents=True)
+    summary_path.write_text(
+        json.dumps(
+            {
+                "smoke": {"accuracy": 0.5, "sample_count": 8, "adapter_error_count": 0},
+                "extended": {"accuracy": 0.25, "sample_count": 8, "adapter_error_count": 1},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    metrics = module._parse_suite_metrics("nolima-official-smoke", [])
+
+    assert metrics["summary_path"] == str(summary_path)
+    assert metrics["smoke_accuracy"] == 0.5
+    assert metrics["extended_accuracy"] == 0.25
+
+
+def test_generalization_manifest_uses_runs_dir_for_external_outputs() -> None:
+    module = _load_generalization_regression_module()
+    manifest = module._load_manifest(module.DEFAULT_MANIFEST)
+
+    for suite in manifest["suites"]:
+        for command in suite.get("commands") or []:
+            if "outputs" not in command:
+                continue
+            assert "{runs_dir}" in command
+
+
+def test_generalization_command_expands_runs_dir(monkeypatch, tmp_path) -> None:
+    module = _load_generalization_regression_module()
+    monkeypatch.setattr(module, "RUNS_DIR", tmp_path / "runs")
+
+    expanded = module._expand_command("tool --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\smoke")
+
+    assert str(tmp_path / "runs") in expanded
+    assert "{runs_dir}" not in expanded
+
+
 def test_run_benchmark_config_profile_captured_before_samples_run(monkeypatch, tmp_path) -> None:
     """Issue B: config_profile must be resolved at run start, not re-resolved after
     samples have run (which may mutate MASE_CONFIG_PATH via MASESystem.__init__)."""
@@ -189,6 +236,132 @@ def test_run_benchmark_config_profile_captured_before_samples_run(monkeypatch, t
     # With fix: resolve_config_path() captured BEFORE load_benchmark_samples
     #   → returns config.json → matches "my-profile"
     assert summary["config_profile"] == "my-profile"
+    assert summary["run_protocol"]["id_routing_allowed"] is False
+    assert summary["run_protocol"]["sample_id_usage"] == "result_reporting_only"
+    assert summary["run_protocol"]["runtime_sample_identifier"] == "sha256_hash"
+    assert summary["dataset_provenance"]["sample_count"] == 0
+
+
+def test_dataset_provenance_hashes_samples_without_raw_answers() -> None:
+    from benchmarks import runner as runner_module
+
+    samples = [
+        BenchmarkSample(
+            id="synthetic-case-001",
+            benchmark="synthetic",
+            task_type="qa",
+            question="Which relay station did the operator choose?",
+            ground_truth="relay-seven-secret",
+            metadata={"dataset": "synthetic_holdout", "length": "short"},
+        )
+    ]
+
+    provenance = runner_module._build_dataset_provenance(
+        "synthetic",
+        samples,
+        path=None,
+        config="holdout",
+        split="test",
+    )
+
+    serialized = json.dumps(provenance, ensure_ascii=False, sort_keys=True)
+    assert provenance["sample_count"] == 1
+    assert provenance["source"] == "hf-default"
+    assert provenance["sample_ids_sha256"]
+    assert provenance["sample_payload_sha256"]
+    assert "relay-seven-secret" not in serialized
+
+
+def test_dataset_provenance_changes_when_sample_content_changes() -> None:
+    from benchmarks import runner as runner_module
+
+    first = [
+        BenchmarkSample(
+            id="same-id",
+            benchmark="synthetic",
+            task_type="qa",
+            question="What is the port?",
+            ground_truth="9912",
+        )
+    ]
+    second = [
+        BenchmarkSample(
+            id="same-id",
+            benchmark="synthetic",
+            task_type="qa",
+            question="What is the port?",
+            ground_truth="9913",
+        )
+    ]
+
+    first_provenance = runner_module._build_dataset_provenance("synthetic", first, path=None, config=None, split=None)
+    second_provenance = runner_module._build_dataset_provenance("synthetic", second, path=None, config=None, split=None)
+
+    assert first_provenance["sample_ids_sha256"] == second_provenance["sample_ids_sha256"]
+    assert first_provenance["sample_payload_sha256"] != second_provenance["sample_payload_sha256"]
+
+
+def test_benchmark_history_ingest_exposes_only_hashed_sample_id() -> None:
+    from benchmarks import runner as runner_module
+    from benchmarks.schemas import BenchmarkTurn
+
+    class FakeNotetaker:
+        def __init__(self) -> None:
+            self.rows = []
+
+        def write(self, **kwargs):
+            self.rows.append(kwargs)
+
+    class FakeSystem:
+        def __init__(self) -> None:
+            self.notetaker_agent = FakeNotetaker()
+
+    system = FakeSystem()
+    raw_id = "gpt4_sensitive_bucket_001_abs"
+
+    runner_module._ingest_turns_into_mase(
+        system,  # type: ignore[arg-type]
+        [BenchmarkTurn(role="user", content="Remember that the relay is Juniper-7.")],
+        benchmark_question_id=raw_id,
+    )
+
+    metadata = system.notetaker_agent.rows[0]["metadata"]
+    assert metadata["benchmark_id_visibility"] == "hashed"
+    assert metadata["benchmark_sample_hash"] == runner_module._hash_text(raw_id)
+    assert "benchmark_question_id" not in metadata
+    assert raw_id not in json.dumps(metadata, ensure_ascii=False)
+
+
+def test_sample_artifact_id_is_hash_not_raw_id() -> None:
+    from benchmarks import runner as runner_module
+
+    sample = BenchmarkSample(
+        id="gpt4_sensitive_bucket_001_abs",
+        benchmark="synthetic",
+        task_type="qa",
+        question="What is active?",
+        ground_truth="Juniper-7",
+    )
+
+    artifact_id = runner_module._sample_artifact_id(sample)
+
+    assert artifact_id.startswith("sample-")
+    assert "gpt4" not in artifact_id
+    assert "abs" not in artifact_id
+
+
+def test_benchmark_runner_uses_mase_runs_dir(monkeypatch, tmp_path) -> None:
+    import importlib
+    from benchmarks import runner as runner_module
+
+    monkeypatch.setenv("MASE_RUNS_DIR", str(tmp_path / "runs"))
+    reloaded = importlib.reload(runner_module)
+
+    assert reloaded.RESULTS_DIR == (tmp_path / "runs" / "results").resolve()
+    assert reloaded.MEMORY_RUNS_DIR == (tmp_path / "runs" / "memory_runs").resolve()
+
+    monkeypatch.delenv("MASE_RUNS_DIR", raising=False)
+    importlib.reload(runner_module)
 
 
 def test_runner_prefers_mase_module_imports() -> None:
@@ -208,3 +381,18 @@ def test_longmemeval_batch_uses_mase_model_interface() -> None:
     ).read_text(encoding="utf-8")
     assert "from mase.model_interface import" in source
     assert "resolve_config_path" in source
+
+
+def test_generalization_smoke_suite_is_independent_of_public_benchmark_ids() -> None:
+    from benchmarks.registry import load_benchmark_samples
+
+    samples = load_benchmark_samples("generalization_smoke")
+
+    assert len(samples) >= 3
+    assert {sample.task_type for sample in samples} >= {"long_memory", "long_context_qa", "math"}
+    for sample in samples:
+        normalized_id = sample.id.lower()
+        assert "longmemeval" not in normalized_id
+        assert "lveval" not in normalized_id
+        assert "nolima" not in normalized_id
+        assert "bamboo" not in normalized_id

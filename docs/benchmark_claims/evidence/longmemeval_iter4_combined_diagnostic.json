@@ -2,6 +2,29 @@
   "benchmark": "LongMemEval-S",
   "run": "iter4_combined_full_500",
   "sample_count": 500,
+  "dataset_provenance": {
+    "capture_status": "summary_only_legacy",
+    "source": "kellyhongg/cleaned-longmemeval-s",
+    "split": "train",
+    "sample_selection": "full_500",
+    "sample_count": 500,
+    "sample_ids_sha256": "not_captured_legacy_run",
+    "sample_payload_sha256": "not_captured_legacy_run"
+  },
+  "run_protocol": {
+    "anti_overfit_policy": "docs/BENCHMARK_ANTI_OVERFIT.md",
+    "sample_id_usage": "result_reporting_only",
+    "runtime_sample_identifier": "sha256_hash",
+    "id_routing_allowed": false,
+    "qid_bucket_routing_env": "0",
+    "post_hoc_retry_claimable": false
+  },
+  "anti_overfit": {
+    "publishable_headline": false,
+    "diagnostic_only": true,
+    "qid_bucket_routing": "disabled",
+    "uses_failed_slice_retry": true
+  },
   "llm_judge": {
     "pass_count": 424,
     "score_pct": 84.8

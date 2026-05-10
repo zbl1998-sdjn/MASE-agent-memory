@@ -94,7 +94,7 @@ def test_model_interface_does_not_clobber_existing_env(monkeypatch, tmp_path):
     )
 
 
-def test_model_interface_sets_env_when_missing(monkeypatch, tmp_path):
+def test_model_interface_does_not_set_env_when_missing(monkeypatch, tmp_path):
     monkeypatch.delenv("MASE_CONFIG_PATH", raising=False)
 
     cfg = tmp_path / "x.json"
@@ -105,7 +105,52 @@ def test_model_interface_sets_env_when_missing(monkeypatch, tmp_path):
     with patch("src.mase.model_interface.resolve_config_path", return_value=cfg):
         ModelInterface()
 
-    assert os.environ.get("MASE_CONFIG_PATH") == str(cfg)
+    assert os.environ.get("MASE_CONFIG_PATH") is None
+
+
+def test_model_interface_env_file_does_not_set_config_env(monkeypatch, tmp_path):
+    monkeypatch.delenv("MASE_CONFIG_PATH", raising=False)
+
+    env_file = tmp_path / ".env"
+    env_file.write_text("MASE_CONFIG_PATH=should-not-leak.json\n", encoding="utf-8")
+    cfg = tmp_path / "config.json"
+    cfg.write_text(
+        '{"agents": {}, "models": {}, "env_file": ".env"}',
+        encoding="utf-8",
+    )
+
+    from src.mase.model_interface import ModelInterface
+
+    ModelInterface(cfg)
+
+    assert os.environ.get("MASE_CONFIG_PATH") is None
+
+
+def test_mase_system_does_not_set_config_env_when_missing(monkeypatch, tmp_path):
+    monkeypatch.delenv("MASE_CONFIG_PATH", raising=False)
+    monkeypatch.setenv("MASE_DB_PATH", str(tmp_path / "memory.sqlite3"))
+
+    cfg = tmp_path / "config.json"
+    cfg.write_text(
+        """
+        {
+          "models": {
+            "router": {"provider": "ollama", "model_name": "router-test"},
+            "notetaker": {"provider": "ollama", "model_name": "notetaker-test"},
+            "planner": {"provider": "ollama", "model_name": "planner-test"},
+            "executor": {"provider": "ollama", "model_name": "executor-test"}
+          },
+          "memory": {"json_dir": "memory", "log_dir": "logs", "index_db": "memory/index.db"}
+        }
+        """,
+        encoding="utf-8",
+    )
+
+    from src.mase.engine import MASESystem
+
+    MASESystem(cfg)
+
+    assert os.environ.get("MASE_CONFIG_PATH") is None
 
 
 # ---------------------------------------------------------------------------

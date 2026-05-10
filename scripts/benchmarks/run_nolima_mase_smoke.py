@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import hashlib
+import os
 import sys
 import time
 from copy import copy
@@ -26,12 +28,38 @@ MODEL_NAME = "mase_default"
 MODEL_CONFIGS_DIR = EVAL_DIR / "model_configs"
 NEEDLESETS_DIR = NOLIMA_DIR / "data" / "needlesets"
 HAYSTACK_DIR = NOLIMA_DIR / "data" / "haystack" / "rand_shuffle"
-OUTPUT_ROOT = NOLIMA_DIR / "outputs" / "mase"
-SUMMARY_ROOT = REPO_ROOT / "results" / "nolima"
+
+
+def _resolve_runs_dir() -> Path:
+    raw = os.environ.get("MASE_RUNS_DIR")
+    if raw:
+        return Path(raw).expanduser().resolve()
+    return (REPO_ROOT.parent / "MASE-runs").resolve()
+
+
+RUNS_DIR = _resolve_runs_dir()
+OUTPUT_ROOT = RUNS_DIR / "external-benchmarks" / "NoLiMa" / "outputs" / "mase"
+SUMMARY_ROOT = RUNS_DIR / "results" / "nolima"
 
 
 def _load_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _case_artifact_id(test: dict[str, Any], haystack_file: str, context_length: int) -> str:
+    payload = json.dumps(
+        {
+            "test_name": test.get("test_name"),
+            "haystack_file": haystack_file,
+            "context_length": context_length,
+            "retrieval_question": test.get("retrieval_question"),
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+        default=str,
+    )
+    digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
+    return f"case-{digest}"
 
 
 def _build_tests(
@@ -106,7 +134,7 @@ def _run_suite(
     for haystack_file in haystack_files:
         haystack_path = HAYSTACK_DIR / haystack_file
         for index, test in enumerate(tests, start=1):
-            results_dir = suite_root / "raw" / f"{test['test_name']}_{haystack_path.stem}_cl{context_length}"
+            results_dir = suite_root / "raw" / _case_artifact_id(test, haystack_file, context_length)
             results_dir.mkdir(parents=True, exist_ok=True)
             tester = NoLiMa_Tester(
                 model_name=MODEL_NAME,

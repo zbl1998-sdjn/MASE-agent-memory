@@ -6,9 +6,9 @@ services:
     environment:
       - OLLAMA_HOST=http://host.docker.internal:11434
       - MASE_CONFIG_PATH=/app/config.json
+      - MASE_RUNS_DIR=/runs
     volumes:
-      - ./data:/app/data
-      - ./results:/app/results
+      - ${MASE_RUNS_DIR:-../MASE-runs}:/runs
 
   # 可选：如果需要在 Compose 内一并带起本地模型服务
   # ollama:

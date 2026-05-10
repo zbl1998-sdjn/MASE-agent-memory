@@ -16,6 +16,7 @@ build/
 # IDE
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 *~
@@ -78,6 +79,8 @@ data/**/*.jsonl
 !/benchmarks/external-benchmarks/NoLiMa/run_mase_official.py
 
 /run_artifacts/
+/proposals/
+/config.lme_cloud_swap.json
 scripts/_*.py
 scripts/_*.txt
 scripts/_*.err
@@ -95,3 +98,12 @@ secrets.*
 .env.local
 .env.*.local
 .worktrees/
+
+# Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/.cache/
+frontend/.vite/
+frontend/*.tsbuildinfo

@@ -17,7 +17,17 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).resolve().parent
 BASE_DIR = PROJECT_ROOT
 DEFAULT_MANIFEST = SCRIPT_DIR / "generalization_regression_suite.json"
-OUTPUT_ROOT = PROJECT_ROOT / "results" / "generalization-regression"
+
+
+def _resolve_runs_dir() -> Path:
+    raw = os.environ.get("MASE_RUNS_DIR")
+    if raw:
+        return Path(raw).expanduser().resolve()
+    return (PROJECT_ROOT.parent / "MASE-runs").resolve()
+
+
+RUNS_DIR = _resolve_runs_dir()
+OUTPUT_ROOT = RUNS_DIR / "results" / "generalization-regression"
 COMPARISON_PATH = OUTPUT_ROOT / "comparison.json"
 
 
@@ -39,6 +49,10 @@ def _load_manifest(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def _expand_command(command: str) -> str:
+    return str(command).replace("{runs_dir}", str(RUNS_DIR))
+
+
 def _select_active_suites(
     suites: list[dict[str, Any]],
     selected: set[str],
@@ -56,6 +70,7 @@ def _select_active_suites(
 
 
 def _run_command(command: str) -> dict[str, Any]:
+    command = _expand_command(command)
     started = time.perf_counter()
     completed = subprocess.run(
         command,
@@ -113,7 +128,7 @@ def _parse_suite_metrics(name: str, command_runs: list[dict[str, Any]]) -> dict[
         }
 
     if name == "nolima-official-smoke":
-        summary_path = PROJECT_ROOT / "results" / "nolima" / "mase-nolima-summary.json"
+        summary_path = RUNS_DIR / "results" / "nolima" / "mase-nolima-summary.json"
         if not summary_path.exists():
             return {"summary_path": str(summary_path), "status": "missing"}
         payload = json.loads(summary_path.read_text(encoding="utf-8"))
@@ -332,13 +347,13 @@ def main() -> None:
         print(f"[suite] {suite_name}")
         if args.dry_run:
             for command in suite.get("commands") or []:
-                print(f"  {command}")
+                print(f"  {_expand_command(str(command))}")
             overall_summary["suites"].append(
                 {
                     "name": suite_name,
                     "kind": suite.get("kind"),
                     "dry_run": True,
-                    "commands": list(suite.get("commands") or []),
+                    "commands": [_expand_command(str(command)) for command in suite.get("commands") or []],
                 }
             )
             continue
@@ -346,7 +361,7 @@ def main() -> None:
         command_runs: list[dict[str, Any]] = []
         suite_failed = False
         for index, command in enumerate(suite.get("commands") or [], start=1):
-            print(f"  [{index}/{len(suite['commands'])}] {command}")
+            print(f"  [{index}/{len(suite['commands'])}] {_expand_command(str(command))}")
             run_result = _run_command(str(command))
             command_runs.append(run_result)
             if run_result["returncode"] != 0:

@@ -26,6 +26,20 @@ def _discover_manifests() -> list[Path]:
     return manifests
 
 
+def _metric_payload(evidence: dict, metric: str) -> dict:
+    candidates = [metric]
+    if metric == "substring":
+        candidates.append("official_substring")
+    if metric.endswith("_diagnostic"):
+        candidates.append(metric.removesuffix("_diagnostic"))
+
+    for key in candidates:
+        value = evidence.get(key)
+        if isinstance(value, dict):
+            return value
+    raise AssertionError(f"Evidence missing metric payload for {metric!r}; tried {candidates!r}")
+
+
 def test_claim_manifests_exist_and_have_core_fields() -> None:
     for manifest_path in _discover_manifests():
         payload = _load(manifest_path)
@@ -86,6 +100,88 @@ def test_publishable_claim_lanes_use_tracked_evidence() -> None:
                 assert item.get("status") == "tracked", (
                     f"{name} / lane '{lane}' / evidence[{idx}]: "
                     "publishable lanes must use tracked evidence"
+                )
+
+
+def test_tracked_evidence_files_exist_and_match_claim_scores() -> None:
+    for manifest_path in _discover_manifests():
+        payload = _load(manifest_path)
+        name = manifest_path.name
+        for lane, claim in payload["claims"].items():
+            for idx, item in enumerate(claim.get("evidence", [])):
+                if item.get("status") != "tracked":
+                    continue
+                evidence_path = ROOT / str(item.get("path") or "")
+                assert evidence_path.exists(), (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: missing tracked evidence file {evidence_path}"
+                )
+                assert evidence_path.suffix == ".json", (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: tracked evidence must be machine-readable JSON"
+                )
+                evidence = _load(evidence_path)
+                metric = _metric_payload(evidence, str(claim["metric"]))
+                assert evidence.get("sample_count") == claim["sample_count"], (
+                    f"{name} / lane '{lane}': evidence sample_count does not match claim"
+                )
+                assert metric.get("pass_count") == claim["pass_count"], (
+                    f"{name} / lane '{lane}': evidence pass_count does not match claim"
+                )
+                assert metric.get("score_pct") == claim["score_pct"], (
+                    f"{name} / lane '{lane}': evidence score_pct does not match claim"
+                )
+
+
+def test_publishable_tracked_evidence_declares_anti_overfit_protocol() -> None:
+    valid_capture_statuses = {"captured_by_runner", "summary_only_legacy"}
+    for manifest_path in _discover_manifests():
+        payload = _load(manifest_path)
+        name = manifest_path.name
+        for lane, claim in payload["claims"].items():
+            if claim.get("publishable_headline") is False:
+                continue
+            for idx, item in enumerate(claim.get("evidence", [])):
+                if item.get("status") != "tracked":
+                    continue
+                evidence_path = ROOT / str(item.get("path") or "")
+                evidence = _load(evidence_path)
+
+                provenance = evidence.get("dataset_provenance")
+                assert isinstance(provenance, dict), (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: missing dataset_provenance"
+                )
+                assert provenance.get("capture_status") in valid_capture_statuses, (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: invalid provenance capture_status"
+                )
+                assert provenance.get("sample_count") == claim["sample_count"], (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: provenance sample_count mismatch"
+                )
+                assert str(provenance.get("source") or "").strip(), (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: provenance source is required"
+                )
+
+                protocol = evidence.get("run_protocol")
+                assert isinstance(protocol, dict), (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: missing run_protocol"
+                )
+                assert protocol.get("id_routing_allowed") is False, (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: id routing must be disabled"
+                )
+                assert protocol.get("sample_id_usage") == "result_reporting_only", (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: raw sample ids must stay in result reporting only"
+                )
+                assert protocol.get("runtime_sample_identifier") == "sha256_hash", (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: runtime sample identifier must be hashed"
+                )
+
+                anti_overfit = evidence.get("anti_overfit")
+                assert isinstance(anti_overfit, dict), (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: missing anti_overfit"
+                )
+                assert anti_overfit.get("qid_bucket_routing") == "disabled", (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: qid-bucket routing must be disabled"
+                )
+                assert anti_overfit.get("uses_failed_slice_retry") is False, (
+                    f"{name} / lane '{lane}' / evidence[{idx}]: publishable lanes cannot use failed-slice retry"
                 )
 
 

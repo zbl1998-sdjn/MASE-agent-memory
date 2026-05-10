@@ -24,14 +24,14 @@
         "external-benchmarks\\BAMBOO\\datasets\\showssort_4k.jsonl"
       ],
       "commands": [
-        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\meetingqa_4k.jsonl --limit 3 --run-dir external-benchmarks\\BAMBOO\\outputs\\regression\\meetingqa_smoke",
-        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task meetingqa --input_path external-benchmarks\\BAMBOO\\outputs\\regression\\meetingqa_smoke\\meetingqa.predictions.jsonl",
-        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\paperqa_4k.jsonl --limit 3 --run-dir external-benchmarks\\BAMBOO\\outputs\\regression\\paperqa_smoke",
-        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task paperqa --input_path external-benchmarks\\BAMBOO\\outputs\\regression\\paperqa_smoke\\paperqa.predictions.jsonl",
-        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\meetingpred_4k.jsonl --limit 3 --run-dir external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_smoke",
-        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task meetingpred --input_path external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_smoke\\meetingpred.predictions.jsonl",
-        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\showssort_4k.jsonl --limit 3 --run-dir external-benchmarks\\BAMBOO\\outputs\\regression\\showssort_smoke",
-        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task showssort --input_path external-benchmarks\\BAMBOO\\outputs\\regression\\showssort_smoke\\showssort.predictions.jsonl"
+        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\meetingqa_4k.jsonl --limit 3 --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingqa_smoke",
+        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task meetingqa --input_path {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingqa_smoke\\meetingqa.predictions.jsonl",
+        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\paperqa_4k.jsonl --limit 3 --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\regression\\paperqa_smoke",
+        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task paperqa --input_path {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\regression\\paperqa_smoke\\paperqa.predictions.jsonl",
+        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\meetingpred_4k.jsonl --limit 3 --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_smoke",
+        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task meetingpred --input_path {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\regression\\meetingpred_smoke\\meetingpred.predictions.jsonl",
+        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\showssort_4k.jsonl --limit 3 --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\regression\\showssort_smoke",
+        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task showssort --input_path {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\regression\\showssort_smoke\\showssort.predictions.jsonl"
       ],
       "scoring": "Official BAMBOO evaluate.py via evaluate_official_compat.py.",
       "notes": "This fixed subset mirrors the previously validated 3-sample official smoke runs."
@@ -47,7 +47,7 @@
       "commands": [
         "python .\\scripts\\benchmarks\\run_nolima_mase_smoke.py"
       ],
-      "scoring": "Official NoLiMa harness summary written to results\\nolima\\mase-nolima-summary.json.",
+      "scoring": "Official NoLiMa harness summary written to {runs_dir}\\results\\nolima\\mase-nolima-summary.json.",
       "notes": "Tracks both the direct 1K smoke slice and the one-hop 2K extended slice."
     },
     {
@@ -58,9 +58,9 @@
         "external-benchmarks\\NoLiMa\\data\\haystack\\rand_shuffle"
       ],
       "commands": [
-        "python .\\external-benchmarks\\NoLiMa\\run_mase_official.py --needle-set-path external-benchmarks\\NoLiMa\\data\\needlesets\\needle_set.json --haystack-dir external-benchmarks\\NoLiMa\\data\\haystack\\rand_shuffle --context-length 2000 --document-depth-percent-min 50 --document-depth-percent-max 50 --document-depth-percent-intervals 1 --executor-role reasoning --run-dir external-benchmarks\\NoLiMa\\outputs\\official-max-needle_set_2000_depth50"
+        "python .\\external-benchmarks\\NoLiMa\\run_mase_official.py --needle-set-path external-benchmarks\\NoLiMa\\data\\needlesets\\needle_set.json --haystack-dir external-benchmarks\\NoLiMa\\data\\haystack\\rand_shuffle --context-length 2000 --document-depth-percent-min 50 --document-depth-percent-max 50 --document-depth-percent-intervals 1 --executor-role reasoning --run-dir {runs_dir}\\external-benchmarks\\NoLiMa\\outputs\\official-max-needle_set_2000_depth50"
       ],
-      "scoring": "Official NoLiMa harness summary in external-benchmarks\\NoLiMa\\outputs\\official-max-needle_set_2000_depth50\\nolima.summary.json.",
+      "scoring": "Official NoLiMa harness summary in {runs_dir}\\external-benchmarks\\NoLiMa\\outputs\\official-max-needle_set_2000_depth50\\nolima.summary.json.",
       "notes": "Runs the full needle_set.json against all shuffled haystacks at the fixed 50% depth slice."
     },
     {
@@ -73,14 +73,14 @@
         "external-benchmarks\\BAMBOO\\datasets\\showssort_16k.jsonl"
       ],
       "commands": [
-        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\meetingqa_16k.jsonl --run-dir external-benchmarks\\BAMBOO\\outputs\\official-max-meetingqa-16k",
-        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task meetingqa --input_path external-benchmarks\\BAMBOO\\outputs\\official-max-meetingqa-16k\\meetingqa.predictions.jsonl",
-        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\paperqa_4k.jsonl --run-dir external-benchmarks\\BAMBOO\\outputs\\official-max-paperqa-4k",
-        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task paperqa --input_path external-benchmarks\\BAMBOO\\outputs\\official-max-paperqa-4k\\paperqa.predictions.jsonl",
-        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\meetingpred_16k.jsonl --run-dir external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k",
-        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task meetingpred --input_path external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\meetingpred.predictions.jsonl",
-        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\showssort_16k.jsonl --run-dir external-benchmarks\\BAMBOO\\outputs\\official-max-showssort-16k",
-        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task showssort --input_path external-benchmarks\\BAMBOO\\outputs\\official-max-showssort-16k\\showssort.predictions.jsonl"
+        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\meetingqa_16k.jsonl --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingqa-16k",
+        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task meetingqa --input_path {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingqa-16k\\meetingqa.predictions.jsonl",
+        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\paperqa_4k.jsonl --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\official-max-paperqa-4k",
+        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task paperqa --input_path {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\official-max-paperqa-4k\\paperqa.predictions.jsonl",
+        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\meetingpred_16k.jsonl --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k",
+        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task meetingpred --input_path {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\official-max-meetingpred-16k\\meetingpred.predictions.jsonl",
+        "python .\\external-benchmarks\\BAMBOO\\run_mase_official.py --dataset external-benchmarks\\BAMBOO\\datasets\\showssort_16k.jsonl --run-dir {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\official-max-showssort-16k",
+        "python .\\external-benchmarks\\BAMBOO\\evaluate_official_compat.py --task showssort --input_path {runs_dir}\\external-benchmarks\\BAMBOO\\outputs\\official-max-showssort-16k\\showssort.predictions.jsonl"
       ],
       "scoring": "Official BAMBOO evaluate.py via evaluate_official_compat.py.",
       "notes": "Runs the full 16k slices where available; paperqa_16k.jsonl is malformed in this checkout, so paperqa uses the full 4k slice."

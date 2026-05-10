@@ -14,14 +14,15 @@ benchmarks/external-benchmarks/
 ├── README.md                  ← this file (tracked)
 ├── BAMBOO/                    ← clone from upstream
 │   ├── datasets/*.jsonl
-│   ├── run_mase_official.py   (MASE-side runner, copy from our patch dir)
+│   ├── run_mase_official.py   (copy from scripts/external_adapters/bamboo)
 │   └── evaluate_official_compat.py
 └── NoLiMa/                    ← clone from upstream
     ├── data/
     │   ├── needlesets/*.json
     │   └── haystack/rand_shuffle/*.txt
     ├── evaluation/
-    └── run_mase_official.py   (MASE-side runner)
+    ├── run_mase_official.py   (copy from scripts/external_adapters/nolima)
+    └── run_mase_chunked.py
 ```
 
 ## Fetch commands
@@ -64,5 +65,5 @@ After cloning, the regression suite in
 its referenced paths. Smoke check:
 
 ```bash
-python scripts/benchmarks/run_nolima_mase_smoke.py --dry-run
+python scripts/benchmarks/run_generalization_regression.py --suite bamboo-official-smoke --dry-run
 ```

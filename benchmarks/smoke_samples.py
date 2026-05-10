@@ -3,6 +3,47 @@ from __future__ import annotations
 from .schemas import BenchmarkSample, BenchmarkTurn
 
 SMOKE_SAMPLES = {
+    "generalization_smoke": [
+        BenchmarkSample(
+            id="synthetic-memory-update-001",
+            benchmark="generalization_smoke",
+            task_type="long_memory",
+            question="Which relay station is active now?",
+            ground_truth="Juniper-7",
+            history=[
+                BenchmarkTurn(role="user", content="The active relay station is Alder-4. Juniper-7 is only the fallback."),
+                BenchmarkTurn(role="assistant", content="Noted: Alder-4 is active and Juniper-7 is fallback."),
+                BenchmarkTurn(role="user", content="Update the relay plan: Juniper-7 is now active, Alder-4 is retired."),
+                BenchmarkTurn(role="assistant", content="Updated: Juniper-7 is active and Alder-4 is retired."),
+            ],
+            answer_keywords=["Juniper-7"],
+            word_blacklist=["Alder-4"],
+        ),
+        BenchmarkSample(
+            id="synthetic-context-distractor-001",
+            benchmark="generalization_smoke",
+            task_type="long_context_qa",
+            question="Which warehouse code should receive the blue crates?",
+            ground_truth="WH-42",
+            context=(
+                "Dispatch notes:\n"
+                "- Red crates were first assigned to WH-17, then cancelled.\n"
+                "- Blue crates were briefly listed under WH-18 in a draft manifest.\n"
+                "- Final manifest: blue crates go to WH-42; green crates go to WH-18.\n"
+                "- Do not use draft manifest entries for final routing."
+            ),
+            answer_keywords=["WH-42"],
+            word_blacklist=["WH-18"],
+        ),
+        BenchmarkSample(
+            id="synthetic-transfer-math-001",
+            benchmark="generalization_smoke",
+            task_type="math",
+            question="A lab validated 14 samples on Monday, twice as many on Tuesday, and 9 fewer on Wednesday than Tuesday. How many samples were validated in total?",
+            ground_truth="61",
+            answer_keywords=["61"],
+        ),
+    ],
     "longmemeval_smoke": [
         BenchmarkSample(
             id="longmemeval-smoke-001",

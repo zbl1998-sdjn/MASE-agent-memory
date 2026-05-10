@@ -1,0 +1,43 @@
+{
+  "benchmark": "NoLiMa ONLYDirect 32k",
+  "run": "published_local_32k",
+  "sample_count": 56,
+  "configuration": "qwen2.5:7b local; MASE chunked long-context wrapper; no qid-bucket routing",
+  "dataset_provenance": {
+    "capture_status": "summary_only_legacy",
+    "source": "NoLiMa external benchmark",
+    "config": "ONLYDirect 32k",
+    "sample_selection": "full_config",
+    "sample_count": 56,
+    "sample_ids_sha256": "not_captured_legacy_run",
+    "sample_payload_sha256": "not_captured_legacy_run"
+  },
+  "run_protocol": {
+    "anti_overfit_policy": "docs/BENCHMARK_ANTI_OVERFIT.md",
+    "sample_id_usage": "result_reporting_only",
+    "runtime_sample_identifier": "sha256_hash",
+    "id_routing_allowed": false,
+    "qid_bucket_routing_env": "0",
+    "post_hoc_retry_claimable": false
+  },
+  "anti_overfit": {
+    "publishable_headline": true,
+    "diagnostic_only": false,
+    "qid_bucket_routing": "disabled",
+    "uses_failed_slice_retry": false
+  },
+  "accuracy": {
+    "pass_count": 34,
+    "score_pct": 60.71
+  },
+  "baseline": {
+    "pass_count": 1,
+    "sample_count": 56,
+    "score_pct": 1.79,
+    "configuration": "naked baseline"
+  },
+  "notes": [
+    "This machine-readable evidence backs the README/BENCHMARKS NoLiMa 32k headline.",
+    "Full raw benchmark outputs are local-generated artifacts and should be kept under MASE_RUNS_DIR."
+  ]
+}

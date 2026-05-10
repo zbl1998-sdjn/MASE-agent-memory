@@ -90,6 +90,8 @@ claim manifest evidence are available.
 >   *Conservative*: only flips substring-FAIL → PASS, never the other way.
 >
 > Published claim manifests tracked under `docs/benchmark_claims/`.
+> Anti-overfit policy and publishable-lane rules are documented in
+> [`docs/BENCHMARK_ANTI_OVERFIT.md`](docs/BENCHMARK_ANTI_OVERFIT.md).
 
 | Configuration | n | Substring % | **LLM-judge %** | Δ pp |
 |---|---|---|---|---|
@@ -175,6 +177,9 @@ python scripts/run_lveval_en_glm5_swap.py
 ```
 
 Each script writes a JSON summary into `scripts/_*.json`.
+Set `MASE_RUNS_DIR` to keep new runtime outputs outside the repository root;
+for example, `MASE_RUNS_DIR=E:/MASE-runs` redirects benchmark result JSON to
+`E:/MASE-runs/results` and per-case memory stores to `E:/MASE-runs/memory_runs`.
 
 ---
 
@@ -188,6 +193,15 @@ Each script writes a JSON summary into `scripts/_*.json`.
 - **No qid-bucket routing in publishable lanes**: LongMemEval routing may use
   general `question_type` metadata for analysis, but runtime verifier selection
   no longer branches on benchmark-specific question-id prefixes/suffixes.
+  See [`docs/BENCHMARK_ANTI_OVERFIT.md`](docs/BENCHMARK_ANTI_OVERFIT.md).
+- **Provenance and external checks**: new benchmark summaries include dataset
+  fingerprints and an anti-overfit run protocol. Use
+  `python scripts/benchmarks/run_generalization_regression.py --official-max-only`
+  for external BAMBOO/NoLiMa regression checks, and
+  `generalization_smoke` only as a fast non-public integration sanity check.
+  For failed external runs, generate a conservative bucketed failure report with
+  `python scripts/benchmarks/summarize_external_failures.py`; bucket definitions
+  live in [`docs/EXTERNAL_GENERALIZATION_FAILURE_REPORT.md`](docs/EXTERNAL_GENERALIZATION_FAILURE_REPORT.md).
 - **Hardware**: dual 4090 (one for ollama LLM, one for bge-reranker-v2-m3).
   Cloud runs use api.deepseek.com / api.bigmodel.cn / api.kimi.com.
 

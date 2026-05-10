@@ -21,10 +21,13 @@ from mase.fact_sheet_long_memory_terms import _is_temporal_ledger_question, _is_
 from mase.model_interface import ModelInterface
 from mase.mode_selector import (
     generalizer_mode_for_question,
+    lme_question_type,
     local_only_models_enabled,
     long_context_search_limit,
+    long_memory_verify_enabled,
     multipass_allowed_for_task,
     select_executor_mode,
+    task_profile,
     verify_mode_for_question,
 )
 from mase.reasoning_engine import build_reasoning_workspace
@@ -2756,6 +2759,39 @@ def test_nolima_extract_wrapper_uses_nolima_long_context_mode(monkeypatch: pytes
     )
 
     assert mode == "grounded_long_context_nolima_english"
+
+
+def test_generic_candidate_evidence_profile_replaces_benchmark_profile(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("MASE_TASK_PROFILE", "candidate_evidence")
+    monkeypatch.delenv("MASE_BENCHMARK_PROFILE", raising=False)
+    monkeypatch.delenv("MASE_TASK_TYPE", raising=False)
+
+    mode = select_executor_mode(
+        "Which character cannot drink milk?",
+        "A noisy book snippet with many names and places.",
+    )
+
+    assert task_profile() == "candidate_evidence"
+    assert mode == "grounded_nolima_main_english"
+
+
+def test_generic_long_memory_env_aliases_are_supported(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("MASE_TASK_TYPE", "long_memory")
+    monkeypatch.setenv("MASE_LONG_MEMORY_QTYPE_ROUTING", "1")
+    monkeypatch.setenv("MASE_LONG_MEMORY_QTYPE", "temporal-reasoning")
+    monkeypatch.setenv("MASE_LONG_MEMORY_VERIFY", "1")
+    monkeypatch.delenv("MASE_LME_QTYPE_ROUTING", raising=False)
+    monkeypatch.delenv("MASE_QTYPE", raising=False)
+    monkeypatch.delenv("MASE_LME_VERIFY", raising=False)
+
+    mode = select_executor_mode(
+        "How many weeks ago did I attend the friends and family sale at Nordstrom?",
+        "[1] date=2022/11/18 ... Nordstrom friends and family sale ...",
+    )
+
+    assert lme_question_type() == "temporal-reasoning"
+    assert long_memory_verify_enabled() is True
+    assert mode == "grounded_long_memory_deepreason_english"
 
 
 def test_lme_temporal_qtype_uses_deepreason_mode(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -1,0 +1,43 @@
+{
+  "benchmark": "LV-Eval EN",
+  "run": "published_local_256k",
+  "sample_count": 124,
+  "configuration": "qwen2.5:7b local; MASE long-context factrecall; no qid-bucket routing",
+  "dataset_provenance": {
+    "capture_status": "summary_only_legacy",
+    "source": "Infinigence/LVEval",
+    "config": "factrecall_en_256k",
+    "sample_selection": "full_config",
+    "sample_count": 124,
+    "sample_ids_sha256": "not_captured_legacy_run",
+    "sample_payload_sha256": "not_captured_legacy_run"
+  },
+  "run_protocol": {
+    "anti_overfit_policy": "docs/BENCHMARK_ANTI_OVERFIT.md",
+    "sample_id_usage": "result_reporting_only",
+    "runtime_sample_identifier": "sha256_hash",
+    "id_routing_allowed": false,
+    "qid_bucket_routing_env": "0",
+    "post_hoc_retry_claimable": false
+  },
+  "anti_overfit": {
+    "publishable_headline": true,
+    "diagnostic_only": false,
+    "qid_bucket_routing": "disabled",
+    "uses_failed_slice_retry": false
+  },
+  "substring": {
+    "pass_count": 110,
+    "score_pct": 88.71
+  },
+  "baseline": {
+    "pass_count": 6,
+    "sample_count": 124,
+    "score_pct": 4.84,
+    "configuration": "bare qwen2.5:7b without MASE"
+  },
+  "notes": [
+    "This machine-readable evidence backs the README/BENCHMARKS LV-Eval EN 256k headline.",
+    "Full raw benchmark outputs are local-generated artifacts and should be kept under MASE_RUNS_DIR."
+  ]
+}

@@ -9,7 +9,7 @@
       "config_profile": "published-local-default",
       "evidence": [
         {
-          "path": "BENCHMARKS.md",
+          "path": "docs/benchmark_claims/evidence/lveval_en_256k_summary.json",
           "status": "tracked"
         }
       ]

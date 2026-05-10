@@ -41,6 +41,9 @@ def _vault_root() -> Path:
     raw = os.environ.get(VAULT_ENV)
     if raw:
         return Path(raw).expanduser().resolve()
+    raw_runs_dir = os.environ.get("MASE_RUNS_DIR")
+    if raw_runs_dir:
+        return (Path(raw_runs_dir).expanduser().resolve() / "memory").resolve()
     # Default: <project-root>/memory/
     return (Path(__file__).resolve().parents[2] / "memory").resolve()
 

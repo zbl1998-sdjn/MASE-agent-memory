@@ -21,6 +21,16 @@ def test_disabled_by_default(monkeypatch):
     assert tri_vault.list_bucket("state") == []
 
 
+def test_runs_dir_used_as_default_vault(tmp_path, monkeypatch):
+    monkeypatch.setenv(tri_vault.LAYOUT_ENV, "tri")
+    monkeypatch.delenv(tri_vault.VAULT_ENV, raising=False)
+    monkeypatch.setenv("MASE_RUNS_DIR", str(tmp_path / "runs"))
+
+    paths = tri_vault.ensure_layout()
+
+    assert paths["context"].parent == (tmp_path / "runs" / "memory").resolve()
+
+
 def test_ensure_layout_creates_three_buckets(tri_env):
     paths = tri_vault.ensure_layout()
     assert set(paths) == {"context", "sessions", "state"}

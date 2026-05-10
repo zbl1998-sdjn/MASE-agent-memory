@@ -17,15 +17,20 @@ _NOLIMA_DIR = Path(__file__).resolve().parents[1] / "benchmarks" / "external-ben
 if str(_NOLIMA_DIR) not in sys.path:
     sys.path.insert(0, str(_NOLIMA_DIR))
 
-from run_mase_official import (
-    build_nolima_evidence_preamble,
-    candidate_names_from_preamble,
-    extract_haystack_entity_candidates,
-    is_abstention_like,
-    matches_test_selectors,
-    should_retry_with_extractor,
-    single_supported_candidate,
-)
+_DONT_WRITE_BYTECODE = sys.dont_write_bytecode
+sys.dont_write_bytecode = True
+try:
+    from run_mase_official import (
+        build_nolima_evidence_preamble,
+        candidate_names_from_preamble,
+        extract_haystack_entity_candidates,
+        is_abstention_like,
+        matches_test_selectors,
+        should_retry_with_extractor,
+        single_supported_candidate,
+    )
+finally:
+    sys.dont_write_bytecode = _DONT_WRITE_BYTECODE
 
 
 # ---------------------------------------------------------------------------

@@ -49,10 +49,20 @@ except ImportError:
 from mase.model_interface import load_config, resolve_config_path
 
 BASE_DIR = PROJECT_ROOT
-WORKSPACE_DIR = BASE_DIR / "memory_runs" / "api-hotswap-generalization-smoke"
+
+
+def _resolve_runs_dir() -> Path:
+    raw = os.environ.get("MASE_RUNS_DIR")
+    if raw:
+        return Path(raw).expanduser().resolve()
+    return (BASE_DIR.parent / "MASE-runs").resolve()
+
+
+RUNS_DIR = _resolve_runs_dir()
+WORKSPACE_DIR = RUNS_DIR / "memory_runs" / "api-hotswap-generalization-smoke"
 TEMP_CONFIG_PATH = WORKSPACE_DIR / "config.runtime.json"
 TEMP_ENV_PATH = WORKSPACE_DIR / ".env.runtime"
-RESULT_PATH = BASE_DIR / "results" / "generalization-regression" / "cloud-hotswap-generalization-smoke.json"
+RESULT_PATH = RUNS_DIR / "results" / "generalization-regression" / "cloud-hotswap-generalization-smoke.json"
 _PROJECT_ENV_LOADED = False
 
 
@@ -160,7 +170,7 @@ def main() -> None:
         "MASE_ENABLE_MODEL_AUTONOMY": "1",
     }
 
-    bamboo_root = BASE_DIR / "external-benchmarks" / "BAMBOO" / "outputs" / "cloud-hotswap"
+    bamboo_root = RUNS_DIR / "external-benchmarks" / "BAMBOO" / "outputs" / "cloud-hotswap"
     if bamboo_root.exists():
         shutil.rmtree(bamboo_root)
     bamboo_root.mkdir(parents=True, exist_ok=True)
@@ -177,7 +187,7 @@ def main() -> None:
             "--limit",
             "1",
             "--run-dir",
-            str(meetingqa_run.relative_to(BASE_DIR)),
+            str(meetingqa_run),
         ],
         extra_env,
     )
@@ -190,7 +200,7 @@ def main() -> None:
             "--limit",
             "3",
             "--run-dir",
-            str(meetingpred_run.relative_to(BASE_DIR)),
+            str(meetingpred_run),
         ],
         extra_env,
     )

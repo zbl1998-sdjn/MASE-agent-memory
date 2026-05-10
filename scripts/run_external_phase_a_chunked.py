@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import time
@@ -10,9 +11,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EXT = ROOT / "benchmarks" / "external-benchmarks"
-OUT = ROOT / "results" / "external"
+
+
+def _resolve_runs_dir() -> Path:
+    raw = os.environ.get("MASE_RUNS_DIR")
+    if raw:
+        return Path(raw).expanduser().resolve()
+    return (ROOT.parent / "MASE-runs").resolve()
+
+
+RUNS_DIR = _resolve_runs_dir()
+OUT = RUNS_DIR / "results" / "external"
 OUT.mkdir(parents=True, exist_ok=True)
 SUMMARY = OUT / "phase_a_summary.jsonl"
+env = os.environ.copy()
+env["PYTHONPATH"] = f"{ROOT};{ROOT / 'src'}"
+env["PYTHONIOENCODING"] = "utf-8"
+env["MASE_RUNS_DIR"] = str(RUNS_DIR)
 
 LENGTHS = [4096, 8192, 16384, 32768]
 HAYSTACKS = 2  # match baseline
@@ -46,7 +61,7 @@ def run_one(length: int) -> None:
     ]
     print(f"\n=== NoLiMa CHUNKED ONLYDirect @ {length} ===", flush=True)
     t0 = time.time()
-    proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
+    proc = subprocess.run(cmd, env=env, capture_output=True, text=True, encoding="utf-8")
     dt = time.time() - t0
     summary_file = run_dir / "nolima.summary.json"
     acc = passed = processed = None

@@ -20,6 +20,10 @@ jobs:
         python-version: ["3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
+
+      - name: Whitespace gate
+        run: git diff --check
+
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
@@ -59,6 +63,15 @@ jobs:
       - name: Ruff lint
         run: python -m ruff check .
 
+      - name: Type check
+        run: python -m mypy
+
+      - name: Repo hygiene gate
+        run: python scripts/audit_repo_hygiene.py --strict
+
+      - name: Benchmark anti-overfit gate
+        run: python scripts/audit_anti_overfit.py --strict
+
   test:
     name: Pytest (py${{ matrix.python-version }})
     runs-on: ubuntu-latest
@@ -82,3 +95,27 @@ jobs:
       # Only unit tests by default. Integration/slow tests require live model backends.
       - name: Run unit tests
         run: python -m pytest -m "not integration and not slow" -q
+
+  frontend:
+    name: Frontend gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci --prefix frontend
+
+      - name: Type check frontend
+        run: npm --prefix frontend run typecheck
+
+      - name: Test frontend
+        run: npm --prefix frontend test
+
+      - name: Build frontend
+        run: npm --prefix frontend run build

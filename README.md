@@ -10,7 +10,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
-![Tests](https://img.shields.io/badge/tests-371%2F371%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-383%2F383%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
 ![LongMemEval](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
@@ -80,6 +80,26 @@ python -m pytest tests/ -q
 python mase_cli.py
 ```
 
+## Local quality gates
+
+Run these checks locally before SaaS integration work or before opening a PR:
+
+```bash
+python -m pytest -q
+python -m mypy
+python -m compileall -q -x "(legacy_archive|run_artifacts|dist|build|\.venv|venv|benchmarks/external-benchmarks|__pycache__|\.pytest_cache)" .
+npm --prefix frontend run typecheck
+npm --prefix frontend test
+npm --prefix frontend run build
+git diff --check
+```
+
+`python -m mypy` is intentionally gradual: `pyproject.toml` currently limits mypy to `executor.py`, `planner_agent.py`, `router.py`, `model_interface.py`, and `protocol.py`.
+
+For benchmark or long-running local work, set `MASE_RUNS_DIR` to a sibling
+directory such as `E:/MASE-runs` so generated memory stores and result files do
+not accumulate inside the source checkout.
+
 如果你只是第一次上手，优先跑 `python mase_cli.py`。
 更完整的 benchmark 复现命令请看 [BENCHMARKS.md](BENCHMARKS.md)，
 完整示例列表请看 [examples/README.md](examples/README.md)。
@@ -117,6 +137,8 @@ MASE 当前最强的是**事实更新、跨 session 记忆、一致性治理、�
 
 Stable Core, Compatibility Surface, and Experimental Surface are defined in
 [`docs/ARCHITECTURE_BOUNDARIES.md`](docs/ARCHITECTURE_BOUNDARIES.md).
+Benchmark anti-overfit rules are defined in
+[`docs/BENCHMARK_ANTI_OVERFIT.md`](docs/BENCHMARK_ANTI_OVERFIT.md).
 
 ## Contributing
 

@@ -19,12 +19,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EXT = ROOT / "benchmarks" / "external-benchmarks"
-OUT = ROOT / "results" / "external"
+
+
+def _resolve_runs_dir() -> Path:
+    raw = os.environ.get("MASE_RUNS_DIR")
+    if raw:
+        return Path(raw).expanduser().resolve()
+    return (ROOT.parent / "MASE-runs").resolve()
+
+
+RUNS_DIR = _resolve_runs_dir()
+OUT = RUNS_DIR / "results" / "external"
 OUT.mkdir(parents=True, exist_ok=True)
 
 env = os.environ.copy()
 env["PYTHONPATH"] = f"{ROOT};{ROOT / 'src'}"
 env["PYTHONIOENCODING"] = "utf-8"
+env["MASE_RUNS_DIR"] = str(RUNS_DIR)
 
 SUMMARY = OUT / "phase_a_summary.jsonl"
 

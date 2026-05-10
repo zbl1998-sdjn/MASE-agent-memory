@@ -66,6 +66,9 @@ def _resolve_vault(arg: str | None) -> Path:
     env = os.environ.get(tri_vault.VAULT_ENV)
     if env:
         return Path(env).expanduser().resolve()
+    runs_dir = os.environ.get("MASE_RUNS_DIR")
+    if runs_dir:
+        return (Path(runs_dir).expanduser().resolve() / "memory").resolve()
     # Same default as tri_vault._vault_root().
     return (Path(__file__).resolve().parents[2] / "memory").resolve()
 

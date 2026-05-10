@@ -93,12 +93,18 @@ def _resolve_memory_dir(config_path: str | Path | None = None) -> Path:
         return Path(env_memory_dir).expanduser().resolve()
 
     try:
-        from src.mase.model_interface import resolve_config_path  # noqa: PLC0415
+        from src.mase.model_interface import resolve_config_path, resolve_runs_dir  # noqa: PLC0415
     except ImportError:
         try:
-            from mase.model_interface import resolve_config_path  # noqa: PLC0415
+            from mase.model_interface import resolve_config_path, resolve_runs_dir  # noqa: PLC0415
         except ImportError:
             resolve_config_path = None
+            resolve_runs_dir = None
+
+    if resolve_runs_dir is not None:
+        runs_dir = resolve_runs_dir()
+        if runs_dir is not None:
+            return runs_dir / "memory"
 
     if resolve_config_path is not None:
         return resolve_config_path(config_path).parent / "memory"
@@ -147,6 +153,7 @@ def _active_db_path(
     if (
         os.environ.get("MASE_DB_PATH")
         or os.environ.get("MASE_MEMORY_DIR")
+        or os.environ.get("MASE_RUNS_DIR")
         or os.environ.get("MASE_CONFIG_PATH")
         or config_path is not None
     ):

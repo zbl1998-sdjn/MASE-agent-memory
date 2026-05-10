@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -52,8 +53,18 @@ from .schemas import BenchmarkSample, BenchmarkTurn
 from .scoring import score_sample
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-RESULTS_DIR = BASE_DIR / "results"
-MEMORY_RUNS_DIR = BASE_DIR / "memory_runs"
+
+
+def _resolve_runs_root() -> Path:
+    raw = os.environ.get("MASE_RUNS_DIR")
+    if raw:
+        return Path(raw).expanduser().resolve()
+    return BASE_DIR
+
+
+RUNS_DIR = _resolve_runs_root()
+RESULTS_DIR = RUNS_DIR / "results"
+MEMORY_RUNS_DIR = RUNS_DIR / "memory_runs"
 
 
 def _load_config_profiles() -> dict[str, Any]:
@@ -168,6 +179,101 @@ def _shape_tag(primary_shape: str) -> str:
         "standard": "standard",
     }
     return mapping.get(normalized, normalized or "standard")
+
+
+def _hash_text(value: str) -> str:
+    return hashlib.sha256(str(value or "").encode("utf-8")).hexdigest()
+
+
+def _hash_json(payload: Any) -> str:
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return _hash_text(raw)
+
+
+def _sample_hash(sample: BenchmarkSample) -> str:
+    return _hash_json(
+        {
+            "id": sample.id,
+            "benchmark": sample.benchmark,
+            "task_type": sample.task_type,
+            "question": sample.question,
+            "ground_truth": sample.ground_truth,
+            "history": [turn.__dict__ for turn in sample.history],
+            "context": sample.context,
+            "options": sample.options,
+            "metadata": sample.metadata,
+        }
+    )
+
+
+def _sample_artifact_id(sample: BenchmarkSample) -> str:
+    return f"sample-{_sample_hash(sample)[:16]}"
+
+
+def _sample_fingerprint_row(sample: BenchmarkSample) -> dict[str, Any]:
+    metadata = sample.metadata if isinstance(sample.metadata, dict) else {}
+    return {
+        "id": sample.id,
+        "benchmark": sample.benchmark,
+        "task_type": sample.task_type,
+        "question_sha256": _hash_text(sample.question),
+        "ground_truth_sha256": _hash_text(sample.ground_truth),
+        "history_turn_count": len(sample.history),
+        "history_sha256": _hash_json([turn.__dict__ for turn in sample.history]),
+        "context_sha256": _hash_text(sample.context),
+        "options_sha256": _hash_json(sample.options),
+        "metadata_shape": {
+            key: metadata.get(key)
+            for key in (
+                "dataset",
+                "length",
+                "language",
+                "question_type",
+                "history_shape",
+                "history_turn_count",
+                "haystack_session_count",
+            )
+            if key in metadata
+        },
+    }
+
+
+def _build_dataset_provenance(
+    benchmark_name: str,
+    samples: list[BenchmarkSample],
+    *,
+    path: str | None,
+    config: str | None,
+    split: str | None,
+) -> dict[str, Any]:
+    rows = [_sample_fingerprint_row(sample) for sample in samples]
+    task_type_counts: dict[str, int] = {}
+    for sample in samples:
+        task_type_counts[sample.task_type] = task_type_counts.get(sample.task_type, 0) + 1
+    return {
+        "schema_version": 1,
+        "benchmark": benchmark_name,
+        "source": path or "hf-default",
+        "config": config,
+        "split": split,
+        "sample_count": len(samples),
+        "sample_ids_sha256": _hash_json([sample.id for sample in samples]),
+        "sample_payload_sha256": _hash_json(rows),
+        "task_type_counts": task_type_counts,
+    }
+
+
+def _build_run_protocol() -> dict[str, Any]:
+    return {
+        "schema_version": 1,
+        "anti_overfit_policy": "docs/BENCHMARK_ANTI_OVERFIT.md",
+        "sample_id_usage": "result_reporting_only",
+        "runtime_sample_identifier": "sha256_hash",
+        "id_routing_allowed": False,
+        "qid_bucket_routing_env": str(os.environ.get("MASE_LME_ROUTE_BY_QID") or "0"),
+        "allowed_task_metadata": ["task_type", "context_length", "language", "question_type"],
+        "post_hoc_retry_claimable": False,
+    }
 
 
 def _classify_error_kind(error: str | None) -> str | None:
@@ -370,7 +476,23 @@ def _dedupe_strings(items: list[str]) -> list[str]:
     return result
 
 
-def _ingest_turns_into_mase(system: MASESystem, turns: list[BenchmarkTurn], benchmark_question_id: str | None = None) -> None:
+def _normalize_sample_hash(value: str | None) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    if re.fullmatch(r"[0-9a-f]{64}", text):
+        return text
+    return _hash_text(text)
+
+
+def _ingest_turns_into_mase(
+    system: MASESystem,
+    turns: list[BenchmarkTurn],
+    benchmark_sample_hash: str | None = None,
+    *,
+    benchmark_question_id: str | None = None,
+) -> None:
+    normalized_sample_hash = _normalize_sample_hash(benchmark_sample_hash or benchmark_question_id)
     benchmark_turn_index = 0
 
     def _write_turn(user_turn: BenchmarkTurn, assistant_response: str, source: str) -> None:
@@ -402,8 +524,9 @@ def _ingest_turns_into_mase(system: MASESystem, turns: list[BenchmarkTurn], benc
             metadata["timestamp"] = user_turn.timestamp
         if user_turn.session_id:
             metadata["session_id"] = user_turn.session_id
-        if benchmark_question_id:
-            metadata["benchmark_question_id"] = benchmark_question_id
+        if normalized_sample_hash:
+            metadata["benchmark_sample_hash"] = normalized_sample_hash
+            metadata["benchmark_id_visibility"] = "hashed"
         system.notetaker_agent.write(
             user_query=user_turn.content,
             assistant_response=assistant_response,
@@ -594,7 +717,8 @@ class BenchmarkRunner:
         )
 
     def _run_sample_once(self, sample: BenchmarkSample, run_root: Path, attempt: int) -> dict[str, Any]:
-        case_memory_dir = run_root / sample.id
+        sample_hash = _sample_hash(sample)
+        case_memory_dir = run_root / _sample_artifact_id(sample)
         if case_memory_dir.exists():
             shutil.rmtree(case_memory_dir)
         case_memory_dir.mkdir(parents=True, exist_ok=True)
@@ -603,7 +727,7 @@ class BenchmarkRunner:
         previous_task_type = os.environ.get("MASE_TASK_TYPE")
         previous_lveval_dataset = os.environ.get("MASE_LVEVAL_DATASET")
         previous_qtype = os.environ.get("MASE_QTYPE")
-        previous_current_qid = os.environ.get("MASE_CURRENT_QID")
+        previous_current_sample_hash = os.environ.get("MASE_CURRENT_SAMPLE_HASH")
         previous_qid_bucket = os.environ.get("MASE_QID_BUCKET")
         os.environ["MASE_MEMORY_DIR"] = str(case_memory_dir.resolve())
         os.environ["MASE_TASK_TYPE"] = str(sample.task_type or "")
@@ -611,11 +735,9 @@ class BenchmarkRunner:
         if isinstance(sample.metadata, dict):
             ds_name = str(sample.metadata.get("dataset") or "").strip().lower()
         os.environ["MASE_LVEVAL_DATASET"] = ds_name
-        qid = str(sample.id or "")
-        # Keep the raw qid only for trace/debug output. Runtime routing must not
-        # branch on benchmark-specific qid naming patterns; that would overfit
-        # LongMemEval rather than generalize to real user traffic.
-        os.environ["MASE_CURRENT_QID"] = qid
+        # Expose only a content hash to runtime code. The raw sample id remains
+        # in the result JSON for audit/debug, but it is not part of routing state.
+        os.environ["MASE_CURRENT_SAMPLE_HASH"] = sample_hash
         # iter5: expose LongMemEval question_type (single-session-user / multi-session
         # / temporal-reasoning / single-session-preference / knowledge-update) so that
         # mode_selector + multipass_retrieval can apply per-type routing
@@ -629,7 +751,7 @@ class BenchmarkRunner:
         try:
             system = MASESystem()
             if sample.history:
-                _ingest_turns_into_mase(system, sample.history, benchmark_question_id=sample.id)
+                _ingest_turns_into_mase(system, sample.history, benchmark_sample_hash=sample_hash)
             if sample.context:
                 _ingest_context_into_mase(system, sample.context)
 
@@ -766,10 +888,10 @@ class BenchmarkRunner:
                 os.environ.pop("MASE_QTYPE", None)
             else:
                 os.environ["MASE_QTYPE"] = previous_qtype
-            if previous_current_qid is None:
-                os.environ.pop("MASE_CURRENT_QID", None)
+            if previous_current_sample_hash is None:
+                os.environ.pop("MASE_CURRENT_SAMPLE_HASH", None)
             else:
-                os.environ["MASE_CURRENT_QID"] = previous_current_qid
+                os.environ["MASE_CURRENT_SAMPLE_HASH"] = previous_current_sample_hash
             if previous_qid_bucket is None:
                 os.environ.pop("MASE_QID_BUCKET", None)
             else:
@@ -839,6 +961,14 @@ class BenchmarkRunner:
             split=split,
         )
         sample_shape_summary = _summarize_sample_shapes(samples)
+        dataset_provenance = _build_dataset_provenance(
+            benchmark_name,
+            samples,
+            path=path,
+            config=config,
+            split=split,
+        )
+        run_protocol = _build_run_protocol()
         run_label = f"{benchmark_name}-{_shape_tag(sample_shape_summary['primary_shape'])}"
         results: list[dict[str, Any]] = []
         run_root = MEMORY_RUNS_DIR / f"benchmark-{run_label}-{run_id}"
@@ -873,6 +1003,8 @@ class BenchmarkRunner:
                 "dataset_split": split,
                 "dataset_shape": sample_shape_summary["primary_shape"],
                 "dataset_shape_counts": sample_shape_summary["shape_counts"],
+                "dataset_provenance": dataset_provenance,
+                "run_protocol": run_protocol,
                 "history_turns": sample_shape_summary["history_turns"],
                 "completed": index == len(samples),
             }
@@ -890,6 +1022,8 @@ class BenchmarkRunner:
             "dataset_split": split,
             "dataset_shape": sample_shape_summary["primary_shape"],
             "dataset_shape_counts": sample_shape_summary["shape_counts"],
+            "dataset_provenance": dataset_provenance,
+            "run_protocol": run_protocol,
             "history_turns": sample_shape_summary["history_turns"],
             "completed": True,
         }

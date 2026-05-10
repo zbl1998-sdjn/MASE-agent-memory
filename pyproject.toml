@@ -155,6 +155,10 @@ ignore_missing_imports = true
 # These modules have full type hints; enable strictness progressively for the rest.
 exclude = "(legacy_archive|run_artifacts|dist|build|benchmarks/external-benchmarks)"
 
+[[tool.mypy.overrides]]
+module = ["legacy_archive.*"]
+follow_imports = "skip"
+
 # -------- Pytest --------
 [tool.pytest.ini_options]
 minversion = "8.0"

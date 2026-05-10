@@ -15,13 +15,17 @@ MASE 2.0 — Example 09: Resume After Crash
 """
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
+os.environ.setdefault("MASE_RUNS_DIR", str(ROOT.parent / "MASE-runs"))
 
 from mase import mase_ask  # noqa: E402
+from mase_tools.memory.db_core import resolve_db_path  # noqa: E402
 
 
 def phase1() -> None:
@@ -32,7 +36,7 @@ def phase1() -> None:
     ]
     for f in facts:
         mase_ask(f)
-    print("\n[phase1] 已写入 3 条核心事实到 SQLite (data/mase_memory.db).")
+    print(f"\n[phase1] 已写入 3 条核心事实到 SQLite ({resolve_db_path()}).")
     print("现在你可以:")
     print("  1. 关掉这个进程 (或 kill -9)")
     print("  2. 重启电脑")

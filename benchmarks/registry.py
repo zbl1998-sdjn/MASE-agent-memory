@@ -355,6 +355,7 @@ def _load_humaneval(name: str, path: str | None = None, config: str | None = Non
 
 BENCHMARK_SPECS = {
     "longmemeval_smoke": BenchmarkSpec(name="longmemeval_smoke", source_kind="smoke", loader=_load_smoke_samples),
+    "generalization_smoke": BenchmarkSpec(name="generalization_smoke", source_kind="smoke", loader=_load_smoke_samples),
     "lveval_smoke": BenchmarkSpec(name="lveval_smoke", source_kind="smoke", loader=_load_smoke_samples),
     "mmlu_smoke": BenchmarkSpec(name="mmlu_smoke", source_kind="smoke", loader=_load_smoke_samples),
     "gsm8k_smoke": BenchmarkSpec(name="gsm8k_smoke", source_kind="smoke", loader=_load_smoke_samples),
