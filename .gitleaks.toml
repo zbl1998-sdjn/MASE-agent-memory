@@ -5,6 +5,13 @@
 [extend]
 useDefault = true
 
-[allowlist]
+[[allowlists]]
 description = "env template uses placeholder __replace_me__ values"
 paths = ['''\.env\.example$''']
+
+[[allowlists]]
+description = "model configs store environment variable names, not API key values"
+regexTarget = "match"
+regexes = [
+  '''["']?api_key_env["']?\s*:\s*["'][A-Z][A-Z0-9_]*_API_KEY["']''',
+]
