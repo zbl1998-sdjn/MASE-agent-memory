@@ -24,8 +24,15 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from benchmarks.runner import _aggregate_call_log
-from data.book_haystack import BookHaystack
 from mase import MASESystem
+
+try:
+    from data.book_haystack import BookHaystack as _BookHaystack
+except ModuleNotFoundError as exc:
+    _BOOK_HAYSTACK_IMPORT_ERROR = exc
+    _BookHaystack = object
+else:
+    _BOOK_HAYSTACK_IMPORT_ERROR = None
 
 DEFAULT_TASK_TEMPLATE = (
     "You will answer a question based on the following book snippet:\n\n"
@@ -110,8 +117,13 @@ class ExpandedTest:
     distractor: str | None
 
 
-class Utf8BookHaystack(BookHaystack):
+class Utf8BookHaystack(_BookHaystack):
     def __init__(self, book_path: str) -> None:
+        if _BOOK_HAYSTACK_IMPORT_ERROR is not None:
+            raise ModuleNotFoundError(
+                "NoLiMa benchmark data package is required to generate haystacks. "
+                "Install or restore benchmarks/external-benchmarks/NoLiMa/data before running this benchmark."
+            ) from _BOOK_HAYSTACK_IMPORT_ERROR
         self.book_path = book_path
         path = Path(book_path)
         if not path.exists():
