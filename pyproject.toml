@@ -135,6 +135,7 @@ ignore = [
 "mase_tools/memory/gc_agent.py" = ["BLE001"]
 "src/mase/engine.py" = ["BLE001"]                # MASESystem must never crash on background-task or migration errors
 "src/mase/model_interface.py" = ["BLE001"]       # LLM client wrapper: every network/parse path is guarded
+"src/mase/model_providers.py" = ["BLE001"]       # LLM provider wrapper: every network/parse path is guarded
 "src/mase/hybrid_recall.py" = ["BLE001"]         # retrieval fallback chain: degrade gracefully, never raise
 "src/mase/multipass_retrieval.py" = ["BLE001", "B905"]  # multi-query fan-out + zip pairing
 "src/mase/notetaker_agent.py" = ["BLE001"]       # tool-call parsing must tolerate malformed LLM output

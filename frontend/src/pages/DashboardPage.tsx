@@ -5,20 +5,24 @@ import { DataTable } from "../components/DataTable";
 import { JsonBlock } from "../components/JsonBlock";
 import { StatCard } from "../components/StatCard";
 import { StatusLine } from "../components/StatusLine";
+import { type Lang, translations } from "../i18n";
 import type { BootstrapData, DashboardData, JsonRecord, MaseResponse, Scope } from "../types";
 
 type DashboardPageProps = {
   scope: Scope;
+  lang: Lang;
 };
 
 const statTones = ["cyan", "violet", "green", "amber"] as const;
 
-export function DashboardPage({ scope }: DashboardPageProps) {
+export function DashboardPage({ scope, lang }: DashboardPageProps) {
   const [health, setHealth] = useState<MaseResponse<JsonRecord>>();
   const [bootstrap, setBootstrap] = useState<MaseResponse<BootstrapData>>();
   const [dashboard, setDashboard] = useState<MaseResponse<DashboardData>>();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const t = translations[lang].pages.dashboard;
 
   useEffect(() => {
     setLoading(true);
@@ -41,13 +45,13 @@ export function DashboardPage({ scope }: DashboardPageProps) {
 
   return (
     <div className="stack">
-      <section className="hero-panel">
+      <section className="hero-panel split">
         <div>
-          <p className="eyebrow">MASE Memory Platform</p>
-          <h1>{product?.name ?? "White-box memory operations cockpit"}</h1>
-          <p>{product?.tagline ?? "把 Agent 记忆变成可审计、可治理、可部署的产品平台。"}</p>
+          <p className="eyebrow">{t.eyebrow}</p>
+          <h1>{product?.name ?? t.title}</h1>
+          <p>{product?.tagline ?? t.subtitle}</p>
           <div className="hero-actions">
-            {(dashboard?.data.quick_actions ?? product?.quick_actions ?? []).map((action) => (
+            {(dashboard?.data.quick_actions ?? product?.quick_actions ?? []).slice(0, 4).map((action) => (
               <a className="action-pill" href={action.target} key={action.label}>
                 <strong>{action.label}</strong>
                 <span>{action.description}</span>
@@ -56,7 +60,7 @@ export function DashboardPage({ scope }: DashboardPageProps) {
           </div>
         </div>
         <div className="hero-visual">
-          <DonutStat value={sourceFacts} total={Math.max(1, factTotal + eventTotal)} label="current facts share" />
+          <DonutStat value={sourceFacts} total={Math.max(1, factTotal + eventTotal)} label={t.donut} />
           <Sparkline data={dashboard?.data.charts.activity_by_day ?? []} />
         </div>
       </section>
@@ -69,31 +73,36 @@ export function DashboardPage({ scope }: DashboardPageProps) {
             key={key}
             label={key}
             value={value}
-            hint={key === "threads" ? "active memory threads" : "scope-aware"}
             tone={statTones[index % statTones.length]}
           />
         ))}
       </div>
 
       <div className="grid three">
-        <section className="glass-card wide">
+        <section className="glass-card">
           <header>
-            <h2>Memory distribution</h2>
-            <p>Entity Fact Sheet 分类分布</p>
+            <div>
+              <h2>{t.sections.distribution.title}</h2>
+              <p>{t.sections.distribution.desc}</p>
+            </div>
           </header>
           <BarChart data={dashboard?.data.charts.facts_by_category ?? []} />
         </section>
         <section className="glass-card">
           <header>
-            <h2>Event roles</h2>
-            <p>流水账角色占比</p>
+            <div>
+              <h2>{t.sections.eventRoles.title}</h2>
+              <p>{t.sections.eventRoles.desc}</p>
+            </div>
           </header>
           <BarChart data={dashboard?.data.charts.events_by_role ?? []} />
         </section>
         <section className="glass-card">
           <header>
-            <h2>Top threads</h2>
-            <p>最近活跃主题</p>
+            <div>
+              <h2>{t.sections.topThreads.title}</h2>
+              <p>{t.sections.topThreads.desc}</p>
+            </div>
           </header>
           <BarChart data={dashboard?.data.charts.events_by_thread ?? []} />
         </section>
@@ -102,11 +111,13 @@ export function DashboardPage({ scope }: DashboardPageProps) {
       <div className="grid two">
         <section className="glass-card">
           <header>
-            <h2>System map</h2>
-            <p>运行链路与可观测节点</p>
+            <div>
+              <h2>{t.sections.systemMap.title}</h2>
+              <p>{t.sections.systemMap.desc}</p>
+            </div>
           </header>
           <div className="system-map">
-            {(dashboard?.data.system_map ?? []).map((node, index) => (
+            {(dashboard?.data.system_map ?? []).slice(0, 6).map((node, index) => (
               <div className="system-node" key={node.name}>
                 <span>{index + 1}</span>
                 <div>
@@ -120,49 +131,20 @@ export function DashboardPage({ scope }: DashboardPageProps) {
         </section>
         <section className="glass-card">
           <header>
-            <h2>Product readiness</h2>
-            <p>产品能力与部署状态</p>
-          </header>
-          <div className="feature-grid">
-            {(product?.features ?? []).map((feature) => (
-              <article key={feature.title}>
-                <strong>{feature.title}</strong>
-                <p>{feature.description}</p>
-              </article>
-            ))}
-            <article>
-              <strong>Static frontend</strong>
-              <p>{product?.frontend_static_ready ? "FastAPI is serving frontend/dist." : "Run npm run build to enable single-process serving."}</p>
-            </article>
-          </div>
-        </section>
-      </div>
-
-      <div className="grid two">
-        <section className="glass-card">
-          <header>
-            <h2>Recent activity</h2>
-            <p>最近流水账</p>
+            <div>
+              <h2>{t.sections.recent.title}</h2>
+              <p>{t.sections.recent.desc}</p>
+            </div>
           </header>
           <DataTable
             rows={dashboard?.data.recent_activity ?? []}
-            preferredColumns={["id", "thread_id", "role", "content", "event_timestamp"]}
-          />
-        </section>
-        <section className="glass-card">
-          <header>
-            <h2>Top facts</h2>
-            <p>当前事实快照</p>
-          </header>
-          <DataTable
-            rows={dashboard?.data.top_facts ?? []}
-            preferredColumns={["category", "entity_key", "entity_value", "updated_at"]}
+            preferredColumns={["thread_id", "role", "content", "event_timestamp"]}
           />
         </section>
       </div>
 
       <details className="debug-panel">
-        <summary>Raw platform payload</summary>
+        <summary>{translations[lang].common.rawPayload}</summary>
         <JsonBlock value={{ health, bootstrap, dashboard }} filename="mase-platform-dashboard.json" />
       </details>
     </div>

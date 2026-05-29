@@ -19,6 +19,12 @@ def test_extract_question_scope_filters_uses_reference_time_from_env(monkeypatch
 
 def test_write_interaction_preserves_source_timestamp(monkeypatch, tmp_path: Path) -> None:
     monkeypatch.setenv("MASE_MEMORY_DIR", str(tmp_path))
+    repo_log = Path("memory/logs/2023-05-30.md")
+    before_repo_log = (
+        repo_log.exists(),
+        repo_log.stat().st_size if repo_log.exists() else None,
+        repo_log.stat().st_mtime_ns if repo_log.exists() else None,
+    )
     filepath = Path(
         write_interaction(
             user_query="I booked the trip.",
@@ -33,3 +39,8 @@ def test_write_interaction_preserves_source_timestamp(monkeypatch, tmp_path: Pat
     assert record["timestamp"] == "2023-05-30T23:40:00"
     assert record["metadata"]["source_timestamp"] == "2023-05-30T23:40:00"
     assert record["metadata"]["ingested_at"]
+    assert (
+        repo_log.exists(),
+        repo_log.stat().st_size if repo_log.exists() else None,
+        repo_log.stat().st_mtime_ns if repo_log.exists() else None,
+    ) == before_repo_log

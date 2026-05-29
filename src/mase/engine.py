@@ -15,27 +15,13 @@ from pathlib import Path
 from typing import Any
 
 from .agent_registry import get_registry, register_builtin_agents
-from .answer_normalization import (
-    candidate_names_from_fact_sheet,
-    extract_answer,
-    extract_fact_sheet_list_lookup_answer,
-    extract_fact_sheet_shift_lookup_answer,
-    extract_numbered_list_item,
-    extract_ordinal_index_from_question,
-    normalize_compact_lookup_answer,
-    normalize_other_options_answer,
-    normalize_preference_profile_answer,
-    normalize_three_event_order_answer,
-)
 from .config_schema import validate_config_path
+from .engine_execution import EngineExecutionMixin
+from .engine_notetaker import EngineNotetakerMixin
 from .event_bus import Topics, get_bus
-from .fact_sheet import (
-    build_long_context_fact_sheet,
-    build_long_memory_full_fact_sheet,
-)
+from .fact_sheet import build_long_memory_full_fact_sheet
 from .mode_selector import (
     determine_memory_heat,
-    generalizer_mode_for_question,
     is_long_context_qa,
     is_long_memory,
     is_multidoc_long_context,
@@ -45,21 +31,18 @@ from .mode_selector import (
     long_context_search_limit,
     multipass_allowed_for_task,
     select_executor_mode,
-    select_notetaker_mode,
     use_deterministic_fact_sheet,
-    verify_mode_for_question,
 )
 from .model_interface import ModelInterface, resolve_config_path
-from .models import OrchestrationTrace, PlannerSnapshot, RouteDecision
+from .models import OrchestrationTrace, RouteDecision
 from .notetaker import append_markdown_log
 from .problem_classifier import build_retrieval_plan
 from .reasoning_engine import build_reasoning_workspace
-from .router import ROUTER_SYSTEM
-from .topic_threads import derive_thread_context, detect_text_language
+from .topic_threads import derive_thread_context
 from .trace_recorder import build_trace_steps, record_trace_payload
 
 
-class MASESystem:
+class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
     """Top-level façade for one MASE benchmark/runtime instance."""
 
     def __init__(self, config_path: str | Path | None = None) -> None:
@@ -128,337 +111,6 @@ class MASESystem:
             agent_type: self.model_interface.describe_agent(agent_type)
             for agent_type in ("router", "notetaker", "planner", "executor")
         }
-
-    # ---- internal helpers (notetaker + planner glue) ----
-    def _format_search_results_for_notetaker(self, results: list[dict[str, Any]]) -> str:
-        lines: list[str] = []
-        for index, item in enumerate(results, start=1):
-            content = str(item.get("content") or "").strip()
-            if not content:
-                continue
-            summary = str(item.get("summary") or "").strip()
-            thread_label = str(item.get("thread_label") or "").strip()
-            parts = [f"[{index}] {content}"]
-            for key in ("_source", "retrieval_reason", "freshness", "conflict_status", "source_reason"):
-                value = str(item.get(key) or "").strip()
-                if value:
-                    parts.append(f"{key.lstrip('_')}={value}")
-            if item.get("history_depth"):
-                parts.append(f"history_depth={item['history_depth']}")
-            for key in ("updated_at", "superseded_at"):
-                value = str(item.get(key) or "").strip()
-                if value:
-                    parts.append(f"{key}={value}")
-            if summary:
-                parts.append(f"summary={summary}")
-            if thread_label:
-                parts.append(f"thread={thread_label}")
-            lines.append(" | ".join(parts))
-        return "\n".join(lines)
-
-    def _build_fact_sheet_with_notetaker(
-        self,
-        user_question: str,
-        search_results: list[dict[str, Any]],
-        memory_heat: str,
-    ) -> tuple[str, str]:
-        raw_fact_sheet = self.notetaker_agent.build_fact_sheet(search_results, question=user_question)
-        if not search_results:
-            # Guard: keep executor grounded even when memory search returned nothing.
-            # "无相关记忆。" would cause select_executor_mode → general_answer_reasoning
-            # (hallucination risk). The explicit no-evidence text keeps mode grounded.
-            return "未找到相关记忆证据；不要猜测具体值。", "none"
-        if use_deterministic_fact_sheet():
-            return (
-                build_long_context_fact_sheet(
-                    user_question,
-                    search_results,
-                    notetaker=self.notetaker_agent,
-                    multidoc=is_multidoc_long_context(),
-                    long_memory=is_long_memory(),
-                ),
-                "long_context_raw",
-            )
-        mode = select_notetaker_mode(user_question=user_question, memory_heat=memory_heat)
-        if detect_text_language(user_question) == "en":
-            system_prompt = (
-                "You are MASE's notetaker fact-card agent. Compress retrieved memory into a strict fact sheet.\n"
-                "Rules:\n"
-                "1. Use only the retrieved records.\n"
-                "2. Keep exact entities, numbers, dates, and actions.\n"
-                "3. Remove duplicates and irrelevant details.\n"
-                "4. For counting/comparison questions, list atomic facts separately.\n"
-                "5. End with exactly two metadata lines: evidence_confidence=<high|medium|low> and verifier_action=<answer|verify|refuse>.\n"
-                "Return plain text only."
-            )
-            prompt = (
-                f"Question:\n{user_question}\n\n"
-                f"Retrieved records:\n{self._format_search_results_for_notetaker(search_results)}\n\n"
-                "Write the minimal fact sheet."
-            )
-        else:
-            system_prompt = (
-                "你是 MASE 的记事压缩智能体。请把检索出的候选记录压缩成严格 fact sheet。\n"
-                "规则：\n"
-                "1. 只能使用候选记录里的内容。\n"
-                "2. 保留实体、数字、日期、动作原词。\n"
-                "3. 删除重复与无关信息。\n"
-                "4. 若问题涉及计数/比较/聚合，必须把原子事实逐条列出。\n"
-                "5. 最后必须追加两行：evidence_confidence=<high|medium|low> 与 verifier_action=<answer|verify|refuse>。\n"
-                "只输出纯文本 fact sheet。"
-            )
-            prompt = (
-                f"用户问题：\n{user_question}\n\n"
-                f"候选记录：\n{self._format_search_results_for_notetaker(search_results)}\n\n"
-                "请输出最小充分事实备忘录。"
-            )
-        response = self.model_interface.chat(
-            "notetaker",
-            messages=[{"role": "user", "content": prompt}],
-            mode=mode,
-            override_system_prompt=system_prompt,
-        )
-        fact_sheet = str((response.get("message") or {}).get("content") or "").strip()
-        return (fact_sheet or raw_fact_sheet), mode
-
-    # ---- prompt + answer extraction ----
-    @staticmethod
-    def _executor_prompt(
-        user_question: str,
-        fact_sheet: str,
-        instruction_package: str = "",
-        draft_answer: str = "",
-    ) -> str:
-        question_reference_time = str(os.environ.get("MASE_QUESTION_REFERENCE_TIME") or "").strip()
-        if detect_text_language(user_question) == "en":
-            parts = [f"Fact sheet:\n{fact_sheet}"]
-            if question_reference_time:
-                parts.append(f"QUESTION_DATE:\n{question_reference_time}")
-            if instruction_package.strip():
-                parts.append(f"Instruction package:\n{instruction_package}")
-            if draft_answer.strip():
-                parts.append(f"Draft answer:\n{draft_answer}")
-            parts.append(f"Question:\n{user_question}")
-            return "\n\n".join(parts)
-        parts = [f"事实备忘录：\n{fact_sheet}"]
-        if question_reference_time:
-            parts.append(f"QUESTION_DATE:\n{question_reference_time}")
-        if instruction_package.strip():
-            parts.append(f"指令包：\n{instruction_package}")
-        if draft_answer.strip():
-            parts.append(f"回答草稿：\n{draft_answer}")
-        parts.append(f"用户问题：\n{user_question}")
-        return "\n\n".join(parts)
-
-    @staticmethod
-    def _candidate_names_from_fact_sheet(fact_sheet: str) -> list[str]:
-        return candidate_names_from_fact_sheet(fact_sheet)
-
-    @classmethod
-    def _extract_answer(cls, mode: str, content: str, user_question: str, fact_sheet: str = "") -> str:
-        return extract_answer(mode, content, user_question, fact_sheet)
-
-    @staticmethod
-    def _normalize_three_event_order_answer(content: str, user_question: str) -> str:
-        return normalize_three_event_order_answer(content, user_question)
-
-    @staticmethod
-    def _normalize_preference_profile_answer(content: str) -> str:
-        return normalize_preference_profile_answer(content)
-
-    @classmethod
-    def _normalize_other_options_answer(cls, content: str, user_question: str) -> str:
-        return normalize_other_options_answer(content, user_question)
-
-    @staticmethod
-    def _normalize_compact_lookup_answer(content: str, user_question: str) -> str:
-        return normalize_compact_lookup_answer(content, user_question)
-
-    @staticmethod
-    def _extract_ordinal_index_from_question(user_question: str) -> int:
-        return extract_ordinal_index_from_question(user_question)
-
-    @staticmethod
-    def _extract_numbered_list_item(text: str, target_index: int) -> str:
-        return extract_numbered_list_item(text, target_index)
-
-    @classmethod
-    def _extract_fact_sheet_list_lookup_answer(cls, user_question: str, fact_sheet: str) -> str:
-        return extract_fact_sheet_list_lookup_answer(user_question, fact_sheet)
-
-    @staticmethod
-    def _extract_fact_sheet_shift_lookup_answer(user_question: str, fact_sheet: str) -> str:
-        return extract_fact_sheet_shift_lookup_answer(user_question, fact_sheet)
-
-    # ---- planner / collaboration ----
-    @staticmethod
-    def _should_use_planner(route_action: str, executor_mode: str, fact_sheet: str) -> bool:
-        normalized_fact_sheet = fact_sheet.strip()
-        if route_action == "search_memory":
-            return True
-        if not normalized_fact_sheet or normalized_fact_sheet == "无相关记忆。":
-            return False
-        return executor_mode.startswith(("grounded_analysis", "grounded_disambiguation"))
-
-    @staticmethod
-    def _heuristic_plan(executor_mode: str, user_question: str, fact_sheet: str) -> PlannerSnapshot:
-        language = detect_text_language(user_question)
-        has_memory = bool(fact_sheet.strip()) and fact_sheet.strip() != "无相关记忆。"
-        if language == "en":
-            if executor_mode.startswith("grounded_analysis"):
-                text = "Plan: extract the relevant facts, compute the answer from the fact sheet, and return only the supported result."
-            elif executor_mode.startswith("grounded_disambiguation"):
-                text = "Plan: compare the candidate facts in memory, discard distractors, and answer with the best-supported match."
-            elif has_memory:
-                text = "Plan: answer directly from the retrieved fact sheet without adding outside knowledge."
-            else:
-                text = "Plan: answer directly with the available information."
-        else:
-            if executor_mode.startswith("grounded_analysis"):
-                text = "Plan: 抽取相关事实，基于事实备忘录完成计数/比较/聚合，再输出最终答案。"
-            elif executor_mode.startswith("grounded_disambiguation"):
-                text = "Plan: 对比候选事实，排除混淆项，仅依据最匹配的记录作答。"
-            elif has_memory:
-                text = "Plan: 直接依据已检索到的事实备忘录回答，不补充外部知识。"
-            else:
-                text = "Plan: 直接根据当前可用信息回答。"
-        return PlannerSnapshot(text=text, source="heuristic")
-
-    def _build_planner_snapshot(self, route_action: str, executor_mode: str, user_question: str, fact_sheet: str) -> PlannerSnapshot:
-        if not self._should_use_planner(route_action, executor_mode, fact_sheet):
-            return self._heuristic_plan(executor_mode, user_question, fact_sheet)
-        return PlannerSnapshot(
-            text=self.planner_agent.plan(query=user_question, memory_context=fact_sheet, mode="task_planning"),
-            source="model",
-        )
-
-    def _select_collaboration_mode(self, user_question: str, fact_sheet: str, executor_mode: str) -> str:
-        routing_config = (self.model_interface.get_agent_config("executor").get("routing") or {})
-        configured = str(routing_config.get("default_collaboration_mode") or "off").strip().lower()
-        if configured in {"verify", "split"}:
-            return configured
-        if not fact_sheet.strip() or fact_sheet.strip() == "无相关记忆。":
-            return "off"
-        if is_long_memory() and lme_qtype_routing_enabled() and lme_question_type() in {"single-session-preference", "multi-session"}:
-            return "split"
-        workspace = build_reasoning_workspace(user_question, fact_sheet)
-        if workspace.verifier_action == "verify":
-            return "verify"
-        if executor_mode.startswith(("grounded_analysis", "grounded_disambiguation")):
-            return "verify"
-        return "off"
-
-    def _build_instruction_package(self, user_question: str, fact_sheet: str, planner: PlannerSnapshot) -> str:
-        workspace = build_reasoning_workspace(user_question, fact_sheet)
-        parts = [f"Planner:\n{planner.text}", workspace.to_text()]
-        return "\n\n".join(part for part in parts if part.strip())
-
-    def describe_executor_target(
-        self,
-        mode: str,
-        user_question: str,
-        use_memory: bool,
-        memory_heat: str | None = None,
-        executor_role: str | None = None,
-    ) -> dict[str, Any]:
-        target = self.model_interface.describe_agent("executor", mode=mode)
-        target.update(
-            {
-                "mode": mode,
-                "use_memory": use_memory,
-                "memory_heat": memory_heat,
-                "executor_role": executor_role or ("memory" if use_memory else "general"),
-                "question_language": detect_text_language(user_question),
-            }
-        )
-        return target
-
-    def call_router(
-        self,
-        user_question: str,
-        system_prompt: str = ROUTER_SYSTEM,
-        apply_heuristic: bool = True,
-    ) -> dict[str, Any]:
-        del apply_heuristic
-        return self.router_agent.decide(user_question=user_question, system_prompt=system_prompt)
-
-    def probe_router(
-        self,
-        user_question: str,
-        system_prompt: str = ROUTER_SYSTEM,
-        apply_heuristic: bool = False,
-    ) -> dict[str, Any]:
-        del apply_heuristic
-        return self.router_agent.decide(user_question=user_question, system_prompt=system_prompt)
-
-    def call_executor(
-        self,
-        user_question: str,
-        fact_sheet: str,
-        allow_general_knowledge: bool = False,
-        task_type: str | None = None,
-        use_memory: bool | None = None,
-        memory_heat: str | None = None,
-        executor_role: str | None = None,
-        collaboration_mode: str | None = None,
-        instruction_package: str = "",
-    ) -> str:
-        del allow_general_knowledge, task_type, use_memory, memory_heat, executor_role
-        mode = select_executor_mode(user_question, fact_sheet)
-        effective_collaboration = collaboration_mode or self._select_collaboration_mode(user_question, fact_sheet, mode)
-        prompt = self._executor_prompt(user_question, fact_sheet, instruction_package=instruction_package)
-        try:
-            response = self.model_interface.chat(
-                "executor",
-                messages=[{"role": "user", "content": prompt}],
-                mode=mode,
-            )
-        except Exception as error:
-            error_text = str(error).lower()
-            local_temporal_deepreason = (
-                is_long_memory()
-                and local_only_models_enabled()
-                and lme_question_type() == "temporal-reasoning"
-                and mode in {"grounded_long_memory_deepreason_english", "grounded_long_memory_deepreason"}
-            )
-            runner_terminated = (
-                "llama runner process has terminated" in error_text
-                or ("status code: 500" in error_text and "responseerror" in error_text)
-            )
-            if not (local_temporal_deepreason and runner_terminated):
-                raise
-            mode = "grounded_long_memory_english" if detect_text_language(user_question) == "en" else "grounded_long_memory"
-            response = self.model_interface.chat(
-                "executor",
-                messages=[{"role": "user", "content": prompt}],
-                mode=mode,
-            )
-        content = str((response.get("message") or {}).get("content") or "")
-        draft_answer = self._extract_answer(mode, content, user_question, fact_sheet)
-        if effective_collaboration == "verify":
-            verify_mode = verify_mode_for_question(user_question)
-            verify_response = self.model_interface.chat(
-                "executor",
-                messages=[{"role": "user", "content": self._executor_prompt(user_question, fact_sheet, instruction_package=instruction_package, draft_answer=draft_answer)}],
-                mode=verify_mode,
-            )
-            verified_content = str((verify_response.get("message") or {}).get("content") or "").strip()
-            final_ans = self._extract_answer(verify_mode, verified_content or draft_answer, user_question, fact_sheet)
-            return final_ans
-        if effective_collaboration == "split":
-            generalizer_mode = generalizer_mode_for_question(user_question)
-            final_response = self.model_interface.chat(
-                "executor",
-                messages=[{"role": "user", "content": self._executor_prompt(user_question, fact_sheet, instruction_package=instruction_package, draft_answer=draft_answer)}],
-                mode=generalizer_mode,
-            )
-            final_content = str((final_response.get("message") or {}).get("content") or "").strip()
-            return self._extract_answer(generalizer_mode, final_content or draft_answer, user_question, fact_sheet)
-        return draft_answer
-
-    def summarize_interaction(self, user_question: str, assistant_response: str) -> str:
-        combined = " ".join(part.strip() for part in [user_question, assistant_response] if str(part).strip())
-        return combined[:48]
 
     def run_with_trace(
         self,

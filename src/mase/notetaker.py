@@ -10,6 +10,7 @@ from typing import Any
 from .model_interface import load_memory_settings
 
 BASE_DIR = Path(__file__).resolve().parents[2]
+_TRUTHY = {"1", "true", "yes", "y", "on"}
 
 
 def _get_default_memory_dir() -> Path:
@@ -49,6 +50,10 @@ def ensure_global_logs_dir() -> Path:
     global_logs_dir = _get_global_logs_dir()
     global_logs_dir.mkdir(parents=True, exist_ok=True)
     return global_logs_dir
+
+
+def _global_log_mirroring_enabled() -> bool:
+    return os.environ.get("MASE_MIRROR_GLOBAL_LOGS", "").strip().lower() in _TRUTHY
 
 
 def _normalize_markdown_text(value: Any) -> str:
@@ -121,14 +126,17 @@ def _rotated_log_path(logs_dir: Path, date: str, entry_size: int) -> Path:
 
 def append_markdown_log(date: str, record: dict[str, Any]) -> str:
     logs_dir = ensure_logs_dir()
-    ensure_global_logs_dir()
+    global_logs_dir = _get_global_logs_dir()
+    mirror_global = global_logs_dir == logs_dir or _global_log_mirroring_enabled()
+    if mirror_global:
+        ensure_global_logs_dir()
     entry = _build_markdown_entry(record)
     entry_size = len(entry.encode("utf-8"))
     log_path = _rotated_log_path(logs_dir, date, entry_size)
-    global_log_path = _rotated_log_path(_get_global_logs_dir(), date, entry_size)
+    global_log_path = _rotated_log_path(global_logs_dir, date, entry_size)
 
     _append_entry(log_path, date, entry)
-    if global_log_path != log_path:
+    if mirror_global and global_log_path != log_path:
         _append_entry(global_log_path, date, entry)
 
     return str(log_path)

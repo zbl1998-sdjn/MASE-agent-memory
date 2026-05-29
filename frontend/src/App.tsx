@@ -122,7 +122,7 @@ export default function App() {
       case "chat":
         return <ChatPage readOnly={platformMode.readOnly} />;
       case "observability":
-        return <ObservabilityPage />;
+        return <ObservabilityPage lang={lang} />;
       case "cost":
         return <CostCenterPage />;
       case "audit":
@@ -162,9 +162,12 @@ export default function App() {
       case "procedures":
         return <ProceduresPage scope={scope} readOnly={platformMode.readOnly} />;
       default:
-        return <DashboardPage scope={scope} />;
+        return <DashboardPage scope={scope} lang={lang} />;
     }
-  }, [active, categories, platformMode.readOnly, scope]);
+  }, [active, categories, platformMode.readOnly, scope, lang]);
+
+  const modeLabel = platformMode.readOnly ? t.readOnlyAudit : t.localProduct;
+  const modeHint = platformMode.authRequired ? t.apiKeyRequired : t.fastApiReact;
 
   return (
     <div className="app-shell">
@@ -176,15 +179,16 @@ export default function App() {
             <p>{t.brand}</p>
           </div>
         </div>
+
         <div className="sidebar-card">
-          <span className="live-dot" />
-          <div>
-            <strong>{platformMode.readOnly ? t.readOnlyAudit : t.localProduct}</strong>
-            <p>{platformMode.authRequired ? t.apiKeyRequired : t.fastApiReact}</p>
+          <div className="sidebar-card row" style={{ border: 0, padding: 0, background: "transparent" }}>
+            <span className="live-dot" />
+            <div style={{ minWidth: 0 }}>
+              <strong>{modeLabel}</strong>
+              <p>{modeHint}</p>
+            </div>
           </div>
-        </div>
-        <div className="sidebar-card vertical">
-          <label>
+          <label style={{ marginTop: "0.6rem" }}>
             {t.internalApiKey}
             <input
               type="password"
@@ -195,6 +199,7 @@ export default function App() {
           </label>
           {platformMode.readOnly && <p className="mode-note">{t.readOnlyNote}</p>}
         </div>
+
         <nav className="nav-stack" aria-label="MASE product navigation">
           {navGroups.map((group) => (
             <section className="nav-section" key={group}>

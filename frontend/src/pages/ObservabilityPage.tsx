@@ -5,6 +5,7 @@ import { DataTable } from "../components/DataTable";
 import { JsonBlock } from "../components/JsonBlock";
 import { StatCard } from "../components/StatCard";
 import { StatusLine } from "../components/StatusLine";
+import { type Lang, translations } from "../i18n";
 import type { ChartPoint, JsonRecord, MaseResponse, ObservabilityData } from "../types";
 
 const statTones = ["cyan", "violet", "green", "amber"] as const;
@@ -23,10 +24,16 @@ function formatUsd(value: number | undefined): string {
   return `$${value.toFixed(4)}`;
 }
 
-export function ObservabilityPage() {
+type ObservabilityPageProps = {
+  lang: Lang;
+};
+
+export function ObservabilityPage({ lang }: ObservabilityPageProps) {
   const [payload, setPayload] = useState<MaseResponse<ObservabilityData>>();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const t = translations[lang].pages.observability;
 
   useEffect(() => {
     setLoading(true);
@@ -42,37 +49,37 @@ export function ObservabilityPage() {
   const eventCounters = useMemo(() => counterPoints(data?.metrics.event_counters), [data]);
   const latencyCounters = useMemo(() => counterPoints(data?.metrics.latency_ms_avg), [data]);
   const totalStats = [
-    { label: "model calls", value: totals.call_count ?? 0, hint: "current process ledger" },
-    { label: "total tokens", value: totals.total_tokens ?? 0, hint: "provider usage or estimate" },
-    { label: "cloud calls", value: totals.cloud_call_count ?? 0, hint: "billable-risk calls" },
-    { label: "estimated cost", value: formatUsd(totals.estimated_cost_usd), hint: "local models stay $0" }
+    { label: t.stats.calls, value: totals.call_count ?? 0, hint: t.stats.callsHint },
+    { label: t.stats.tokens, value: totals.total_tokens ?? 0, hint: t.stats.tokensHint },
+    { label: t.stats.cloud, value: totals.cloud_call_count ?? 0, hint: t.stats.cloudHint },
+    { label: t.stats.cost, value: formatUsd(totals.estimated_cost_usd), hint: t.stats.costHint }
   ];
 
   return (
     <div className="stack">
-      <section className="hero-panel observability-hero">
+      <section className="hero-panel split">
         <div>
-          <p className="eyebrow">Memory Observatory</p>
-          <h1>成本、健康、事件与模型调用账本</h1>
-          <p>用于定位回答错误、模型热插拔风险、云模型 token 成本和当前进程健康状态。</p>
-          <div className="tag-list observability-tags">
-            <span className="tag">{data?.mode.read_only ? "Read-only audit" : "Writable local mode"}</span>
-            <span className="tag">{data?.mode.auth_required ? "API key protected writes" : "Local dev writes"}</span>
-            <span className="tag">{data?.mode.frontend_static_ready ? "Static frontend ready" : "Dev frontend mode"}</span>
+          <p className="eyebrow">{t.eyebrow}</p>
+          <h1>{t.title}</h1>
+          <p>{t.subtitle}</p>
+          <div className="tag-list" style={{ marginTop: "0.9rem" }}>
+            <span className="tag">{data?.mode.read_only ? t.modes.readOnly : t.modes.writable}</span>
+            <span className="tag">{data?.mode.auth_required ? t.modes.authed : t.modes.devWrite}</span>
+            <span className="tag">{data?.mode.frontend_static_ready ? t.modes.staticReady : t.modes.devFrontend}</span>
           </div>
         </div>
         <div className="hero-visual">
           <div className="metric-grid">
             <div className="metric">
-              <span>configured agents</span>
+              <span>{t.sidekick.agents}</span>
               <strong>{Object.keys(data?.models ?? {}).length}</strong>
             </div>
             <div className="metric">
-              <span>health rows</span>
+              <span>{t.sidekick.health}</span>
               <strong>{data?.model_health.length ?? 0}</strong>
             </div>
             <div className="metric">
-              <span>event topics</span>
+              <span>{t.sidekick.topics}</span>
               <strong>{Object.keys(data?.metrics.event_counters ?? {}).length}</strong>
             </div>
           </div>
@@ -96,78 +103,89 @@ export function ObservabilityPage() {
       <div className="grid two">
         <section className="glass-card">
           <header>
-            <h2>Event bus counters</h2>
-            <p>按 topic 聚合的运行事件，可定位链路是否触发。</p>
+            <div>
+              <h2>{t.sections.events.title}</h2>
+              <p>{t.sections.events.desc}</p>
+            </div>
           </header>
-          <BarChart data={eventCounters} emptyLabel="暂无 event bus 事件" />
+          <BarChart data={eventCounters} emptyLabel={t.empty.events} />
         </section>
         <section className="glass-card">
           <header>
-            <h2>Latency by topic</h2>
-            <p>事件 payload 中携带 latency_ms 的平均延迟。</p>
+            <div>
+              <h2>{t.sections.latency.title}</h2>
+              <p>{t.sections.latency.desc}</p>
+            </div>
           </header>
-          <BarChart data={latencyCounters} emptyLabel="暂无 latency 采样" />
+          <BarChart data={latencyCounters} emptyLabel={t.empty.latency} />
         </section>
       </div>
+
+      <section className="glass-card">
+        <header>
+          <div>
+            <h2>{t.sections.health.title}</h2>
+            <p>{t.sections.health.desc}</p>
+          </div>
+        </header>
+        <DataTable
+          rows={data?.model_health ?? []}
+          preferredColumns={["provider", "model", "success_rate", "latency_ms_ewma", "consecutive_failures", "total_calls"]}
+        />
+      </section>
 
       <div className="grid two">
         <section className="glass-card">
           <header>
-            <h2>Model health</h2>
-            <p>候选模型成功率、EWMA 延迟和 cooldown 线索。</p>
-          </header>
-          <DataTable
-            rows={data?.model_health ?? []}
-            preferredColumns={["provider", "model", "success_rate", "latency_ms_ewma", "consecutive_failures", "total_calls"]}
-          />
-        </section>
-        <section className="glass-card">
-          <header>
-            <h2>Cost by agent</h2>
-            <p>从模型调用 ledger 聚合 token 与估算成本。</p>
+            <div>
+              <h2>{t.sections.costAgent.title}</h2>
+              <p>{t.sections.costAgent.desc}</p>
+            </div>
           </header>
           <DataTable
             rows={data?.model_ledger.by_agent ?? []}
             preferredColumns={["name", "call_count", "total_tokens", "estimated_cost_usd"]}
           />
         </section>
-      </div>
-
-      <div className="grid two">
         <section className="glass-card">
           <header>
-            <h2>Cost by model</h2>
-            <p>热插拔后看清 provider/model 的调用分布。</p>
+            <div>
+              <h2>{t.sections.costModel.title}</h2>
+              <p>{t.sections.costModel.desc}</p>
+            </div>
           </header>
           <DataTable
             rows={data?.model_ledger.by_model ?? []}
             preferredColumns={["name", "call_count", "total_tokens", "estimated_cost_usd"]}
           />
         </section>
-        <section className="glass-card">
-          <header>
-            <h2>Recent model calls</h2>
-            <p>安全摘要：不包含 prompt、raw response 或密钥。</p>
-          </header>
-          <DataTable
-            rows={(data?.model_ledger.recent_calls ?? []) as JsonRecord[]}
-            preferredColumns={[
-              "created_at",
-              "agent_role",
-              "provider",
-              "model_name",
-              "is_local",
-              "total_tokens",
-              "estimated_cost_usd",
-              "fallback_from",
-              "fallback_to"
-            ]}
-          />
-        </section>
       </div>
 
+      <section className="glass-card">
+        <header>
+          <div>
+            <h2>{t.sections.recent.title}</h2>
+            <p>{t.sections.recent.desc}</p>
+          </div>
+        </header>
+        <DataTable
+          rows={(data?.model_ledger.recent_calls ?? []) as JsonRecord[]}
+          preferredColumns={[
+            "created_at",
+            "agent_role",
+            "provider",
+            "model_name",
+            "is_local",
+            "total_tokens",
+            "estimated_cost_usd",
+            "fallback_from",
+            "fallback_to"
+          ]}
+        />
+      </section>
+
       <details className="debug-panel">
-        <summary>Raw observability payload</summary>
+        <summary>{translations[lang].common.rawPayload}</summary>
         <JsonBlock value={payload ?? {}} filename="mase-observability.json" />
       </details>
     </div>

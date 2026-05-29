@@ -13,6 +13,13 @@ from mase.config_schema import validate_config_path
 from mase.event_bus import EventBus, Topics
 from mase.health_tracker import CandidateHealthTracker
 from mase.metrics import Metrics
+from mase.model_call_ledger import ModelCallLedgerMixin
+from mase.model_http import ModelHTTPMixin
+from mase.model_interface import ModelInterface
+from mase.model_providers import ModelProviderMixin
+from mase.engine import MASESystem
+from mase.engine_execution import EngineExecutionMixin
+from mase.engine_notetaker import EngineNotetakerMixin
 from mase.schema_migrations import current_version, latest_version, migrate
 
 
@@ -139,6 +146,42 @@ def test_metrics_aggregates_counts_and_latency():
     assert snap["latency_ms_avg"][Topics.EXECUTOR_CALL_DONE] == 150.0
     text = metrics.format_prometheus()
     assert "mase_events_total" in text
+
+
+# ---------------------------------------------------------------------------
+# model_interface split
+# ---------------------------------------------------------------------------
+def test_model_interface_uses_call_ledger_mixin():
+    assert issubclass(ModelInterface, ModelCallLedgerMixin)
+    assert "_build_call_ledger" not in ModelInterface.__dict__
+    assert ModelInterface._build_call_ledger is ModelCallLedgerMixin._build_call_ledger
+
+
+def test_model_interface_uses_http_mixin():
+    assert issubclass(ModelInterface, ModelHTTPMixin)
+    assert "_get_http_client" not in ModelInterface.__dict__
+    assert ModelInterface._get_http_client is ModelHTTPMixin._get_http_client
+
+
+def test_model_interface_uses_provider_mixin():
+    assert issubclass(ModelInterface, ModelProviderMixin)
+    assert "_call_openai" not in ModelInterface.__dict__
+    assert ModelInterface._call_openai is ModelProviderMixin._call_openai
+
+
+# ---------------------------------------------------------------------------
+# engine split
+# ---------------------------------------------------------------------------
+def test_mase_system_uses_notetaker_mixin():
+    assert issubclass(MASESystem, EngineNotetakerMixin)
+    assert "_build_fact_sheet_with_notetaker" not in MASESystem.__dict__
+    assert MASESystem._build_fact_sheet_with_notetaker is EngineNotetakerMixin._build_fact_sheet_with_notetaker
+
+
+def test_mase_system_uses_execution_mixin():
+    assert issubclass(MASESystem, EngineExecutionMixin)
+    assert "call_executor" not in MASESystem.__dict__
+    assert MASESystem.call_executor is EngineExecutionMixin.call_executor
 
 
 # ---------------------------------------------------------------------------
