@@ -1,20 +1,13 @@
-"""Config schema — pydantic v2 validation for ``config.json``.
+"""`config.json` 的 pydantic v2 校验层。
 
-Goals
------
-1. Catch typos and missing fields at startup, not at the 250th LV-Eval
-   question.
-2. Be **non-breaking**: validation logs warnings and emits an event for soft
-   issues; only catastrophic problems (missing required agent, malformed
-   shape) raise.  Real configs always have legitimate vendor-specific extras
-   so every model uses ``extra="allow"``.
-3. Document the actual shape that ``model_interface`` reads, so future
-   contributors don't have to reverse-engineer it from runtime errors.
+目标：
+1. 在启动阶段发现拼写错误和必填字段缺失，而不是跑到第 250 道 LV-Eval 才失败。
+2. 保持非破坏性：软问题发事件/返回 warning；只有缺少必需 agent、结构畸形等
+   灾难性问题才在 strict 模式下抛错。
+3. 记录 `model_interface` 实际读取的配置形状，避免贡献者从运行时错误反推 schema。
 
-Usage
------
-The engine calls :func:`validate_config_path` at startup.  Tests can call
-:func:`validate_config` directly with a dict.
+使用方式：`engine` 启动时调用 `validate_config_path()`；测试可以直接对 dict 调用
+`validate_config()`。
 """
 from __future__ import annotations
 
@@ -30,7 +23,7 @@ REQUIRED_AGENTS: tuple[str, ...] = ("router", "notetaker", "planner", "executor"
 
 
 class ModeOverride(BaseModel):
-    """A per-mode override under ``models.<agent>.modes.<mode_name>``."""
+    """`models.<agent>.modes.<mode_name>` 下的单个模式覆盖配置。"""
 
     model_config = ConfigDict(extra="allow")
 
@@ -44,7 +37,7 @@ class ModeOverride(BaseModel):
 
 
 class AgentModelConfig(BaseModel):
-    """Top-level agent block under ``models.<agent>``."""
+    """`models.<agent>` 下的顶层 agent 配置块。"""
 
     model_config = ConfigDict(extra="allow")
 
@@ -59,6 +52,8 @@ class AgentModelConfig(BaseModel):
 
 
 class ModelsBlock(BaseModel):
+    """四个必需 agent 的配置容器。"""
+
     model_config = ConfigDict(extra="allow")
 
     router: AgentModelConfig
@@ -69,13 +64,14 @@ class ModelsBlock(BaseModel):
     @field_validator("router", "notetaker", "planner", "executor")
     @classmethod
     def _agent_must_be_complete(cls, value: AgentModelConfig) -> AgentModelConfig:
+        """每个必需 agent 至少要有 provider 和 model_name。"""
         if not value.provider or not value.model_name:
             raise ValueError("agent block requires both provider and model_name")
         return value
 
 
 class MASEConfig(BaseModel):
-    """Top-level ``config.json`` shape."""
+    """顶层 `config.json` 形状；供应商私有字段通过 extra=allow 保留。"""
 
     model_config = ConfigDict(extra="allow")
 
@@ -87,18 +83,17 @@ class MASEConfig(BaseModel):
 
 
 class ConfigValidationError(Exception):
-    """Raised when the config cannot be parsed at all (unrecoverable)."""
+    """配置完全无法解析时抛出的硬错误。"""
 
 
 def validate_config(raw: dict[str, Any], *, strict: bool = False) -> tuple[MASEConfig | None, list[str]]:
-    """Validate a config dict.
+    """校验配置 dict。
 
-    Returns ``(parsed_or_None, warnings)``.
+    返回 `(parsed_or_None, warnings)`。
 
-    - On success: returns the parsed model and any soft warnings.
-    - On failure with ``strict=False`` (default): returns ``(None, [error_strings])``
-      so callers can keep running on the raw dict.
-    - On failure with ``strict=True``: raises :class:`ConfigValidationError`.
+    - 成功：返回解析后的模型和软告警。
+    - `strict=False` 失败：返回 `(None, [error_strings])`，调用方仍可用原始 dict 继续。
+    - `strict=True` 失败：抛出 `ConfigValidationError`。
     """
     warnings: list[str] = []
     try:
@@ -108,7 +103,7 @@ def validate_config(raw: dict[str, Any], *, strict: bool = False) -> tuple[MASEC
         if strict:
             raise ConfigValidationError("config validation failed:\n  - " + "\n  - ".join(messages)) from exc
         return None, messages
-    # Soft checks that should warn, not crash.
+    # 软校验：提醒配置质量问题，但不阻断已有本地/云端 profile 运行。
     for agent in REQUIRED_AGENTS:
         block = getattr(parsed.models, agent)
         if block.provider == "ollama" and not (block.ollama_options or {}).get("num_ctx"):
@@ -117,7 +112,7 @@ def validate_config(raw: dict[str, Any], *, strict: bool = False) -> tuple[MASEC
 
 
 def validate_config_path(config_path: str | Path, *, strict: bool = False, emit_events: bool = True) -> tuple[MASEConfig | None, list[str]]:
-    """Load and validate the config at ``config_path``."""
+    """读取并校验 `config_path`，可选把结果发布到 event bus。"""
     text = Path(config_path).read_text(encoding="utf-8")
     raw = json.loads(text)
     parsed, messages = validate_config(raw, strict=strict)

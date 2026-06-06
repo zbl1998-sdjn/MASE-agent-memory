@@ -1,15 +1,18 @@
+"""从 replay 明细行计算长期记忆核心质量指标。"""
 from __future__ import annotations
 
 from typing import Any
 
 
 def _percent(numerator: int, denominator: int) -> float:
+    """安全计算比例；空样本按 0.0 处理，避免门禁除零。"""
     if denominator <= 0:
         return 0.0
     return numerator / denominator
 
 
 def calculate_memory_metrics(rows: list[dict[str, Any]]) -> dict[str, float]:
+    """汇总 stale/correction/temporal/current/multipass 等记忆指标。"""
     total = len(rows)
     stale_hit = 0
     correction_hit = 0
@@ -37,6 +40,7 @@ def calculate_memory_metrics(rows: list[dict[str, Any]]) -> dict[str, float]:
         if hit and row.get("problem_type") == "current_state":
             current_state_hit += 0
 
+    # p95 用 nearest-rank 风格的稳定索引，避免小样本下插值引入额外依赖。
     latencies.sort()
     if latencies:
         index = max(0, int(round(0.95 * (len(latencies) - 1))))

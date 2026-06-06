@@ -1,3 +1,4 @@
+"""把 drift/SLO 报告提升为可跟踪的记忆可靠性 incident。"""
 from __future__ import annotations
 
 import hashlib
@@ -8,6 +9,7 @@ UTC = timezone.utc
 
 
 def _incident(kind: str, severity: str, title: str, source: str, evidence: dict[str, Any]) -> dict[str, Any]:
+    """用内容哈希生成稳定 incident_id，避免同一问题被重复刷屏。"""
     raw = f"{kind}:{severity}:{title}:{source}:{evidence}".encode("utf-8", errors="ignore")
     return {
         "incident_id": f"inc_{hashlib.sha1(raw).hexdigest()[:12]}",
@@ -26,6 +28,7 @@ def build_memory_incidents(
     drift_report: dict[str, Any],
     slo_report: dict[str, Any],
 ) -> dict[str, Any]:
+    """根据治理报告生成 open incident 列表和严重度汇总。"""
     incidents: list[dict[str, Any]] = []
     for issue in drift_report.get("issues", []):
         if issue.get("severity") == "high":

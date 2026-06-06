@@ -1,4 +1,4 @@
-"""Answer extraction and benchmark-facing answer normalization helpers."""
+"""面向基准输出的答案抽取与归一化工具。"""
 from __future__ import annotations
 
 import re
@@ -33,7 +33,7 @@ _ABSTENTION_TEMPLATE = "You did not mention this information."
 
 
 def normalize_abstention_answer(answer: str) -> str:
-    """Rewrite abstention-style answers to the LongMemEval GT template."""
+    """把各种弃答话术统一改写为 LongMemEval 的标准模板。"""
     text = (answer or "").strip()
     if not text:
         return _ABSTENTION_TEMPLATE
@@ -46,12 +46,14 @@ def normalize_abstention_answer(answer: str) -> str:
 
 
 def _fallback_answer(user_question: str) -> str:
+    # 兜底答案必须跟随问题语言，避免中文问题返回英文 benchmark 模板。
     if detect_text_language(user_question) == "en":
         return "Based on current records, I can't answer this question."
     return "根据现有记录，我无法回答这个问题。"
 
 
 def candidate_names_from_fact_sheet(fact_sheet: str) -> list[str]:
+    """从候选裁决表中按出现顺序提取去重后的候选名。"""
     names: list[str] = []
     seen: set[str] = set()
     for match in re.finditer(r"^\[C\d+\]\s+name=([^|\n]+)", fact_sheet, flags=re.MULTILINE):
@@ -69,6 +71,7 @@ def extract_answer(mode: str, content: str, user_question: str, fact_sheet: str 
     if not cleaned:
         return _fallback_answer(user_question)
 
+    # deterministic_answer 行是上游 ledger 的最高优先级裁决，优先于模型自然语言输出。
     deterministic_patterns = (
         (r"^\s*-?\s*deterministic_answer=([^\n]+)", re.IGNORECASE),
         (r"^\s*-\s*Deterministic answer:\s*([^\n]+)", re.IGNORECASE),
@@ -82,6 +85,7 @@ def extract_answer(mode: str, content: str, user_question: str, fact_sheet: str 
             return str(match.group(1) or "").strip()
 
     if mode.startswith("grounded_analysis"):
+        # 分析型模式可能返回 JSON；先解析 final_answer/sufficient，再退回自然语言。
         parsed = normalize_json_text(cleaned)
         if parsed is not None:
             final_answer = str(parsed.get("final_answer") or "").strip()
@@ -97,10 +101,12 @@ def extract_answer(mode: str, content: str, user_question: str, fact_sheet: str 
         or "NOLIMA CANDIDATE EVIDENCE" in fact_sheet
     )
     if "候选裁决表" in fact_sheet:
+        # 中文 disambiguation 只有单候选时可直接返回名称，避免模型再加工。
         candidates = candidate_names_from_fact_sheet(fact_sheet)
         if len(candidates) == 1:
             return candidates[0]
     if has_candidate_table or mode.startswith(("grounded_disambiguation", "grounded_nolima")):
+        # 候选题优先截取 fact-sheet 内的规范候选名，减少大小写/解释性后缀差异。
         lowered_cleaned = cleaned.lower()
         for candidate in candidate_names_from_fact_sheet(fact_sheet):
             if candidate.lower() in lowered_cleaned:
@@ -128,6 +134,7 @@ def extract_answer(mode: str, content: str, user_question: str, fact_sheet: str 
 
 
 def normalize_three_event_order_answer(content: str, user_question: str) -> str:
+    """把三事件排序题的编号列表改写成基准期望的完整句式。"""
     normalized = re.sub(r"\s+", " ", str(content or "")).strip()
     if not normalized:
         return ""
@@ -154,6 +161,7 @@ def normalize_three_event_order_answer(content: str, user_question: str) -> str:
 
 
 def normalize_preference_profile_answer(content: str) -> str:
+    """裁剪偏好画像答案中的证据说明，只保留可评测的偏好结论。"""
     normalized = re.sub(r"\s+", " ", str(content or "")).strip()
     if not normalized:
         return ""
@@ -186,6 +194,7 @@ def normalize_preference_profile_answer(content: str) -> str:
 
 
 def normalize_other_options_answer(content: str, user_question: str) -> str:
+    """归一化 “other four options” 类枚举题。"""
     lowered_question = str(user_question or "").lower()
     if "other four option" not in lowered_question and "other four" not in lowered_question:
         return ""
@@ -200,12 +209,14 @@ def normalize_other_options_answer(content: str, user_question: str) -> str:
 
 
 def normalize_compact_lookup_answer(content: str, user_question: str) -> str:
+    """处理紧凑事实查询答案，去除解释性尾巴并补齐题型固定模板。"""
     normalized = re.sub(r"\s+", " ", str(content or "")).strip()
     if not normalized:
         return ""
     normalized = re.sub(r"\.?\s*Assistant\s*:?\s*$", "", normalized, flags=re.IGNORECASE).strip()
     lowered_question = str(user_question or "").lower().strip()
     lowered_answer = normalized.lower()
+    # 取最后一个结论转折词之后的内容，避免把 reasoning 段落带入最终答案。
     for marker in ("therefore,", "therefore ", "thus,", "thus ", "so,", "so ", "in total,", "overall,"):
         idx = lowered_answer.rfind(marker)
         if idx > 0:
@@ -285,6 +296,7 @@ def normalize_compact_lookup_answer(content: str, user_question: str) -> str:
 
 
 def extract_ordinal_index_from_question(user_question: str) -> int:
+    """从英文序数问句中抽取目标列表下标。"""
     lowered_question = str(user_question or "").lower()
     numeric_match = re.search(r"\b(\d{1,2})(?:st|nd|rd|th)\b", lowered_question)
     if numeric_match:
@@ -310,6 +322,7 @@ def extract_ordinal_index_from_question(user_question: str) -> int:
 
 
 def extract_numbered_list_item(text: str, target_index: int) -> str:
+    """从压缩成单行的编号列表中抽取指定项。"""
     source = re.sub(r"\s+", " ", str(text or "")).strip()
     if not source or target_index <= 0:
         return ""
@@ -328,6 +341,7 @@ def extract_numbered_list_item(text: str, target_index: int) -> str:
 
 
 def extract_fact_sheet_list_lookup_answer(user_question: str, fact_sheet: str) -> str:
+    """直接从 fact-sheet 行里回答“列表第 N 项”类问题。"""
     lowered_question = str(user_question or "").lower()
     target_index = extract_ordinal_index_from_question(user_question)
     if target_index <= 0 or "list" not in lowered_question:
@@ -364,6 +378,7 @@ def extract_fact_sheet_list_lookup_answer(user_question: str, fact_sheet: str) -
     ]
     best_answer = ""
     best_score = -1
+    # 行打分偏向问题 token 重叠和编号密度，避免错取其他列表。
     for match in re.finditer(r"^\[\d+\].*?\|\s*(.+)$", fact_sheet, flags=re.MULTILINE):
         row_text = match.group(1).strip()
         value = extract_numbered_list_item(row_text, target_index)
@@ -379,6 +394,7 @@ def extract_fact_sheet_list_lookup_answer(user_question: str, fact_sheet: str) -
 
 
 def extract_fact_sheet_shift_lookup_answer(user_question: str, fact_sheet: str) -> str:
+    """从排班/轮值表 fact-sheet 中直接查找某人在某天的分工。"""
     lowered_question = str(user_question or "").lower()
     if not any(marker in lowered_question for marker in ("rotation", "shift", "schedule", "sheet")):
         return ""

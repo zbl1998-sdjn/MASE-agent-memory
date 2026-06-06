@@ -1,3 +1,5 @@
+"""构建 executor/verifier 可读的轻量推理工作区。"""
+
 from __future__ import annotations
 
 import os
@@ -55,6 +57,8 @@ _UPDATE_INITIAL_HINT_MARKERS = (
 
 @dataclass(frozen=True)
 class ReasoningWorkspace:
+    """一次问答的推理操作类型、关注实体和验证重点。"""
+
     operation: str
     focus_entities: list[str]
     target_unit: str
@@ -98,6 +102,7 @@ class ReasoningWorkspace:
 
 
 def _dedupe_strings(items: list[str]) -> list[str]:
+    """保持顺序去重，并剔除空字符串。"""
     result: list[str] = []
     seen: set[str] = set()
     for item in items:
@@ -113,14 +118,17 @@ def _dedupe_strings(items: list[str]) -> list[str]:
 
 
 def _is_english_question(question: str) -> bool:
+    """用字符计数快速判断问题是否主要为英文。"""
     ascii_letters = len(re.findall(r"[A-Za-z]", question))
     chinese_chars = len(re.findall(r"[\u4e00-\u9fff]", question))
     return ascii_letters > chinese_chars
 
 
 def _classify_operation(question: str) -> str:
+    """把自然语言问题归类为 lookup/count/update 等推理操作。"""
     lowered = str(question or "").lower()
     if (
+        # knowledge-update qtype 优先级最高，避免 “current/latest” 之外的更新题被漏判。
         str(os.environ.get("MASE_QTYPE") or "").strip().lower() == "knowledge-update"
         or any(marker in lowered for marker in _UPDATE_LATEST_HINT_MARKERS)
         or any(marker in lowered for marker in _UPDATE_INITIAL_HINT_MARKERS)
@@ -142,6 +150,7 @@ def _classify_operation(question: str) -> str:
 
 
 def _extract_target_unit(question: str) -> str:
+    """从问题中抽取期望单位，辅助 verifier 检查答案形状。"""
     lowered = str(question or "").lower()
     unit_markers = (
         "minutes",
@@ -171,12 +180,14 @@ def _extract_target_unit(question: str) -> str:
 
 
 def _extract_focus_entities(question: str) -> list[str]:
+    """抽取需要在证据中绑定的实体/关键词。"""
     source = str(question or "").strip()
     if not source:
         return []
     candidates: list[str] = []
     candidates.extend(match.strip() for match in re.findall(r"\"([^\"]{2,80})\"", source))
     if _is_english_question(source):
+        # 英文保留引号实体和标题大小写实体，同时补充非停用内容词。
         for match in re.findall(r"\b([A-Z][A-Za-z0-9'&\-]+(?:\s+[A-Z][A-Za-z0-9'&\-]+){0,3})\b", source):
             if match not in {"How", "What", "Which", "Who", "When", "Did"}:
                 candidates.append(match.strip())
@@ -188,16 +199,19 @@ def _extract_focus_entities(question: str) -> list[str]:
         if tokens:
             candidates.extend(tokens[:8])
     else:
+        # 中文路径取连续 CJK 片段，给工作区提供粗粒度关注实体。
         candidates.extend(re.findall(r"[\u4e00-\u9fff]{2,12}", source))
     return _dedupe_strings(candidates)[:8]
 
 
 def _extract_fact_sheet_value(fact_sheet: str, key: str) -> str:
+    """从 fact-sheet 的 key=value 行中读取工作区 hint。"""
     match = re.search(rf"{re.escape(key)}=([^\n]+)", str(fact_sheet or ""))
     return match.group(1).strip() if match else ""
 
 
 def _extract_deterministic_answer(fact_sheet: str) -> str:
+    """提取 ledger 写入的确定性答案，优先于模型自由推理。"""
     source = str(fact_sheet or "")
     direct_patterns = [
         r"deterministic_answer=([^\n]+)",
@@ -225,6 +239,7 @@ def _extract_deterministic_answer(fact_sheet: str) -> str:
 
 
 def _default_sub_tasks(operation: str) -> list[str]:
+    """根据操作类型生成默认子任务列表。"""
     if operation == "update":
         return ["retrieve evidence", "compare boundary rows", "ignore stale history", "final answer"]
     if operation in {"count", "money", "difference", "duration"}:
@@ -237,6 +252,7 @@ def _default_sub_tasks(operation: str) -> list[str]:
 
 
 def _default_verification_focus(operation: str, question: str) -> list[str]:
+    """根据操作类型和问题形状生成 verifier 关注点。"""
     lowered = str(question or "").lower()
     focus: list[str] = []
     if operation == "update":
@@ -272,6 +288,7 @@ def build_reasoning_workspace(
     planner_sub_tasks: list[str] | None = None,
     planner_verification_focus: list[str] | None = None,
 ) -> ReasoningWorkspace:
+    """综合问题、fact-sheet 和 planner hint 构建推理工作区。"""
     operation = _classify_operation(question)
     evidence_confidence = _extract_fact_sheet_value(fact_sheet, "evidence_confidence") or "unknown"
     verifier_action = _extract_fact_sheet_value(fact_sheet, "verifier_action") or "unknown"
@@ -281,6 +298,7 @@ def build_reasoning_workspace(
         list(planner_verification_focus or []) + _default_verification_focus(operation, question)
     )
     followup_needed = verifier_action in {"verify", "refuse"} and not deterministic_answer
+    # followup_needed 只在 verifier 要求且没有 deterministic 答案时置位，避免重复验证。
     return ReasoningWorkspace(
         operation=operation,
         focus_entities=_extract_focus_entities(question),

@@ -1,23 +1,20 @@
-"""Structured logger — subscribes to the event bus, emits JSON lines.
+"""结构化日志：订阅事件总线并输出 JSON Lines。
 
-Why not depend on ``structlog``?  The project already pins ``httpx``,
-``ollama``, ``pydantic``, etc.  Adding another dep just to format dicts as
-JSON is overkill.  Stdlib ``logging`` + a tiny JSON formatter does the job
-and keeps the install footprint identical to V1.
+为什么不依赖 ``structlog``？项目已经固定了 ``httpx``、``ollama``、``pydantic``
+等依赖；仅为把 dict 格式化成 JSON 再加一个依赖过重。标准库 ``logging`` 加一个
+小型 JSON formatter 足够，并保持 V1 的安装体积。
 
-What it does
-------------
-On import (or ``configure()``), one subscriber is installed on the bus
-pattern ``"mase"`` — i.e. every engine event.  Each event becomes one JSON
-line on the configured handler (stderr by default), shaped like::
+做什么
+------
+导入或调用 ``configure()`` 时，会在事件总线上订阅 ``"mase"`` pattern，也就是
+所有 engine 事件。每个事件会输出为一行 JSON，默认写到 stderr，形状如下::
 
     {"ts": 1700000000.123, "trace_id": "abc...", "topic": "mase.executor.call.done",
      "executor_mode": "grounded_long_context", "answer_chars": 213}
 
-Operators can ``tail -f mase.log`` and feed it straight into any log
-pipeline (Loki, Datadog, ELK).  trace_id correlates router → notetaker →
-executor for one request — invaluable for debugging the 32% of LongMemEval
-failures that are now pipeline-routing problems rather than model problems.
+操作者可以 ``tail -f mase.log``，并直接接入 Loki、Datadog、ELK 等日志流水线。
+``trace_id`` 关联同一次请求的 router -> notetaker -> executor，对区分
+LongMemEval 失败中的 pipeline-routing 问题和模型问题很有价值。
 """
 from __future__ import annotations
 
@@ -34,13 +31,14 @@ _INSTALLED: dict[str, Any] = {"unsubscribe": None, "logger": None}
 
 
 def _format_event(event: Event) -> str:
+    """把 Event 转成单行 JSON 字符串。"""
     record: dict[str, Any] = {
         "ts": round(event.timestamp, 3),
         "trace_id": event.trace_id,
         "topic": event.topic,
     }
     for key, value in event.payload.items():
-        # Keep payloads JSON-serializable; fall back to repr.
+        # payload 必须可 JSON 序列化；不可序列化对象退回 repr。
         try:
             json.dumps(value)
             record[key] = value
@@ -56,10 +54,9 @@ def configure(
     pattern: str = "mase",
     logger_name: str = "mase",
 ) -> logging.Logger:
-    """(Re-)install the structured logger.
+    """安装或重装结构化日志订阅。
 
-    Repeated calls replace the previous subscription so reload-config does
-    not duplicate every event line.
+    重复调用会替换旧订阅，避免 reload-config 后每个事件被重复输出。
     """
     with _LOCK:
         previous = _INSTALLED.get("unsubscribe")
@@ -71,7 +68,7 @@ def configure(
 
         logger = logging.getLogger(logger_name)
         logger.setLevel(level)
-        # Don't double-add handlers if user already wired one.
+        # 用户已经接入 handler 时不重复添加。
         if not logger.handlers:
             handler = logging.StreamHandler(stream or sys.stderr)
             handler.setFormatter(logging.Formatter("%(message)s"))
@@ -82,6 +79,7 @@ def configure(
             try:
                 logger.info(_format_event(event))
             except Exception:
+                # 日志输出必须 best-effort，不能反向影响事件发布链路。
                 pass
 
         unsubscribe = get_bus().subscribe(pattern, _emit)
@@ -91,6 +89,7 @@ def configure(
 
 
 def get_logger(name: str = "mase") -> logging.Logger:
+    """返回指定名称的标准库 logger。"""
     return logging.getLogger(name)
 
 

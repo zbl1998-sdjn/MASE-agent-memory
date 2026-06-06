@@ -1,3 +1,8 @@
+"""外部集成使用的记忆服务门面。
+
+`MemoryService` 把底层 `mase_tools.memory.api` 暴露成稳定、范围可控的 Python
+接口。这里不直接拼 SQL，也不绕过 db_core/api 的路径与 scope 边界。
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -9,12 +14,16 @@ from mase_tools.memory.db_core import fetch_memory_rows
 
 @dataclass
 class MemoryService:
+    """面向集成层的记忆 CRUD / recall / explain API。"""
+
     @staticmethod
     def _scope(scope_filters: dict[str, Any] | None = None) -> dict[str, Any]:
+        """清洗 scope 过滤器，去掉 None/空串，避免空值误伤检索范围。"""
         return {key: value for key, value in dict(scope_filters or {}).items() if value not in (None, "")}
 
     @staticmethod
     def _source_counts(hits: list[dict[str, Any]]) -> dict[str, int]:
+        """按来源统计召回命中，供 explain_memory_answer 的元数据展示。"""
         counts: dict[str, int] = {}
         for item in hits:
             source = str(item.get("_source") or "unknown")
@@ -23,6 +32,7 @@ class MemoryService:
 
     @staticmethod
     def _scope_mismatches(row: dict[str, Any], scope: dict[str, Any]) -> list[str]:
+        """找出命中行中与当前 scope 冲突的字段。"""
         mismatches: list[str] = []
         for key, expected in scope.items():
             actual = row.get(key)
@@ -31,6 +41,7 @@ class MemoryService:
         return mismatches
 
     def _inspect_recall_hits(self, hits: list[dict[str, Any]], scope: dict[str, Any]) -> list[dict[str, Any]]:
+        """给每条召回命中生成解释信息与风险标记。"""
         inspections: list[dict[str, Any]] = []
         for rank, item in enumerate(hits, start=1):
             source = str(item.get("_source") or item.get("source") or "unknown")
@@ -72,6 +83,7 @@ class MemoryService:
         *,
         scope_filters: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
+        """写入一条会话事件，并返回实际采用的 scope。"""
         scope = self._scope(scope_filters)
         result = api.mase2_write_interaction(thread_id, role, content, scope_filters=scope)
         return {"thread_id": thread_id, "role": role, "result": result, "scope": scope}
@@ -88,6 +100,7 @@ class MemoryService:
         ttl_days: int | None = None,
         scope_filters: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
+        """写入或更新当前事实；scope 通过关键字参数下沉到底层 API。"""
         scope = self._scope(scope_filters)
         api.upsert_entity_fact(
             category,
@@ -131,6 +144,7 @@ class MemoryService:
         include_history: bool = False,
         scope_filters: dict[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
+        """事实优先召回：先找 current entity_state，再补事件证据。"""
         scope = self._scope(scope_filters)
         return api.mase2_facts_first_recall(
             keywords,
@@ -147,6 +161,7 @@ class MemoryService:
         limit: int = 50,
         scope_filters: dict[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
+        """按时间线读取事件，可选 thread_id 过滤。"""
         rows = fetch_memory_rows(
             limit=limit,
             chronological=True,
@@ -280,6 +295,7 @@ class MemoryService:
         context_key: str | None = None,
         scope_filters: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
+        """显式遗忘事实或会话状态；参数不足时拒绝执行。"""
         scope = self._scope(scope_filters)
         if category and entity_key:
             return api.mase2_forget_fact(category, entity_key, scope_filters=scope)
@@ -298,6 +314,7 @@ class MemoryService:
         limit: int = 5,
         scope_filters: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
+        """返回一次 recall 的命中、风险与来源统计，帮助解释答案依据。"""
         scope = self._scope(scope_filters)
         keywords = [part for part in query.split() if part]
         hits = self.search_memory(
@@ -323,6 +340,7 @@ class MemoryService:
         }
 
     def validate_memory(self, *, scope_filters: dict[str, Any] | None = None) -> dict[str, Any]:
+        """轻量健康检查：只统计当前 scope 下的事实/流程/会话状态数量。"""
         scope = self._scope(scope_filters)
         facts = api.mase2_get_facts(scope_filters=scope)
         procedures = self.list_procedures(scope_filters=scope)

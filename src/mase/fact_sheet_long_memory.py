@@ -1,4 +1,9 @@
-"""Long-memory fact-sheet builder facade."""
+"""长记忆 fact-sheet 构建门面。
+
+本模块负责把完整 chronological memory rows、检索命中的 priority rows 和
+evidence scan 合并成 executor 可读的事实表。具体词项扩展、时间推理 ledger、
+聚合 ledger 分散在 `fact_sheet_long_memory_*` 子模块中，避免本门面继续膨胀。
+"""
 from __future__ import annotations
 
 import os
@@ -10,12 +15,11 @@ from .topic_threads import detect_text_language
 
 
 def _local_only_active() -> bool:
-    """Mirrors mode_selector.local_only_models_enabled() without the import cycle.
+    """判断是否处于本地小模型模式，避免直接 import mode_selector 形成循环。
 
-    Local Ollama models (qwen2.5:7b) run with num_ctx≈16384 tokens (~65K chars).
-    A 220K-char fact sheet gets silently head-truncated by Ollama, dropping the
-    very evidence_scan windows that contain the answer. Cap aggressively in
-    local-only mode so all evidence stays visible.
+    本地 Ollama 模型（如 qwen2.5:7b）常用 num_ctx≈16384 tokens（约 65K 字符）。
+    220K 字符事实表会被静默截断，可能正好丢掉 answer 所在的 evidence_scan
+    窗口，因此本地模式必须激进收缩预算。
     """
     return (
         str(os.environ.get("MASE_LOCAL_ONLY") or "").strip().lower() in {"1", "true", "yes"}
@@ -31,7 +35,14 @@ def build_long_memory_full_fact_sheet(
     max_priority: int = 60,
     max_session_halo_per_session: int = 6,
 ) -> str:
-    """Hand the cloud executor the search-ranked top-K rows in chronological order."""
+    """构建长记忆完整事实表。
+
+    选择策略：
+    1. priority rows 保留检索高分证据；
+    2. halo rows 保留同 session 邻近上下文；
+    3. non-priority rows 从最近历史倒序补足预算；
+    4. 最终按 row id 恢复 chronological 顺序交给 executor。
+    """
     if not all_rows:
         return "No prior chat history." if detect_text_language(user_question) == "en" else "无相关历史聊天记录。"
     is_en = detect_text_language(user_question) == "en"
@@ -39,15 +50,15 @@ def build_long_memory_full_fact_sheet(
 
     local_only = _local_only_active()
     if local_only:
-        # Budget envelope (chars) tuned for qwen2.5:7b num_ctx=16384 (~65K chars):
-        #   header (~250) + evidence_scan (~27K @ 30 rows × 900 chars) +
-        #   chronological lines (cap 12K) + system_prompt (~6K) + question + answer
-        #   ≈ 46K chars ≈ 11.5K tokens — safely fits the 16K context.
+        # 本地预算按 qwen2.5:7b num_ctx=16384 设计：
+        # header + evidence_scan + chronological lines + system_prompt + 问题/答案
+        # 控制在约 46K 字符，避免 Ollama 截断最关键的 evidence_scan。
         char_budget = min(char_budget, 12_000)
         max_priority = min(max_priority, 16)
 
 
     def _render(row: dict[str, Any], idx: int) -> str:
+        """把一条 memory row 渲染成带日期/session 标签的证据行。"""
         content = strip_memory_prefixes(str(row.get("content") or "").strip(), keep_user=True)
         if not content:
             return ""
@@ -68,6 +79,7 @@ def build_long_memory_full_fact_sheet(
     priority_row_ids = {int(r.get("id") or 0) for r in priority_rows}
     halo_row_ids: set[int] = set()
     halo_counts_by_session: dict[str, int] = {}
+    # halo 只沿同一 session 向前/向后扩展，避免把相邻但无关会话混进证据窗口。
     for index, row in enumerate(all_rows):
         row_id = int(row.get("id") or 0)
         if row_id not in priority_row_ids:
@@ -107,6 +119,7 @@ def build_long_memory_full_fact_sheet(
 
     kept_rows: list[dict[str, Any]] = []
     used = 0
+    # 预算填充顺序体现证据优先级：检索命中 > 同会话上下文 > 最近历史。
     for row in priority_rows:
         line = _render(row, 0)
         if not line:
@@ -142,8 +155,8 @@ def build_long_memory_full_fact_sheet(
     )
     sections = [header]
     if local_only and evidence_scan:
-        # Renumber [E1]..[EK] → [1]..[K] so it matches the system_prompt's
-        # "Walk through ALL windows [1]…[K]" instruction.
+        # 本地 executor 的 system_prompt 要求遍历 [1]...[K]，因此把 evidence scan
+        # 的 [E1]...[EK] 重编号，减少模型格式误读。
         import re as _re
         renumbered: list[str] = []
         counter = 0

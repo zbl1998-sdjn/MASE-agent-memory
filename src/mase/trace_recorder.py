@@ -1,3 +1,9 @@
+"""运行 trace 记录与读取工具。
+
+trace 是 MASE 的证据文件，不参与主问答决策。它把 route、retrieval、
+fact_sheet、planner、executor、model call、成本与风险标记收敛成一行 JSONL，
+方便离线审计、前端展示和 benchmark 复盘。
+"""
 from __future__ import annotations
 
 import json
@@ -7,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 COMPONENT_SOURCE_FILES: dict[str, str] = {
+    # trace step 到源码文件的稳定映射；前端和审计报告依赖这些路径定位责任模块。
     "router": "src/mase/router.py",
     "retrieval": "src/mase/memory_service.py",
     "notetaker": "src/mase/notetaker_agent.py",
@@ -18,6 +25,7 @@ COMPONENT_SOURCE_FILES: dict[str, str] = {
 
 
 def _normalize(value: Any) -> Any:
+    """把 dataclass / dict / list 递归转换成 JSON 可序列化结构。"""
     if is_dataclass(value):
         return asdict(value)
     if isinstance(value, dict):
@@ -36,6 +44,7 @@ def _step(
     output_summary: dict[str, Any] | None = None,
     latency_ms: float | None = None,
 ) -> dict[str, Any]:
+    """构造单个 trace step，保持输入/输出摘要字段一致。"""
     row: dict[str, Any] = {
         "name": name,
         "component": component,
@@ -61,6 +70,7 @@ def build_trace_steps(
     fact_sheet: str,
     evidence_assessment: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
+    """把一次 run 的关键阶段整理成前端可展示的五段式 trace。"""
     route_data = _normalize(route) or {}
     planner_data = _normalize(planner) or {}
     thread_data = _normalize(thread) or {}
@@ -131,6 +141,10 @@ def record_trace_payload(
     trace_id: str | None = None,
     steps: list[dict[str, Any]] | None = None,
 ) -> str:
+    """按 `MASE_TRACE_RECORD_PATH` 追加写入 JSONL trace。
+
+    未设置路径时直接返回空字符串；调用方会把 trace 视为可选观测能力。
+    """
     path_value = str(os.environ.get("MASE_TRACE_RECORD_PATH") or "").strip()
     if not path_value:
         return ""
@@ -169,6 +183,7 @@ def record_trace_payload(
 
 
 def load_recorded_traces(path: str | Path) -> list[dict[str, Any]]:
+    """读取完整 trace JSONL；主要给测试和小工具使用。"""
     file_path = Path(path).expanduser().resolve()
     if not file_path.exists():
         return []
@@ -181,6 +196,7 @@ def load_recorded_traces(path: str | Path) -> list[dict[str, Any]]:
 
 
 def read_trace_rows(path: str | Path) -> dict[str, Any]:
+    """容错读取 trace JSONL，并返回跳过的坏行元数据。"""
     file_path = Path(path).expanduser().resolve()
     metadata: dict[str, Any] = {
         "path": str(file_path),
@@ -216,6 +232,7 @@ def read_trace_rows(path: str | Path) -> dict[str, Any]:
 
 
 def summarize_trace(row: dict[str, Any]) -> dict[str, Any]:
+    """把完整 trace 压缩成列表页摘要。"""
     trace = row if isinstance(row, dict) else {}
     evidence = _as_dict(trace.get("evidence_assessment"))
     steps = _as_list(trace.get("steps"))
@@ -258,6 +275,7 @@ def list_trace_summaries(
     has_risk: bool | None = None,
     limit: int | None = None,
 ) -> dict[str, Any]:
+    """读取并按常用维度过滤 trace 摘要。"""
     store = read_trace_rows(path)
     summaries = [
         summary
@@ -282,6 +300,7 @@ def list_trace_summaries(
 
 
 def get_trace_by_id(path: str | Path, trace_id: str) -> dict[str, Any] | None:
+    """按 trace_id 查找完整 trace 行。"""
     wanted = str(trace_id)
     for row in read_trace_rows(path)["rows"]:
         if str(row.get("trace_id") or "") == wanted:
@@ -315,6 +334,7 @@ def _summary_matches(
 
 
 def _safe_model_call_summary(evidence: dict[str, Any]) -> dict[str, Any]:
+    """从 evidence 中稳定抽取模型调用数量、云调用、token 与成本。"""
     summary = _as_dict(evidence.get("model_call_summary"))
     calls = [item for item in _as_list(evidence.get("model_calls")) if isinstance(item, dict)]
     if calls:
@@ -350,6 +370,7 @@ def _safe_model_call_summary(evidence: dict[str, Any]) -> dict[str, Any]:
 
 
 def _trace_risk_flags(trace: dict[str, Any], evidence: dict[str, Any]) -> list[str]:
+    """汇总 trace、evidence 和检索命中的风险标记。"""
     flags: set[str] = set()
     for source in (trace, evidence):
         flags.update(_sorted_strings(source.get("risk_flags")))

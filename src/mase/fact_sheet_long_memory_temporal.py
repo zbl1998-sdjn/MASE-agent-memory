@@ -1,4 +1,9 @@
-"""Temporal LongMemEval evidence ledgers and date helpers."""
+"""长记忆时间推理 ledger 与日期 helper。
+
+本模块用确定性规则处理 LongMemEval 中的相对日期、事件顺序、间隔计算和
+时间锚点问题。它输出白盒 ledger，让 executor 看到“哪几行证据 + 如何计算”，
+而不是让模型凭上下文自行猜日期。
+"""
 from __future__ import annotations
 
 import os
@@ -10,6 +15,7 @@ from .fact_sheet_common import _parse_metadata, extract_focused_window, strip_me
 
 
 def _parse_long_memory_date(timestamp: str) -> datetime | None:
+    """从 memory metadata timestamp 中解析 YYYY/MM/DD 日期。"""
     text = str(timestamp or "").strip()
     match = re.search(r"(\d{4})/(\d{2})/(\d{2})", text)
     if not match:
@@ -21,6 +27,7 @@ def _parse_long_memory_date(timestamp: str) -> datetime | None:
 
 
 _MONTH_INDEX = {
+    # 月份名到数字的映射用于解析英文自然日期。
     name.lower(): index
     for index, name in enumerate(
         (
@@ -42,6 +49,7 @@ _MONTH_INDEX = {
 }
 
 _TEMPORAL_STOPWORDS = {
+    # 时间短语匹配只需要实体/事件 token，常见问句词在这里过滤。
     "the",
     "a",
     "an",
@@ -96,10 +104,12 @@ _SMALL_NUMBER_WORDS = {
 
 
 def _primary_memory_utterance(content: str) -> str:
+    """只取用户原始 utterance，避免 assistant 复述污染事件日期判断。"""
     return re.split(r"\bAssistant:\s*", content, maxsplit=1)[0].strip()
 
 
 def _parse_small_number_phrase(text: str) -> int | None:
+    """解析 0-12 的英文小数字或数字字符串。"""
     lowered = str(text or "").strip().lower()
     if lowered.isdigit():
         return int(lowered)
@@ -107,6 +117,7 @@ def _parse_small_number_phrase(text: str) -> int | None:
 
 
 def _months_between(later: datetime, earlier: datetime) -> int:
+    """按日边界计算完整月份差。"""
     months = (later.year - earlier.year) * 12 + (later.month - earlier.month)
     if later.day < earlier.day:
         months -= 1
@@ -114,6 +125,7 @@ def _months_between(later: datetime, earlier: datetime) -> int:
 
 
 def _temporal_phrase_markers(phrase: str) -> list[str]:
+    """抽取时间题短语里的强实体 marker，如引号、括号和 museum 名称。"""
     lowered = str(phrase or "").lower()
     markers: list[str] = []
     for literal in ("museum of modern art", "metropolitan museum of art", "ancient civilizations", "moma"):
@@ -135,6 +147,7 @@ def _temporal_phrase_markers(phrase: str) -> list[str]:
 
 
 def _temporal_phrase_tokens(text: str) -> set[str]:
+    """抽取用于匹配事件短语的非停用 token。"""
     return {
         token
         for token in re.findall(r"[a-z0-9']+", str(text or "").lower())
@@ -143,6 +156,7 @@ def _temporal_phrase_tokens(text: str) -> set[str]:
 
 
 def _extract_three_event_phrases(question: str) -> list[str]:
+    """从三事件顺序题中抽取需要排序的事件短语。"""
     text = str(question or "").strip()
     quoted = [part.strip() for part in re.findall(r"'([^']+)'", text)]
     if len(quoted) >= 3:
@@ -159,6 +173,7 @@ def _extract_three_event_phrases(question: str) -> list[str]:
 
 
 def _normalize_order_answer_phrase(phrase: str) -> str:
+    """把排序题答案短语规整成自然回答片段。"""
     normalized = str(phrase or "").strip().strip("'\"").rstrip(".")
     if normalized.lower().startswith("the day "):
         normalized = normalized[8:].strip()
@@ -169,6 +184,7 @@ def _best_temporal_row_for_phrase(
     phrase: str,
     selected_rows: list[tuple[int, int, dict[str, Any], list[str]]],
 ) -> tuple[datetime | None, int, str] | None:
+    """在候选行中为某个事件短语找最匹配的日期行。"""
     target = _temporal_phrase_tokens(phrase)
     phrase_markers = _temporal_phrase_markers(phrase)
     if not target:
@@ -343,6 +359,11 @@ def _build_temporal_answer_ledger(
     user_question: str,
     selected_rows: list[tuple[int, int, dict[str, Any], list[str]]],
 ) -> list[str]:
+    """为可确定计算的时间题生成 deterministic answer ledger。
+
+    这里集中处理“几天前/几周前/哪个先发生/相对日期锚点”等高风险题型；
+    每个分支都应返回证据行、计算依据和 deterministic_answer。
+    """
     lowered_question = (user_question or "").lower()
     lines: list[str] = []
 
@@ -1530,6 +1551,7 @@ def _build_temporal_answer_ledger(
 
 
 def _build_temporal_event_ledger(selected_rows: list[tuple[int, int, dict[str, Any], list[str]]]) -> list[str]:
+    """为事件型时间问题生成按日期排序的候选事件 ledger。"""
     event_cues = (
         "attended",
         "watched",

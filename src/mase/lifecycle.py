@@ -1,3 +1,5 @@
+"""实体事实生命周期分类与契约校验。"""
+
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
@@ -9,6 +11,7 @@ UTC = timezone.utc
 
 
 def _parse_datetime(value: Any) -> datetime | None:
+    """宽松解析 ISO 时间；无时区时按 UTC 处理。"""
     if not value:
         return None
     try:
@@ -20,12 +23,14 @@ def _parse_datetime(value: Any) -> datetime | None:
 
 
 def classify_fact_lifecycle(fact: dict[str, Any], *, now: datetime | None = None) -> dict[str, Any]:
+    """根据过期时间、TTL、重要度和归档标记分类事实生命周期。"""
     now_value = now or datetime.now(UTC)
     expiry = _parse_datetime(fact.get("will_expire_at") or fact.get("expires_at"))
     ttl_days = fact.get("ttl_days")
     importance = float(fact.get("importance_score") or 0.5)
     archived = bool(fact.get("archived"))
     if archived:
+        # 显式 archived 优先级最高，即使日期字段仍未过期。
         state = "archived"
     elif expiry and expiry <= now_value:
         state = "expired"
@@ -43,11 +48,13 @@ def classify_fact_lifecycle(fact: dict[str, Any], *, now: datetime | None = None
         "ttl_days": ttl_days,
         "expires_at": expiry.isoformat() if expiry else None,
         "promotion_candidate": state == "stable_fact" and importance >= 0.65,
+        # 低重要度或过期事实只标记为候选；真实归档仍需上层审批/执行。
         "archive_candidate": state in {"expired", "archived"} or importance < 0.2,
     }
 
 
 def validate_fact_contract(fact: dict[str, Any]) -> list[dict[str, Any]]:
+    """校验事实的必填字段、已知类别和数值范围。"""
     violations: list[dict[str, Any]] = []
     for field in ("category", "entity_key", "entity_value"):
         if not str(fact.get(field) or "").strip():
@@ -65,6 +72,7 @@ def validate_fact_contract(fact: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def build_lifecycle_report(facts: list[dict[str, Any]], *, now: datetime | None = None) -> dict[str, Any]:
+    """为事实列表生成生命周期/契约报告。"""
     rows: list[dict[str, Any]] = []
     by_state: dict[str, int] = {}
     violation_count = 0

@@ -6,9 +6,12 @@ import { StatCard } from "../components/StatCard";
 import { StatusLine } from "../components/StatusLine";
 import type { CostPricingData, CostRoutingData, CostSummaryData, JsonRecord, MaseResponse } from "../types";
 
+// 成本中心是只读治理页面：它展示模型调用账本、价格目录覆盖率和路由审批状态，
+// 不在前端修改价格或选择模型，避免 UI 误操作影响 benchmark / runtime 行为。
 const statTones = ["cyan", "violet", "green", "amber"] as const;
 
 function asNumber(value: unknown): number {
+  // 后端历史数据可能缺字段；展示层统一按 0 处理，避免 NaN 泄漏到 UI。
   return typeof value === "number" && Number.isFinite(value) ? value : 0;
 }
 
@@ -22,6 +25,7 @@ function formatPercent(value: unknown): string {
 }
 
 function sortedHighCostEvents(rows: JsonRecord[]): JsonRecord[] {
+  // 只对带 estimated_cost_usd 的调用排序，突出 catalog 可解释的费用尖刺。
   return [...rows]
     .filter((row) => typeof row.estimated_cost_usd === "number")
     .sort((a, b) => asNumber(b.estimated_cost_usd) - asNumber(a.estimated_cost_usd))
@@ -36,6 +40,7 @@ export function CostCenterPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // 三个成本接口并行读取：价格目录、路由审批、近期账本摘要相互独立。
     setLoading(true);
     setError("");
     Promise.all([api.costPricing(), api.costRouting(), api.costSummary(100)])
@@ -57,6 +62,7 @@ export function CostCenterPage() {
   const unpricedModels = (coverage?.unpriced_models ?? []) as JsonRecord[];
   const metadata = pricingPayload?.metadata ?? {};
   const warnings = Array.isArray(metadata.warnings) ? metadata.warnings : [];
+  // 顶部四个指标只展示用户需要立刻关注的风险：费用、云调用、未定价、路由告警。
   const statItems = [
     { label: "estimated cost", value: formatUsd(totals.estimated_cost_usd), hint: "catalog-priced calls only" },
     { label: "cloud calls", value: totals.cloud_call_count ?? 0, hint: "local providers stay free" },

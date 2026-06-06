@@ -1,3 +1,5 @@
+"""脱敏与隐私扫描工具，供 trace、成本中心和导出面使用。"""
+
 from __future__ import annotations
 
 import re
@@ -17,6 +19,8 @@ SENSITIVE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 
 @dataclass(frozen=True)
 class PrivacyFinding:
+    """一次敏感字段或敏感文本模式命中。"""
+
     path: str
     kind: str
     preview: str
@@ -32,6 +36,7 @@ class PrivacyFinding:
 
 
 def is_sensitive_key(key: str) -> bool:
+    """按字段名判断是否应视为敏感。"""
     normalized = key.lower().replace("-", "_")
     return (
         any(part in normalized for part in SENSITIVE_KEY_PARTS)
@@ -43,6 +48,7 @@ def is_sensitive_key(key: str) -> bool:
 
 
 def redact_text(value: str) -> str:
+    """按正则模式脱敏字符串内容。"""
     redacted = value
     for kind, pattern in SENSITIVE_PATTERNS:
         redacted = pattern.sub(f"[REDACTED:{kind}]", redacted)
@@ -50,11 +56,13 @@ def redact_text(value: str) -> str:
 
 
 def redact_value(value: Any, *, drop_sensitive_keys: bool = False) -> Any:
+    """递归脱敏结构化值。"""
     if isinstance(value, dict):
         output: dict[str, Any] = {}
         for key, item in value.items():
             key_text = str(key)
             if is_sensitive_key(key_text):
+                # drop_sensitive_keys 用于导出场景；默认保留键名但隐藏值，便于审计字段形状。
                 if not drop_sensitive_keys:
                     output[key_text] = "[REDACTED]"
                 continue
@@ -70,12 +78,14 @@ def redact_value(value: Any, *, drop_sensitive_keys: bool = False) -> Any:
 
 
 def scan_value(value: Any, *, path: str = "$") -> list[PrivacyFinding]:
+    """递归扫描结构化值中的敏感键和敏感文本。"""
     findings: list[PrivacyFinding] = []
     if isinstance(value, dict):
         for key, item in value.items():
             key_text = str(key)
             next_path = f"{path}.{key_text}"
             if is_sensitive_key(key_text):
+                # 字段名本身敏感时，即使值为空也记录 finding。
                 findings.append(PrivacyFinding(path=next_path, kind="sensitive_key", preview=key_text))
             findings.extend(scan_value(item, path=next_path))
     elif isinstance(value, list):
@@ -92,6 +102,7 @@ def scan_value(value: Any, *, path: str = "$") -> list[PrivacyFinding]:
 
 
 def privacy_report(items: list[dict[str, Any]], *, source: str) -> dict[str, Any]:
+    """为一组结构化行生成隐私扫描报告和脱敏预览。"""
     rows: list[dict[str, Any]] = []
     total_findings = 0
     for index, item in enumerate(items):

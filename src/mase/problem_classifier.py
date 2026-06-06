@@ -1,3 +1,5 @@
+"""记忆问答的问题分类与检索计划构建。"""
+
 from __future__ import annotations
 
 import os
@@ -139,11 +141,13 @@ _MARKERS_TO_STRIP = tuple(
 
 
 def _contains_any(text: str, markers: tuple[str, ...]) -> bool:
+    """大小写不敏感地检查问题是否命中任一标记。"""
     lowered = text.lower()
     return any(marker.lower() in lowered for marker in markers)
 
 
 def _strip_markers(question: str) -> str:
+    """剥离时间/聚合/冲突等功能词，生成更纯的检索变体。"""
     text = question
     for marker in _MARKERS_TO_STRIP:
         text = re.sub(re.escape(marker), " ", text, flags=re.IGNORECASE)
@@ -154,6 +158,8 @@ def _strip_markers(question: str) -> str:
 
 @dataclass(frozen=True)
 class ProblemClassification:
+    """单个问题的轻量分类结果。"""
+
     problem_type: str
     signals: tuple[str, ...]
     confidence: str
@@ -168,6 +174,8 @@ class ProblemClassification:
 
 @dataclass(frozen=True)
 class RetrievalPlan:
+    """供召回层消费的检索计划。"""
+
     classification: ProblemClassification
     search_limit: int
     include_history: bool
@@ -178,6 +186,7 @@ class RetrievalPlan:
 
     @property
     def scope_filters(self) -> dict[str, Any]:
+        # scope_filters 会进入 memory_service，用于解释召回为什么被放宽或约束。
         return {
             "problem_type": self.classification.problem_type,
             "classification_confidence": self.classification.confidence,
@@ -205,6 +214,7 @@ class RetrievalPlan:
 
 class ProblemClassifier:
     def classify(self, question: str, route_keywords: list[str] | None = None) -> ProblemClassification:
+        """按标记词和 benchmark qtype 识别记忆问题类型。"""
         lowered = question.lower()
         qtype = str(os.environ.get("MASE_QTYPE") or "").strip().lower()
         recommendation_like = _contains_any(lowered, _RECOMMENDATION_MARKERS)
@@ -238,6 +248,7 @@ class ProblemClassifier:
         if route_keywords and any(str(item).strip() for item in route_keywords):
             signals.append("route-keywords-present")
 
+        # 优先级从强语义到弱语义排列；冲突/更新必须压过普通当前状态查询。
         if _contains_any(lowered, _CONFLICT_MARKERS):
             problem_type = "conflict"
         elif _contains_any(lowered, _UPDATE_MARKERS):
@@ -273,6 +284,7 @@ def build_retrieval_plan(
     route_keywords: list[str] | None = None,
     base_limit: int = 5,
 ) -> RetrievalPlan:
+    """把问题分类翻译成检索宽度、历史包含策略和查询变体。"""
     classification = ProblemClassifier().classify(question, route_keywords=route_keywords)
     qtype = str(os.environ.get("MASE_QTYPE") or "").strip().lower()
     search_limit = max(1, int(base_limit or 5))
@@ -283,6 +295,7 @@ def build_retrieval_plan(
     query_variants: list[str] = []
 
     if classification.problem_type in {"conflict", "update"}:
+        # 冲突/更新题必须带历史事实，否则当前值覆盖会抹掉“之前是什么”的证据。
         include_history = True
         search_limit = max(search_limit, 8)
         reasons.append("include-fact-history")
@@ -294,6 +307,7 @@ def build_retrieval_plan(
         search_limit = max(search_limit, 8)
         reasons.extend(["facts-first-priority", "include-fact-history"])
     elif classification.problem_type == "temporal":
+        # 时间题放宽窗口并开启混合重排，优先找事件先后关系。
         include_history = True
         use_hybrid_rerank = True
         search_limit = max(search_limit, 8)
@@ -307,6 +321,7 @@ def build_retrieval_plan(
         search_limit = max(search_limit, 8)
         reasons.extend(["ambiguous-reference", "hybrid-rerank"])
     elif classification.problem_type == "preference":
+        # 偏好题常常跨多条对话，需要完整问题变体辅助召回画像。
         search_limit = max(search_limit, 10 if qtype == "single-session-preference" else 6)
         use_hybrid_rerank = True
         reasons.extend(["preference-profile", "hybrid-rerank"])
@@ -322,6 +337,7 @@ def build_retrieval_plan(
     if stripped and stripped != question and len(stripped) >= 3:
         query_variants.append(stripped)
     if route_keywords:
+        # Router 提取的关键词作为额外变体，而不是替代原问题，降低误抽关键词风险。
         joined = " ".join(str(item).strip() for item in route_keywords if str(item).strip())
         if joined and joined not in query_variants and joined != question:
             query_variants.append(joined)

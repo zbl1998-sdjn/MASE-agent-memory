@@ -1,13 +1,11 @@
-"""SQLite-backed `BenchmarkNotetaker` used by the benchmark runner.
+"""Benchmark runner 使用的 SQLite 版 `BenchmarkNotetaker`。
 
-Two-stage retrieval: FTS5 BM25 candidate gathering + Python-side
-co-occurrence/density rerank with substring fallback so recall stays high
-even when FTS misses a partial / fuzzy term.
+两阶段召回：先用 FTS5 BM25 收集候选，再在 Python 侧做共现/密度重排，并用
+子串匹配兜底。这样即使 FTS 漏掉部分词或模糊词，召回率也不会明显下降。
 
-Facts-first recall: when the underlying DB has an ``entity_state`` table
-(shared DB via ``MASE_DB_PATH`` or auto-created), ``search()`` prepends
-current entity facts before session/event-log evidence.  Each result carries
-``_source`` ('entity_state' or 'memory_log') for audit visibility.
+Facts-first 召回：底层 DB 存在 ``entity_state`` 表时（通过 ``MASE_DB_PATH``
+共享或自动创建），``search()`` 会把当前实体事实放在会话/event-log 证据之前。
+每条结果都带 ``_source``（entity_state 或 memory_log），便于审计。
 """
 from __future__ import annotations
 
@@ -30,13 +28,13 @@ from mase_tools.memory.db_core import (
 )
 
 try:
-    from mase_tools.memory import tri_vault as _tri_vault  # opt-in mirror
-except ImportError:  # pragma: no cover — package layout fallback
+    from mase_tools.memory import tri_vault as _tri_vault  # 可选磁盘镜像。
+except ImportError:  # pragma: no cover — 包布局回退。
     _tri_vault = None  # type: ignore[assignment]
 
 
 class BenchmarkNotetaker:
-    """Simple per-run SQLite-backed memory used by the benchmark runner."""
+    """benchmark runner 使用的按运行隔离 SQLite 记忆实现。"""
 
     def __init__(self, config_path: str | Path | None = None) -> None:
         self.db_path = resolve_db_path(config_path)
@@ -44,20 +42,14 @@ class BenchmarkNotetaker:
 
     @contextmanager
     def _connect(self) -> Iterator[sqlite3.Connection]:
-        """Yield a SQLite connection with WAL pragmas, transaction wrapping,
-        and guaranteed close on exit.
+        """产出带事务保护的 SQLite 连接，并保证退出时关闭。
 
-        Replaces the prior shape that returned a Connection used in
-        ``with self._connect() as conn:`` blocks. Python's ``sqlite3``
-        ``with conn:`` is a *transaction* context — it commits/rolls back but
-        does NOT call ``close()``. On long-running benchmark runs that meant
-        every ``write()``/``search()``/``_init_db()`` leaked a file handle
-        until process exit, eventually starving Windows ``OSError [Errno 24]``.
+        旧实现直接返回 Connection，调用方写成 ``with self._connect() as conn:``。
+        但 Python 的 ``sqlite3`` 连接上下文只负责 commit/rollback，不负责
+        ``close()``。长时间 benchmark 中，每次 write/search/_init_db 都会泄漏
+        文件句柄，最终在 Windows 上触发 ``OSError [Errno 24]``。
 
-        With this contextmanager every call site closes deterministically AND
-        keeps the auto-commit/rollback semantics it relied on, with no
-        callsite changes required (the ``with self._connect() as conn:``
-        idiom continues to work).
+        现在所有调用点仍保留原 idiom，但连接会确定性关闭，同时保留事务语义。
         """
         conn = get_connection(self.db_path)
         try:
@@ -84,6 +76,7 @@ class BenchmarkNotetaker:
         limit: int,
         scope_filters: dict[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
+        """查询当前实体事实，作为 facts-first 召回的第一层。"""
         if not terms:
             return []
         scope = dict(scope_filters or {})
@@ -97,8 +90,10 @@ class BenchmarkNotetaker:
         )
 
     def _extract_terms(self, keywords: list[str], full_query: str | None = None, query_variants: list[str] | None = None) -> list[str]:
+        """从关键词、全文问题和查询变体中扩展可检索术语。"""
         raw_terms = [str(item or "").strip() for item in [*(keywords or []), *(query_variants or [])] if str(item or "").strip()]
         if "__FULL_QUERY__" in raw_terms:
+            # FULL_QUERY 哨兵代表搜索层应使用原问题，而不是把哨兵当作字面关键词。
             raw_terms = [term for term in raw_terms if term != "__FULL_QUERY__"]
             raw_terms.append(str(full_query or "").strip())
         if full_query and not raw_terms:
@@ -109,12 +104,10 @@ class BenchmarkNotetaker:
             english_words = re.findall(r"[A-Za-z][A-Za-z0-9_\-']{2,}", term)
             expanded.extend(english_words)
             expanded.extend(re.findall(r"[\u4e00-\u9fff]{2,16}", term))
-            # Lightweight English stem prefixes so "physics" matches "physicist",
-            # "scientist" matches "scientists/scientific", "modern" matches "modernity", etc.
-            # Strip 2-3 trailing chars for content words; conservative threshold to
-            # avoid overgeneration on conversational text (LME regression observed
-            # when threshold was 6 → common words like "today/yesterday/thinking/remember"
-            # over-expanded and ranked irrelevant turns above the relevant ones).
+            # 轻量英文词干前缀：让 physics 命中 physicist，scientist 命中
+            # scientists/scientific，modern 命中 modernity。只对较长内容词剥掉
+            # 2-3 个尾字符，阈值保守，避免 LME 中 today/yesterday/thinking 等常见词
+            # 过度扩展后把无关轮次排到相关轮次前面。
             STEM_STOPWORDS = {
                 "today", "yesterday", "tomorrow", "thinking", "remember",
                 "remembered", "remembering", "would", "should", "could",
@@ -138,6 +131,7 @@ class BenchmarkNotetaker:
                             expanded.append(stem3)
             chinese_runs = re.findall(r"[\u4e00-\u9fff]{4,}", term)
             for run in chinese_runs:
+                # 中文长片段拆成 2/3/4-gram，弥补 FTS 对 CJK 边界不敏感的问题。
                 for size in (2, 3, 4):
                     if len(run) < size:
                         continue
@@ -166,6 +160,7 @@ class BenchmarkNotetaker:
         topic_tokens: list[str] | None = None,
         metadata: dict[str, Any] | None = None,
     ) -> str:
+        """写入一条 benchmark 记忆日志，并可选镜像到 tri-vault。"""
         content_parts = [
             f"User: {user_query.strip()}" if str(user_query or "").strip() else "",
             f"Assistant: {assistant_response.strip()}" if str(assistant_response or "").strip() else "",
@@ -185,10 +180,9 @@ class BenchmarkNotetaker:
             metadata=json.dumps(metadata or {}, ensure_ascii=False),
             db_path=self.db_path,
         )
-        # Tri-vault opt-in mirror: when MASE_MEMORY_LAYOUT=tri the same write
-        # is reflected as a JSON file under <vault>/sessions/<row_id>.json,
-        # so users can `git diff` the memory bucket. No-op otherwise — keeps
-        # the SQLite path the single source of truth for retrieval.
+        # tri-vault 可选镜像：MASE_MEMORY_LAYOUT=tri 时，同一写入会反映为
+        # <vault>/sessions/<row_id>.json，方便用户 git diff 记忆桶。否则 no-op，
+        # SQLite 仍是召回的唯一事实源。
         if _tri_vault is not None and _tri_vault.is_enabled():
             try:
                 _tri_vault.write_bucket(
@@ -223,6 +217,7 @@ class BenchmarkNotetaker:
         query_variants: list[str] | None = None,
         scope_filters: dict[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
+        """执行 facts-first + FTS/BM25 + Python 重排的记忆搜索。"""
         del date_hint, top_k, semantic_query
         scope = dict(scope_filters or {})
         terms = self._extract_terms(keywords, full_query=full_query, query_variants=query_variants)
@@ -230,7 +225,7 @@ class BenchmarkNotetaker:
             return []
         effective_limit = int(limit or 5)
 
-        # --- Facts-first: query entity_state before touching memory_log ---
+        # facts-first：先查 entity_state，再触碰 memory_log 事件证据。
         entity_results = self._search_entity_state(terms, limit=effective_limit, scope_filters=scope)
         history_results: list[dict[str, Any]] = []
         if scope.get("include_history"):
@@ -244,10 +239,9 @@ class BenchmarkNotetaker:
             )
 
         primary_terms = sorted({t for t in terms if len(t) >= 3}, key=len, reverse=True)[:8]
-        # Fuzzy CJK regex: for Chinese tokens >=3 chars, build a pattern allowing
-        # up to 1 char insertion between adjacent chars. Catches morphological
-        # variants like "物理学" matching "物理理学" (1-char insertion). Generalizable
-        # to any single-char insertion in CJK text. NO benchmark-specific tokens.
+        # CJK 模糊正则：中文 token 长度 3-5 时，允许相邻字之间最多插入 1 字。
+        # 可捕捉“物理学”匹配“物理理学”等形态变体；规则泛化到任意 CJK 单字插入，
+        # 不使用 benchmark 专用 token。
         fuzzy_patterns: dict[str, Any] = {}
         for t in terms:
             if len(t) >= 3 and len(t) <= 5 and all('\u4e00' <= c <= '\u9fff' for c in t):
@@ -264,6 +258,7 @@ class BenchmarkNotetaker:
                 with self._connect() as conn:
                     fts_terms = []
                     for t in primary_terms or terms:
+                        # FTS MATCH 语法对引号/通配符敏感，先做最小清洗再拼 OR 查询。
                         cleaned = re.sub(r'["*()]', " ", t).strip()
                         if not cleaned:
                             continue
@@ -311,7 +306,7 @@ class BenchmarkNotetaker:
                 if count == 0 and term in fuzzy_patterns:
                     fuzzy_count = len(fuzzy_patterns[term].findall(haystack))
                     if fuzzy_count > 0:
-                        # Treat fuzzy match as a real hit but with discount on multi-hits
+                        # 模糊命中视为真实命中，但多次命中仍被后续 min/score 限制折扣。
                         count = fuzzy_count
                 if count > 0:
                     distinct_hits += 1
@@ -334,7 +329,7 @@ class BenchmarkNotetaker:
             from .hybrid_recall import HybridReranker
 
             scored = HybridReranker().rerank(full_query or " ".join(terms), scored)
-        # Tag log results with source marker
+        # 给日志结果补来源标记，entity_state 结果已经由底层 API 标注。
         for item in scored:
             item.setdefault("_source", "memory_log")
             item.setdefault("confidence", "medium")
@@ -352,6 +347,7 @@ class BenchmarkNotetaker:
         evidence_thresholds: dict[str, Any] | None = None,
         scope_filters: dict[str, Any] | None = None,
     ) -> str:
+        """把搜索结果渲染为 executor 可读、审计可追溯的 fact-sheet。"""
         del question, evidence_thresholds, scope_filters
         if not results:
             return "无相关记忆。"
@@ -363,6 +359,7 @@ class BenchmarkNotetaker:
             source = item.get("_source", "memory_log")
             detail_bits: list[str] = []
             if source == "entity_state":
+                # 当前实体事实携带状态、新鲜度、来源日志和可选证据片段。
                 src_tag = "[FACT]"
                 if item.get("conflict_status"):
                     detail_bits.append(f"state={item['conflict_status']}")
@@ -380,6 +377,7 @@ class BenchmarkNotetaker:
                 if evidence:
                     detail_bits.append(f"evidence={evidence[:120]}")
             elif source == "entity_state_history":
+                # 历史事实用于回答“之前/更正前是什么”，不能混同为当前值。
                 src_tag = "[HIST]"
                 if item.get("freshness"):
                     detail_bits.append(f"freshness={item['freshness']}")
@@ -390,6 +388,7 @@ class BenchmarkNotetaker:
                 if item.get("source_log_id") is not None:
                     detail_bits.append(f"src_log={item['source_log_id']}")
             else:
+                # 普通日志证据保留 thread 与时间信息，帮助 executor 解释来源。
                 src_tag = "[LOG]"
                 if item.get("thread_id"):
                     detail_bits.append(f"thread={item['thread_id']}")
@@ -403,7 +402,7 @@ class BenchmarkNotetaker:
         return "\n".join(lines) if lines else "无相关记忆。"
 
     def fetch_all_chronological(self, limit: int | None = None) -> list[dict[str, Any]]:
-        """Return every memory_log row ordered by ascending id (chronological)."""
+        """按 id 升序返回 memory_log 行，即时间正序。"""
         return fetch_memory_rows(db_path=self.db_path, limit=limit, chronological=True)
 
     def list_dates(self) -> list[str]:
@@ -424,18 +423,17 @@ def get_notetaker(
     config_path: str | Path | None = None,
     backend: str | None = None,  # reserved for future routing; currently unused
 ) -> BenchmarkNotetaker:
-    """Compatibility factory: return an injected notetaker or create a default one.
+    """兼容工厂：优先返回注入的 notetaker，否则创建默认实例。
 
-    This is the single entrypoint integrations should use so the backend can be
-    swapped via constructor injection, env var (``MASE_BACKEND_CONFIG``), or
-    ``config_path`` — without introducing a third backend or changing existing
-    call surfaces.
+    集成层应统一使用这个入口，以便通过构造注入、环境变量
+    ``MASE_BACKEND_CONFIG`` 或 ``config_path`` 替换后端，而无需引入第三套
+    后端入口或改变既有调用面。
 
-    Priority:
-    1. ``notetaker`` argument (direct injection, e.g. from tests or DI containers)
-    2. ``config_path`` argument
-    3. ``MASE_BACKEND_CONFIG`` env var (path to a config file)
-    4. Default ``BenchmarkNotetaker()`` (existing behaviour)
+    优先级：
+    1. ``notetaker`` 参数（测试或 DI 容器直接注入）
+    2. ``config_path`` 参数
+    3. ``MASE_BACKEND_CONFIG`` 环境变量（配置文件路径）
+    4. 默认 ``BenchmarkNotetaker()``（既有行为）
     """
     import os
 

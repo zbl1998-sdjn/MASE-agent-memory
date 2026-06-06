@@ -1,18 +1,16 @@
-"""Adaptive verification depth policy.
+"""自适应 verifier 深度策略。
 
-Pluggable, pure-decision module that routes retrieval results to one of three
-verifier depths:
+这是可插拔的纯决策模块，根据召回结果选择三种 verifier 深度之一：
 
     - "skip"   : retrieval is high-confidence and dominant; no cloud verifier
     - "single" : medium confidence; current single-verifier chain (kimi-k2.5)
     - "dual"   : low confidence or hard qtype; dual-verifier vote for precision
 
-The module performs no I/O. Default thresholds are tuned for LongMemEval and
-overridable via env vars so an ablation can sweep without code changes.
+模块不做 I/O。默认阈值面向 LongMemEval 调过，可通过环境变量覆盖，便于消融实验
+不改代码直接扫参数。
 
-Activation is gated by ``MASE_ADAPTIVE_VERIFY=1`` at the call site; this module
-itself is always safe to import and call — when callers don't consult it, the
-existing single-verifier chain runs unchanged (zero behavioral drift).
+是否启用由调用点的 ``MASE_ADAPTIVE_VERIFY=1`` 控制；本模块本身始终可安全导入和
+调用。调用方不接入时，既有 single-verifier 链路不变。
 """
 from __future__ import annotations
 
@@ -21,8 +19,7 @@ from typing import Literal
 
 Decision = Literal["skip", "single", "dual"]
 
-# Question types that empirically benefit from dual-verifier voting on LME
-# (multi-session synthesis + temporal reasoning are the historic weak spots).
+# LME 中经验上受益于 dual-verifier 投票的题型：多会话综合和时间推理是历史弱点。
 HARD_QTYPES: frozenset[str] = frozenset({"multi-session", "temporal-reasoning"})
 
 DEFAULT_SKIP_THRESHOLD = 0.85
@@ -31,6 +28,7 @@ DEFAULT_DOMINANCE_GAP = 0.2
 
 
 def _env_float(name: str, default: float) -> float:
+    """读取浮点环境变量，非法值回退默认。"""
     raw = os.environ.get(name)
     if raw is None or raw == "":
         return default
@@ -41,20 +39,10 @@ def _env_float(name: str, default: float) -> float:
 
 
 class AdaptiveVerifyPolicy:
-    """Pure decision policy: retrieval signal -> verifier depth.
+    """纯决策策略：召回信号 -> verifier 深度。
 
-    Parameters
-    ----------
-    skip_threshold : float | None
-        Minimum top-1 retrieval score required to consider skipping the
-        verifier. Combined with ``dominance_gap``. Env override:
-        ``MASE_VERIFY_SKIP_THRESHOLD``.
-    dual_threshold : float | None
-        Top-1 score below which the dual-verifier vote is engaged. Env
-        override: ``MASE_VERIFY_DUAL_THRESHOLD``.
-    dominance_gap : float | None
-        Minimum (top1 - top2) gap required for "skip"; prevents skipping
-        when several candidates are clustered near the top.
+    ``skip_threshold`` 控制跳过 verifier 所需 top-1 分数，``dual_threshold``
+    控制进入双 verifier 的低分阈值，``dominance_gap`` 防止多个候选接近时误跳过。
     """
 
     def __init__(
@@ -81,6 +69,7 @@ class AdaptiveVerifyPolicy:
 
     @staticmethod
     def _candidate_score(c: object) -> float | None:
+        """从候选 dict 中读取可比较分数。"""
         if isinstance(c, dict):
             for key in ("score", "similarity", "rerank_score", "confidence"):
                 v = c.get(key)
@@ -90,7 +79,7 @@ class AdaptiveVerifyPolicy:
 
     def _top_gap(self, candidates: list[dict]) -> float:
         if not candidates or len(candidates) < 2:
-            return float("inf")  # only one candidate -> trivially dominant
+            return float("inf")  # 单候选天然 dominant。
         scores = [s for s in (self._candidate_score(c) for c in candidates) if s is not None]
         if len(scores) < 2:
             return float("inf")
@@ -103,11 +92,10 @@ class AdaptiveVerifyPolicy:
         candidates: list[dict],
         qtype: str | None = None,
     ) -> Decision:
-        """Map (score, candidates, qtype) -> verifier depth.
+        """把 (score, candidates, qtype) 映射为 verifier 深度。
 
-        Hard qtypes always escalate to "dual" regardless of score — the
-        precision win on multi-session/temporal questions outweighs the
-        extra verifier call.
+        hard qtype 无论分数如何都升级为 "dual"；多会话/时间题的精度收益高于
+        额外 verifier 调用成本。
         """
         if qtype in HARD_QTYPES:
             return "dual"

@@ -1,3 +1,4 @@
+"""Phase 5 长期记忆评估的单用例判分器。"""
 from __future__ import annotations
 
 from typing import Any
@@ -10,6 +11,7 @@ def evaluate_memory_case(
     trace: dict[str, Any] | None = None,
     problem_type: str = "general",
 ) -> dict[str, Any]:
+    """用 expected/actual/trace 生成 replay 指标行，供聚合器统一计算。"""
     expected_text = str(expected or "").strip()
     actual_text = str(actual or "").strip()
     trace_data = trace or {}

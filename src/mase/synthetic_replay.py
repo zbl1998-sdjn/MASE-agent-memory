@@ -1,3 +1,4 @@
+"""用合成 case 驱动记忆搜索接口，验证召回与作用域隔离。"""
 from __future__ import annotations
 
 import re
@@ -5,6 +6,8 @@ from typing import Any, Protocol
 
 
 class MemorySearch(Protocol):
+    """replay 所需的最小记忆搜索协议。"""
+
     def search_memory(
         self,
         keywords: list[str],
@@ -18,15 +21,18 @@ class MemorySearch(Protocol):
 
 
 def _keywords(query: str) -> list[str]:
+    """从查询中提取搜索词；空结果时回退到完整查询。"""
     return re.findall(r"[\w-]{2,}", query) or [query]
 
 
 def _row_text(row: dict[str, Any]) -> str:
+    """把召回行中可供断言的文本字段拼接成检索文本。"""
     keys = ("content", "entity_key", "entity_value", "category", "answer_preview", "user_question")
     return " ".join(str(row.get(key) or "") for key in keys).lower()
 
 
 def _contains_any(rows: list[dict[str, Any]], terms: list[str]) -> list[str]:
+    """返回在召回结果中实际出现的期望词或禁止词。"""
     haystack = "\n".join(_row_text(row) for row in rows)
     return [term for term in terms if term.lower() in haystack]
 
@@ -38,6 +44,7 @@ def evaluate_replay_case(
     scope: dict[str, Any],
     default_top_k: int = 5,
 ) -> dict[str, Any]:
+    """执行单条 replay case，记录命中、缺失和越权词样本。"""
     query = str(case.get("query") or "").strip()
     expected_terms = [str(term) for term in case.get("expected_terms") or [] if str(term).strip()]
     forbidden_terms = [str(term) for term in case.get("forbidden_terms") or [] if str(term).strip()]
@@ -74,6 +81,7 @@ def run_synthetic_replay(
     scope: dict[str, Any],
     default_top_k: int = 5,
 ) -> dict[str, Any]:
+    """批量运行 replay case，并输出 pass_rate 汇总。"""
     results = [evaluate_replay_case(memory, case, scope=scope, default_top_k=default_top_k) for case in cases]
     failed = [result for result in results if result["status"] != "passed"]
     return {

@@ -1,3 +1,8 @@
+"""notetaker 阶段 mixin：把检索命中压缩成 executor 可消费的 fact sheet。
+
+本模块不负责搜索本身，只负责把 `notetaker_agent.search()` 的结果整理成
+可控证据包，并决定是否使用确定性事实表或模型压缩事实表。
+"""
 from __future__ import annotations
 
 from typing import Any
@@ -13,10 +18,13 @@ from .topic_threads import detect_text_language
 
 
 class EngineNotetakerMixin:
+    """事实表构建相关能力，由 `MASESystem` 在检索完成后调用。"""
+
     notetaker_agent: Any
     model_interface: Any
 
     def _format_search_results_for_notetaker(self, results: list[dict[str, Any]]) -> str:
+        """把检索行展开成带来源/新鲜度/冲突状态的纯文本证据列表。"""
         lines: list[str] = []
         for index, item in enumerate(results, start=1):
             content = str(item.get("content") or "").strip()
@@ -48,10 +56,16 @@ class EngineNotetakerMixin:
         search_results: list[dict[str, Any]],
         memory_heat: str,
     ) -> tuple[str, str]:
+        """根据运行模式生成 fact sheet，并返回实际使用的 notetaker 模式。
+
+        空检索直接返回拒猜提示；确定性模式绕过 LLM 压缩，普通模式才让
+        notetaker 模型做最小充分事实表。
+        """
         raw_fact_sheet = self.notetaker_agent.build_fact_sheet(search_results, question=user_question)
         if not search_results:
             return "未找到相关记忆证据；不要猜测具体值。", "none"
         if use_deterministic_fact_sheet():
+            # benchmark / 长上下文对照需要稳定输入，直接由结构化规则生成事实表。
             return (
                 build_long_context_fact_sheet(
                     user_question,
@@ -64,6 +78,7 @@ class EngineNotetakerMixin:
             )
         mode = select_notetaker_mode(user_question=user_question, memory_heat=memory_heat)
         if detect_text_language(user_question) == "en":
+            # 英文问题保持英文 fact-card 约束，减少小模型跨语言改写实体的风险。
             system_prompt = (
                 "You are MASE's notetaker fact-card agent. Compress retrieved memory into a strict fact sheet.\n"
                 "Rules:\n"
@@ -80,6 +95,8 @@ class EngineNotetakerMixin:
                 "Write the minimal fact sheet."
             )
         else:
+            # 中文问题使用中文约束，要求保留实体、数字、日期、动作原词，避免压缩
+            # 阶段把可评分答案改写掉。
             system_prompt = (
                 "你是 MASE 的记事压缩智能体。请把检索出的候选记录压缩成严格 fact sheet。\n"
                 "规则：\n"

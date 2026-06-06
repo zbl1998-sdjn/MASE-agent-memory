@@ -1,7 +1,7 @@
-"""Static marker token tuples used by mode/heat heuristics.
+"""模式与热记忆启发式共用的静态触发词表。
 
-Centralised so that adding a new language or category of trigger words
-does not force edits in `engine.py` or other consumer modules.
+触发词集中放在这里，新增语言或类别时不需要修改 `engine.py`
+等消费模块。
 """
 from __future__ import annotations
 
@@ -48,6 +48,6 @@ EN_HOT_MEMORY_MARKERS: tuple[str, ...] = ("just now", "recently", "today", "earl
 
 
 def contains_any(text: str, markers: tuple[str, ...]) -> bool:
-    """Case-insensitive substring containment check used across modules."""
+    """跨模块复用的大小写不敏感子串命中检查。"""
     lowered = str(text or "").lower()
     return any(marker.lower() in lowered for marker in markers)

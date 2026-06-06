@@ -1,10 +1,15 @@
-"""Long-memory query-term expansion and scope hints."""
+"""长记忆查询词扩展与 scope hint。
+
+本模块把 LongMemEval/长记忆问题扩展成可用于白盒扫描的 evidence terms。
+规则以显式词表和问题模式为主，避免让模型在召回前参与语义猜测。
+"""
 from __future__ import annotations
 
 import os
 import re
 
 _LONG_MEMORY_EVIDENCE_STOPWORDS = {
+    # 长记忆扫描只保留能定位证据的词，泛化问句词在这里过滤掉。
     "about",
     "actually",
     "after",
@@ -48,6 +53,7 @@ _LONG_MEMORY_EVIDENCE_STOPWORDS = {
 }
 
 _UPDATE_LATEST_HINT_MARKERS = (
+    # 这些词提示“最新/当前值”应该优先旧事实之后的更新行。
     "latest",
     "most recent",
     "most recently",
@@ -57,6 +63,7 @@ _UPDATE_LATEST_HINT_MARKERS = (
 )
 
 _UPDATE_INITIAL_HINT_MARKERS = (
+    # 这些词提示问题在问旧值/初始值，不能默认取最新事实。
     "initial",
     "initially",
     "at first",
@@ -68,6 +75,7 @@ _UPDATE_INITIAL_HINT_MARKERS = (
 
 
 def _is_temporal_ledger_question(lowered_question: str) -> bool:
+    """识别需要时间 ledger 的问题，优先走确定性日期/顺序推理。"""
     return any(
         marker in lowered_question
         for marker in (
@@ -115,6 +123,7 @@ def _is_temporal_ledger_question(lowered_question: str) -> bool:
 
 
 def _is_update_semantic_question(lowered_question: str) -> bool:
+    """识别知识更新语义：最新、最初、现在与过去值对比。"""
     if str(os.environ.get("MASE_QTYPE") or "").strip().lower() == "knowledge-update":
         return True
     asks_latest = any(marker in lowered_question for marker in _UPDATE_LATEST_HINT_MARKERS)
@@ -123,6 +132,11 @@ def _is_update_semantic_question(lowered_question: str) -> bool:
     return asks_latest or asks_initial or asks_then_and_now
 
 def _long_memory_evidence_terms(user_question: str) -> list[str]:
+    """为长记忆扫描生成 evidence terms。
+
+    先复用 legacy 英文搜索画像；失败时退回正则抽词。随后按问题领域追加
+    精确实体/同义短语，提升小模型场景下的可解释召回稳定性。
+    """
     try:
         from mase_tools.legacy import _build_english_search_profile
 
@@ -855,6 +869,7 @@ def _long_memory_evidence_terms(user_question: str) -> list[str]:
 
 
 def _build_long_memory_scope_hints(user_question: str) -> list[str]:
+    """按问题类型生成 executor 可读的白盒 scope/ledger 规则提示。"""
     lowered_question = (user_question or "").lower()
     hints: list[str] = []
     if _is_update_semantic_question(lowered_question):

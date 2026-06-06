@@ -1,3 +1,9 @@
+"""执行阶段 mixin：把 planner、reasoning workspace 与 executor 调用隔离出来。
+
+依赖方向上，本模块只消费 `mode_selector`、答案归一化、router 常量和
+`ModelInterface` 能力，不持有检索或持久化细节。这样 `engine.MASESystem`
+可以专注编排顺序，而执行阶段的协作策略能独立演进和测试。
+"""
 from __future__ import annotations
 
 import os
@@ -31,6 +37,12 @@ from .topic_threads import detect_text_language
 
 
 class EngineExecutionMixin:
+    """执行器相关能力集合，由 `MASESystem` 继承后调用。
+
+    这里的 public-ish 方法保持兼容旧测试和脚本；真实职责是构造 executor
+    prompt、选择 verify/split 协作模式，并把模型输出归一化成最终答案。
+    """
+
     model_interface: Any
     planner_agent: Any
     router_agent: Any
@@ -42,6 +54,7 @@ class EngineExecutionMixin:
         instruction_package: str = "",
         draft_answer: str = "",
     ) -> str:
+        """构造 executor 输入，并按用户问题语言切换中英文模板。"""
         question_reference_time = str(os.environ.get("MASE_QUESTION_REFERENCE_TIME") or "").strip()
         if detect_text_language(user_question) == "en":
             parts = [f"Fact sheet:\n{fact_sheet}"]
@@ -105,6 +118,11 @@ class EngineExecutionMixin:
 
     @staticmethod
     def _should_use_planner(route_action: str, executor_mode: str, fact_sheet: str) -> bool:
+        """判断是否值得走模型 planner。
+
+        没有记忆证据时直接用启发式计划，避免 planner 在空事实表上制造伪步骤；
+        grounded_* 模式则保留 planner，因为后续回答要解释事实比较/聚合过程。
+        """
         normalized_fact_sheet = fact_sheet.strip()
         if route_action == "search_memory":
             return True
@@ -114,6 +132,7 @@ class EngineExecutionMixin:
 
     @staticmethod
     def _heuristic_plan(executor_mode: str, user_question: str, fact_sheet: str) -> PlannerSnapshot:
+        """无额外 LLM 调用的保守计划，用于确定性 benchmark 和低证据路径。"""
         language = detect_text_language(user_question)
         has_memory = bool(fact_sheet.strip()) and fact_sheet.strip() != "无相关记忆。"
         if language == "en":
@@ -143,6 +162,7 @@ class EngineExecutionMixin:
         user_question: str,
         fact_sheet: str,
     ) -> PlannerSnapshot:
+        """返回 planner 快照，优先保证“有证据才规划”的边界。"""
         if not self._should_use_planner(route_action, executor_mode, fact_sheet):
             return self._heuristic_plan(executor_mode, user_question, fact_sheet)
         return PlannerSnapshot(
@@ -151,6 +171,11 @@ class EngineExecutionMixin:
         )
 
     def _select_collaboration_mode(self, user_question: str, fact_sheet: str, executor_mode: str) -> str:
+        """选择 executor 后处理策略：off / verify / split。
+
+        配置显式指定时优先；否则根据事实表证据、LongMemEval 问题类型和
+        reasoning workspace 的风险判断决定是否增加 verifier/generalizer hop。
+        """
         routing_config = self.model_interface.get_agent_config("executor").get("routing") or {}
         configured = str(routing_config.get("default_collaboration_mode") or "off").strip().lower()
         if configured in {"verify", "split"}:
@@ -167,6 +192,7 @@ class EngineExecutionMixin:
         return "off"
 
     def _build_instruction_package(self, user_question: str, fact_sheet: str, planner: PlannerSnapshot) -> str:
+        """合并 planner 与 reasoning workspace，形成 executor 可读的额外指令包。"""
         workspace = build_reasoning_workspace(user_question, fact_sheet)
         parts = [f"Planner:\n{planner.text}", workspace.to_text()]
         return "\n\n".join(part for part in parts if part.strip())
@@ -179,6 +205,7 @@ class EngineExecutionMixin:
         memory_heat: str | None = None,
         executor_role: str | None = None,
     ) -> dict[str, Any]:
+        """生成 trace/观测用的 executor 目标信息，不参与模型请求体。"""
         target = self.model_interface.describe_agent("executor", mode=mode)
         target.update(
             {
@@ -221,6 +248,11 @@ class EngineExecutionMixin:
         collaboration_mode: str | None = None,
         instruction_package: str = "",
     ) -> str:
+        """调用 executor 并按协作策略返回最终答案。
+
+        主调用先得到 draft answer；`verify` 再走校验模式，`split` 再走泛化/汇总
+        模式。每条路径最后都回到同一套答案抽取函数，避免不同模式输出格式漂移。
+        """
         del allow_general_knowledge, task_type, use_memory, memory_heat, executor_role
         mode = select_executor_mode(user_question, fact_sheet)
         effective_collaboration = collaboration_mode or self._select_collaboration_mode(user_question, fact_sheet, mode)
@@ -245,6 +277,8 @@ class EngineExecutionMixin:
             )
             if not (local_temporal_deepreason and runner_terminated):
                 raise
+            # 本地小模型 deepreason 路径偶发 runner 崩溃时，降级到普通长记忆模式；
+            # 只覆盖已知的 LongMemEval temporal 场景，避免吞掉真实 provider 错误。
             mode = "grounded_long_memory_english" if detect_text_language(user_question) == "en" else "grounded_long_memory"
             response = self.model_interface.chat(
                 "executor",
@@ -254,6 +288,8 @@ class EngineExecutionMixin:
         content = str((response.get("message") or {}).get("content") or "")
         draft_answer = self._extract_answer(mode, content, user_question, fact_sheet)
         if effective_collaboration == "verify":
+            # verifier 只复核 draft，不重新选择检索证据；这样回答仍可追溯到同一张
+            # fact sheet。
             verify_mode = verify_mode_for_question(user_question)
             verify_response = self.model_interface.chat(
                 "executor",
@@ -274,6 +310,8 @@ class EngineExecutionMixin:
             final_ans = self._extract_answer(verify_mode, verified_content or draft_answer, user_question, fact_sheet)
             return final_ans
         if effective_collaboration == "split":
+            # split 让 generalizer 在 draft 基础上整理表达，主要服务多会话偏好题；
+            # 最终仍走 _extract_answer 收敛为可评分答案。
             generalizer_mode = generalizer_mode_for_question(user_question)
             final_response = self.model_interface.chat(
                 "executor",

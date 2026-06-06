@@ -1,9 +1,11 @@
+"""长期记忆黄金用例执行器，用于把召回质量接入发布门禁。"""
 from __future__ import annotations
 
 from typing import Any
 
 from mase.synthetic_replay import MemorySearch, evaluate_replay_case
 
+# 默认用例故意不绑定具体用户事实，只钉住“有作用域”和“不能跨域泄漏”。
 DEFAULT_GOLDEN_CASES: list[dict[str, Any]] = [
     {
         "case_id": "current-fact-recall",
@@ -25,6 +27,7 @@ DEFAULT_GOLDEN_CASES: list[dict[str, Any]] = [
 
 
 def _score_case(result: dict[str, Any], case: dict[str, Any]) -> float:
+    """组合期望命中、禁止词隔离和召回命中率，得到 0-1 质量分。"""
     expected_count = len(result["expected_terms"])
     expected_score = 1.0
     if expected_count:
@@ -37,6 +40,7 @@ def _score_case(result: dict[str, Any], case: dict[str, Any]) -> float:
 
 
 def _verdict(result: dict[str, Any], case: dict[str, Any], score: float) -> str:
+    """同时满足 replay 状态和用例阈值才算通过。"""
     threshold = float(case.get("min_quality_score") or 0.8)
     if result["status"] == "passed" and score >= threshold:
         return "passed"
@@ -50,6 +54,7 @@ def run_golden_tests(
     scope: dict[str, Any],
     default_top_k: int = 5,
 ) -> dict[str, Any]:
+    """运行黄金用例并输出 release_gate，供 CI 或人工验收读取。"""
     selected_cases = cases if cases is not None else DEFAULT_GOLDEN_CASES
     results: list[dict[str, Any]] = []
     for case in selected_cases:

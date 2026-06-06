@@ -1,13 +1,12 @@
-"""Hybrid recall reranker (BM25 + dense + temporal-aware).
+"""混合召回重排器（BM25 + dense + 时间感知）。
 
-Pluggable, pure-function module. Activated only when the env flag
-``MASE_HYBRID_RECALL=1`` is set by the caller. This module performs no I/O
-and makes no model calls — it is safe to import unconditionally.
+这是可插拔的纯函数模块，仅在调用方设置 ``MASE_HYBRID_RECALL=1`` 时启用。
+模块本身不做 I/O，也不发起模型调用，因此可以安全地被无条件导入。
 
-Final score (per candidate):
+每个候选的最终分数：
     score = α * dense + β * bm25 + γ * temporal
 
-Defaults: α=0.5, β=0.3, γ=0.2. Override via env
+默认权重：α=0.5, β=0.3, γ=0.2。可通过环境变量覆盖：
 ``MASE_HYBRID_RECALL_WEIGHTS="0.5,0.3,0.2"``.
 """
 from __future__ import annotations
@@ -19,7 +18,7 @@ from collections.abc import Iterable
 from datetime import datetime, timedelta
 from typing import Any
 
-try:  # Optional dependency — fall back to inline BM25 if missing.
+try:  # 可选依赖；缺失时回退到内置 BM25。
     from rank_bm25 import BM25Okapi  # type: ignore
     _HAS_RANK_BM25 = True
 except Exception:  # pragma: no cover - exercised only when lib missing
@@ -48,17 +47,18 @@ _TOKEN_RE = re.compile(r"[\w]+", re.UNICODE)
 
 
 def _tokenize(text: str) -> list[str]:
+    """统一英文 token 与 CJK 单字 token，供 BM25 使用。"""
     if not text:
         return []
     text = text.lower()
     tokens = _TOKEN_RE.findall(text)
-    # Add CJK character unigrams for non-whitespace languages.
+    # 为无空格语言补充 CJK 单字 unigram，提升中文召回重排稳定性。
     cjk = [ch for ch in text if "\u4e00" <= ch <= "\u9fff"]
     return tokens + cjk
 
 
 def _detect_temporal_window(query: str) -> tuple[str | None, timedelta | None]:
-    """Return (cue_kind, target_window). cue_kind is None when no cue."""
+    """返回时间线索类型与目标窗口；无时间线索时 cue_kind 为 None。"""
     if not query:
         return None, None
     q = query.lower()
@@ -78,6 +78,7 @@ def _detect_temporal_window(query: str) -> tuple[str | None, timedelta | None]:
 
 
 def _coerce_timestamp(value: Any) -> datetime | None:
+    """把候选中的多种时间戳格式宽松转换为 datetime。"""
     if value is None:
         return None
     if isinstance(value, datetime):
@@ -91,7 +92,7 @@ def _coerce_timestamp(value: Any) -> datetime | None:
         s = value.strip()
         if not s:
             return None
-        # Try ISO8601 first.
+        # 先尝试 ISO8601，再兼容常见日志/日期格式。
         try:
             return datetime.fromisoformat(s.replace("Z", "+00:00"))
         except ValueError:
@@ -105,6 +106,7 @@ def _coerce_timestamp(value: Any) -> datetime | None:
 
 
 def _minmax_normalize(values: list[float]) -> list[float]:
+    """把一组分数压到 0..1；常数序列返回全 0。"""
     if not values:
         return []
     lo = min(values)
@@ -115,7 +117,7 @@ def _minmax_normalize(values: list[float]) -> list[float]:
 
 
 # ---------------------------------------------------------------------------
-# Inline BM25 fallback (used only when rank_bm25 is not installed).
+# 内置 BM25 回退实现：仅在 rank_bm25 未安装时使用。
 # ---------------------------------------------------------------------------
 class _InlineBM25:
     def __init__(self, corpus: list[list[str]], k1: float = 1.5, b: float = 0.75) -> None:
@@ -157,6 +159,7 @@ class _InlineBM25:
 
 
 def _bm25_scores(query_tokens: list[str], doc_token_lists: list[list[str]]) -> list[float]:
+    """优先使用 rank_bm25，失败时回退到内置实现。"""
     if not doc_token_lists:
         return []
     if _HAS_RANK_BM25:
@@ -177,18 +180,18 @@ def _temporal_score(
         return 0.0
     delta = abs((query_time - cand_ts).total_seconds())
     if target_window is not None:
-        # Boost candidates whose timestamp lies inside the cued window;
-        # exponential decay outside it.
+        # 命中问题暗示时间窗的候选给满分，窗外按指数衰减。
         window_s = max(target_window.total_seconds(), 1.0)
         if delta <= window_s:
             return 1.0
         return math.exp(-(delta - window_s) / window_s)
-    # No cue: gentle recency decay (half-life ~30d).
+    # 无明确时间线索时，只给温和的新近度偏置（半衰期约 30 天）。
     half_life = 30 * 24 * 3600.0
     return math.exp(-delta / half_life) * 0.5
 
 
 def _load_weights() -> tuple[float, float, float]:
+    """读取重排权重；非法配置回退默认值。"""
     raw = os.environ.get("MASE_HYBRID_RECALL_WEIGHTS")
     if not raw:
         return 0.5, 0.3, 0.2
@@ -202,11 +205,10 @@ def _load_weights() -> tuple[float, float, float]:
 
 
 class HybridReranker:
-    """BM25 + dense + temporal-aware reranker.
+    """BM25 + dense + 时间感知的重排器。
 
-    Pure function. Does not mutate input candidates; returns a new list of
-    shallow-copied dicts annotated with ``hybrid_score`` and component
-    scores under ``hybrid_components``.
+    该类按纯函数方式工作：不修改输入候选，而是返回浅拷贝后的新列表，并在
+    候选上附加 ``hybrid_score`` 与 ``hybrid_components``。
     """
 
     def __init__(
@@ -230,6 +232,7 @@ class HybridReranker:
         if not candidates:
             return []
 
+        # dense_raw 复用上游召回分数；BM25 和 temporal 在本模块内重算。
         texts = [str(c.get("text") or c.get("content") or "") for c in candidates]
         doc_tokens = [_tokenize(t) for t in texts]
         query_tokens = _tokenize(query or "")
@@ -250,7 +253,7 @@ class HybridReranker:
 
         bm25_norm = _minmax_normalize(bm25_raw)
         dense_norm = _minmax_normalize(dense_raw)
-        # Temporal scores are already in [0, 1].
+        # temporal 原始分已经约束在 [0, 1]。
         temporal_norm = [max(0.0, min(1.0, t)) for t in temporal_raw]
 
         out: list[dict] = []
@@ -270,6 +273,7 @@ class HybridReranker:
             }
             out.append(new_cand)
 
+        # 调用方通常直接截断 top-K，因此这里返回时已经按最终分降序排序。
         out.sort(key=lambda c: c["hybrid_score"], reverse=True)
         return out
 

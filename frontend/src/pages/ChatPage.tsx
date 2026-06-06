@@ -6,10 +6,14 @@ import { StatusLine } from "../components/StatusLine";
 import type { ChatMessage, JsonRecord, MaseResponse, TraceDetailData, TraceFilters, TraceListData, TraceSummary } from "../types";
 import { sanitizeForDisplay } from "../utils";
 
+// ChatPage 同时提供两条能力：
+// 1. OpenAI-compatible chat/completions 快速问答；
+// 2. MASE runTrace 审计链、历史 trace 查询和轻量对比。
 type ChatPageProps = {
   readOnly: boolean;
 };
 
+// 表单值保持字符串，只有发请求前才转换成后端 TraceFilters。
 type TraceFilterForm = {
   routeAction: string;
   component: string;
@@ -27,6 +31,7 @@ type CompareRow = {
 
 const DEFAULT_TRACE_LIMIT = 25;
 function parseBooleanFilter(value: TraceFilterForm["hasCloudCall"]): boolean | undefined {
+  // 后端用 undefined 表示“不筛选”，不能把 all 误传成 false。
   if (value === "all") {
     return undefined;
   }
@@ -34,6 +39,7 @@ function parseBooleanFilter(value: TraceFilterForm["hasCloudCall"]): boolean | u
 }
 
 function parseLimit(value: string): number {
+  // 列表页限制上限 100，避免一次性把大型 JSONL trace 文件全部拉到前端。
   const parsed = Number.parseInt(value, 10);
   if (!Number.isFinite(parsed) || parsed < 1) {
     return DEFAULT_TRACE_LIMIT;
@@ -42,6 +48,7 @@ function parseLimit(value: string): number {
 }
 
 function traceId(summary: TraceSummary): string {
+  // trace_id 可选是为了兼容旧 trace 行；空 id 不能进入详情/对比请求。
   return summary.trace_id ?? "";
 }
 
@@ -58,6 +65,7 @@ function formatBool(value: boolean | undefined): string {
 }
 
 function fileSafeTraceId(id: string): string {
+  // 下载文件名只保留安全字符，避免 trace_id 影响本地文件路径。
   return id.replace(/[^a-z0-9._-]/gi, "_") || "trace";
 }
 
@@ -68,6 +76,7 @@ function numericDelta(left: number | undefined, right: number | undefined, decim
 }
 
 function compareSummaries(left: TraceSummary, right: TraceSummary): CompareRow[] {
+  // 对比只使用摘要字段，不拉完整 trace，保证列表页交互轻量。
   const routeChanged = left.route_action === right.route_action ? "same" : "changed";
   const answerChanged = left.answer_preview === right.answer_preview ? "same" : "changed";
   const componentsChanged = formatList(left.components) === formatList(right.components) ? "same" : "changed";
@@ -132,6 +141,7 @@ export function ChatPage({ readOnly }: ChatPageProps) {
     [compareIds, summaries]
   );
   const compareRows = useMemo(() => {
+    // 只有恰好两条 trace 被选中时才生成对比表。
     if (compareSummariesSelected.length !== 2) {
       return [];
     }
@@ -147,6 +157,7 @@ export function ChatPage({ readOnly }: ChatPageProps) {
   }, []);
 
   function buildTraceFilters(): TraceFilters {
+    // 在请求前统一修剪字符串和转换布尔/数字，页面输入保持无损。
     return {
       route_action: filters.routeAction.trim(),
       component: filters.component.trim(),
@@ -157,6 +168,7 @@ export function ChatPage({ readOnly }: ChatPageProps) {
   }
 
   async function send(event: FormEvent<HTMLFormElement>) {
+    // chat/completions 不写入 trace；它只是快速验证当前 MASE API 是否能回答。
     event.preventDefault();
     if (!input.trim()) {
       return;
@@ -177,6 +189,7 @@ export function ChatPage({ readOnly }: ChatPageProps) {
   }
 
   async function runTrace() {
+    // runTrace 默认 dry-run；只有非只读且用户勾选时才把交互写入 Memory。
     const latestUser = [...messages].reverse().find((message) => message.role === "user")?.content ?? input;
     if (!latestUser.trim()) {
       return;
@@ -194,6 +207,7 @@ export function ChatPage({ readOnly }: ChatPageProps) {
   }
 
   async function loadTraceHistory(event?: FormEvent<HTMLFormElement>) {
+    // 历史列表是只读审计查询；刷新后清掉已经不存在的对比选择。
     event?.preventDefault();
     setHistoryLoading(true);
     setHistoryError("");
@@ -210,6 +224,7 @@ export function ChatPage({ readOnly }: ChatPageProps) {
   }
 
   async function loadTraceDetail(id: string) {
+    // 详情按 trace_id 单独读取，避免历史列表携带大体积 search_results/fact_sheet。
     if (!id) {
       return;
     }
@@ -226,6 +241,7 @@ export function ChatPage({ readOnly }: ChatPageProps) {
   }
 
   function toggleCompare(id: string) {
+    // 对比最多保留两条；选择第三条时替换最早选择，保持表格宽度稳定。
     if (!id) {
       return;
     }

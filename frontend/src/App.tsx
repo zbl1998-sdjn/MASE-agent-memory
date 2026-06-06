@@ -30,10 +30,13 @@ import { readStoredScope, saveStoredScope } from "./utils";
 
 const apiLabel = import.meta.env.VITE_API_BASE || window.location.origin;
 
+// 前端导航分组只影响信息架构，不改变后端权限；具体读写能力仍以后端
+// bootstrap 返回的 readOnly/authRequired 为准。
 type NavGroup = "Overview" | "Reliability" | "Operations" | "Memory";
 
 type NavBase = { key: NavKey; group: NavGroup; icon: string };
 
+// 这里是导航 key 的单一来源；新增页面时同步更新 NavKey、i18n 文案和 switch 渲染。
 const NAV_BASE: NavBase[] = [
   { key: "dashboard",        group: "Overview",     icon: "01" },
   { key: "observability",    group: "Overview",     icon: "02" },
@@ -62,6 +65,7 @@ const NAV_BASE: NavBase[] = [
 const navGroups: NavGroup[] = ["Overview", "Reliability", "Operations", "Memory"];
 
 function readHash(): NavKey {
+  // 使用 hash 路由避免引入前端路由库，静态构建部署也能直接打开。
   const key = window.location.hash.replace("#", "") as NavKey;
   return NAV_BASE.some((item) => item.key === key) ? key : "dashboard";
 }
@@ -85,16 +89,19 @@ export default function App() {
   const activeItem = navItems.find((item) => item.key === active);
 
   useEffect(() => {
+    // hash 是当前页面状态的 URL 表达；浏览器前进/后退会同步 active tab。
     const onHash = () => setActive(readHash());
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
   useEffect(() => {
+    // scope 是所有记忆/治理页面共享过滤器，变化后持久化到本地。
     saveStoredScope(scope);
   }, [scope]);
 
   useEffect(() => {
+    // bootstrap 决定只读/鉴权模式和 fact category 模板；失败时保持本地可浏览。
     api.bootstrap()
       .then((response) => {
         setCategories(response.data.profile_templates);
@@ -107,17 +114,20 @@ export default function App() {
   }, []);
 
   function updateApiKey(value: string) {
+    // API key 同时写入 React state 和 api.ts 的本地存储，下一次请求立即生效。
     setApiKey(value);
     saveInternalApiKey(value);
   }
 
   function toggleLang() {
+    // 语言选择是前端偏好，不写入后端 memory。
     const next: Lang = lang === "zh" ? "en" : "zh";
     setLang(next);
     saveLang(next);
   }
 
   const page = useMemo(() => {
+    // 页面渲染只在这里分发，scope/readOnly 明确按需传入，避免页面自行读全局状态。
     switch (active) {
       case "chat":
         return <ChatPage readOnly={platformMode.readOnly} />;

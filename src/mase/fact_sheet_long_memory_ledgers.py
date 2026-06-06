@@ -1,4 +1,9 @@
-"""White-box LongMemEval operational, aggregate, and preference ledgers."""
+"""LongMemEval 白盒操作、聚合和偏好 ledger。
+
+本模块把高风险“算数/计数/偏好/多会话聚合”问题拆成可审计 ledger。
+输出文本会进入 fact sheet，让 executor 能看到候选项、计算过程和
+deterministic_answer，而不是凭模型自由推理。
+"""
 from __future__ import annotations
 
 import os
@@ -7,6 +12,7 @@ from typing import Any
 
 from .fact_sheet_common import extract_focused_window, strip_memory_prefixes
 
+# 常用数值抽取正则：金额、时长、天数、周数都服务于确定性聚合 ledger。
 _MONEY_RE = re.compile(r"\$\s*([0-9][0-9,]*(?:\.[0-9]+)?)")
 _HOURS_RE = re.compile(r"(?<!\d)(\d+(?:\.\d+)?)\s*(?:hours?|hrs?|h)\b")
 _MINUTES_RE = re.compile(r"(?<!\d)(\d+)\s*minutes?\b")
@@ -30,11 +36,13 @@ _ENGLISH_COUNT_WORDS = {
 
 
 def _compact_snippet(content: str, matched_terms: list[str]) -> str:
+    """从长证据行中截取围绕命中词的紧凑片段。"""
     snippet = extract_focused_window(content, matched_terms[:8], radius=220, max_windows=1)
     return re.sub(r"\s+", " ", snippet).strip()
 
 
 def _first_money(text: str) -> float | None:
+    """提取第一个金额，用于差额/预算类 ledger。"""
     match = _MONEY_RE.search(text)
     if not match:
         return None
@@ -42,10 +50,12 @@ def _first_money(text: str) -> float | None:
 
 
 def _money_values(text: str) -> list[float]:
+    """提取一行中的所有金额，供求和/比较分支使用。"""
     return [float(value.replace(",", "")) for value in _MONEY_RE.findall(text)]
 
 
 def _first_hours(text: str) -> float | None:
+    """把小时/分钟自然语言统一换算成小时。"""
     match = _HOURS_RE.search(text)
     if match:
         return float(match.group(1))
@@ -60,6 +70,7 @@ def _first_hours(text: str) -> float | None:
 
 
 def _duration_in_days(text: str) -> int | None:
+    """把 week/day 表达统一换算成天数。"""
     week_match = _WEEKS_RE.search(text)
     if week_match:
         return int(week_match.group(1)) * 7
@@ -113,6 +124,7 @@ def _emit_normalized_ledger(
     deterministic_lines: list[str] | None = None,
     legacy_answer: str | None = None,
 ) -> list[str]:
+    """输出统一 ledger 形状：证据、计算行、旧兼容答案和 deterministic_answer。"""
     lines = [f"Aggregate answer ledger ({title}):", *evidence]
     if deterministic_lines:
         lines.extend(deterministic_lines)
@@ -124,6 +136,7 @@ def _emit_normalized_ledger(
 
 
 def _normalize_count_answer(question: str, item_labels: list[str]) -> str:
+    """根据问题域把计数结果转成人类可读且可评分的答案文本。"""
     lowered_question = (question or "").lower()
     count = len(item_labels)
     count_word = _english_count_word(count)
@@ -153,6 +166,7 @@ def _build_count_template(
     items: list[str],
     evidence: list[str],
 ) -> list[str]:
+    """生成计数类 ledger 模板，列出每个被计数候选。"""
     normalized_answer = _normalize_count_answer(question, items)
     deterministic_lines = [
         "- Countable items:",
@@ -372,6 +386,11 @@ def _build_multi_session_aggregate_ledger(
     user_question: str,
     selected_rows: list[tuple[int, int, dict[str, Any], list[str]]],
 ) -> list[str]:
+    """构建多会话聚合 ledger。
+
+    覆盖计数、求和、差额、比例、行程/订阅/维修等跨会话问题。每个分支都应先
+    枚举证据，再给 deterministic_answer，避免 executor 只凭单条命中作答。
+    """
     lowered_question = (user_question or "").lower()
     lines: list[str] = []
 
@@ -1352,6 +1371,11 @@ def _build_multi_session_aggregate_ledger(
 
 
 def _build_preference_answer_ledger(user_question: str) -> list[str]:
+    """构建偏好/推荐类答案 ledger。
+
+    该入口主要根据问题文本和 `MASE_QTYPE=single-session-preference` 输出额外
+    规则提示，帮助 executor 围绕真实偏好锚点组织建议。
+    """
     lowered_question = (user_question or "").lower()
     if os.environ.get("MASE_QTYPE") != "single-session-preference":
         return []

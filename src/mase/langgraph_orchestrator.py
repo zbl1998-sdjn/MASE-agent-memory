@@ -1,17 +1,15 @@
-"""
-langgraph_orchestrator.py - MASE LangGraph orchestration (real agents wired).
+"""MASE 的 LangGraph 编排实现，所有节点接入真实 Agent。
 
-V2.x audit (2026-04) found the previous implementation was a hardcoded mock:
-- router_node ran keyword regex instead of RouterAgent.decide
-- notetaker_node bypassed chat_with_tools and dumped the raw query as keywords
-- planner_node was constructed without ModelInterface → fallback string
-- action_node had a hardcoded ``if "时间" in query`` branch instead of
-  exposing mase_tools.mcp.tools.TOOL_REGISTRY as Function-Calling schemas.
+V2.x 审计（2026-04）发现旧实现是硬编码 mock：
+- router_node 用关键词正则替代 RouterAgent.decide
+- notetaker_node 绕过 chat_with_tools，把原始 query 当 keywords
+- planner_node 没有传 ModelInterface，导致总是 fallback plan
+- action_node 硬编码 ``if "时间" in query``，没有把 mase_tools.mcp.tools.TOOL_REGISTRY
+  暴露成 Function-Calling schema
 
-This rewrite wires every node to the real LLM agents while keeping the keyword
-fast-path available behind ``MASE_ORCHESTRATOR_FAST=1`` for benchmarks that
-intentionally want the cheap path. It also keeps the existing function names
-and ``AgentState`` keys so any downstream graphs continue to compile.
+本版把每个节点接到真实 LLM Agent，同时保留 ``MASE_ORCHESTRATOR_FAST=1`` 的
+关键词 fast-path，供明确需要低成本路径的 benchmark 使用。函数名和
+``AgentState`` key 保持不变，保证下游 graph 继续可编译。
 """
 from __future__ import annotations
 
@@ -48,8 +46,8 @@ class AgentState(TypedDict):
 
 
 # ---------------------------------------------------------------------------
-# Lazy singletons: instantiated on first use so ``import mase`` stays cheap
-# and CI / docs builds without a configured model don't crash on import.
+# 懒加载单例：首次使用才实例化，保证 ``import mase`` 仍然轻量，也让 CI/文档构建
+# 在没有配置模型时不会因导入副作用崩溃。
 # ---------------------------------------------------------------------------
 mase_model_interface: ModelInterface | None = None
 executor_agent: ExecutorAgent | None = None
@@ -80,14 +78,13 @@ def _get_router_agent() -> RouterAgent:
 
 
 def _get_notetaker_agent() -> NotetakerAgent:
-    """Use a model-backed notetaker so chat_with_tools() can run.
+    """返回带 ModelInterface 的 notetaker，使 chat_with_tools() 可运行。
 
-    DEFAULT_NOTETAKER is left without a model interface at import time so
-    importing the module is free of side-effects; we upgrade it lazily here.
+    DEFAULT_NOTETAKER 在导入时不绑定模型接口，以避免副作用；这里懒绑定。
     """
     global _notetaker_agent
     if _notetaker_agent is None:
-        # Reuse DEFAULT_NOTETAKER's tool handlers but attach a model_interface.
+        # 复用 DEFAULT_NOTETAKER 的工具注册表，只补上 model_interface。
         DEFAULT_NOTETAKER.model_interface = _get_model_interface()
         _notetaker_agent = DEFAULT_NOTETAKER
     return _notetaker_agent
@@ -105,13 +102,13 @@ def _fast_path_enabled() -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Graph nodes
+# Graph 节点
 # ---------------------------------------------------------------------------
 def router_node(state: AgentState):
-    """Router Agent Node — calls RouterAgent.decide (real LLM) by default.
+    """Router 节点：默认调用真实 LLM-backed RouterAgent.decide。
 
-    Keyword fast-path is preserved as a fallback both for ``MASE_ORCHESTRATOR_FAST=1``
-    and for any LLM failure (so a flaky model never hangs the graph).
+    ``MASE_ORCHESTRATOR_FAST=1`` 和 LLM 失败时会回退关键词 fast-path，避免
+    模型抖动卡住整张图。
     """
     query = state["user_query"]
     decision = "direct_answer"
@@ -143,6 +140,7 @@ def router_node(state: AgentState):
 
 
 def _seed_keywords(state: AgentState, query: str) -> list[str]:
+    """从 Router 写入的 memory_context 中恢复关键词，失败时用原问题兜底。"""
     raw = state.get("memory_context", "")
     if raw:
         try:
@@ -156,12 +154,10 @@ def _seed_keywords(state: AgentState, query: str) -> list[str]:
 
 
 def notetaker_node(state: AgentState):
-    """Notetaker Agent Node — calls chat_with_tools() with NOTETAKER_TOOLS schema.
+    """Notetaker 节点：使用 NOTETAKER_TOOLS schema 调用 chat_with_tools()。
 
-    The LLM decides which mase2_* tool to invoke and with which parameters; we
-    then assemble the resulting records + entity facts into ``memory_context``.
-    Falls back to direct execute_tool() on LLM failure so retrieval is never
-    fully lost.
+    LLM 决定调用哪个 mase2_* 工具及参数；本节点把工具结果和实体事实拼成
+    ``memory_context``。LLM 失败时直接 execute_tool()，确保召回不完全丢失。
     """
     query = state["user_query"]
     notetaker = _get_notetaker_agent()
@@ -200,6 +196,7 @@ def notetaker_node(state: AgentState):
 
     if not used_llm:
         try:
+            # 兜底路径直接查 search_memory + get_facts，牺牲工具选择灵活性换稳定输出。
             results = notetaker.execute_tool(
                 "mase2_search_memory", {"keywords": keywords, "limit": 5}
             )
@@ -228,11 +225,10 @@ def notetaker_node(state: AgentState):
 
 
 def planner_node(state: AgentState):
-    """Planner Agent Node — uses model-backed PlannerAgent.
+    """Planner 节点：使用带模型接口的 PlannerAgent。
 
-    The previous implementation used ``DEFAULT_PLANNER`` (no model_interface)
-    which always fell back to a hardcoded plan string. We now route through
-    the singleton planner created with the shared ModelInterface.
+    旧实现使用没有 model_interface 的 ``DEFAULT_PLANNER``，导致总是硬编码 plan。
+    现在统一走共享 ModelInterface 创建的单例 planner。
     """
     query = state.get("user_query", "")
     memory = state.get("memory_context", "")
@@ -241,7 +237,7 @@ def planner_node(state: AgentState):
         plan = _get_planner_agent().plan(query=query, memory_context=memory)
     except Exception as exc:  # noqa: BLE001
         error = f"planner_llm_failed: {exc!r}"
-        # Best-effort fallback so the graph still produces a non-empty plan.
+        # best-effort 兜底：让图仍然产出非空 plan。
         plan = "1. 结合查找到的记忆。\n2. 直接回答用户问题。"
     update: dict[str, Any] = {
         "task_plan": plan,
@@ -253,7 +249,7 @@ def planner_node(state: AgentState):
 
 
 def _build_mcp_tool_schemas() -> list[dict[str, Any]]:
-    """Convert mase_tools.mcp.tools.TOOL_REGISTRY into OpenAI Function-Calling schemas."""
+    """把 mase_tools.mcp.tools.TOOL_REGISTRY 转成 OpenAI Function-Calling schema。"""
     return [
         {
             "type": "function",
@@ -304,11 +300,10 @@ def _build_mcp_tool_schemas() -> list[dict[str, Any]]:
 
 
 def action_node(state: AgentState):
-    """Action Node — exposes mase_tools.mcp.tools.TOOL_REGISTRY to the LLM.
+    """Action 节点：把 mase_tools.mcp.tools.TOOL_REGISTRY 暴露给 LLM。
 
-    Replaces the hardcoded ``if "时间" in query`` branch with a single
-    function-calling round: the LLM picks zero or more MCP tools and we
-    execute them through the real sandboxed handlers.
+    用一次 function-calling 回合替代旧的 ``if "时间" in query`` 硬编码分支：
+    LLM 选择零个或多个 MCP 工具，本节点通过真实 sandbox handler 执行。
     """
     query = state.get("user_query", "")
     plan = state.get("task_plan", "")
@@ -325,8 +320,7 @@ def action_node(state: AgentState):
         }
 
     if fast:
-        # Cheap deterministic shortcut for benchmarks: only fire on obvious
-        # "current time" intents; everything else is a no-op.
+        # benchmark 低成本确定性捷径：仅明显“当前时间”意图触发，其余 no-op。
         if any(kw in query for kw in ("时间", "几点", "current time")):
             res = TOOL_REGISTRY["get_current_time"]()
             results = f"\n[MCP] get_current_time -> {res}"
@@ -370,6 +364,7 @@ def action_node(state: AgentState):
     tool_calls = response.get("tool_calls") if isinstance(response, dict) else None
     if tool_calls:
         for tc in tool_calls:
+            # 容错解析模型生成的 tool_call 参数；坏 JSON 退化为空参数。
             fn = tc.get("function", {})
             name = fn.get("name")
             raw_args = fn.get("arguments", {})
@@ -408,25 +403,26 @@ def action_node(state: AgentState):
     return update
 
 def executor_node(state: AgentState):
-    """Executor Agent Node - 回答问题"""
+    """Executor 节点：合并记忆与外部工具结果并生成最终答案。"""
     query = state.get("user_query", "")
     decision = state.get("router_decision")
     memory = state.get("memory_context", "")
     actions = state.get("action_results", "")
-    
+
     full_context = memory
     if actions:
         full_context += f"\n【外部工具结果】\n{actions}"
-    
-    # 深度重构后：连接 executor
+
+    # 只有需要记忆或已有工具结果时才传入真实上下文，否则显式传“无相关记忆”。
     if decision == "search_memory" or actions:
         answer = _ensure_executor().execute(query=query, memory_context=full_context)
     else:
         answer = _ensure_executor().execute(query=query, memory_context="无相关记忆。")
-        
+
     return {"executor_result": answer, "messages": [{"role": "assistant", "content": answer}]}
 
 def route_after_router(state: AgentState) -> str:
+    """Router 后的条件边：需要记忆则进入 notetaker，否则直达 action。"""
     if state.get("router_decision") == "search_memory":
         return "notetaker"
     return "executor"
@@ -459,7 +455,7 @@ if __name__ == "__main__":
         "executor_result": "",
         "error_log": []
     }
-    
+
     for event in mase_app.stream(initial_state):
         for k, v in event.items():
             print(f"[{k} 节点执行完毕]")

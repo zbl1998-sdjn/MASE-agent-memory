@@ -1,3 +1,5 @@
+"""事实、召回命中和 trace 摘要的轻量质量评分。"""
+
 from __future__ import annotations
 
 from typing import Any
@@ -7,10 +9,12 @@ from mase.privacy import scan_value
 
 
 def _bounded(value: float) -> float:
+    """把分数裁剪到 0..1 并保留三位小数。"""
     return round(max(0.0, min(1.0, value)), 3)
 
 
 def _grade(score: float) -> str:
+    """把数值分转成面板展示等级。"""
     if score >= 0.85:
         return "excellent"
     if score >= 0.7:
@@ -21,6 +25,7 @@ def _grade(score: float) -> str:
 
 
 def score_fact(fact: dict[str, Any]) -> dict[str, Any]:
+    """评估单条实体事实的契约、来源、新鲜度、隐私和 scope 健康度。"""
     lifecycle = classify_fact_lifecycle(fact)
     violations = validate_fact_contract(fact)
     privacy_findings = scan_value(fact)
@@ -34,6 +39,7 @@ def score_fact(fact: dict[str, Any]) -> dict[str, Any]:
     if lifecycle["state"] in {"expired", "archived", "expiring_soon"}:
         risk_flags.append(f"lifecycle:{lifecycle['state']}")
     components = {
+        # 每个分量保持 0..1，最终取简单平均，便于面板解释。
         "contract": 1.0 if not violations else 0.6,
         "provenance": 1.0 if fact.get("source_log_id") else 0.35,
         "freshness": 0.45 if lifecycle["state"] == "expired" else 0.7 if lifecycle["state"] == "expiring_soon" else 1.0,
@@ -53,6 +59,7 @@ def score_fact(fact: dict[str, Any]) -> dict[str, Any]:
 
 
 def score_recall_hit(hit: dict[str, Any]) -> dict[str, Any]:
+    """评估一次召回命中的可用性和风险。"""
     risk_flags: list[str] = []
     source = str(hit.get("_source") or hit.get("source") or "unknown")
     if hit.get("superseded_at"):
@@ -62,6 +69,7 @@ def score_recall_hit(hit: dict[str, Any]) -> dict[str, Any]:
     if scan_value(hit):
         risk_flags.append("privacy_finding")
     components = {
+        # entity_state 是结构化事实，默认比 event log 命中更可信。
         "source": 1.0 if source == "entity_state" else 0.65,
         "freshness": 0.2 if hit.get("superseded_at") else 1.0,
         "support": 1.0 if hit.get("entity_value") or hit.get("content") else 0.4,
@@ -80,12 +88,14 @@ def score_recall_hit(hit: dict[str, Any]) -> dict[str, Any]:
 
 
 def score_trace_summary(summary: dict[str, Any]) -> dict[str, Any]:
+    """评估 trace 摘要中的风险、答案、成本和云调用情况。"""
     risk_flags = [str(item) for item in summary.get("risk_flags") or []]
     total_tokens = int(summary.get("total_tokens") or 0)
     estimated_cost = float(summary.get("estimated_cost_usd") or 0.0)
     components = {
         "risk": 1.0 if not risk_flags else 0.3,
         "answer": 1.0 if summary.get("answer_preview") else 0.6,
+        # 成本/上下文超阈值不直接判失败，只在质量面板中降权。
         "cost": 0.6 if estimated_cost > 0.05 or total_tokens > 20000 else 1.0,
         "cloud": 0.8 if summary.get("has_cloud_call") else 1.0,
     }
@@ -106,6 +116,7 @@ def build_quality_report(
     recall_hits: list[dict[str, Any]] | None = None,
     trace_summaries: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    """合并多类评分项，输出整体质量报告。"""
     items = [
         *(score_fact(fact) for fact in facts),
         *(score_recall_hit(hit) for hit in (recall_hits or [])),

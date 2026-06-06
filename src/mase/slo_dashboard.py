@@ -1,9 +1,12 @@
+"""从 golden/lifecycle/cost 报告构建 SLO 面板。"""
+
 from __future__ import annotations
 
 from typing import Any
 
 
 def _ratio(value: Any, default: float = 1.0) -> float:
+    """把外部报告中的比例值裁剪到 0..1。"""
     try:
         return max(0.0, min(1.0, float(value)))
     except (TypeError, ValueError):
@@ -11,6 +14,7 @@ def _ratio(value: Any, default: float = 1.0) -> float:
 
 
 def _objective(name: str, value: float, target: float, *, source: str, details: dict[str, Any] | None = None) -> dict[str, Any]:
+    """构造单个 SLO 目标行。"""
     if value >= target:
         status = "met"
     elif value >= target * 0.9:
@@ -33,12 +37,14 @@ def build_slo_dashboard(
     lifecycle_report: dict[str, Any],
     cost_report: dict[str, Any],
 ) -> dict[str, Any]:
+    """汇总核心 SLO，并给出整体 release gate 状态。"""
     golden_summary = golden_report.get("summary", {})
     lifecycle_summary = lifecycle_report.get("summary", {})
     cost_coverage = cost_report.get("pricing_coverage", {})
 
     fact_count = int(lifecycle_summary.get("fact_count") or 0)
     violation_count = int(lifecycle_summary.get("contract_violation_count") or 0)
+    # 没有事实时 contract_score 视为满分，避免空库初始化被误判。
     contract_score = 1.0 if fact_count == 0 else max(0.0, 1.0 - (violation_count / max(1, fact_count)))
     release_gate = str(golden_summary.get("release_gate") or "unknown")
 
@@ -74,6 +80,7 @@ def build_slo_dashboard(
     ]
     breached = [objective for objective in objectives if objective["status"] == "breached"]
     warnings = [objective for objective in objectives if objective["status"] == "warning"]
+    # overall_status 采用最严重目标状态，供前端/发布脚本一眼读取。
     return {
         "summary": {
             "objective_count": len(objectives),

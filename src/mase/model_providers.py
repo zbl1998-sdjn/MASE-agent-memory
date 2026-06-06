@@ -1,3 +1,8 @@
+"""Provider 协议 mixin：封装 Ollama、OpenAI-compatible、Anthropic-compatible 调用。
+
+本模块只负责把统一的 agent 配置翻译成各 provider 的请求/响应格式，并处理
+候选模型 fallback。HTTP client、重试参数和成本账本分别由其它 mixin 负责。
+"""
 from __future__ import annotations
 
 import os
@@ -13,9 +18,12 @@ from .health_tracker import get_tracker
 
 
 class ModelProviderMixin:
+    """为 `ModelInterface` 提供具体 provider 的调用实现。"""
+
     fallbacks: dict[str, Any]
 
     def _split_system_messages(self: Any, messages: list[dict[str, Any]]) -> tuple[str | None, list[dict[str, Any]]]:
+        """Anthropic API 单独传 system；这里把 system 消息从对话消息中拆出。"""
         system_parts: list[str] = []
         conversational: list[dict[str, Any]] = []
         for message in messages:
@@ -44,6 +52,7 @@ class ModelProviderMixin:
         max_tokens: int,
         tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
+        """调用本地 Ollama，并在瞬时连接错误时做有限重试。"""
         retry_count = max(1, int(self.fallbacks.get("ollama_retry_count", 6)))
         retry_delay = float(self.fallbacks.get("ollama_retry_delay", 3))
         last_error: Exception | None = None
@@ -79,6 +88,7 @@ class ModelProviderMixin:
         raise RuntimeError("模型调用失败，未返回结果。")
 
     def _resolve_ollama_keep_alive(self: Any, agent_config: dict[str, Any]) -> str | int | float | None:
+        """解析 keep_alive，环境变量优先，兼容数字和 Ollama 字符串格式。"""
         raw_value = os.environ.get("MASE_OLLAMA_KEEP_ALIVE")
         if raw_value is None or not str(raw_value).strip():
             raw_value = agent_config.get("keep_alive", self.fallbacks.get("ollama_keep_alive"))
@@ -96,6 +106,7 @@ class ModelProviderMixin:
         return text
 
     def _iter_model_candidates(self: Any, agent_config: dict[str, Any], primary_model: str) -> list[dict[str, Any]]:
+        """生成主模型、配置 fallback、全局本地 fallback 的有序候选列表。"""
         primary_config = deepcopy(agent_config)
         primary_config["model_name"] = primary_model
         primary_config.pop("fallback_models", None)
@@ -123,6 +134,7 @@ class ModelProviderMixin:
 
         if len(candidates) > 1:
             try:
+                # 健康追踪器按近期成功率/延迟排序候选；失败时保持配置顺序。
                 candidates = get_tracker().sort_candidates(candidates)
             except Exception:
                 pass
@@ -135,6 +147,7 @@ class ModelProviderMixin:
         model_name: str,
         endpoint: str,
     ) -> dict[str, Any]:
+        """把最终命中的 provider/model/endpoint 写回响应，供调用账本归因。"""
         response["resolved_agent"] = {
             "provider": agent_config.get("provider"),
             "model_name": model_name,
@@ -167,6 +180,11 @@ class ModelProviderMixin:
         max_tokens: int,
         tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
+        """调用 OpenAI-compatible chat/completions 接口。
+
+        每个候选模型内部先按重试策略处理瞬时错误；候选耗尽后才把最后一次错误
+        抛给上层。
+        """
         last_error: Exception | None = None
         tracker = get_tracker()
         for candidate_config in self._iter_model_candidates(agent_config, primary_model=model):
@@ -183,6 +201,8 @@ class ModelProviderMixin:
             if api_key:
                 headers[auth_header] = f"{auth_scheme} {api_key}".strip() if auth_scheme else api_key
 
+            # extra_body 允许兼容供应商私有字段，但统一入口仍固定 messages /
+            # temperature / max_tokens 这些基础形状。
             payload: dict[str, Any] = {
                 "model": candidate_model,
                 "messages": messages,
@@ -230,6 +250,7 @@ class ModelProviderMixin:
         max_tokens: int,
         tools: list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
+        """调用 Anthropic-compatible messages 接口，并复用候选 fallback 机制。"""
         system_prompt, conversational_messages = self._split_system_messages(messages)
         last_error: Exception | None = None
         tracker = get_tracker()
@@ -286,6 +307,8 @@ class ModelProviderMixin:
                         body_snippet = (error.response.text or "")[:240]
                     except Exception:
                         pass
+                    # HTTPStatusError 默认信息常缺 body；补一小段响应体帮助定位
+                    # 鉴权/限流/供应商错误，同时避免把整段响应写进日志。
                     enriched = httpx.HTTPStatusError(
                         f"{error} body={body_snippet}",
                         request=error.request,
@@ -322,6 +345,7 @@ class ModelProviderMixin:
         raise RuntimeError("Anthropic-compatible 调用失败，未返回结果。")
 
     def _resolve_api_key(self: Any, agent_config: dict[str, Any]) -> str | None:
+        """优先读取显式 api_key，其次读取 api_key_env 指向的环境变量。"""
         api_key = agent_config.get("api_key")
         if api_key:
             return str(api_key)
@@ -331,6 +355,7 @@ class ModelProviderMixin:
         return None
 
     def _resolve_openai_endpoint(self: Any, agent_config: dict[str, Any]) -> str:
+        """解析 OpenAI-compatible endpoint，允许 base_url 或完整 endpoint。"""
         endpoint = agent_config.get("endpoint")
         if endpoint:
             if str(endpoint).startswith("http"):
@@ -349,6 +374,7 @@ class ModelProviderMixin:
         return f"{normalized}/chat/completions"
 
     def _resolve_anthropic_endpoint(self: Any, agent_config: dict[str, Any]) -> str:
+        """解析 Anthropic-compatible endpoint，默认补 `/v1/messages`。"""
         endpoint = agent_config.get("endpoint")
         if endpoint:
             if str(endpoint).startswith("http"):
@@ -367,6 +393,7 @@ class ModelProviderMixin:
         return f"{normalized}/v1/messages"
 
     def _normalize_openai_message_content(self: Any, content: Any) -> str:
+        """把 OpenAI 多模态/分块 content 收敛为文本，供下游统一抽取答案。"""
         if isinstance(content, str):
             return content
         if isinstance(content, list):
@@ -387,6 +414,7 @@ class ModelProviderMixin:
         return str(content)
 
     def _normalize_openai_response(self: Any, data: dict[str, Any], fallback_model: str) -> dict[str, Any]:
+        """把 OpenAI-compatible 响应归一化成内部 message/usage/raw 结构。"""
         choices = data.get("choices") or []
         first_choice = choices[0] if choices else {}
         message = first_choice.get("message") or {}
@@ -404,6 +432,7 @@ class ModelProviderMixin:
         }
 
     def _normalize_anthropic_response(self: Any, data: dict[str, Any], fallback_model: str) -> dict[str, Any]:
+        """把 Anthropic content blocks 归一化成内部 message/usage/raw 结构。"""
         content_blocks = data.get("content") or []
         parts: list[str] = []
         if isinstance(content_blocks, list):

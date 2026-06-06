@@ -1,3 +1,5 @@
+// 前端契约中心：这里定义后端 UI/API 返回体的 TypeScript 影子类型。
+// 页面组件应复用这些类型，避免各页面各自猜字段形状。
 export type JsonValue =
   | string
   | number
@@ -8,23 +10,28 @@ export type JsonValue =
 
 export type JsonRecord = Record<string, JsonValue | undefined>;
 
+// Scope 是租户/工作区/可见性过滤边界。所有记忆读取、写入、审计和质量分析
+// 都必须通过 api.ts 的 compactScope/scopedBody 带上它。
 export type Scope = {
   tenant_id?: string;
   workspace_id?: string;
   visibility?: string;
 };
 
+// 后端 UI API 的统一 envelope；metadata 用于分页、过滤命中数或 warning。
 export type MaseResponse<T> = {
   object: string;
   data: T;
   metadata?: JsonRecord;
 };
 
+// OpenAI-compatible chat/completions 的最小消息形状。
 export type ChatMessage = {
   role: "system" | "user" | "assistant";
   content: string;
 };
 
+// 当前事实行的核心字段；后端可能附带更多审计字段，因此继续扩展 JsonRecord。
 export type MemoryFact = JsonRecord & {
   category?: string;
   entity_key?: string;
@@ -32,6 +39,7 @@ export type MemoryFact = JsonRecord & {
   updated_at?: string;
 };
 
+// 启动时加载的产品壳数据：导航文案、模型状态、只读/鉴权模式都从这里来。
 export type BootstrapData = {
   profile_templates: string[];
   models: Record<string, JsonRecord>;
@@ -47,12 +55,14 @@ export type BootstrapData = {
   };
 };
 
+// 图表统一点位。不同页面可使用 name 或 date，但数值字段统一为 value。
 export type ChartPoint = {
   name?: string;
   date?: string;
   value: number;
 };
 
+// Dashboard 是“记忆库存 + 活跃度 + 系统地图”的总览数据。
 export type DashboardData = {
   kpis: Record<string, number>;
   validation: JsonRecord;
@@ -72,6 +82,7 @@ export type DashboardData = {
   system_map: Array<{ name: string; status: string; description: string }>;
 };
 
+// Observability 汇总模型健康、事件总线指标、调用账本和可选成本中心摘要。
 export type ObservabilityData = {
   mode: JsonRecord & {
     read_only?: boolean;
@@ -94,6 +105,7 @@ export type ObservabilityData = {
   cost_center?: CostSummaryData;
 };
 
+// Cost center 三组契约：价格目录、聚合账本、路由/审批状态。
 export type CostPricingData = {
   catalog: JsonRecord[];
   budget_rules: JsonRecord[];
@@ -142,6 +154,7 @@ export type CostRoutingData = {
   routes: JsonRecord[];
 };
 
+// 审计/隐私/生命周期/质量页面的输入输出类型。
 export type AuditFilters = {
   actor_id?: string;
   action?: string;
@@ -229,6 +242,7 @@ export type WhyNotRememberedData = {
   recommended_actions: string[];
 };
 
+// 可靠性工作台：重放、金丝雀、SLO、漂移、事件和修复链路。
 export type SyntheticReplayData = {
   scope: Scope;
   summary: JsonRecord & {
@@ -351,6 +365,7 @@ export type RepairCaseExecutionData = {
   execution: JsonRecord;
 };
 
+// Trace 列表筛选与摘要。摘要必须足够轻，详情页再读取完整 trace JSON。
 export type TraceFilters = {
   route_action?: string;
   component?: string;
@@ -384,6 +399,7 @@ export type TraceDetailData = {
   trace: JsonRecord;
 };
 
+// 导航 key 是 App.tsx 与 i18n.ts 的共享契约；新增页面必须同步更新三处。
 export type NavKey =
   | "dashboard"
   | "observability"

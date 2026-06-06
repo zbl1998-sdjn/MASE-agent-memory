@@ -73,11 +73,10 @@ Documentation = "https://github.com/zbl1998-sdjn/MASE#readme"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-# -------- Hatch build (src/mase/ + legacy root shims) --------
+# -------- Hatch 构建：src/mase 主包 + 根目录兼容 shim --------
 [tool.hatch.build.targets.wheel]
-# `mase` lives under src/. Root-level shim modules (executor.py, router.py, …)
-# remain at project root for backward-compat imports and are packaged via
-# `include`. See plan.md "src/mase/ 激进迁移（零破坏）".
+# 真实代码位于 src/mase。根目录 executor.py / router.py 等 shim 只为旧导入路径
+# 保持兼容，因此通过 include 打进 wheel，但新逻辑不应继续写进这些根目录文件。
 packages = ["src/mase", "mase_tools", "benchmarks"]
 include = [
     "executor.py",
@@ -97,7 +96,7 @@ include = [
 [tool.hatch.build.targets.wheel.sources]
 "src/mase" = "mase"
 
-# -------- Ruff --------
+# -------- Ruff：静态错误与低风险自动修复 --------
 [tool.ruff]
 line-length = 120
 target-version = "py310"
@@ -114,42 +113,41 @@ extend-exclude = [
 ]
 
 [tool.ruff.lint]
-# F = pyflakes (unused/undefined), B = bugbear (real bugs), E9 = syntax errors,
-# BLE = blind except, TRY = try/except anti-patterns, I = import sorting, UP = pyupgrade.
+# F=未使用/未定义，B=bugbear 真实风险，E9=语法错误，BLE=宽泛 except，
+# TRY=try/except 反模式，I=导入排序，UP=pyupgrade。
 select = ["F", "B", "E9", "BLE", "TRY003", "TRY004", "TRY201", "I", "UP"]
-# E501 (line-too-long) intentionally not selected: Chinese benchmark prompts inflate column width.
+# E501 故意不启用：中文 benchmark prompt 和证据文本会天然拉长列宽。
 ignore = [
-    "B008",   # function call in default argument (common pytest/FastAPI pattern)
-    "B904",   # already fixed in langgraph_orchestrator; relax for existing code paths
-    "TRY003", # long messages inside raise ...
-    "UP007",  # Optional[X] vs X | None — keep tolerant
+    "B008",   # 默认参数里调用函数：pytest/FastAPI 现有模式中较常见
+    "B904",   # langgraph_orchestrator 已修主要链路；对历史代码保持宽松
+    "TRY003", # raise 中保留长说明文本，便于用户定位配置/模型问题
+    "UP007",  # Optional[X] 与 X | None 暂时并存，降低迁移噪声
 ]
 
 [tool.ruff.lint.per-file-ignores]
-# Chinese-heavy benchmark case fixtures get a pass on everything style-related.
+# 中文密集 benchmark fixture 不用样式规则阻断。
 "benchmarks/benchmark_cases.py" = ["E", "W"]
-# Benchmark adapters & runner wrap foreign dataset parsers; broad guards are intentional.
+# benchmark 适配器包裹外部数据集解析器，宽泛捕获是隔离失败的边界。
 "benchmarks/**" = ["BLE001"]
-# Runtime safety-nets that must never let an LLM/infra exception crash the agent.
+# 运行时安全网：LLM / infra 异常不应直接打崩 agent 主流程。
 "executor.py" = ["BLE001"]
 "mase_tools/memory/gc_agent.py" = ["BLE001"]
-"src/mase/engine.py" = ["BLE001"]                # MASESystem must never crash on background-task or migration errors
-"src/mase/model_interface.py" = ["BLE001"]       # LLM client wrapper: every network/parse path is guarded
-"src/mase/model_providers.py" = ["BLE001"]       # LLM provider wrapper: every network/parse path is guarded
-"src/mase/hybrid_recall.py" = ["BLE001"]         # retrieval fallback chain: degrade gracefully, never raise
-"src/mase/multipass_retrieval.py" = ["BLE001", "B905"]  # multi-query fan-out + zip pairing
-"src/mase/notetaker_agent.py" = ["BLE001"]       # tool-call parsing must tolerate malformed LLM output
-"src/mase/structured_log.py" = ["BLE001"]        # logging path: writes must never throw
+"src/mase/engine.py" = ["BLE001"]                # 后台任务/迁移错误不能打崩 MASESystem
+"src/mase/model_interface.py" = ["BLE001"]       # LLM 客户端门面：网络/解析路径全部安全兜底
+"src/mase/model_providers.py" = ["BLE001"]       # provider 协议层：网络/解析路径全部安全兜底
+"src/mase/hybrid_recall.py" = ["BLE001"]         # 召回 fallback 链路应降级返回，而不是抛穿主流程
+"src/mase/multipass_retrieval.py" = ["BLE001", "B905"]  # 多路查询 fan-out 与 zip 配对需要保留
+"src/mase/notetaker_agent.py" = ["BLE001"]       # tool-call 解析必须容忍畸形 LLM 输出
+"src/mase/structured_log.py" = ["BLE001"]        # 日志写入失败不能影响主流程
 "src/mase/fact_sheet.py" = ["BLE001"]
-"src/mase/metrics.py" = ["BLE001", "UP031"]      # numeric formatting kept as %.2f%% for human readability
-"tests/**" = ["BLE001", "B017", "I001"]   # tests frequently catch broadly on purpose; import order tolerated
-"scripts/**" = ["BLE001", "B905", "B007", "I001"]   # entry/diagnostic scripts: zip pairing & loop vars are intentional
-# TODO(benchmarks/runner.py:678 — resolved): `baseline_infra_error` is now
-# persisted into attempt_rows; retry semantics unchanged. Still ignoring BLE001
-# for this file (intentional broad catches around benchmark adapters).
+"src/mase/metrics.py" = ["BLE001", "UP031"]      # %.2f%% 写法更贴近人工读数
+"tests/**" = ["BLE001", "B017", "I001"]   # 测试常刻意宽泛捕获；导入顺序不作为阻断项
+"scripts/**" = ["BLE001", "B905", "B007", "I001"]   # 入口/诊断脚本允许 zip 配对和未用循环变量
+# benchmarks/runner.py 仍保留 BLE001：这里包裹外部 benchmark adapter，失败要落到
+# attempt_rows 和 infra_error，而不是中断整个批次。
 "benchmarks/runner.py" = ["BLE001"]
 
-# -------- Mypy (gradual typing, opt-in per module) --------
+# -------- Mypy：渐进类型检查，先覆盖稳定门面 --------
 [tool.mypy]
 python_version = "3.10"
 files = ["executor.py", "planner_agent.py", "router.py", "model_interface.py", "protocol.py"]
@@ -157,14 +155,14 @@ check_untyped_defs = true
 warn_unused_ignores = true
 warn_redundant_casts = true
 ignore_missing_imports = true
-# These modules have full type hints; enable strictness progressively for the rest.
+# 这些模块已有较完整类型标注；其余模块继续分批纳入。
 exclude = "(legacy_archive|run_artifacts|dist|build|benchmarks/external-benchmarks)"
 
 [[tool.mypy.overrides]]
 module = ["legacy_archive.*"]
 follow_imports = "skip"
 
-# -------- Pytest --------
+# -------- Pytest：默认只收集 tests/，慢测/集成测用 marker 分离 --------
 [tool.pytest.ini_options]
 minversion = "8.0"
 pythonpath = [".", "src"]

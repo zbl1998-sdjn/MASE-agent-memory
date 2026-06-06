@@ -1,9 +1,12 @@
-"""MASESystem orchestrator — coordinates router/notetaker/planner/executor.
+"""MASESystem 编排器：串起 router / notetaker / planner / executor。
 
-This module deliberately does NOT contain fact-sheet construction logic,
-mode-selection rules, or marker tables.  Those live in dedicated modules so
-new agent kinds (math/code/multimodal) can be added by writing a new
-helper module + registering an agent, without editing this orchestrator.
+本模块只保留生命周期、依赖装配、运行 trace 和最终问答主流程。事实表构建、
+模式选择、长上下文规则、答案归一化等逻辑必须继续留在专门模块中，避免
+编排层重新膨胀成上帝类。
+
+依赖方向：
+`engine` 调用 agent、mode、fact-sheet、trace 等下层能力；下层模块不应反向
+持有 `MASESystem`，新增 math/code/multimodal agent 时应通过注册表接入。
 """
 from __future__ import annotations
 
@@ -43,13 +46,16 @@ from .trace_recorder import build_trace_steps, record_trace_payload
 
 
 class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
-    """Top-level façade for one MASE benchmark/runtime instance."""
+    """单个 MASE 运行实例的顶层门面。
+
+    实例级状态只保存配置、模型接口、agent 实例和后台 GC 线程。真正的检索、
+    事实表压缩、执行器协作与答案抽取由 mixin 或独立模块承担。
+    """
 
     def __init__(self, config_path: str | Path | None = None) -> None:
         self.config_path = resolve_config_path(config_path)
-        # Validate config early, but never crash on soft issues — warnings
-        # surface via the event bus where the structured logger / metrics
-        # can pick them up.
+        # 启动时尽早校验配置；软问题只发事件，不中断本地 benchmark / runtime。
+        # 结构化日志和指标订阅 event bus 后可以统一收集这些告警。
         validate_config_path(self.config_path, strict=False, emit_events=True)
         if os.environ.get("MASE_STRUCTURED_LOG"):
             from .structured_log import configure as _configure_structured_log
@@ -61,12 +67,11 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         self.router_agent = self._agents["router"]
         self.planner_agent = self._agents["planner"]
         self.notetaker_agent = self._agents["notetaker"]
-        # Tracks live MASE_GC_AUTO daemon threads so callers (CLI exit handler,
-        # FastAPI shutdown hook) can join them before the process dies and the
-        # OS reaps daemon threads mid-LLM-request.
+        # 记录 MASE_GC_AUTO 产生的后台线程，CLI 退出或 FastAPI shutdown 时可显式
+        # join，避免 daemon 线程在 LLM 请求中途被进程回收。
         self._gc_threads: list[threading.Thread] = []
-        # atexit lets every CLI / example / integration get safe GC drain for
-        # free; the timeout caps user-visible "hang" at 8s for slow LLMs.
+        # atexit 为 CLI、示例和集成默认提供安全 drain；超时限制避免慢模型让退出
+        # 长时间卡住。
         atexit.register(self._atexit_drain)
 
     def _atexit_drain(self) -> None:
@@ -118,6 +123,11 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         log: bool = True,
         forced_route: dict[str, Any] | None = None,
     ) -> OrchestrationTrace:
+        """执行一次完整问答并返回可审计 trace。
+
+        主流程顺序固定为 route -> retrieve -> fact sheet -> plan -> execute ->
+        record/log。每个阶段只协调下层模块，不直接内联复杂规则。
+        """
         bus = get_bus()
         trace_id = uuid.uuid4().hex
         model_call_start_index = len(self.model_interface.get_call_log())
@@ -131,8 +141,8 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
             route_payload = routed_payload
         action = str(route_payload.get("action") or "direct_answer")
         keywords = [str(item) for item in (route_payload.get("keywords") or []) if str(item).strip()]
-        # Long-memory benchmarks always need memory; the tiny router sometimes
-        # mis-routes preference / temporal / multi-session questions to direct_answer.
+        # 长记忆 benchmark 必须走记忆链路；小 router 偶尔会把偏好、时间线、多会话
+        # 问题误判成 direct_answer，这里做最后一道保守纠偏。
         if (is_long_memory() or is_long_context_qa()) and action != "search_memory":
             action = "search_memory"
             if not keywords:
@@ -149,6 +159,8 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         notetaker_mode = "none"
         retrieval_plan = None
         if route.action == "search_memory":
+            # 检索预算由任务类型决定，再交给 problem_classifier 做二次收敛。
+            # 这样长文 QA、LongMemEval、多文档场景可以共享入口但保留不同召回宽度。
             memory_heat = determine_memory_heat(user_question)
             if is_multidoc_long_context():
                 search_limit = max(15, long_context_search_limit(default=15))
@@ -173,6 +185,9 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
             try:
                 from .multipass_retrieval import is_enabled as _mp_enabled
                 from .multipass_retrieval import multipass_search as _mp_search
+
+                # multipass 是召回增强，不是强制路径；只有返回量足够接近原检索时才
+                # 替换，避免一次异常扩展把稳定召回结果覆盖掉。
                 if (retrieval_plan.use_multipass or multipass_allowed_for_task()) and _mp_enabled():
                     mp_rows = _mp_search(
                         self.notetaker_agent,
@@ -195,6 +210,8 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
                 trace_id=trace_id,
             )
             if is_long_memory():
+                # LongMemEval 类任务需要完整时间线事实表。优先命中的行只作为
+                # fact-sheet 构建时的高亮线索，不截断全量 chronological haystack。
                 priority_ids = {int(r.get("id") or 0) for r in search_results if r.get("id") is not None}
                 all_rows = self.notetaker_agent.fetch_all_chronological()
                 fact_sheet = build_long_memory_full_fact_sheet(
@@ -216,6 +233,7 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
             )
         executor_mode = select_executor_mode(user_question, fact_sheet)
         if use_deterministic_fact_sheet():
+            # 确定性事实表模式用于 benchmark 对照；避免 planner LLM 额外噪声。
             planner = self._heuristic_plan(executor_mode, user_question, fact_sheet)
         else:
             planner = self._build_planner_snapshot(
@@ -227,19 +245,17 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         if is_long_memory():
             collaboration_mode = "off"
             if local_only_models_enabled():
-                # Local small models benefit from the planner/workspace hints.
-                # Keep the instruction package, but preserve the conservative
-                # collaboration policy to avoid adding extra LLM hops by default.
+                # 本地小模型通常受益于 planner/workspace 提示，但默认仍少走额外 LLM
+                # hop；只在问题类型路由明确允许时开启 split。
                 if lme_qtype_routing_enabled() and lme_question_type() in {"single-session-preference", "multi-session"}:
                     collaboration_mode = "split"
             else:
-                # Long-memory cloud executor reads the full chronological
-                # haystack itself; the heuristic planner / reasoning workspace
-                # adds noise there.
+                # 云端长记忆 executor 直接读取完整 chronological haystack；启发式
+                # planner / reasoning workspace 在该链路上反而可能引入噪声。
                 instruction_package = ""
                 if lme_qtype_routing_enabled() and lme_question_type() in {"single-session-preference", "multi-session"}:
                     collaboration_mode = "split"
-                # Iter2 escape hatch: env-gated verifier for LME (default off → backward compatible).
+                # Iter2 逃生阀：仅环境变量显式开启 LME verifier，默认保持兼容。
                 elif str(os.environ.get("MASE_LME_VERIFY") or "").strip() in {"1", "true", "yes"}:
                     collaboration_mode = "verify"
         executor_target = self.describe_executor_target(
@@ -272,6 +288,8 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
             trace_id=trace_id,
         )
         model_calls = self.model_interface.get_call_log()[model_call_start_index:]
+        # evidence_assessment 是 trace 的“证据包”：记录路由、检索、模型调用、成本
+        # 和工作区判断，便于之后复盘一次回答是否真的由记忆支持。
         evidence_assessment = {
             "router_observed": routed_payload,
             "notetaker_mode": notetaker_mode,
@@ -302,6 +320,7 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         )
         record_path = ""
         try:
+            # Trace 记录是可观测性增强，失败时不能影响主问答结果。
             record_path = record_trace_payload(
                 user_question=user_question,
                 route=route,
@@ -327,10 +346,9 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
                 topic_tokens=thread.topic_tokens,
                 metadata={"source": "runtime"},
             )
-            # MASE_GC_AUTO=1 fires the entity-state fact extractor in a daemon
-            # thread after each write so memory_log → entity_state upserts
-            # happen without manual cron jobs. Default OFF to preserve the
-            # benchmark baseline (LLM call per write would be a cost regression).
+            # MASE_GC_AUTO=1 在写入后异步触发 entity-state fact extractor，让
+            # memory_log -> entity_state 的派生索引无需 cron。默认关闭，避免每次
+            # benchmark 写入都多一次 LLM 调用并污染成本/速度基线。
             if os.environ.get("MASE_GC_AUTO", "0").strip().lower() in {"1", "true", "on", "yes"}:
                 try:
                     gc_limit = int(os.environ.get("MASE_GC_LIMIT", "5"))
@@ -342,20 +360,19 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
                         from mase_tools.memory.gc_agent import run_gc
                         run_gc(limit=limit)
                     except Exception:
-                        # Best-effort; entity_state is a derived index, the
-                        # primary memory_log write has already committed.
+                        # entity_state 是派生索引；主 memory_log 已提交，GC 失败不能
+                        # 反向破坏主写入。
                         pass
 
-                # Track the daemon so callers (CLI exit, FastAPI shutdown) can
-                # join it before the process dies — otherwise daemon=True would
-                # let the OS reap the GC mid-LLM-request, making auto-GC a ghost.
+                # 记录 daemon，退出时可 join；否则 daemon=True 可能让 OS 在 LLM 请求
+                # 中途回收线程，使 auto-GC 看似启动但没有可靠完成。
                 self._gc_threads = [t for t in self._gc_threads if t.is_alive()]
                 _t = threading.Thread(target=_gc_worker, daemon=True, name="mase-gc-auto")
                 _t.start()
                 self._gc_threads.append(_t)
-            # Human-readable audit trail (SQLite + Markdown 双白盒).
-            # Default ON for runtime; benchmarks should set MASE_AUDIT_MARKDOWN=0
-            # (or MASE_BENCHMARK_MODE=1) to keep user-facing logs clean.
+            # 人类可读审计轨迹（SQLite + Markdown 双白盒）。runtime 默认开启；
+            # benchmark 应设置 MASE_AUDIT_MARKDOWN=0 或 MASE_BENCHMARK_MODE=1，
+            # 避免把评测样本写进面向用户的日志。
             audit_flag = os.environ.get("MASE_AUDIT_MARKDOWN", "1").strip().lower()
             bench_flag = os.environ.get("MASE_BENCHMARK_MODE", "0").strip().lower()
             if audit_flag not in {"0", "false", "off", "no"} and bench_flag not in {"1", "true", "on", "yes"}:

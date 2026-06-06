@@ -1,3 +1,9 @@
+"""HTTP 客户端与重试参数 mixin。
+
+该模块集中处理 provider 调用前的网络基础设施：Ollama 健康探测、httpx
+连接池复用、超时配置、重试退避和抖动。provider 协议本身留在
+`model_providers.py`，避免网络参数散落在各个模型调用函数中。
+"""
 from __future__ import annotations
 
 import json
@@ -9,10 +15,13 @@ import httpx
 
 
 class ModelHTTPMixin:
+    """为 `ModelInterface` 提供 HTTP client 生命周期与网络容错能力。"""
+
     fallbacks: dict[str, Any]
     _http_clients: dict[str, httpx.Client]
 
     def _is_transient_ollama_error(self, error: Exception) -> bool:
+        """识别 Ollama 常见瞬时连接错误，支持中英文 Windows 错误消息。"""
         message = str(error)
         markers = [
             "ConnectionError",
@@ -35,11 +44,13 @@ class ModelHTTPMixin:
         return any(marker in message for marker in markers)
 
     def _is_transient_openai_error(self, error: Exception) -> bool:
+        """识别 OpenAI-compatible / Anthropic-compatible 可重试错误。"""
         if isinstance(error, httpx.HTTPStatusError):
             return error.response.status_code in {408, 409, 429, 500, 502, 503, 504}
         return isinstance(error, httpx.TimeoutException | httpx.NetworkError | httpx.RemoteProtocolError)
 
     def _resolve_ollama_base_url(self) -> str:
+        """解析 Ollama 地址；允许用户只写 host:port，最终统一成 URL。"""
         import os
 
         raw_host = str(
@@ -62,6 +73,7 @@ class ModelHTTPMixin:
             return False
 
     def _wait_for_ollama_ready(self) -> bool:
+        """轮询 Ollama 健康状态，用于本地模型短暂重启后的自动恢复。"""
         timeout_seconds = float(self.fallbacks.get("ollama_healthcheck_timeout", 20))
         poll_interval = float(self.fallbacks.get("ollama_healthcheck_poll_interval", 1.5))
         probe_timeout = float(self.fallbacks.get("ollama_healthcheck_probe_timeout", 3))
@@ -73,6 +85,7 @@ class ModelHTTPMixin:
         return False
 
     def _resolve_http_timeout_settings(self, agent_config: dict[str, Any]) -> dict[str, float]:
+        """解析超时配置，优先级为 agent.timeout -> agent 顶层字段 -> fallbacks。"""
         timeout_config = agent_config.get("timeout")
         config = timeout_config if isinstance(timeout_config, dict) else {}
         overall = float(
@@ -117,6 +130,7 @@ class ModelHTTPMixin:
         }
 
     def _resolve_http_limits_settings(self, agent_config: dict[str, Any]) -> dict[str, float]:
+        """解析连接池限制，确保高并发云调用不会无限扩张连接数。"""
         limits_config = agent_config.get("pool_limits")
         config = limits_config if isinstance(limits_config, dict) else {}
         max_connections = int(
@@ -147,6 +161,11 @@ class ModelHTTPMixin:
         }
 
     def _get_http_client(self, agent_config: dict[str, Any]) -> httpx.Client:
+        """按 timeout / limits / http2 复用 httpx.Client。
+
+        相同网络配置共享连接池；配置变更后自然生成新的 key，`reload()` 会关闭旧
+        client，避免连接池配置与当前配置不一致。
+        """
         timeout_settings = self._resolve_http_timeout_settings(agent_config)
         limits_settings = self._resolve_http_limits_settings(agent_config)
         http2 = bool(agent_config.get("http2", self.fallbacks.get("cloud_http2", False)))
@@ -179,6 +198,7 @@ class ModelHTTPMixin:
         return client
 
     def _resolve_http_retry_settings(self, agent_config: dict[str, Any]) -> dict[str, float]:
+        """解析重试参数，兼容旧的 openai_* fallback 字段。"""
         retry_count = int(agent_config.get("retry_count", self.fallbacks.get("cloud_retry_count", self.fallbacks.get("openai_retry_count", 3))))
         retry_base_delay = float(
             agent_config.get(
@@ -200,6 +220,7 @@ class ModelHTTPMixin:
         }
 
     def _compute_retry_delay(self, attempt: int, retry_settings: dict[str, float]) -> float:
+        """指数退避 + 随机抖动，避免多个请求在限流后同时重试。"""
         base_delay = retry_settings["retry_base_delay"] * (
             retry_settings["retry_backoff_multiplier"] ** max(0, attempt - 1)
         )

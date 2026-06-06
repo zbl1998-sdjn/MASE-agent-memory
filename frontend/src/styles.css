@@ -1,7 +1,7 @@
 /* ============================================================
- * MASE Console — Anthropic-inspired design system
+ * MASE Console 设计系统：低噪声、可审计、偏工作台风格
  *
- * Palette / type extracted from anthropic.com (computed CSS):
+ * 色彩/字体参考 anthropic.com 的 computed CSS：
  *   --paper  #FAF9F5   --ink   #141413   --coral #D97757
  *   --sand-1 #F0EEE6   --sand-2 #E3DACC  --rock  #3D3D3A
  *   body : "Anthropic Serif" / Source Serif Pro / Georgia
@@ -11,7 +11,7 @@
 :root {
   color-scheme: light;
 
-  /* Palette */
+  /* 基础色板：纸面、墨色、边框与低饱和中性色。 */
   --paper: #faf9f5;
   --paper-soft: #f7f5ef;
   --sand-1: #f0eee6;
@@ -24,31 +24,31 @@
   --line: rgba(20, 20, 19, 0.10);
   --line-strong: rgba(20, 20, 19, 0.18);
 
-  /* Brand accent */
+  /* 品牌强调色：只用于主操作、焦点和少量高亮。 */
   --coral: #d97757;
   --coral-strong: #c6613f;
   --coral-soft: #f5d9c9;
   --coral-tint: #fbede4;
 
-  /* Semantics */
+  /* 语义色：状态提示，不作为大面积背景主题。 */
   --ok: #5a8a55;
   --warn: #c08a2a;
   --danger: #b53a3a;
   --info: #4b6b9b;
 
-  /* Geometry */
+  /* 圆角尺度：页面保持克制，避免运营工具卡片过度圆润。 */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
   --radius-2xl: 28px;
 
-  /* Shadows — very soft, paper-like */
+  /* 阴影：纸面式弱阴影，只表达层级，不做强装饰。 */
   --shadow-xs: 0 1px 2px rgba(20, 20, 19, 0.04);
   --shadow-card: 0 1px 2px rgba(20, 20, 19, 0.04), 0 8px 24px -16px rgba(20, 20, 19, 0.10);
   --shadow-hover: 0 1px 2px rgba(20, 20, 19, 0.05), 0 14px 36px -18px rgba(20, 20, 19, 0.18);
 
-  /* Typography stacks */
+  /* 字体栈：正文偏 serif，控件偏 sans，中文字体作为后备。 */
   --serif: "Anthropic Serif", "Source Serif Pro", "Source Serif 4", "Tiempos Text", "Iowan Old Style", "Apple Garamond", "Baskerville", "Georgia", "Times New Roman", "Songti SC", "Noto Serif SC", serif;
   --sans:  "Anthropic Sans", "Styrene B", "Inter", "PingFang SC", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
@@ -78,7 +78,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Soft hatched paper texture (very subtle) */
+/* 极轻的纸面纹理，只增强质感，不参与信息表达。 */
 body::before {
   content: "";
   position: fixed;
@@ -94,7 +94,7 @@ a { color: inherit; text-decoration: none; }
 
 button, input, select, textarea { font: inherit; }
 
-/* === Buttons ============================================== */
+/* === 按钮 ================================================== */
 button {
   border: 1px solid transparent;
   border-radius: 12px;
@@ -147,7 +147,7 @@ button:disabled {
   transform: none;
 }
 
-/* === Inputs ============================================== */
+/* === 表单输入 ============================================== */
 input, select, textarea {
   width: 100%;
   border: 1px solid var(--line-strong);
@@ -183,13 +183,13 @@ label {
   text-transform: uppercase;
 }
 
-/* === Numerals ============================================== */
+/* === 数字排版：表格和指标使用等宽数字 ===================== */
 .num {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "lnum" 1;
 }
 
-/* === App shell ============================================== */
+/* === 应用外壳：固定侧栏 + 主内容区 ======================== */
 .app-shell {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
@@ -329,7 +329,7 @@ label {
   100% { transform: scale(1.6);  opacity: 0;    }
 }
 
-/* === Nav ============================================== */
+/* === 导航：分组、索引和当前页高亮 ========================= */
 nav.nav-stack {
   display: grid;
   gap: 1rem;
@@ -447,7 +447,7 @@ main {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* === Banners ============================================== */
+/* === 横幅与治理告警 ======================================= */
 .mode-banner,
 .cost-warning {
   border: 1px solid rgba(192, 138, 42, 0.32);
@@ -497,7 +497,7 @@ main {
 .scope-guard.partial,
 .scope-guard.global { border-color: rgba(192, 138, 42, 0.4); }
 
-/* === Topbar ============================================== */
+/* === 顶栏：当前页面标题、语言切换和 scope 控件 ============ */
 .topbar {
   display: grid;
   grid-template-columns: minmax(280px, 0.78fr) minmax(360px, 1fr);
@@ -604,7 +604,7 @@ main {
   flex: 1;
 }
 
-/* === Layout grids ============================================== */
+/* === 布局网格 ============================================= */
 .grid { display: grid; gap: 1rem; }
 .grid.two   { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -612,7 +612,7 @@ main {
 .stack,
 .stack-form { display: grid; gap: 1.1rem; }
 
-/* === Cards ============================================== */
+/* === 卡片容器：数据面板与工具面板 ========================= */
 .card,
 .glass-card,
 .hero-panel {
@@ -660,7 +660,7 @@ main {
   line-height: 1.45;
 }
 
-/* === Hero panel ============================================== */
+/* === Hero 面板：产品态总览，不做营销落地页 ================ */
 .hero-panel {
   position: relative;
   overflow: hidden;
@@ -777,7 +777,7 @@ main {
   align-content: center;
 }
 
-/* === Stat grid + cards ============================================== */
+/* === 指标网格与统计卡片 ================================== */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -844,7 +844,7 @@ main {
 .stat-card.green::before  { background: var(--ok); }
 .stat-card.amber::before  { background: var(--warn); }
 
-/* === Charts ============================================== */
+/* === 图表容器 ============================================= */
 .bar-chart { display: grid; gap: 0.55rem; }
 
 .bar-row {
@@ -901,7 +901,7 @@ main {
   background: linear-gradient(180deg, var(--coral), var(--coral-soft));
 }
 
-/* === Donut ============================================== */
+/* === 环形图 =============================================== */
 .donut-stat {
   position: relative;
   display: grid;
@@ -941,7 +941,7 @@ main {
   text-transform: uppercase;
 }
 
-/* === System map / feature grid ============================================== */
+/* === 系统地图 / 功能网格 ================================= */
 .system-map,
 .feature-grid {
   display: grid;
@@ -998,7 +998,7 @@ main {
   line-height: 1.45;
 }
 
-/* === Misc ============================================== */
+/* === 通用小组件 =========================================== */
 .debug-panel {
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -1061,7 +1061,7 @@ main {
   letter-spacing: 0.01em;
 }
 
-/* === Tables ============================================== */
+/* === 表格：审计、trace、成本和记忆列表 =================== */
 .table-wrap {
   overflow: auto;
   max-height: 480px;
@@ -1255,7 +1255,7 @@ tr.selected td { background: var(--coral-tint); }
 .status.error   { color: var(--danger); }
 .status.success { color: var(--ok); }
 
-/* === Responsive ============================================== */
+/* === 响应式：窄屏退化为单列 ============================== */
 @media (max-width: 1100px) {
   .app-shell { grid-template-columns: 1fr; }
   .topbar,

@@ -1,9 +1,8 @@
-"""Mode-selection helpers driven by environment + question content.
+"""由环境变量和问题内容共同驱动的模式选择器。
 
-Centralises the routing-style decisions: what kind of long-context task is
-this?  Which executor mode answers it best?  Which notetaker compression
-profile to use?  Adding a new task family means editing one tiny module
-instead of grepping a 1000-line god class.
+本模块集中承载“路由式”决策：当前是不是长上下文/长记忆任务、应当使用
+哪个执行器模式、Notetaker 采用哪类压缩画像。新增任务族时优先改这里，
+避免把分支继续塞回编排器形成上帝类。
 """
 from __future__ import annotations
 
@@ -21,7 +20,7 @@ from .markers import (
 from .topic_threads import ENGLISH_RECALL_MARKERS, RECALL_MARKERS, detect_text_language
 
 
-# ---- Task-context probes (env-driven) ----
+# ---- 任务上下文探针：只读环境变量，不反向依赖编排器 ----
 def current_task_type() -> str:
     return str(os.environ.get("MASE_TASK_TYPE") or "").strip().lower()
 
@@ -43,11 +42,10 @@ def lveval_dataset() -> str:
 
 
 def long_context_length_bucket() -> str:
-    """Return the length suffix of the active LV-Eval dataset, e.g. ``256k``.
+    """返回当前 LV-Eval 数据集长度后缀，例如 ``256k``。
 
-    Falls back to ``""`` when there is no dataset env or the suffix cannot
-    be parsed.  Used to tune ``search_limit`` and fact-sheet window radius
-    so long haystacks (128k+) don't starve retrieval.
+    数据集环境变量缺失或无法解析时返回空串。编排层用这个桶调大检索数量
+    和 fact-sheet 窗口半径，避免 128k+ 长干草堆把召回饿死。
     """
     ds = lveval_dataset()
     if not ds:
@@ -81,16 +79,15 @@ def long_context_window_radius(default: int = 220) -> int:
 
 
 def multipass_allowed_for_task() -> bool:
-    """Return True when the current task type can benefit from multipass retrieval.
+    """判断当前任务族是否适合启用多轮检索。
 
-    Acts as the *task-level* gate inside the engine.  The caller is still
-    responsible for checking ``MASE_MULTIPASS=1`` via
-    ``multipass_retrieval.is_enabled()`` — this function only answers "is this
-    a task family where multipass is architecturally appropriate?".
+    这是引擎里的“任务级”门禁。调用方仍需通过
+    ``multipass_retrieval.is_enabled()`` 检查 ``MASE_MULTIPASS=1``；这里
+    只回答“该任务族在架构上是否应该进入 multipass”。
 
-    Covers ``long_context_qa`` (LV-Eval EN/ZH) and ``long_memory`` (LME) tasks;
-    casual conversation is excluded so a stray MASE_MULTIPASS env var in the
-    caller process cannot accidentally trigger the heavyweight pipeline.
+    允许范围限定为 ``long_context_qa``（LV-Eval 中英文）和
+    ``long_memory``（LME）。普通闲聊被排除，避免调用进程里残留的
+    MASE_MULTIPASS 环境变量误触发重型流水线。
     """
     return is_long_context_qa() or is_long_memory()
 
@@ -112,6 +109,7 @@ def is_multidoc_long_context() -> bool:
 
 
 def local_only_models_enabled() -> bool:
+    # 长记忆官方/本地复现实验可强制只走本地模型，避免云模型审批与成本噪声。
     raw = (
         os.environ.get("MASE_LOCAL_ONLY")
         or os.environ.get("MASE_LONG_MEMORY_LOCAL_ONLY")
@@ -126,11 +124,12 @@ def local_only_models_enabled() -> bool:
 
 
 def prefer_stable_local_temporal_executor() -> bool:
+    # temporal-reasoning 默认走稳定本地执行器；只有显式开关才切深度推理模型。
     raw = os.environ.get("MASE_LONG_MEMORY_TEMPORAL_DEEPREASON") or os.environ.get("MASE_LME_TEMPORAL_DEEPREASON") or ""
     return str(raw).strip().lower() not in {"1", "true", "yes"}
 
 
-# ---- Heat / mode selection ----
+# ---- 记忆热度与模式选择：返回字符串模式名，由 model_providers 解析 ----
 def determine_memory_heat(user_question: str) -> str:
     lowered = str(user_question or "").lower()
     if contains_any(lowered, ZH_HOT_MEMORY_MARKERS + EN_HOT_MEMORY_MARKERS):
@@ -146,6 +145,7 @@ def benchmark_profile() -> str:
 
 def task_profile() -> str:
     raw = str(os.environ.get("MASE_TASK_PROFILE") or benchmark_profile()).strip().lower()
+    # 历史脚本沿用 nolima_wrapper 命名，内部统一映射成候选证据画像。
     aliases = {
         "nolima_wrapper": "candidate_evidence",
         "nolima_wrapper_extract": "candidate_evidence_extract",
@@ -173,6 +173,7 @@ def long_memory_retry_enabled() -> bool:
 
 
 def select_notetaker_mode(user_question: str, memory_heat: str) -> str:
+    # 英文长记忆基准需要事实卡压缩；中文则按冷热记忆选择操作画像。
     language = detect_text_language(user_question)
     if language == "en":
         return "english_fact_card_ops"
@@ -184,11 +185,13 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
     if not fact_sheet.strip() or fact_sheet.strip() == "无相关记忆。":
         return "general_answer_reasoning"
     profile = task_profile()
+    # 候选证据画像用于 NoLiMa/长上下文抽取任务，保持和 fact-sheet 渲染约定一致。
     if profile == "candidate_evidence":
         return "grounded_nolima_main_english" if language == "en" else "grounded_answer"
     if profile == "candidate_evidence_extract":
         return "grounded_long_context_nolima_english" if language == "en" else "grounded_long_context"
     if is_long_context_qa():
+        # LV-Eval 按题型和语种分流；多文档任务需要更强的证据约束提示。
         if str(os.environ.get("MASE_LONG_CONTEXT_VARIANT") or "").strip().lower() == "mc":
             return "grounded_long_context_mc"
         if is_multidoc_long_context():
@@ -196,21 +199,19 @@ def select_executor_mode(user_question: str, fact_sheet: str) -> str:
         return "grounded_long_context_english" if language == "en" else "grounded_long_context"
     if is_long_memory():
         if local_only_models_enabled():
+            # 本地模式先尊重 qtype 路由，再决定是否使用深度推理执行器。
             if lme_qtype_routing_enabled() and lme_question_type() == "temporal-reasoning":
                 if prefer_stable_local_temporal_executor():
                     return "grounded_long_memory_english" if language == "en" else "grounded_long_memory"
                 return "grounded_long_memory_deepreason_english" if language == "en" else "grounded_long_memory_deepreason"
             return "grounded_long_memory_english" if language == "en" else "grounded_long_memory"
-        # iter4-retry: when MASE_LME_RETRY=1, force every question to the
-        # second-opinion executor (kimi-k2.5 + non-abstain bias prompt).
-        # Used by scripts/run_lme_iter4_retry.py for the 103-fail slice.
+        # iter4-retry：MASE_LME_RETRY=1 时强制所有问题走二次意见执行器
+        #（kimi-k2.5 + 非弃答偏置提示），供 103-fail 切片复盘脚本使用。
         if long_memory_retry_enabled():
             return "grounded_long_memory_retry_kimi"
-        # iter5: per-type executor routing. When MASE_LME_QTYPE_ROUTING=1,
-        # route temporal-reasoning questions to a local deep-reasoning model
-        # (deepseek-r1:7b) instead of the cloud GLM-5 chain. User explicitly
-        # opted in for this category; the general "deepseek = lowest priority"
-        # rule still applies to all other paths.
+        # iter5：按 qtype 路由执行器。MASE_LME_QTYPE_ROUTING=1 时，
+        # temporal-reasoning 显式走本地深度推理模型，而不是云端 GLM-5 链路。
+        # 这个例外只在用户主动开启该类别时生效，其他路径仍遵守 deepseek 低优先级规则。
         if lme_qtype_routing_enabled():
             qtype = lme_question_type()
             if qtype == "temporal-reasoning":
@@ -235,9 +236,8 @@ def verify_mode_for_question(user_question: str) -> str:
         return "grounded_verify_long_context_english" if is_en else "grounded_verify_long_context"
     if is_long_memory() and local_only_models_enabled():
         return "grounded_verify_english_reasoning" if is_en else "grounded_verify_reasoning"
-    # When LME verifier escape hatch is on AND we're in long_memory context,
-    # use the generic cloud LME-tuned verifier. Do not branch on benchmark qid
-    # naming patterns; that overfits LongMemEval instead of real memory tasks.
+    # 仅在长记忆上下文且显式开启 verifier 逃生口时，使用云端 LME 调优 verifier。
+    # 不按 benchmark qid 命名分支，避免把逻辑过拟合到 LongMemEval 文件名。
     if is_long_memory() and long_memory_verify_enabled():
         return "grounded_verify_lme_english" if is_en else "grounded_verify_lme"
     return "grounded_verify_english_reasoning" if is_en else "grounded_verify_reasoning"
@@ -245,6 +245,7 @@ def verify_mode_for_question(user_question: str) -> str:
 
 def generalizer_mode_for_question(user_question: str) -> str:
     if is_long_memory() and local_only_models_enabled():
+        # 本地 qtype generalizer 只覆盖可确定模板化的偏好/多会话聚合题。
         if lme_qtype_routing_enabled():
             qtype = lme_question_type()
             if qtype == "single-session-preference":

@@ -1,34 +1,28 @@
-"""Agent registry — discoverable, pluggable agent factories.
+"""Agent 注册表：可发现、可插拔的 agent 工厂。
 
-Why this exists
----------------
-The first version of MASE hard-coded the four built-in agents
-(router / notetaker / planner / executor) inside ``engine.MASESystem.__init__``.
-Every new agent kind (math, code, multimodal, retrieval, judge, ...) used to
-require editing that class.  That is exactly the "god-class" pattern we just
-broke up; we don't want to recreate it.
+为什么需要它
+------------
+MASE 早期版本把四个内建 agent（router/notetaker/planner/executor）硬编码在
+``engine.MASESystem.__init__`` 里。每增加一种 agent（math/code/multimodal/
+retrieval/judge/...）都要改这个类，这正是刚拆掉的上帝类模式，不能再重建。
 
-The registry replaces hard-coded ``self.foo_agent = FooAgent(...)`` with::
+注册表把硬编码的 ``self.foo_agent = FooAgent(...)`` 替换为::
 
     @register_agent("router")
     def _make_router(model_interface, config_path):
         return RouterAgent(model_interface)
 
-The engine then asks the registry for whatever agents are present.  Plug-ins
-(including ones that live outside this package) only need to import the
-registry and decorate their factory.
+engine 只向注册表索取已注册 agent。插件（包括包外插件）只需导入注册表并装饰
+自己的工厂函数。
 
-Design notes
-------------
-* Factories receive ``(model_interface, config_path)`` and return any object.
-  The engine doesn't constrain the agent class — only that the public methods
-  it calls exist.
-* ``register_agent`` is idempotent for re-imports (Python module reloads):
-  re-registering the same name silently replaces the previous factory rather
-  than raising, which keeps notebook/dev workflows sane.
-* ``required=True`` factories MUST resolve at engine startup; ``required=False``
-  agents (future math/code/multimodal kinds) can be missing without breaking
-  the core long-context / long-memory path.
+设计说明
+--------
+* 工厂接收 ``(model_interface, config_path)``，返回任意对象。engine 不约束类，
+  只要求调用到的公开方法存在。
+* ``register_agent`` 对重复导入幂等：同名重新注册会静默替换旧工厂，便于
+  notebook/dev reload 工作流。
+* ``required=True`` 的工厂必须在 engine 启动时可解析；``required=False`` 的
+  未来 agent 可以缺失，不破坏核心长上下文/长记忆路径。
 """
 from __future__ import annotations
 
@@ -43,6 +37,8 @@ AgentFactory = Callable[[Any, "str | Path | None"], Any]
 
 @dataclass(frozen=True)
 class AgentSpec:
+    """单个 agent 工厂的注册元数据。"""
+
     name: str
     factory: AgentFactory
     required: bool = False
@@ -50,11 +46,10 @@ class AgentSpec:
 
 
 class AgentRegistry:
-    """Process-wide registry of agent factories.
+    """进程级 agent 工厂注册表。
 
-    Thread-safe.  Tests should call :meth:`snapshot` / :meth:`restore` instead
-    of mutating the global instance directly so that parallel test workers do
-    not leak registrations into one another.
+    线程安全。测试应使用 :meth:`snapshot` / :meth:`restore`，避免直接改全局实例
+    导致并行测试 worker 互相泄漏注册项。
     """
 
     def __init__(self) -> None:
@@ -93,10 +88,10 @@ class AgentRegistry:
             return sorted(name for name, spec in self._specs.items() if spec.required)
 
     def build_all(self, model_interface: Any, config_path: str | Path | None) -> dict[str, Any]:
-        """Instantiate every registered agent.
+        """实例化所有已注册 agent。
 
-        Required agents propagate exceptions; optional ones are skipped with a
-        ``None`` value so callers can detect them via ``agents.get(name)``.
+        必需 agent 的异常直接抛出；可选 agent 失败时写入 ``None``，调用方可通过
+        ``agents.get(name)`` 判断缺失。
         """
         with self._lock:
             specs = list(self._specs.values())
@@ -128,9 +123,9 @@ def register_agent(
     required: bool = False,
     description: str = "",
 ) -> Callable[[AgentFactory], AgentFactory]:
-    """Decorator form — register an agent factory under ``name``.
+    """装饰器形式：把 agent 工厂注册到 ``name``。
 
-    Usage::
+    用法::
 
         @register_agent("math", description="symbolic math agent")
         def _make_math(model_interface, config_path):
@@ -145,15 +140,15 @@ def register_agent(
 
 
 def get_registry() -> AgentRegistry:
+    """返回进程级注册表。"""
     return _REGISTRY
 
 
 def register_builtin_agents() -> None:
-    """Register the four built-in MASE agents.
+    """注册 MASE 内建 agent。
 
-    Imported lazily inside the function body so the registry module itself
-    stays free of agent-class imports (and therefore safe to import from
-    anywhere, including external plug-ins).
+    具体 agent 类在函数体内懒导入，使注册表模块本身不携带 agent-class 导入副作用，
+    因而外部插件也可以安全导入。
     """
     from .benchmark_notetaker import BenchmarkNotetaker
     from .planner_agent import PlannerAgent

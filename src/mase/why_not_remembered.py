@@ -1,9 +1,12 @@
+"""诊断“为什么系统没记住”的分阶段证据链。"""
 from __future__ import annotations
 
 from typing import Any, Protocol
 
 
 class MemoryDiagnosticReader(Protocol):
+    """诊断器需要的最小记忆读取接口，便于用真实服务或测试替身注入。"""
+
     def list_facts(self, category: str | None = None, *, scope_filters: dict[str, Any] | None = None) -> list[dict[str, Any]]: ...
 
     def recall_timeline(
@@ -26,6 +29,7 @@ class MemoryDiagnosticReader(Protocol):
 
 
 def _terms(query: str) -> list[str]:
+    """粗粒度查询词切分；至少保留原查询，避免空关键词搜索。"""
     return [part for part in query.split() if len(part) >= 2] or [query]
 
 
@@ -36,6 +40,7 @@ def diagnose_why_not_remembered(
     scope: dict[str, Any] | None = None,
     thread_id: str | None = None,
 ) -> dict[str, Any]:
+    """按 event_log -> entity_state -> recall -> scope 顺序定位记忆缺失点。"""
     scope_filters = dict(scope or {})
     timeline = memory.recall_timeline(thread_id=thread_id, limit=100, scope_filters=scope_filters)
     facts = memory.list_facts(scope_filters=scope_filters)
@@ -103,6 +108,7 @@ def diagnose_why_not_remembered(
 
 
 def _recommended_actions(cause: str) -> list[str]:
+    """把最可能的失败阶段映射成人可执行的排查动作。"""
     if cause == "event_log":
         return ["Check write path and notetaker input.", "Ask the memory agent to write the missing event with explicit scope."]
     if cause == "entity_state":

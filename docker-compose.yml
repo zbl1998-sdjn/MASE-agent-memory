@@ -1,3 +1,5 @@
+# 本地演示/集成用 Compose 配置。
+# 运行产物通过 MASE_RUNS_DIR 挂到 /runs，避免容器把 memory/results 写回源码树。
 services:
   mase_core:
     build: .

@@ -1,5 +1,11 @@
-# NOTE: BASE_DIR below was auto-patched during src/ migration so that
-# Path(__file__).parents[2] continues to resolve to the project root.
+"""模型调用门面：统一配置解析、系统提示注入、provider 调用与调用账本。
+
+`ModelInterface` 是 router / notetaker / planner / executor 共用的模型边界。
+它不决定业务路由，也不解析最终答案；它只负责把 agent 配置解析成一次安全、
+可观测、可计费的模型请求。
+"""
+# 迁移到 src/ 布局后仍以仓库根目录为默认配置基准，兼容 editable install 与
+# 旧版根目录 shim。
 from __future__ import annotations
 
 import json
@@ -25,6 +31,7 @@ _TRUTHY = {"1", "true", "yes", "y", "on"}
 
 
 def resolve_config_path(config_path: str | Path | None = None) -> Path:
+    """按显式参数、环境变量、当前工作目录、源码树、用户目录的顺序找配置。"""
     if config_path:
         return Path(config_path).resolve()
     env = os.environ.get("MASE_CONFIG_PATH")
@@ -53,6 +60,7 @@ def load_config(config_path: str | Path | None = None) -> dict[str, Any]:
 
 
 def _load_env_file(env_path: Path) -> None:
+    """加载项目级 env 文件，但不覆盖进程里已经显式设置的变量。"""
     if not env_path.exists():
         return
     for raw_line in env_path.read_text(encoding="utf-8").splitlines():
@@ -76,6 +84,7 @@ def _resolve_relative_path(raw_path: str | Path, base_dir: Path) -> Path:
 
 
 def resolve_runs_dir() -> Path | None:
+    """返回运行产物根目录；未设置时继续使用配置中的相对路径。"""
     raw = os.environ.get("MASE_RUNS_DIR")
     if not raw:
         return None
@@ -83,10 +92,12 @@ def resolve_runs_dir() -> Path | None:
 
 
 def cloud_models_allowed() -> bool:
+    """云模型总开关：只有用户显式批准后才允许非本地 provider 出网调用。"""
     return str(os.environ.get("MASE_ALLOW_CLOUD_MODELS") or "").strip().lower() in _TRUTHY
 
 
 def _enforce_cloud_model_policy(provider: str, agent_type: str, mode: str | None, model_name: str) -> None:
+    """在真正发起 provider 请求前执行最后一道云模型审批检查。"""
     normalized_provider = str(provider or "").strip().lower()
     if normalized_provider in _LOCAL_PROVIDERS or cloud_models_allowed():
         return
@@ -99,6 +110,7 @@ def _enforce_cloud_model_policy(provider: str, agent_type: str, mode: str | None
 
 
 def load_memory_settings(config_path: str | Path | None = None) -> dict[str, Path]:
+    """解析 memory 路径，并在设置 `MASE_RUNS_DIR` 时把默认产物移出源码树。"""
     path = resolve_config_path(config_path)
     config = load_config(path)
     memory_config = config.get("memory", {})
@@ -125,6 +137,12 @@ def load_memory_settings(config_path: str | Path | None = None) -> dict[str, Pat
 
 
 class ModelInterface(ModelCallLedgerMixin, ModelHTTPMixin, ModelProviderMixin):
+    """模型请求统一门面。
+
+    继承的三个 mixin 分别处理调用账本、HTTP 客户端/重试参数、provider 协议。
+    本类只维护配置、HTTP client 生命周期和 chat() 的统一入口。
+    """
+
     def __init__(self, config_path: str | Path | None = None) -> None:
         self.config_path = resolve_config_path(config_path)
         self.call_log: list[dict[str, Any]] = []
@@ -132,6 +150,7 @@ class ModelInterface(ModelCallLedgerMixin, ModelHTTPMixin, ModelProviderMixin):
         self.reload()
 
     def reload(self) -> None:
+        """重新加载配置与价格目录，并关闭旧 HTTP client 以免连接池配置漂移。"""
         self._close_http_clients()
         self.config = load_config(self.config_path)
         self.models_config = self.config.get("models", {})
@@ -161,6 +180,11 @@ class ModelInterface(ModelCallLedgerMixin, ModelHTTPMixin, ModelProviderMixin):
         return self.models_config[agent_type]
 
     def _merge_config_override(self, base_config: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+        """合并 mode / fallback 覆盖配置。
+
+        headers、query_params、extra_body 做浅合并；其他字段直接覆盖，避免嵌套
+        provider 参数出现半旧半新的混合状态。
+        """
         for key, value in override.items():
             if key == "extends":
                 continue
@@ -173,6 +197,7 @@ class ModelInterface(ModelCallLedgerMixin, ModelHTTPMixin, ModelProviderMixin):
         return base_config
 
     def get_effective_agent_config(self, agent_type: str, mode: str | None = None) -> dict[str, Any]:
+        """取 agent 的最终配置，支持 mode 继承另一个 mode。"""
         agent_config = deepcopy(self.get_agent_config(agent_type))
         if not mode:
             return agent_config
@@ -210,6 +235,7 @@ class ModelInterface(ModelCallLedgerMixin, ModelHTTPMixin, ModelProviderMixin):
         return agent_config.get(prompt_key)
 
     def inject_system_prompt(self, messages: list[dict[str, Any]], system_prompt: str) -> list[dict[str, Any]]:
+        """把系统提示注入消息列表；已有 system 消息则替换，缺失则前置。"""
         prepared: list[dict[str, Any]] = []
         has_system = False
         for message in messages:
@@ -231,14 +257,22 @@ class ModelInterface(ModelCallLedgerMixin, ModelHTTPMixin, ModelProviderMixin):
         override_system_prompt: str | None = None,
         prompt_key: str = "system_prompt",
     ) -> dict[str, Any]:
+        """统一模型调用入口。
+
+        关键边界：
+        1. 先解析最终 agent/mode 配置；
+        2. 非本地 provider 必须通过云模型审批；
+        3. 系统提示在这里统一注入；
+        4. provider 返回后立即记录调用账本，供 trace、成本中心和审计使用。
+        """
         agent_config = self.get_effective_agent_config(agent_type, mode=mode)
         provider = agent_config.get("provider", "ollama")
         model_name = agent_config["model_name"]
         _enforce_cloud_model_policy(str(provider), agent_type, mode, str(model_name))
         temperature = agent_config.get("temperature", 0.7)
         max_tokens = agent_config.get("max_tokens", 512)
-        # MC self-consistency hook: env override applies only when explicitly set.
-        # Only affects the executor agent to avoid perturbing router/notetaker.
+        # MC self-consistency 钩子：只有显式设置环境变量才覆盖温度，并且只影响
+        # executor，避免 router/notetaker 的稳定性被评测调参误伤。
         _temp_env = os.environ.get("MASE_TEMP_OVERRIDE")
         if _temp_env and agent_type == "executor":
             try:

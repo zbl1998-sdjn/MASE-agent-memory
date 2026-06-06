@@ -1,17 +1,17 @@
-"""Metrics — in-process counters/histograms aggregated from event bus.
+"""进程内指标：从事件总线聚合 counter 和延迟均值。
 
-Why not Prometheus client?
---------------------------
-A benchmark tool that runs locally and produces JSON reports does not
-benefit from a 3rd-party HTTP exporter.  We expose the same data via:
+为什么不直接引入 Prometheus client？
+-----------------------------------
+本项目主要是本地运行并产出 JSON 报告的 benchmark 工具，引入第三方 HTTP exporter
+收益有限。这里通过以下方式暴露同一份数据：
 
 * ``Metrics.snapshot()`` — JSON dict, easy to embed in benchmark reports
 * ``mase metrics`` CLI subcommand — print snapshot
 * ``Metrics.format_prometheus()`` — text-format Prometheus exposition that
   any external scrape can serve, if you want one.
 
-Counters are derived from event topics so adding a new event topic auto-
-creates a counter; no need to edit this module for every new event.
+Counter 由 event topic 自动派生，新增事件 topic 会自然生成新 counter，不需要为
+每种事件改本模块。
 """
 from __future__ import annotations
 
@@ -24,6 +24,8 @@ from .health_tracker import get_tracker
 
 
 class Metrics:
+    """订阅事件总线并维护进程内指标快照。"""
+
     def __init__(self) -> None:
         self._lock = threading.RLock()
         self._counters: dict[str, int] = defaultdict(int)
@@ -32,12 +34,14 @@ class Metrics:
         self._unsubscribe: Any = None
 
     def install(self) -> None:
+        """安装事件订阅；重复调用保持幂等。"""
         with self._lock:
             if self._unsubscribe is not None:
                 return
             self._unsubscribe = get_bus().subscribe("mase", self._on_event)
 
     def uninstall(self) -> None:
+        """卸载事件订阅，主要给测试和热重载使用。"""
         with self._lock:
             if self._unsubscribe is not None:
                 try:
@@ -47,6 +51,7 @@ class Metrics:
                 self._unsubscribe = None
 
     def _on_event(self, event: Event) -> None:
+        """事件回调：累加 topic counter 和 latency 均值所需分子/分母。"""
         topic = event.topic
         with self._lock:
             self._counters[topic] += 1
@@ -56,6 +61,7 @@ class Metrics:
                 self._latency_count[topic] += 1
 
     def snapshot(self) -> dict[str, Any]:
+        """返回 JSON 可序列化的指标快照。"""
         with self._lock:
             counters = dict(self._counters)
             latencies = {
@@ -70,12 +76,14 @@ class Metrics:
         }
 
     def reset(self) -> None:
+        """清空进程内 counter/latency。"""
         with self._lock:
             self._counters.clear()
             self._latency_sum_ms.clear()
             self._latency_count.clear()
 
     def format_prometheus(self) -> str:
+        """输出 Prometheus text exposition 格式。"""
         snap = self.snapshot()
         lines: list[str] = []
         for topic, count in sorted(snap["event_counters"].items()):
@@ -96,6 +104,7 @@ _METRICS.install()
 
 
 def get_metrics() -> Metrics:
+    """返回进程级 Metrics 单例。"""
     return _METRICS
 
 

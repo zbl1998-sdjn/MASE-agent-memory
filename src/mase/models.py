@@ -1,8 +1,7 @@
-"""Public dataclasses describing one MASE orchestration trace.
+"""描述一次 MASE 编排轨迹的公开 dataclass。
 
-Lives in its own module so consumers can `from mase.models import ...`
-without triggering the heavyweight `engine` import (which loads the model
-interface, agents and SQLite layer).
+这些轻量类型放在独立模块中，调用方可以 ``from mase.models import ...``，
+而不会触发重量级 ``engine`` 导入（engine 会加载模型接口、Agent 与 SQLite 层）。
 """
 from __future__ import annotations
 
@@ -14,12 +13,16 @@ from .topic_threads import ThreadContext
 
 @dataclass(frozen=True)
 class RouteDecision:
+    """Router 的最小决策结果。"""
+
     action: str
     keywords: list[str]
 
 
 @dataclass(frozen=True)
 class PlannerSnapshot:
+    """Planner 输出的可审计快照。"""
+
     text: str
     source: str = "model"
 
@@ -29,6 +32,8 @@ class PlannerSnapshot:
 
 @dataclass(frozen=True)
 class OrchestrationTrace:
+    """一次端到端编排的核心轨迹。"""
+
     route: RouteDecision
     planner: PlannerSnapshot
     thread: ThreadContext

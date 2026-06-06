@@ -1,3 +1,5 @@
+"""维修 case 的 append-only 存储与状态机。"""
+
 from __future__ import annotations
 
 import json
@@ -34,15 +36,18 @@ ALLOWED_REPAIR_CASE_TRANSITIONS: dict[str, tuple[str, ...]] = {
 
 
 def resolve_repair_case_path() -> Path:
+    """解析 repair case JSONL 路径。"""
     raw_path = str(os.environ.get("MASE_REPAIR_CASE_PATH") or "").strip()
     return Path(raw_path).expanduser().resolve() if raw_path else (ROOT / "memory" / "repair_cases.jsonl").resolve()
 
 
 def _now_iso() -> str:
+    """返回 UTC ISO 时间戳。"""
     return datetime.now(UTC).isoformat()
 
 
 def _validate_status(status: str) -> str:
+    """校验并归一化 repair case 状态。"""
     normalized = str(status or "").strip().lower()
     if normalized not in VALID_REPAIR_CASE_STATUSES:
         raise ValueError(f"invalid repair case status: {status}")
@@ -50,6 +55,7 @@ def _validate_status(status: str) -> str:
 
 
 def _append_case(case: dict[str, Any], *, path: Path | None = None) -> dict[str, Any]:
+    """追加写入一份 case 快照；不原地覆盖历史。"""
     case_path = path or resolve_repair_case_path()
     case_path.parent.mkdir(parents=True, exist_ok=True)
     with case_path.open("a", encoding="utf-8") as file:
@@ -58,6 +64,7 @@ def _append_case(case: dict[str, Any], *, path: Path | None = None) -> dict[str,
 
 
 def _read_case_snapshots(*, path: Path | None = None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """读取 JSONL 中的所有 case 快照，并记录坏行元数据。"""
     case_path = path or resolve_repair_case_path()
     metadata: dict[str, Any] = {
         "path": str(case_path),
@@ -74,6 +81,7 @@ def _read_case_snapshots(*, path: Path | None = None) -> tuple[list[dict[str, An
         try:
             payload = json.loads(raw_line)
         except json.JSONDecodeError:
+            # 单行坏数据不阻断整份 case 文件读取。
             metadata["skipped_count"] += 1
             metadata["skipped_lines"].append(line_number)
             continue
@@ -91,12 +99,14 @@ def create_repair_case(
     actor_id: str = "system",
     path: Path | None = None,
 ) -> dict[str, Any]:
+    """创建新的维修 case，初始状态为 open。"""
     now = _now_iso()
     case = {
         "case_id": f"repair_{uuid.uuid4().hex[:16]}",
         "status": "open",
         "issue_type": str(issue_type or "incorrect_memory").strip() or "incorrect_memory",
         "symptom": str(symptom or "").strip(),
+        # case 证据和 scope 进入持久化前统一脱敏，避免 repair 日志泄漏凭据。
         "evidence": sanitize_audit_value(evidence or {}),
         "scope": sanitize_audit_value(scope or {}),
         "created_at": now,
@@ -119,6 +129,7 @@ def create_repair_case(
 
 
 def _latest_cases(snapshots: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    """按 case_id 取最后一份快照。"""
     latest: dict[str, dict[str, Any]] = {}
     for snapshot in snapshots:
         case_id = str(snapshot.get("case_id") or "")
@@ -128,6 +139,7 @@ def _latest_cases(snapshots: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
 
 
 def get_repair_case(case_id: str, *, path: Path | None = None) -> dict[str, Any] | None:
+    """按 case_id 获取最新 case。"""
     snapshots, _ = _read_case_snapshots(path=path)
     return _latest_cases(snapshots).get(case_id)
 
@@ -139,6 +151,7 @@ def list_repair_cases(
     limit: int = 100,
     path: Path | None = None,
 ) -> dict[str, Any]:
+    """列出最新 case，可按状态和问题类型过滤。"""
     snapshots, metadata = _read_case_snapshots(path=path)
     cases = list(_latest_cases(snapshots).values())
     if status:
@@ -147,6 +160,7 @@ def list_repair_cases(
     if issue_type:
         cases = [case for case in cases if case.get("issue_type") == issue_type]
     cases.sort(key=lambda case: str(case.get("updated_at") or ""), reverse=True)
+    # limit 做硬上限，避免一次 API/CLI 调用读出过大的历史。
     capped_limit = max(1, min(int(limit), 500))
     summary = {
         "total_count": len(cases),
@@ -164,12 +178,14 @@ def transition_repair_case(
     metadata: dict[str, Any] | None = None,
     path: Path | None = None,
 ) -> dict[str, Any]:
+    """执行状态迁移，并追加 transition 事件。"""
     next_status = _validate_status(status)
     current = get_repair_case(case_id, path=path)
     if not current:
         raise KeyError(case_id)
     current_status = _validate_status(str(current.get("status") or "open"))
     if next_status not in ALLOWED_REPAIR_CASE_TRANSITIONS[current_status]:
+        # 状态机是 repair 审批边界，禁止跳过 pending_approval/approved 等步骤。
         raise ValueError(f"invalid repair case transition: {current_status} -> {next_status}")
     now = _now_iso()
     events = list(current.get("events") or [])
@@ -196,11 +212,13 @@ def attach_repair_case_diff(
     actor_id: str = "system",
     path: Path | None = None,
 ) -> dict[str, Any]:
+    """把 diff proposal 附加到 case，并推进到 diagnosed。"""
     current = get_repair_case(case_id, path=path)
     if not current:
         raise KeyError(case_id)
     current_status = _validate_status(str(current.get("status") or "open"))
     if current_status not in {"open", "diagnosed"}:
+        # diff 只能在诊断前后提出，不能覆盖已审批/已执行 case。
         raise ValueError(f"repair diff cannot be proposed from status: {current_status}")
     now = _now_iso()
     events = list(current.get("events") or [])
@@ -233,11 +251,13 @@ def attach_repair_case_sandbox(
     actor_id: str = "system",
     path: Path | None = None,
 ) -> dict[str, Any]:
+    """把沙盒验证报告附加到 case。"""
     current = get_repair_case(case_id, path=path)
     if not current:
         raise KeyError(case_id)
     current_status = _validate_status(str(current.get("status") or "open"))
     if current_status not in {"diagnosed", "pending_approval"}:
+        # sandbox 是审批前检查，已审批后不应再改写验证结论。
         raise ValueError(f"repair sandbox cannot run from status: {current_status}")
     now = _now_iso()
     events = list(current.get("events") or [])
@@ -272,11 +292,13 @@ def attach_repair_case_execution(
     actor_id: str = "system",
     path: Path | None = None,
 ) -> dict[str, Any]:
+    """把真实执行报告附加到已审批 case，并推进到 executed。"""
     current = get_repair_case(case_id, path=path)
     if not current:
         raise KeyError(case_id)
     current_status = _validate_status(str(current.get("status") or "open"))
     if current_status != "approved":
+        # 真实 mutation 只允许从 approved 进入，必须经过显式审批。
         raise ValueError(f"repair execution cannot run from status: {current_status}")
     now = _now_iso()
     events = list(current.get("events") or [])

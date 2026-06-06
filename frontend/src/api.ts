@@ -37,11 +37,14 @@ import type {
 } from "./types";
 import { compactScope } from "./utils";
 
+// 前端唯一 HTTP 边界。页面组件只调用这里暴露的 api 方法，不直接拼 fetch，
+// 这样鉴权、scope 注入、错误格式和 query 参数规则可以集中维护。
 const API_BASE = import.meta.env.VITE_API_BASE ?? "";
 const API_KEY_STORAGE_KEY = "mase.internalApiKey";
 let runtimeInternalApiKey = "";
 
 function readLocalApiKey(): string {
+  // runtimeInternalApiKey 支持本次会话立即生效；localStorage 用于刷新后恢复。
   if (runtimeInternalApiKey) {
     return runtimeInternalApiKey;
   }
@@ -57,6 +60,7 @@ export function getInternalApiKey(): string {
 }
 
 export function saveInternalApiKey(value: string): void {
+  // 空值表示清除密钥，不把空 Authorization header 带到后端。
   runtimeInternalApiKey = value.trim();
   if (typeof localStorage === "undefined") {
     return;
@@ -69,11 +73,13 @@ export function saveInternalApiKey(value: string): void {
 }
 
 function authHeaders(): Record<string, string> {
+  // 后端内部 API 使用 Bearer；无 key 时保持匿名请求，便于只读/本地模式。
   const key = readLocalApiKey();
   return key ? { Authorization: `Bearer ${key}` } : {};
 }
 
 function withQuery(path: string, params: Record<string, string | number | boolean | undefined>): string {
+  // 只序列化有意义的值，避免空字符串覆盖后端默认过滤条件。
   const query = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== "") {
@@ -85,10 +91,12 @@ function withQuery(path: string, params: Record<string, string | number | boolea
 }
 
 function scopedBody<T extends JsonRecord>(body: T, scope: Scope): T & Scope {
+  // scope 是多租户/工作区隔离边界，所有写入和分析类 POST 都在这里统一注入。
   return { ...body, ...compactScope(scope) };
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
+  // 统一错误抛出格式，页面层只需要展示 Error.message。
   const response = await fetch(`${API_BASE}${path}`, {
     ...init,
     headers: {
@@ -105,16 +113,19 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  // 产品壳与总览页面。
   health: () => request<MaseResponse<JsonRecord>>("/health"),
   bootstrap: () => request<MaseResponse<BootstrapData>>("/v1/ui/bootstrap"),
   dashboard: (scope: Scope) =>
     request<MaseResponse<DashboardData>>(withQuery("/v1/ui/dashboard", compactScope(scope))),
   observability: (recentLimit = 25) =>
     request<MaseResponse<ObservabilityData>>(withQuery("/v1/ui/observability", { recent_limit: recentLimit })),
+  // 成本中心只读取模型调用账本，保持只读。
   costPricing: () => request<MaseResponse<CostPricingData>>("/v1/ui/cost/pricing"),
   costSummary: (recentLimit = 50) =>
     request<MaseResponse<CostSummaryData>>(withQuery("/v1/ui/cost/summary", { recent_limit: recentLimit })),
   costRouting: () => request<MaseResponse<CostRoutingData>>("/v1/ui/cost/routing"),
+  // 可靠性与治理工作台接口。
   auditEvents: (filters: AuditFilters = {}) =>
     request<MaseResponse<AuditEventsData>>(withQuery("/v1/ui/audit/events", filters)),
   privacyScan: (scope: Scope, limit = 100) =>
@@ -166,6 +177,8 @@ export const api = {
       method: "POST",
       body: JSON.stringify(scopedBody(body, scope))
     }),
+  // Chat 与 trace 分离：chat 走 OpenAI-compatible 补全形状，runTrace 暴露完整
+  // MASE 编排证据。
   validate: (scope: Scope) =>
     request<MaseResponse<JsonRecord>>(withQuery("/v1/memory/validate", compactScope(scope))),
   chat: (messages: ChatMessage[]) =>
@@ -182,6 +195,7 @@ export const api = {
     request<MaseResponse<TraceListData>>(withQuery("/v1/ui/traces", filters)),
   traceDetail: (traceId: string) =>
     request<MaseResponse<TraceDetailData>>(`/v1/ui/traces/${encodeURIComponent(traceId)}`),
+  // 记忆 CRUD / recall 接口。查询串用 compactScope，JSON body 用 scopedBody。
   recall: (query: string, topK: number, includeHistory: boolean, scope: Scope) =>
     request<MaseResponse<JsonRecord[]>>("/v1/memory/recall", {
       method: "POST",

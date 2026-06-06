@@ -1,4 +1,4 @@
-"""MASE IDE skill installer.
+"""MASE IDE skill 安装器。
 
 Usage::
 
@@ -7,9 +7,9 @@ Usage::
     python -m mase.skills_installer list
     python -m mase.skills_installer uninstall --agent copilot
 
-Drops a SKILL.md + small bridge stub into the host AI agent's skills
-directory so the agent can discover MASE memory operations
-(search/upsert/audit) without each user wiring their own prompt.
+把 SKILL.md 和一个小型 bridge stub 写入宿主 AI agent 的 skills 目录，
+让宿主能发现 MASE 记忆操作(search/upsert/audit)，而不需要每个用户
+手工维护提示词。
 
 Inspired by JimmyMcBride/brain's ``brain skills install`` UX.
 """
@@ -66,7 +66,7 @@ The skill writes nothing without an explicit user-confirmed action.
 
 
 def _agent_skill_dir(agent: str, scope: str, project_root: Path) -> Path:
-    """Return the directory that should hold the SKILL.md for *agent*."""
+    """解析目标 agent 的 skill 安装目录；local scope 限定在项目内。"""
     home = Path.home()
     if scope == "local":
         return project_root / ".mase" / "skills" / SKILL_NAME
@@ -82,6 +82,7 @@ def _agent_skill_dir(agent: str, scope: str, project_root: Path) -> Path:
 
 
 def cmd_install(args: argparse.Namespace) -> int:
+    """安装 skill 模板和 manifest；写入路径由 scope/agent 显式决定。"""
     project_root = Path(args.project_root or os.getcwd()).resolve()
     target = _agent_skill_dir(args.agent, args.scope, project_root)
     target.mkdir(parents=True, exist_ok=True)
@@ -107,6 +108,7 @@ def cmd_install(args: argparse.Namespace) -> int:
 
 
 def cmd_uninstall(args: argparse.Namespace) -> int:
+    """卸载指定 agent/scope 下的 MASE skill。"""
     project_root = Path(args.project_root or os.getcwd()).resolve()
     target = _agent_skill_dir(args.agent, args.scope, project_root)
     if target.exists():
@@ -118,6 +120,7 @@ def cmd_uninstall(args: argparse.Namespace) -> int:
 
 
 def cmd_list(_: argparse.Namespace) -> int:
+    """列出常见宿主 agent 的 MASE skill 安装状态。"""
     home = Path.home()
     candidates = [
         home / ".copilot" / "skills" / SKILL_NAME,
@@ -133,8 +136,7 @@ def cmd_list(_: argparse.Namespace) -> int:
 
 
 def cmd_bridge(args: argparse.Namespace) -> int:
-    """Thin shim — delegate to MASE memory APIs in-process so host agent
-    can call this without booting the whole executor."""
+    """轻量 bridge：进程内调用记忆 API，避免宿主 agent 启动完整 executor。"""
     if args.action == "search":
         from mase_tools.memory.notetaker import search_recent  # type: ignore
 
@@ -157,6 +159,7 @@ def cmd_bridge(args: argparse.Namespace) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """构造 CLI parser；所有可写动作都在子命令中显式选择。"""
     p = argparse.ArgumentParser(prog="mase.skills_installer")
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -186,6 +189,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """CLI 入口。"""
     args = build_parser().parse_args(argv)
     return args.func(args)
 

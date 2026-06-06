@@ -1,29 +1,24 @@
-"""Multi-pass retrieval for MASE.
+"""MASE 多轮检索流水线。
 
-Gated by env ``MASE_MULTIPASS=1``; when disabled, callers fall back to
-single-pass ``BenchmarkNotetaker.search``. Designed so that any failure
-in this module degrades gracefully to single-pass results — multipass
-must NEVER reduce recall below baseline.
+该能力由 ``MASE_MULTIPASS=1`` 门禁控制；关闭时调用方退回单轮
+``BenchmarkNotetaker.search``。本模块设计原则是“失败即优雅降级到单轮结果”，
+multipass 绝不能让召回低于 baseline。
 
-Pipeline (when enabled):
-  A. Original keywords  -> single-pass search (baseline anchor)
-  B. Query rewrites     -> small LLM (qwen2.5:1.5b) generates 2-3 paraphrases
-  C. HyDE pseudo-doc    -> small LLM drafts a hypothetical answer; mine its
-                           keywords; search again
-  D. Cross-encoder rerank -> bge-reranker-v2-m3 reranks the merged top-K
-                             candidates against the ORIGINAL question
-  E. Safety net           -> if multipass produces less than half the
-                             baseline rows, return baseline rows instead
+启用后的流水线：
+  A. 原始关键词       -> 单轮检索，作为 baseline 锚点
+  B. 查询改写         -> 小模型生成 2-3 个等价改写
+  C. HyDE 伪文档      -> 小模型假写答案，从中挖关键词再次检索
+  D. Cross-encoder 重排 -> bge-reranker-v2-m3 用原问题重排合并后的 top-K
+  E. 安全网           -> multipass 结果少于 baseline 一半时返回 baseline
 
-Caching: per-process LRU keyed by question text; avoids paying LLM tax
-when the same question is searched multiple times.
+缓存：按问题文本做进程内 LRU，避免同一问题多次搜索时重复支付 LLM 成本。
 
-Environment knobs:
-  MASE_MULTIPASS=1            -> enable pipeline
-  MASE_MULTIPASS_VARIANTS=N   -> number of rewrites (default 2)
-  MASE_MULTIPASS_HYDE=0/1     -> enable HyDE pass (default 1 when multipass on)
-  MASE_MULTIPASS_RERANK=0/1   -> enable cross-encoder rerank (default 1)
-  MASE_MULTIPASS_RERANK_TOP=K -> rerank top-K candidates (default 30)
+环境开关：
+  MASE_MULTIPASS=1            -> 启用流水线
+  MASE_MULTIPASS_VARIANTS=N   -> 改写数量，默认 2
+  MASE_MULTIPASS_HYDE=0/1     -> 启用 HyDE，默认随 multipass 开启
+  MASE_MULTIPASS_RERANK=0/1   -> 启用 cross-encoder 重排，默认开启
+  MASE_MULTIPASS_RERANK_TOP=K -> 重排 top-K 候选，默认 30
 """
 from __future__ import annotations
 
@@ -39,10 +34,12 @@ _RERANKER_LOAD_FAILED = False
 
 
 def is_enabled() -> bool:
+    """读取 multipass 总开关。"""
     return os.environ.get("MASE_MULTIPASS", "").strip() in {"1", "true", "True", "yes", "on"}
 
 
 def _int_env(name: str, default: int) -> int:
+    """读取整数环境变量，非法值回退默认。"""
     raw = os.environ.get(name, "").strip()
     if not raw:
         return default
@@ -53,6 +50,7 @@ def _int_env(name: str, default: int) -> int:
 
 
 def _bool_env(name: str, default: bool) -> bool:
+    """读取布尔环境变量，非法/空值回退默认。"""
     raw = os.environ.get(name, "").strip().lower()
     if not raw:
         return default
@@ -60,6 +58,7 @@ def _bool_env(name: str, default: bool) -> bool:
 
 
 def _load_reranker():
+    """懒加载 cross-encoder，并记住加载失败状态避免反复尝试。"""
     global _RERANKER, _RERANKER_LOAD_FAILED
     if _RERANKER is not None:
         return _RERANKER
@@ -85,7 +84,7 @@ def _load_reranker():
 
 @lru_cache(maxsize=512)
 def _generate_query_variants_cached(question: str, n: int) -> tuple[str, ...]:
-    """Generate ``n`` paraphrased variants via local small LLM. Pure cache key."""
+    """用本地小模型生成 ``n`` 个等价改写，并按问题文本缓存。"""
     if not question or n <= 0:
         return ()
     try:
@@ -118,7 +117,7 @@ def _generate_query_variants_cached(question: str, n: int) -> tuple[str, ...]:
 
 @lru_cache(maxsize=512)
 def _generate_hyde_keywords_cached(question: str) -> tuple[str, ...]:
-    """Use small LLM to draft a hypothetical answer; extract its content tokens."""
+    """用小模型生成假设答案，再抽取其中的内容 token。"""
     if not question:
         return ()
     try:
@@ -148,7 +147,7 @@ def _generate_hyde_keywords_cached(question: str) -> tuple[str, ...]:
 
 
 def _merge_dedup(*result_lists: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Union by row id, keep max score. Stable order: highest score first."""
+    """按行 id 合并去重，并保留最高分；输出按分数稳定降序。"""
     best: dict[Any, dict[str, Any]] = {}
     for rows in result_lists:
         for row in rows or []:
@@ -166,6 +165,7 @@ def _merge_dedup(*result_lists: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def _rerank_cross_encoder(
     question: str, candidates: list[dict[str, Any]], top_k: int
 ) -> list[dict[str, Any]] | None:
+    """用 cross-encoder 对候选重排；不可用或失败时返回 None。"""
     if not candidates:
         return []
     reranker = _load_reranker()
@@ -173,6 +173,7 @@ def _rerank_cross_encoder(
         return None
     pairs: list[tuple[str, str]] = []
     for row in candidates:
+        # 输入长度受模型限制，重排只取摘要+正文的前部证据。
         text = " ".join(
             [
                 str(row.get("summary") or ""),
@@ -201,11 +202,12 @@ def multipass_search(
     *,
     search_kwargs: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
-    """Multi-pass retrieval. Always returns at least the single-pass baseline.
+    """执行多轮检索，并保证不会低于单轮 baseline。
 
-    ``notetaker`` must expose a ``search(keywords, full_query=, limit=, **kw)`` API.
+    ``notetaker`` 必须暴露 ``search(keywords, full_query=, limit=, **kw)`` API。
     """
     extra = dict(search_kwargs or {})
+    # baseline 始终先跑，既作为召回锚点，也作为所有失败路径的兜底。
     baseline = notetaker.search(
         keywords or [full_query or ""],
         full_query=full_query,
@@ -219,9 +221,8 @@ def multipass_search(
     use_hyde = _bool_env("MASE_MULTIPASS_HYDE", True)
     use_rerank = _bool_env("MASE_MULTIPASS_RERANK", True)
     rerank_top = _int_env("MASE_MULTIPASS_RERANK_TOP", 30)
-    # iter5: multi-session questions need a wider rerank pool because evidence
-    # is spread across many sessions. Bumped only when MASE_LME_QTYPE_ROUTING=1
-    # AND MASE_QTYPE=multi-session. Default off → no behaviour change.
+    # iter5：multi-session 题证据分布在多会话，需放大重排池。只有同时开启
+    # MASE_LME_QTYPE_ROUTING 且 MASE_QTYPE=multi-session 时生效，默认不改变行为。
     if str(os.environ.get("MASE_LME_QTYPE_ROUTING") or "").strip() in {"1", "true", "yes"}:
         if (os.environ.get("MASE_QTYPE") or "").strip().lower() == "multi-session":
             rerank_top = _int_env("MASE_MULTIPASS_RERANK_TOP_MULTISESSION", 80)
@@ -231,6 +232,7 @@ def multipass_search(
     question = (full_query or " ".join(keywords or [])).strip()
 
     if n_variants > 0 and question:
+        # 改写查询拓展召回面；任一改写失败都只丢弃该支路。
         variants = _generate_query_variants_cached(question, n_variants)
         for v in variants:
             try:
@@ -243,6 +245,7 @@ def multipass_search(
                 pools.append(rows)
 
     if use_hyde and question:
+        # HyDE 支路用假设答案挖潜在实体/术语，尤其补足原问题缺少关键词的情况。
         hyde_kw = list(_generate_hyde_keywords_cached(question))
         if hyde_kw:
             try:
@@ -259,11 +262,11 @@ def multipass_search(
     if use_rerank and merged and question:
         reranked = _rerank_cross_encoder(question, merged[:rerank_top], rerank_top)
         if reranked is not None and reranked:
-            # Safety: if rerank dropped many baseline winners, keep a union
+            # 安全网：如果重排丢掉过多 baseline 优胜者，就合并 baseline 与 rerank。
             baseline_ids = {r.get("id") for r in baseline[:limit]}
             reranked_ids = {r.get("id") for r in reranked[:limit]}
             if len(baseline_ids & reranked_ids) < max(1, len(baseline_ids) // 2):
-                # rerank disagrees too strongly with baseline; merge both
+                # 重排与 baseline 分歧过大，按半个 baseline + rerank 的顺序合并。
                 top: list[dict[str, Any]] = []
                 seen: set[Any] = set()
                 for row in (baseline[: max(1, limit // 2)] + reranked):
@@ -277,7 +280,7 @@ def multipass_search(
                 return top
             return reranked[:limit]
 
-    # Safety net: never return less than baseline
+    # 最后一层安全网：绝不返回明显少于 baseline 的结果。
     if len(merged) < max(1, len(baseline) // 2):
         return baseline[:limit]
     return merged[:limit]

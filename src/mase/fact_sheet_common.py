@@ -1,4 +1,4 @@
-"""Shared text and metadata helpers for fact-sheet builders."""
+"""fact-sheet 构建器共享的文本和元数据 helper。"""
 from __future__ import annotations
 
 import json
@@ -6,17 +6,19 @@ from typing import Any
 
 
 def strip_memory_prefixes(content: str, keep_user: bool = False) -> str:
-    """Drop the User:/Assistant:/Summary:/Entities: scaffolding."""
+    """去掉 User:/Assistant:/Summary:/Entities: 等记忆包装前缀。"""
     if not content:
         return ""
     text = content
     for marker in ("\nSummary:", "\nEntities:", "\nsummary=", "\nentities="):
+        # Summary/Entities 是写入侧脚手架，不应污染 executor 证据窗口。
         idx = text.find(marker)
         if idx > 0:
             text = text[:idx]
     if not keep_user and text.startswith("User: "):
         asst_idx = text.find("\nAssistant: ")
         if 0 < asst_idx < 600:
+            # 常规问答证据更关注 Assistant 内容；长用户输入可通过 keep_user 保留。
             text = text[asst_idx + len("\nAssistant: "):]
     return text.strip()
 
@@ -27,7 +29,7 @@ def extract_focused_window(
     radius: int = 220,
     max_windows: int = 4,
 ) -> str:
-    """Return one or more verbatim windows around matched terms."""
+    """返回围绕命中 term 的一个或多个原文窗口。"""
     if not content:
         return ""
     lowered_content = content.lower()
@@ -45,10 +47,12 @@ def extract_focused_window(
             match_positions.append(idx)
             start = idx + max(1, len(term_l))
             if len(match_positions) >= max_match_collect:
+                # 控制收集上限，避免长文档中高频词导致窗口爆炸。
                 break
         if len(match_positions) >= max_match_collect:
             break
     if not match_positions:
+        # 没有命中时返回开头窗口，仍保留一段可审计证据。
         return content[: 2 * radius] + ("…" if len(content) > 2 * radius else "")
     match_positions.sort()
     merged: list[tuple[int, int]] = []
@@ -56,6 +60,7 @@ def extract_focused_window(
         lo = max(0, pos - radius)
         hi = min(len(content), pos + radius)
         if merged and lo <= merged[-1][1] + 40:
+            # 相邻窗口距离很近时合并，减少重复上下文。
             merged[-1] = (merged[-1][0], max(merged[-1][1], hi))
         else:
             merged.append((lo, hi))
@@ -70,6 +75,7 @@ def extract_focused_window(
 
 
 def _parse_metadata(row: dict[str, Any]) -> dict[str, Any]:
+    """从搜索结果行中容错解析 metadata。"""
     raw = row.get("metadata")
     if isinstance(raw, str) and raw.strip():
         try:

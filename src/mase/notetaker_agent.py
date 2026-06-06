@@ -1,3 +1,5 @@
+"""Notetaker 工具调用代理，负责把模型意图落到记忆 API。"""
+
 from __future__ import annotations
 
 import json
@@ -18,10 +20,9 @@ from mase_tools.memory.api import (
 
 from .model_interface import ModelInterface
 
-# Maps notetaker tool names to the tri-vault bucket they should mirror into.
-# Read-only tools (search/get_*) are intentionally absent — they don't mutate
-# memory and so produce no on-disk artifact. Default-bucket fallback in
-# ``_mirror_tool_write`` is "sessions" per the wire-up spec.
+# Notetaker 写工具到 tri-vault bucket 的映射。只读工具（search/get_*）刻意不出现：
+# 它们不修改记忆，因此也不应产生磁盘镜像。_mirror_tool_write 的默认 bucket
+# 按接线规范回落到 sessions。
 _TRI_VAULT_BUCKET_BY_TOOL = {
     "mase2_write_interaction": "sessions",
     "mase2_upsert_fact": "context",
@@ -106,8 +107,11 @@ NOTETAKER_TOOLS = [
 ]
 
 class NotetakerAgent:
+    """封装 Notetaker 可调用工具、执行结果和可选 tri-vault 镜像。"""
+
     def __init__(self, model_interface: ModelInterface | None = None) -> None:
         self.model_interface = model_interface
+        # 工具名到真实记忆 API 的唯一注册表，避免模型返回的名字直接动态调用。
         self._tool_handlers: dict[str, Any] = {
             "mase2_write_interaction": mase2_write_interaction,
             "mase2_upsert_fact": mase2_upsert_fact,
@@ -119,13 +123,15 @@ class NotetakerAgent:
         }
 
     def get_tool_schemas(self) -> list[dict[str, Any]]:
+        """返回提供给模型的工具 schema。"""
         return NOTETAKER_TOOLS
 
     def select_operation_mode(self, user_message: str, context: str = "") -> str:
-        # 默认模式
+        # 当前实现保持默认模式；上层可传入 mode 覆盖。
         return "default"
 
     def parse_tool_arguments(self, raw_arguments: Any) -> dict[str, Any]:
+        """把模型返回的工具参数统一解析为 dict。"""
         if isinstance(raw_arguments, dict):
             return raw_arguments
         if isinstance(raw_arguments, str):
@@ -137,6 +143,7 @@ class NotetakerAgent:
         raise TypeError(f"无法解析工具参数: {raw_arguments!r}")
 
     def execute_tool(self, name: str, arguments: dict[str, Any]) -> Any:
+        """执行单个已注册记忆工具，并在需要时做混合召回重排。"""
         if name not in self._tool_handlers:
             raise ValueError(f"未知工具: {name}")
         result = self._tool_handlers[name](**arguments)
@@ -144,6 +151,7 @@ class NotetakerAgent:
             try:
                 from .hybrid_recall import HybridReranker
                 if isinstance(result, list) and result and isinstance(result[0], dict):
+                    # search_memory 结果仍来自底层 API；这里只在开关开启时做排序增强。
                     query = " ".join(arguments.get("keywords") or []) if isinstance(arguments, dict) else ""
                     result = HybridReranker().rerank(query, result)
             except Exception:
@@ -151,13 +159,13 @@ class NotetakerAgent:
         return result
 
     def execute_tool_call(self, tool_call: dict[str, Any]) -> dict[str, Any]:
+        """执行 OpenAI-compatible tool_call 结构并返回审计友好的结果对象。"""
         function = tool_call["function"]
         name = function["name"]
         arguments = self.parse_tool_arguments(function.get("arguments", {}))
         result = self.execute_tool(name, arguments)
-        # Tri-vault mirror: SQLite write has succeeded above (api.* commits
-        # before returning), so it's safe to mirror to the on-disk vault now.
-        # No-op when MASE_MEMORY_LAYOUT != "tri".
+        # tri-vault 镜像：上面的 SQLite 写入已经提交（api.* 返回前 commit），
+        # 因此此处可以安全写磁盘镜像。MASE_MEMORY_LAYOUT != "tri" 时为 no-op。
         self._mirror_tool_write(name, arguments, result)
         return {
             "name": name,
@@ -167,12 +175,13 @@ class NotetakerAgent:
 
     @staticmethod
     def _mirror_tool_write(name: str, arguments: dict[str, Any], result: Any) -> None:
+        """把已成功的写工具结果同步到 tri-vault 磁盘布局。"""
         if not tri_vault.is_enabled():
             return
         if name not in _TRI_VAULT_BUCKET_BY_TOOL:
             return
         bucket = _TRI_VAULT_BUCKET_BY_TOOL.get(name, "sessions")
-        # Build a stable, human-grep-friendly key per tool.
+        # 为不同工具构造稳定、便于 grep 的磁盘 key。
         if name == "mase2_write_interaction":
             thread_id = str(arguments.get("thread_id", "unknown"))
             role = str(arguments.get("role", "unknown"))
@@ -192,11 +201,11 @@ class NotetakerAgent:
                 {"tool": name, "arguments": arguments, "result": result},
             )
         except Exception:
-            # Mirror is best-effort; a vault write failure must never break the
-            # primary SQLite-backed memory path.
+            # 镜像是 best-effort；vault 写失败不能破坏主 SQLite 记忆链路。
             pass
 
     def chat_with_tools(self, user_message: str, context: str = "", mode: str | None = None) -> dict[str, Any]:
+        """让 Notetaker 模型完成一次工具调用回合并返回最终响应与工具审计。"""
         if self.model_interface is None:
             raise RuntimeError("NotetakerAgent 缺少 ModelInterface，无法进行模型工具调用。")
 
@@ -218,6 +227,7 @@ class NotetakerAgent:
         if first_response.get("tool_calls"):
             messages = messages + [first_response]
             for tool_call in first_response["tool_calls"]:
+                # 所有工具调用都落到 execute_tool_call，集中处理解析、执行和镜像。
                 executed = self.execute_tool_call(tool_call)
                 executed_tools.append(executed)
                 messages.append(
@@ -229,9 +239,9 @@ class NotetakerAgent:
                 )
 
             follow_up = self.model_interface.chat(
-                "notetaker", 
-                messages=messages, 
-                mode=effective_mode, 
+                "notetaker",
+                messages=messages,
+                mode=effective_mode,
                 override_system_prompt=NOTETAKER_SYSTEM
             )["message"]
             final_response = follow_up.get("content", "").strip()

@@ -1,7 +1,7 @@
 minimum_pre_commit_version: "3.5.0"
 
 repos:
-  # ── secret scanning (PRIMARY DEFENSE, added 2026-04-19 after key-leak audit) ──
+  # 密钥扫描是提交前第一道防线；2026-04-19 密钥泄露审计后加入。
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.2
     hooks:
@@ -19,7 +19,7 @@ repos:
       - id: check-yaml
       - id: check-toml
       - id: detect-private-key
-      # Blocks UTF-16 / null-byte .py files from ever entering the repo again.
+      # 阻止 UTF-16 / 空字节 Python 文件进入仓库，避免解释器和 diff 工具失真。
       - id: fix-byte-order-marker
 
   - repo: local
@@ -37,5 +37,5 @@ repos:
       - id: ruff
         args: ["--fix"]
       - id: ruff-format
-        # format is advisory only until an explicit project-wide reformat is scheduled.
+        # 全仓格式化尚未排期前，format 只做手动建议，不在普通提交中大面积改动。
         stages: [manual]

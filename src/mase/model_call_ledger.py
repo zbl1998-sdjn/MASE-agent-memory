@@ -1,3 +1,8 @@
+"""模型调用账本 mixin：记录每次 LLM 请求的用量、成本、fallback 与审批状态。
+
+该模块只做观测与策略评估，不发起网络请求。`ModelInterface.chat()` 在 provider
+调用返回后把原始响应交给这里归一化，供 trace、成本中心、SLO 面板和审计使用。
+"""
 from __future__ import annotations
 
 import uuid
@@ -12,10 +17,13 @@ _TRUTHY = {"1", "true", "yes", "y", "on"}
 
 
 def cloud_models_allowed_from_env(environ: Mapping[str, str]) -> bool:
+    """从传入环境映射判断云模型审批开关，便于测试隔离 os.environ。"""
     return str(environ.get("MASE_ALLOW_CLOUD_MODELS") or "").strip().lower() in _TRUTHY
 
 
 class ModelCallLedgerMixin:
+    """成本与调用账本能力，由 `ModelInterface` 继承。"""
+
     models_config: dict[str, Any]
     pricing_catalog: dict[str, Any]
 
@@ -33,6 +41,11 @@ class ModelCallLedgerMixin:
         provider: str,
         model_name: str,
     ) -> dict[str, Any]:
+        """评估一次候选调用的成本/审批状态。
+
+        本地模型直接允许；云模型在未显式批准时标记 blocked；已批准但价格目录
+        不完整时只告警，避免新供应商接入阶段被价格表阻断。
+        """
         import os
 
         price = resolve_price(provider, model_name, self.pricing_catalog)
@@ -75,6 +88,7 @@ class ModelCallLedgerMixin:
         }
 
     def evaluate_cost_policy(self, agent_type: str, mode: str | None = None) -> dict[str, Any]:
+        """对外暴露单个 agent/mode 的成本策略判断。"""
         agent_config = self.get_effective_agent_config(agent_type, mode=mode)
         return self._evaluate_cost_policy(
             agent_type=agent_type,
@@ -84,6 +98,7 @@ class ModelCallLedgerMixin:
         )
 
     def describe_cost_routing(self) -> dict[str, Any]:
+        """汇总所有 agent/mode 的成本与审批状态，供成本中心页面展示。"""
         rows: list[dict[str, Any]] = []
         for agent_type in sorted(self.models_config):
             rows.append(self.evaluate_cost_policy(agent_type))
@@ -141,6 +156,7 @@ class ModelCallLedgerMixin:
         request_messages: list[dict[str, Any]],
         response: dict[str, Any],
     ) -> tuple[int, int, int, str]:
+        """优先使用 provider usage；缺失时退回字符数/4 的保守估算。"""
         usage = usage or {}
         prompt = self._numeric(usage.get("prompt_tokens"))
         if prompt is None:
@@ -169,6 +185,7 @@ class ModelCallLedgerMixin:
         resolved_agent: dict[str, Any],
         provider: str,
     ) -> tuple[float, float, float]:
+        """解析输入/输出 token 单价；本地 provider 固定为零成本。"""
         if self._is_local_provider(provider):
             return 0.0, 0.0, 0.0
         config = dict(agent_config)
@@ -191,6 +208,7 @@ class ModelCallLedgerMixin:
         agent_config: dict[str, Any],
         resolved_agent: dict[str, Any],
     ) -> dict[str, Any]:
+        """把一次模型响应归一化成可持久化的调用账本行。"""
         usage = self._extract_usage(provider, response)
         prompt_tokens, completion_tokens, total_tokens, token_source = self._normalize_token_counts(
             usage,
@@ -210,6 +228,8 @@ class ModelCallLedgerMixin:
         fallback_from = resolved_agent.get("fallback_from")
         fallback_to = resolved_agent.get("fallback_to")
         if fallback_from is None and (configured_provider, configured_model) != (provider, model_name):
+            # provider mixin 可能只返回最终命中的模型；这里补出“从哪路由到哪”的
+            # 归因，便于定位 fallback 是否真的生效。
             fallback_from = f"{configured_provider}:{configured_model}"
             fallback_to = f"{provider}:{model_name}"
         cost_policy = self._evaluate_cost_policy(agent_type, mode, provider, model_name)
@@ -242,6 +262,7 @@ class ModelCallLedgerMixin:
         }
 
     def _extract_usage(self, provider: str, response: dict[str, Any]) -> dict[str, Any] | None:
+        """从不同 provider 响应中抽取 usage 字段，保持账本 schema 稳定。"""
         usage = response.get("usage")
         if isinstance(usage, dict):
             return dict(usage)

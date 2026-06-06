@@ -1,3 +1,5 @@
+"""直接操作 SQLite 记忆库的交互式维护 CLI。"""
+
 import sys
 from contextlib import closing
 
@@ -5,6 +7,7 @@ from mase_tools.memory.db_core import PROFILE_TEMPLATES, get_connection
 
 
 def print_menu():
+    """打印交互式菜单。"""
     print("\n" + "="*40)
     print(" MASE Memory CLI (SQLite Direct Control)")
     print("="*40)
@@ -18,6 +21,7 @@ def print_menu():
     print("="*40)
 
 def show_facts(category=None):
+    """展示当前核心实体事实，可按 category 过滤。"""
     with closing(get_connection()) as conn:
         cursor = conn.cursor()
         if category:
@@ -25,11 +29,11 @@ def show_facts(category=None):
         else:
             cursor.execute('SELECT * FROM entity_state ORDER BY category, updated_at DESC')
         rows = cursor.fetchall()
-        
+
         if not rows:
             print("\n[Empty] 暂无任何核心记忆！")
             return
-            
+
         print(f"\n[OK] 找到 {len(rows)} 条记忆:")
         print(f"{'分类 (Category)':<20} | {'标识键 (Key)':<20} | {'值 (Value)':<40} | {'更新时间'}")
         print("-" * 105)
@@ -37,39 +41,42 @@ def show_facts(category=None):
             print(f"{row['category']:<20} | {row['entity_key']:<20} | {row['entity_value']:<40} | {row['updated_at']}")
 
 def upsert_fact():
+    """交互式插入或更新一条实体事实。"""
     print("\n--- 可用的分类模板 ---")
     for idx, t in enumerate(PROFILE_TEMPLATES):
         print(f"[{idx+1}] {t}")
-    
+
     try:
         cat_idx = int(input("\n选择分类的序号 (直接回车默认 general_facts): ") or 6) - 1
         category = PROFILE_TEMPLATES[cat_idx] if 0 <= cat_idx < len(PROFILE_TEMPLATES) else "general_facts"
     except ValueError:
         category = "general_facts"
-        
+
     key = input("输入实体的标识键 (例如 'favorite_food'): ").strip()
     value = input("输入该实体的当前状态/值 (例如 '喜欢吃辣'): ").strip()
-    
+
     if not key or not value:
         print("[Error] 键或值不能为空！")
         return
-        
+
     with closing(get_connection()) as conn, conn:
+        # SQLite ON CONFLICT 保证同 category/key 只保留当前状态。
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO entity_state (category, entity_key, entity_value, updated_at)
             VALUES (?, ?, ?, CURRENT_TIMESTAMP)
-            ON CONFLICT(category, entity_key) 
-            DO UPDATE SET 
-                entity_value=excluded.entity_value, 
+            ON CONFLICT(category, entity_key)
+            DO UPDATE SET
+                entity_value=excluded.entity_value,
                 updated_at=CURRENT_TIMESTAMP
         ''', (category, key, value))
     print(f"\n[OK] 成功将事实 [{category}.{key}] 设为: {value}")
 
 def delete_fact():
+    """交互式删除一条实体事实。"""
     category = input("请输入要删除事实的分类 (Category): ").strip()
     key = input("请输入要删除事实的键 (Key): ").strip()
-    
+
     with closing(get_connection()) as conn, conn:
         cursor = conn.cursor()
         cursor.execute('DELETE FROM entity_state WHERE category = ? AND entity_key = ?', (category, key))
@@ -79,17 +86,18 @@ def delete_fact():
             print(f"\n[Error] 未找到匹配的记忆: [{category}.{key}]")
 
 def search_logs():
+    """按关键词搜索 event log。"""
     keyword = input("\n输入你要搜索的流水账关键词: ").strip()
     if not keyword:
         return
-        
+
     from mase_tools.memory.db_core import search_event_log
     results = search_event_log([keyword], limit=10)
-    
+
     if not results:
         print(f"\n[Empty] 未在历史流水账中找到与 '{keyword}' 相关的内容。")
         return
-        
+
     print(f"\n[OK] 找到 {len(results)} 条记录:")
     for r in results:
         role = r['role'].upper()
@@ -97,15 +105,16 @@ def search_logs():
         print(f"[{r['timestamp']}] {role}: {content}")
 
 def show_recent_logs():
+    """展示最近 10 条 event log。"""
     with closing(get_connection()) as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM memory_log ORDER BY timestamp DESC LIMIT 10')
         rows = cursor.fetchall()
-        
+
         if not rows:
             print("\n[Empty] 暂无对话流水账！")
             return
-            
+
         print("\n[OK] 最近的 10 条对话记录:")
         for r in reversed(rows):
             role = r['role'].upper()
@@ -113,10 +122,11 @@ def show_recent_logs():
             print(f"[{r['timestamp']}] {role}: {content}")
 
 def main():
+    """启动交互式循环；写操作依赖人工确认输入。"""
     while True:
         print_menu()
         choice = input("请选择操作 (0-6): ").strip()
-        
+
         if choice == '1':
             show_facts()
         elif choice == '2':

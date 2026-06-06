@@ -1,3 +1,5 @@
+"""Planner Agent wrapper，负责生成执行步骤而不是最终答案。"""
+
 from __future__ import annotations
 
 from .model_interface import ModelInterface
@@ -18,19 +20,23 @@ PLANNER_SYSTEM = """
 - 不要解释，不要举例，不要写最终答案
 """
 
+
 class PlannerAgent:
+    """封装 planner 模型调用和无模型 fallback。"""
+
     def __init__(self, model_interface: ModelInterface | None = None):
         self.model_interface = model_interface
 
     def plan(self, query: str, memory_context: str, mode: str | None = "task_planning") -> str:
+        """生成面向 executor 的短计划。"""
         if not self.model_interface:
-            # 简单回退机制
+            # 无模型接口时走短 fallback，保证 LangGraph 编排仍能前进。
             if memory_context and "无相关记忆" not in memory_context:
                 return "1. 结合查找到的记忆。\n2. 直接回答用户问题。"
             return "直接基于常识回答问题。"
 
         prompt = f"用户问题: {query}\n\n相关记忆:\n{memory_context}\n\n请输出你的计划："
-        
+
         response = self.model_interface.chat(
             "planner",
             messages=[{"role": "user", "content": prompt}],
@@ -38,5 +44,6 @@ class PlannerAgent:
             override_system_prompt=PLANNER_SYSTEM
         )
         return response["message"]["content"].strip()
+
 
 DEFAULT_PLANNER = PlannerAgent()

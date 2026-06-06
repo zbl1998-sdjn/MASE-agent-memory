@@ -14,32 +14,28 @@ def adaptive_verify_decision(
     candidates: list[dict],
     qtype: str | None = None,
 ) -> str:
-    """Verifier-depth hook. Returns "single" (current behavior) unless
-    ``MASE_ADAPTIVE_VERIFY=1`` is set, in which case it consults
-    :class:`AdaptiveVerifyPolicy`. Inert by default — callers that wrap
-    the verifier chain with this hook see no change unless the flag is on.
+    """Verifier 深度选择钩子。
+
+    默认返回 ``"single"`` 维持现有行为；只有设置 ``MASE_ADAPTIVE_VERIFY=1``
+    时才查询 :class:`AdaptiveVerifyPolicy`。因此调用方即使包住 verifier
+    链路，只要开关未开启也不会改变行为。
     """
     if os.environ.get("MASE_ADAPTIVE_VERIFY", "0") != "1":
         return "single"
     return AdaptiveVerifyPolicy().decide(retrieval_score, candidates, qtype)
 
 # ---------------------------------------------------------------------------
-# Legacy compat: a handful of regression tests and `legacy_archive/orchestrator.py`
-# still import these helpers. The post-refactor router defers all keyword work
-# to the LLM, so the legacy "extract keywords from question" hook now simply
-# returns the FULL_QUERY sentinel — equivalent to "let the search layer use the
-# raw question". `_should_force_search_memory` was likewise simplified to
-# always return False (the planner makes that decision now).
+# 兼容旧接口：少量回归测试和 legacy_archive/orchestrator.py 仍会导入这些 helper。
+# 重构后的 Router 将关键词工作交给 LLM，因此旧的“从问题抽关键词”钩子现在只返回
+# FULL_QUERY 哨兵，等价于“让搜索层直接使用原问题”。_should_force_search_memory
+# 同样退化为 False，因为是否强制检索已由 planner 接管。
 # ---------------------------------------------------------------------------
 
 FULL_QUERY_SENTINEL = "__FULL_QUERY__"
 
-# Single source of truth for the keyword-rule fast-path that the LangGraph
-# orchestrator uses to decide ``search_memory`` vs ``direct_answer`` *before*
-# spending an LLM hop. ``RouterAgent.decide`` (LLM-backed) below remains the
-# authoritative router; the keyword list is the latency-optimized prefilter.
-# Both code paths must import from here so the prefilter and the LLM prompt
-# stay aligned (resolves ``TODO(router-upgrade)`` in langgraph_orchestrator.py).
+# LangGraph 编排器在消耗 LLM 跳数前，会用这组关键词做 search_memory/direct_answer
+# 快速预判。下面的 RouterAgent.decide 仍是权威路由；这里是延迟优化用的预过滤器。
+# 两条路径都必须从这里导入，确保关键词 fast-path 与 LLM prompt 保持一致。
 MEMORY_TRIGGER_PHRASES: tuple[str, ...] = (
     "之前", "上次", "刚才", "刚刚", "早先",
     "记得", "还记得", "提到过", "告诉过", "说过",
@@ -50,25 +46,22 @@ MEMORY_TRIGGER_PHRASES: tuple[str, ...] = (
 
 
 def keyword_router_decision(query: str) -> str:
-    """Fast-path keyword router used by the LangGraph orchestrator. Returns
-    ``"search_memory"`` if any trigger phrase is present, else ``"direct_answer"``.
-    Mirrors the positive-case phrases that ``ROUTER_SYSTEM`` (LLM router)
-    is trained to react to."""
+    """LangGraph 编排器使用的关键词快速路由。"""
     return "search_memory" if any(p in query for p in MEMORY_TRIGGER_PHRASES) else "direct_answer"
 
 
 def _extract_keywords_from_question(question: str) -> list[str]:
-    """Legacy stub. Returns the FULL_QUERY sentinel for every input."""
+    """旧接口桩：对所有输入返回 FULL_QUERY 哨兵。"""
     return [FULL_QUERY_SENTINEL]
 
 
 def _should_force_search_memory(question: str) -> bool:
-    """Legacy stub. The new planner owns this decision."""
+    """旧接口桩：新 planner 已接管该决策。"""
     return False
 
 
 def filter_keywords(keywords: list[str]) -> list[str]:
-    """Legacy stub. Drops empties and the FULL_QUERY sentinel."""
+    """旧接口桩：过滤空值和 FULL_QUERY 哨兵。"""
     return [k for k in (keywords or []) if k and k != FULL_QUERY_SENTINEL]
 
 
@@ -118,6 +111,7 @@ ROUTER_SYSTEM = """
 
 
 def parse_router_response(content: str) -> dict[str, Any]:
+    """容错解析 Router 的 JSON 输出。"""
     cleaned = content.strip()
 
     try:
@@ -138,6 +132,7 @@ def parse_router_response(content: str) -> dict[str, Any]:
     except json.JSONDecodeError:
         pass
 
+    # 最后一层降级：从非严格 JSON 文本里提取 action/keywords 字段。
     action_match = re.search(r'"action"\s*:\s*"([^"]+)"', cleaned)
     keywords_match = re.search(r'"keywords"\s*:\s*\[(.*?)\]', cleaned, re.DOTALL)
 
@@ -153,18 +148,13 @@ def parse_router_response(content: str) -> dict[str, Any]:
 
 
 class RouterAgent:
-    """
-    A streamlined, LangGraph-ready Router Agent.
-    Evaluates user queries to determine if a memory search is needed.
-    """
+    """面向 LangGraph 的轻量 Router Agent，判断是否需要查询历史记忆。"""
+
     def __init__(self, model_interface: ModelInterface) -> None:
         self.model_interface = model_interface
 
     def decide(self, user_question: str, system_prompt: str | None = None) -> dict[str, Any]:
-        """
-        Receives a user query and returns a routing decision.
-        Output format: {"action": "search_memory" | "direct_answer", "keywords": [...]}
-        """
+        """返回路由决策：``search_memory`` 或 ``direct_answer``。"""
         if not user_question.strip():
             return {"action": "direct_answer", "keywords": []}
 
@@ -177,11 +167,12 @@ class RouterAgent:
             ],
             override_system_prompt=prompt_to_use,
         )
-        
+
         content = response["message"]["content"]
         route = parse_router_response(content)
-        
+
         if not isinstance(route.get("keywords"), list):
+            # 外部模型偶尔会把 keywords 生成为字符串；对调用方统一成列表契约。
             route["keywords"] = []
-            
+
         return route

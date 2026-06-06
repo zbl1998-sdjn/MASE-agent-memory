@@ -1,3 +1,5 @@
+"""append-only 审计日志工具，负责写入和读取脱敏 JSONL 事件。"""
+
 from __future__ import annotations
 
 import json
@@ -14,12 +16,15 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def resolve_audit_log_path() -> Path:
+    """解析审计日志 JSONL 路径。"""
     raw_path = str(os.environ.get("MASE_AUDIT_LOG_PATH") or "").strip()
     return Path(raw_path).expanduser().resolve() if raw_path else (ROOT / "memory" / "audit.jsonl").resolve()
 
 
 def sanitize_audit_value(value: Any) -> Any:
+    """递归脱敏审计 payload，并截断过长字符串。"""
     if isinstance(value, dict):
+        # 敏感键直接隐藏值；非敏感键继续递归脱敏。
         return {key: "[REDACTED]" if is_sensitive_key(str(key)) else sanitize_audit_value(item) for key, item in value.items()}
     if isinstance(value, list):
         return [sanitize_audit_value(item) for item in value]
@@ -43,6 +48,7 @@ def append_audit_event(
     metadata: dict[str, Any] | None = None,
     path: Path | None = None,
 ) -> dict[str, Any]:
+    """追加一条审计事件到 JSONL 文件。"""
     event = {
         "audit_id": uuid.uuid4().hex,
         "created_at": datetime.now(UTC).isoformat(),
@@ -70,6 +76,7 @@ def list_audit_events(
     resource_type: str | None = None,
     path: Path | None = None,
 ) -> dict[str, Any]:
+    """读取审计事件，并按常用维度过滤。"""
     audit_path = path or resolve_audit_log_path()
     metadata: dict[str, Any] = {
         "path": str(audit_path),
@@ -86,6 +93,7 @@ def list_audit_events(
         try:
             event = json.loads(raw_line)
         except json.JSONDecodeError:
+            # 单行坏 JSON 不影响后续审计事件读取。
             metadata["skipped_count"] += 1
             metadata["skipped_lines"].append(line_number)
             continue
@@ -96,6 +104,7 @@ def list_audit_events(
         if resource_type and event.get("resource_type") != resource_type:
             continue
         events.append(event)
+    # 最近事件优先，并对 limit 做硬上限，避免一次读取过大。
     return {"events": list(reversed(events))[: max(1, min(int(limit), 500))], "metadata": metadata}
 
 

@@ -1,4 +1,4 @@
-"""Candidate-table builders for long-context disambiguation."""
+"""长上下文消歧任务的候选裁决表构建器。"""
 from __future__ import annotations
 
 import re
@@ -45,6 +45,7 @@ _CJK_NAME_STOPWORDS = {
 
 
 def _candidate_query_tokens(user_question: str) -> list[str]:
+    """抽取英文候选题中的内容 token。"""
     stopwords = {
         "what",
         "which",
@@ -60,6 +61,7 @@ def _candidate_query_tokens(user_question: str) -> list[str]:
 
 
 def _candidate_query_tokens_cjk(user_question: str) -> list[str]:
+    """抽取中文候选题中的 CJK n-gram 查询 token。"""
     stop_fragments = {
         "什么",
         "名字",
@@ -76,6 +78,7 @@ def _candidate_query_tokens_cjk(user_question: str) -> list[str]:
     tokens: list[str] = []
     seen: set[str] = set()
     for run in re.findall(r"[\u4e00-\u9fff]{3,}", user_question):
+        # 从长到短生成 token，排序时长 token 优先，有助于定位问题锚点。
         for size in range(min(8, len(run)), 1, -1):
             for index in range(0, len(run) - size + 1):
                 token = run[index : index + size]
@@ -89,6 +92,7 @@ def _candidate_query_tokens_cjk(user_question: str) -> list[str]:
 
 
 def _extract_english_name_candidates(text: str) -> list[str]:
+    """从英文证据片段中抽取标题大小写姓名候选。"""
     matches = re.findall(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,2}\b", text)
     deduped: list[str] = []
     seen: set[str] = set()
@@ -102,6 +106,7 @@ def _extract_english_name_candidates(text: str) -> list[str]:
 
 
 def _normalize_cjk_candidate_name(name: str) -> str:
+    """清洗中文候选名，并过滤常见非人名片段。"""
     candidate = re.sub(r"^(?:这位|那位|一个|一代|某位)", "", str(name or "").strip())
     candidate = re.sub(r"(?:先生|女士|博士|教授|学士)$", "", candidate)
     candidate = candidate.strip(" ，,。；;：:\"“”‘’（）()[]【】")
@@ -123,6 +128,7 @@ def _normalize_cjk_candidate_name(name: str) -> str:
 
 
 def _extract_cjk_name_candidates(text: str) -> list[str]:
+    """根据中文人名常见上下文模式抽取候选名。"""
     patterns = (
         r"(?:^|[。！？；;：:\n，,]\s*)([\u4e00-\u9fff]{2,8}?)(?:先生|女士|博士|教授|学士)?(?:，|,)?(?:乃为|乃一|乃|是|为|被|作为|研究于)",
         r"([\u4e00-\u9fff]{2,8}?)(?:先生|女士|博士|教授|学士)?(?:乃为|乃一|亦对|被誉为|被称为|研究于)",
@@ -140,12 +146,14 @@ def _extract_cjk_name_candidates(text: str) -> list[str]:
 
 
 def _earliest_query_anchor(text: str, query_tokens: list[str]) -> int:
+    """返回问题 token 在证据中的最早命中位置。"""
     lowered = text.lower()
     positions = [lowered.find(token) for token in query_tokens if token and lowered.find(token) >= 0]
     return min(positions) if positions else -1
 
 
 def _nearest_preceding_cjk_name(text: str, anchor_index: int) -> str:
+    """取查询锚点前最近的中文候选名。"""
     if anchor_index < 0:
         return ""
     start = max(0, anchor_index - 420)
@@ -155,6 +163,7 @@ def _nearest_preceding_cjk_name(text: str, anchor_index: int) -> str:
 
 
 def _nearest_preceding_name(text: str, anchor_index: int) -> str:
+    """取查询锚点前最近的英文姓名候选。"""
     if anchor_index < 0:
         return ""
     start = max(0, anchor_index - 360)
@@ -164,6 +173,7 @@ def _nearest_preceding_name(text: str, anchor_index: int) -> str:
 
 
 def _candidate_evidence_snippet(content: str, candidate_name: str, anchor_index: int, fallback_snippet: str) -> str:
+    """围绕候选名和问题锚点截取证据片段。"""
     lowered = content.lower()
     candidate_lower = candidate_name.lower()
     name_index = lowered.rfind(candidate_lower, 0, anchor_index if anchor_index > 0 else len(content))
@@ -184,6 +194,7 @@ def _build_candidate_table(
     search_results: list[dict[str, Any]],
     terms_sorted: list[str],
 ) -> list[str]:
+    """构建英文候选裁决表。"""
     lowered_question = user_question.lower()
     if not any(marker in lowered_question for marker in ("who", "which", "what is the name", "what's the name")):
         return []
@@ -208,6 +219,7 @@ def _build_candidate_table(
         candidate_names = _extract_english_name_candidates(snippet)
         preceding_name = _nearest_preceding_name(content, anchor_index)
         if preceding_name:
+            # 锚点前最近人名通常比窗口内其它专名更可能是答案候选。
             candidate_names = [preceding_name, *candidate_names]
         for name in candidate_names:
             key = name.lower()
@@ -234,6 +246,7 @@ def _build_cjk_candidate_table(
     search_results: list[dict[str, Any]],
     terms_sorted: list[str],
 ) -> list[str]:
+    """构建中文候选裁决表。"""
     if not any(marker in user_question for marker in ("叫什么名字", "叫做什么", "哪位", "何人", "是谁", "谁")):
         return []
     query_tokens = _candidate_query_tokens_cjk(user_question)
@@ -259,6 +272,7 @@ def _build_cjk_candidate_table(
         candidate_names = _extract_cjk_name_candidates(snippet)
         preceding_name = _nearest_preceding_cjk_name(content, anchor_index)
         if preceding_name:
+            # 中文叙述常把人名放在关系描述之前，因此优先补入锚点前候选。
             candidate_names = [preceding_name, *candidate_names]
         for name in candidate_names:
             if name in seen_names:

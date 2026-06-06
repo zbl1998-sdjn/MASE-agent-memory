@@ -1,4 +1,8 @@
-"""Question-focused lexical scans over full long-memory history."""
+"""面向问题的长记忆全文词法扫描。
+
+本模块把用户问题扩展成 evidence terms，并在完整长记忆历史中找出最可能含有
+答案的窗口。它只生成白盒证据和 deterministic ledger，不直接调用模型。
+"""
 from __future__ import annotations
 
 import math
@@ -25,6 +29,7 @@ from .fact_sheet_long_memory_terms import (
 from .topic_threads import detect_text_language
 
 _NUMBER_WORDS = (
+    # 英文小数字用于把 LongMemEval 问句里的自然语言数量归一到可比较 token。
     "zero",
     "one",
     "two",
@@ -56,6 +61,7 @@ _ORDINAL_INDEX_MAP = {
 }
 
 _HOLIDAY_DATE_MAP = {
+    # 常见节日日期硬编码为 ledger hint，避免小模型为节日日期额外发散。
     "valentine's day": "February 14th",
     "valentines day": "February 14th",
 }
@@ -77,6 +83,7 @@ _ORDINAL_NUMBER_MAP = {
 
 
 def _build_preference_synthesis_hints(user_question: str) -> list[str]:
+    """为 single-session preference 问题补充偏好综合规则。"""
     if str(os.environ.get("MASE_QTYPE") or "").strip().lower() != "single-session-preference":
         return []
     lowered_question = (user_question or "").lower()
@@ -92,6 +99,7 @@ def _build_preference_synthesis_hints(user_question: str) -> list[str]:
 
 
 def _support_strength(item: tuple[float, int, dict[str, Any], list[str]]) -> int:
+    """按命中词数量、短语命中和长词命中估算证据强度。"""
     matched_terms = list(dict.fromkeys(item[3]))
     phrase_hits = sum(1 for term in matched_terms if " " in term)
     long_hits = sum(1 for term in matched_terms if len(term) >= 5)
@@ -101,6 +109,7 @@ def _support_strength(item: tuple[float, int, dict[str, Any], list[str]]) -> int
 def _filtered_update_rows(
     selected_rows: list[tuple[float, int, dict[str, Any], list[str]]],
 ) -> list[tuple[float, int, dict[str, Any], list[str]]]:
+    """更新类问题只保留强证据行，减少旧事实/弱命中干扰最新值判断。"""
     if len(selected_rows) < 2:
         return selected_rows
     strengths = [_support_strength(item) for item in selected_rows]
@@ -111,6 +120,7 @@ def _filtered_update_rows(
 
 
 def _extract_update_candidate_value(user_question: str, row: dict[str, Any]) -> str:
+    """从单条证据行里抽取“最新/初始/当前”类问题的候选答案值。"""
     lowered_question = (user_question or "").lower()
     content = strip_memory_prefixes(str(row.get("content") or "").strip(), keep_user=True)
     if not content:
@@ -193,6 +203,7 @@ def _normalize_lookup_phrase(value: str) -> str:
 
 
 def _lookup_question_focus_tokens(question: str) -> list[str]:
+    """抽取 lookup 问题里的有效焦点词，去掉提示词和泛化问句词。"""
     return [
         token
         for token in re.findall(r"[A-Za-z][A-Za-z'\-]{2,}", str(question or "").lower())
@@ -235,6 +246,7 @@ def _lookup_question_focus_tokens(question: str) -> list[str]:
 
 
 def _normalize_numeric_token(token: str) -> str:
+    """把英文数字/序数词归一成数字字符串，便于 bound-count 抽取。"""
     lowered = str(token or "").strip().lower()
     if lowered in _NUMBER_WORDS:
         return str(_NUMBER_WORDS.index(lowered))
@@ -244,6 +256,7 @@ def _normalize_numeric_token(token: str) -> str:
 
 
 def _extract_question_bound_count(question: str, content: str) -> str:
+    """从证据行中抽取与问题焦点绑定的数量，避免拿到无关数字。"""
     focus_tokens = _lookup_question_focus_tokens(question)
     candidate_terms: list[str] = []
     for token in focus_tokens:
@@ -265,6 +278,7 @@ def _extract_question_bound_count(question: str, content: str) -> str:
 
 
 def _extract_ordinal_index(question: str) -> int:
+    """解析 first / 2nd / third 等列表位置。"""
     lowered_question = (question or "").lower()
     numeric = re.search(r"\b(\d{1,2})(?:st|nd|rd|th)\b", lowered_question)
     if numeric:
@@ -276,6 +290,7 @@ def _extract_ordinal_index(question: str) -> int:
 
 
 def _extract_numbered_list_item(content: str, target_index: int) -> str:
+    """从 1. / 2. / 3. 编号列表中取出目标项。"""
     if target_index <= 0:
         return ""
     source = re.sub(r"\s+", " ", str(content or "")).strip()
@@ -295,6 +310,7 @@ def _extract_numbered_list_item(content: str, target_index: int) -> str:
 
 
 def _extract_direct_lookup_candidate_value(user_question: str, row: dict[str, Any]) -> str:
+    """为直接 lookup 从单行证据里抽取候选值。"""
     lowered_question = (user_question or "").lower()
     content = strip_memory_prefixes(str(row.get("content") or "").strip(), keep_user=True)
     if not content:
@@ -464,6 +480,7 @@ def _build_structured_lookup_ledger(
     user_question: str,
     selected_rows: list[tuple[float, int, dict[str, Any], list[str]]],
 ) -> list[str]:
+    """为表格/排班类结构化 lookup 生成确定性答案 ledger。"""
     lowered_question = (user_question or "").lower()
     if not any(marker in lowered_question for marker in ("rotation", "shift", "schedule", "sheet")):
         return []
@@ -518,6 +535,7 @@ def _build_list_lookup_ledger(
     user_question: str,
     selected_rows: list[tuple[float, int, dict[str, Any], list[str]]],
 ) -> list[str]:
+    """为编号列表问题生成 deterministic list lookup ledger。"""
     lowered_question = (user_question or "").lower()
     target_index = _extract_ordinal_index(user_question)
     if target_index <= 0 or "list" not in lowered_question:
@@ -580,6 +598,7 @@ def _build_direct_lookup_ledger(
     user_question: str,
     selected_rows: list[tuple[float, int, dict[str, Any], list[str]]],
 ) -> list[str]:
+    """为可直接抽取日期/地点/数量/布尔值的问题生成 deterministic ledger。"""
     lowered_question = (user_question or "").lower()
     if _is_update_semantic_question(lowered_question):
         return []
@@ -628,6 +647,7 @@ def _build_update_resolution_ledger(
     user_question: str,
     selected_rows: list[tuple[float, int, dict[str, Any], list[str]]],
 ) -> list[str]:
+    """为知识更新问题明确 earliest/latest 边界，防止旧事实覆盖新事实。"""
     lowered_question = (user_question or "").lower()
     if not _is_update_semantic_question(lowered_question) or len(selected_rows) < 2:
         return []
@@ -696,6 +716,11 @@ def _build_long_memory_evidence_scan(
     *,
     max_rows: int = 48,
 ) -> list[str]:
+    """扫描完整长记忆历史，输出 fact sheet 前置 evidence windows。
+
+    输出包含范围提示、偏好/时间/聚合 ledger 和按问题排序的证据窗口；后续
+    executor 只能基于这些白盒证据作答。
+    """
     if detect_text_language(user_question) != "en":
         return []
     # Local-only mode: shorter list keeps the fact sheet within qwen2.5:7b

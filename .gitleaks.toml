@@ -1,16 +1,16 @@
-# gitleaks config — extends the built-in default ruleset.
-# Add project-specific rules here if you ever need them.
-# To audit the entire history:  gitleaks detect --source . --redact
+# gitleaks 配置：继承内置默认规则集。
+# 如需项目专属规则，优先追加到本文件，避免在源码中写假密钥绕过扫描。
+# 全历史审计命令：gitleaks detect --source . --redact
 
 [extend]
 useDefault = true
 
 [[allowlists]]
-description = "env template uses placeholder __replace_me__ values"
+description = "env 模板只使用 __replace_me__ 占位值"
 paths = ['''\.env\.example$''']
 
 [[allowlists]]
-description = "model configs store environment variable names, not API key values"
+description = "模型配置只保存环境变量名，不保存 API key 值"
 regexTarget = "match"
 regexes = [
   '''["']?api_key_env["']?\s*:\s*["'][A-Z][A-Z0-9_]*_API_KEY["']''',

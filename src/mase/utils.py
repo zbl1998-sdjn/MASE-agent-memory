@@ -1,7 +1,7 @@
-"""Pure helper utilities shared across MASE modules.
+"""MASE 模块共享的纯 helper。
 
-Anything in here MUST be free of dependencies on agents, model interfaces or
-SQL — they are leaf-level helpers safe to import from anywhere.
+这里不引入 agent、SQL 或 LLM 客户端，只复用配置路径解析等叶子级能力，
+因此可以被上层模块安全导入。
 """
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from .model_interface import resolve_config_path, resolve_runs_dir
 
 
 def memory_root(config_path: str | Path | None = None) -> Path:
-    """Resolve the on-disk memory directory honoring MASE_MEMORY_DIR override."""
+    """解析磁盘记忆目录，并优先尊重 MASE_MEMORY_DIR 覆盖。"""
     raw_memory_dir = os.environ.get("MASE_MEMORY_DIR")
     if raw_memory_dir:
         root = Path(raw_memory_dir).resolve()
@@ -28,7 +28,7 @@ def memory_root(config_path: str | Path | None = None) -> Path:
 
 
 def normalize_json_text(content: str) -> dict[str, Any] | None:
-    """Best-effort JSON extraction from a possibly fenced model response."""
+    """从可能带 Markdown fence 的模型响应中尽力提取 JSON 对象。"""
     cleaned = str(content or "").strip()
     if cleaned.startswith("```json"):
         cleaned = cleaned[7:]

@@ -1,3 +1,4 @@
+"""把最终回答切成句子，并给每个片段标注证据支持状态。"""
 from __future__ import annotations
 
 import re
@@ -5,15 +6,18 @@ from typing import Any
 
 
 def _terms(text: str) -> set[str]:
+    """提取用于轻量重叠打分的候选词，忽略纯数字噪声。"""
     return {term.lower() for term in re.findall(r"[\w-]{3,}", text) if not term.isdigit()}
 
 
 def _sentences(answer: str) -> list[str]:
+    """按中英文句末标点切分；无句末标点时把整段作为单个 span。"""
     parts = [part.strip() for part in re.split(r"(?<=[.!?。！？])\s+", answer) if part.strip()]
     return parts or ([answer.strip()] if answer.strip() else [])
 
 
 def _evidence_text(row: dict[str, Any]) -> str:
+    """把多来源证据行折叠为同一个比较文本。"""
     return " ".join(
         str(row.get(key) or "")
         for key in ("content", "entity_value", "entity_key", "category", "answer_preview", "user_question")
@@ -21,6 +25,7 @@ def _evidence_text(row: dict[str, Any]) -> str:
 
 
 def _best_evidence(sentence: str, evidence_rows: list[dict[str, Any]]) -> tuple[dict[str, Any] | None, float]:
+    """返回与回答片段词项重叠最高的一条证据及覆盖率。"""
     sentence_terms = _terms(sentence)
     if not sentence_terms:
         return None, 0.0
@@ -37,6 +42,7 @@ def _best_evidence(sentence: str, evidence_rows: list[dict[str, Any]]) -> tuple[
 
 
 def build_answer_support(answer: str, evidence_rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """构建 Answer Support 视图，用于区分 supported/weak/unsupported/stale。"""
     spans: list[dict[str, Any]] = []
     for index, sentence in enumerate(_sentences(answer)):
         evidence, score = _best_evidence(sentence, evidence_rows)

@@ -1,7 +1,9 @@
+"""内置记忆治理 inspector 注册表。"""
 from __future__ import annotations
 
 from typing import Any
 
+# 这里仅登记可展示能力；具体检测逻辑分别在 drift/SLO/refusal 模块中实现。
 BUILTIN_INSPECTORS: list[dict[str, Any]] = [
     {
         "id": "drift-detector",
@@ -28,6 +30,7 @@ BUILTIN_INSPECTORS: list[dict[str, Any]] = [
 
 
 def list_inspectors() -> dict[str, Any]:
+    """返回 inspector 清单和启用数量，供前端或 CLI 展示。"""
     return {
         "summary": {
             "inspector_count": len(BUILTIN_INSPECTORS),

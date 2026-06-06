@@ -1,3 +1,5 @@
+"""模型调用成本中心：加载价格目录并汇总 trace 中的用量与估算成本。"""
+
 from __future__ import annotations
 
 import json
@@ -14,6 +16,7 @@ FALSEY = {"0", "false", "no", "n", "off", "disabled"}
 
 
 def _as_float(value: Any) -> float | None:
+    """宽松转换为 float；bool/空值视为缺失。"""
     if value is None or isinstance(value, bool):
         return None
     try:
@@ -23,6 +26,7 @@ def _as_float(value: Any) -> float | None:
 
 
 def _first_present(item: dict[str, Any], *keys: str) -> Any:
+    """按顺序返回第一个存在且非 None 的字段。"""
     for key in keys:
         if key in item and item[key] is not None:
             return item[key]
@@ -30,6 +34,7 @@ def _first_present(item: dict[str, Any], *keys: str) -> Any:
 
 
 def _as_int(value: Any) -> int:
+    """宽松转换为非负整数，用于 token/call 计数。"""
     if value is None or isinstance(value, bool):
         return 0
     try:
@@ -39,6 +44,7 @@ def _as_int(value: Any) -> int:
 
 
 def _is_enabled(value: Any) -> bool:
+    """解析 catalog enabled 字段；缺省视为启用。"""
     if value is None:
         return True
     if isinstance(value, bool):
@@ -47,14 +53,17 @@ def _is_enabled(value: Any) -> bool:
 
 
 def _is_local_provider(provider: str | None) -> bool:
+    """判断 provider 是否属于本地/免费模型通道。"""
     return str(provider or "").strip().lower() in LOCAL_PROVIDERS
 
 
 def _normalize_model_key(provider: str | None, model_name: str | None) -> str:
+    """统一 by_model 分桶键。"""
     return f"{str(provider or 'unknown').strip()}:{str(model_name or 'unknown').strip()}"
 
 
 def _resolve_relative_path(raw_path: str | Path, base_dir: Path) -> Path:
+    """解析相对配置路径；相对路径以配置文件所在目录为基准。"""
     path = Path(raw_path).expanduser()
     if path.is_absolute():
         return path.resolve()
@@ -62,6 +71,7 @@ def _resolve_relative_path(raw_path: str | Path, base_dir: Path) -> Path:
 
 
 def _pricing_path_from_config(config_path: str | Path | None) -> tuple[Path | None, str | None]:
+    """从 config.json 的 pricing.catalog 字段解析价格目录路径。"""
     if config_path is None:
         return None, None
     path = Path(config_path).expanduser().resolve()
@@ -81,6 +91,7 @@ def _pricing_path_from_config(config_path: str | Path | None) -> tuple[Path | No
 
 
 def resolve_pricing_catalog_path(config_path: str | Path | None = None) -> tuple[Path, str]:
+    """按 env -> config -> 默认文件的优先级定位价格目录。"""
     env_path = os.environ.get("MASE_PRICING_CATALOG_PATH")
     if env_path and env_path.strip():
         return Path(env_path).expanduser().resolve(), "env.MASE_PRICING_CATALOG_PATH"
@@ -91,6 +102,7 @@ def resolve_pricing_catalog_path(config_path: str | Path | None = None) -> tuple
 
 
 def _raw_items(payload: Any) -> list[dict[str, Any]]:
+    """兼容多种价格目录顶层字段名，返回原始 item 列表。"""
     if isinstance(payload, list):
         return [dict(item) for item in payload if isinstance(item, dict)]
     if not isinstance(payload, dict):
@@ -103,6 +115,7 @@ def _raw_items(payload: Any) -> list[dict[str, Any]]:
 
 
 def _raw_budget_rules(payload: Any) -> list[dict[str, Any]]:
+    """读取可选预算规则，当前只做透传。"""
     if not isinstance(payload, dict):
         return []
     value = payload.get("budget_rules")
@@ -114,6 +127,7 @@ def _raw_budget_rules(payload: Any) -> list[dict[str, Any]]:
 
 
 def _normalize_item(item: dict[str, Any]) -> dict[str, Any] | None:
+    """把目录 item 归一成成本中心内部字段。"""
     provider = str(item.get("provider") or "").strip()
     model_name = str(item.get("model_name") or item.get("model") or "").strip()
     if not provider or not model_name:
@@ -135,6 +149,7 @@ def _normalize_item(item: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def load_pricing_catalog(config_path: str | Path | None = None) -> dict[str, Any]:
+    """加载价格目录，并把失败状态编码进 metadata 而不是抛出异常。"""
     path, source = resolve_pricing_catalog_path(config_path)
     metadata: dict[str, Any] = {
         "path": str(path),
@@ -163,6 +178,7 @@ def load_pricing_catalog(config_path: str | Path | None = None) -> dict[str, Any
 
 
 def _catalog_items(catalog: Any) -> list[dict[str, Any]]:
+    """从已加载 catalog 结构中取可匹配条目。"""
     if isinstance(catalog, dict):
         items = catalog.get("items") or catalog.get("catalog") or catalog.get("prices") or []
         return [dict(item) for item in items if isinstance(item, dict)]
@@ -172,6 +188,7 @@ def _catalog_items(catalog: Any) -> list[dict[str, Any]]:
 
 
 def _match_catalog_item(provider: str, model_name: str, catalog: Any) -> dict[str, Any] | None:
+    """按 provider/model 精确或通配匹配价格目录项。"""
     provider_key = provider.strip().lower()
     model_key = model_name.strip().lower()
     for item in _catalog_items(catalog):
@@ -187,9 +204,11 @@ def _match_catalog_item(provider: str, model_name: str, catalog: Any) -> dict[st
 
 
 def resolve_price(provider: str | None, model_name: str | None, catalog: Any) -> dict[str, Any]:
+    """解析单个 provider/model 的价格状态。"""
     provider_text = str(provider or "").strip()
     model_text = str(model_name or "").strip()
     if _is_local_provider(provider_text):
+        # 本地 provider 固定为 priced/free，避免本地调用污染未定价告警。
         return {
             "status": "priced",
             "pricing_status": "priced",
@@ -209,6 +228,7 @@ def resolve_price(provider: str | None, model_name: str | None, catalog: Any) ->
 
     item = _match_catalog_item(provider_text, model_text, catalog)
     if item is None:
+        # 云模型缺失价格时保持 warn-only，不阻断 trace 展示。
         return {
             "status": "unpriced",
             "pricing_status": "unpriced",
@@ -233,6 +253,7 @@ def resolve_price(provider: str | None, model_name: str | None, catalog: Any) ->
         input_cost = flat_cost if input_cost is None else input_cost
         output_cost = flat_cost if output_cost is None else output_cost
     if input_cost is None or output_cost is None:
+        # 部分价格项不可用于精确估算，标记 partial 方便补齐目录。
         return {
             "status": "unpriced",
             "pricing_status": "unpriced",
@@ -268,6 +289,7 @@ def resolve_price(provider: str | None, model_name: str | None, catalog: Any) ->
 
 
 def _estimate_call_cost(call: dict[str, Any], price: dict[str, Any]) -> float | None:
+    """按输入/输出 token 单价估算一次调用成本。"""
     if not price.get("priced"):
         return None
     prompt_tokens = _as_int(call.get("prompt_tokens"))
@@ -279,6 +301,7 @@ def _estimate_call_cost(call: dict[str, Any], price: dict[str, Any]) -> float | 
 
 
 def _new_bucket(name: str) -> dict[str, Any]:
+    """创建 agent/model/totals 聚合桶。"""
     return {
         "name": name,
         "call_count": 0,
@@ -294,6 +317,7 @@ def _new_bucket(name: str) -> dict[str, Any]:
 
 
 def _add_to_bucket(bucket: dict[str, Any], call: dict[str, Any], price: dict[str, Any], call_cost: float | None) -> None:
+    """把一次模型调用累加到聚合桶。"""
     bucket["call_count"] += 1
     bucket["prompt_tokens"] += _as_int(call.get("prompt_tokens"))
     bucket["completion_tokens"] += _as_int(call.get("completion_tokens"))
@@ -310,6 +334,7 @@ def _add_to_bucket(bucket: dict[str, Any], call: dict[str, Any], price: dict[str
 
 
 def _finalize_bucket(bucket: dict[str, Any]) -> dict[str, Any]:
+    """输出前统一四舍五入成本字段。"""
     return {
         **bucket,
         "estimated_cost_usd": round(float(bucket["estimated_cost_usd"]), 8),
@@ -318,6 +343,7 @@ def _finalize_bucket(bucket: dict[str, Any]) -> dict[str, Any]:
 
 
 def _safe_recent_event(call: dict[str, Any], price: dict[str, Any], call_cost: float | None) -> dict[str, Any]:
+    """裁剪最近调用事件，避免把完整 prompt/response 泄漏到成本面板。"""
     keys = {
         "call_id",
         "created_at",
@@ -353,6 +379,7 @@ def _safe_recent_event(call: dict[str, Any], price: dict[str, Any], call_cost: f
 
 
 def build_cost_center(model_calls: list[dict[str, Any]], catalog: Any, recent_limit: int = 50) -> dict[str, Any]:
+    """汇总模型调用，生成前端成本中心消费的稳定 JSON 结构。"""
     limit = _as_int(recent_limit) or 50
     by_agent: dict[str, dict[str, Any]] = {}
     by_model: dict[str, dict[str, Any]] = {}
@@ -362,6 +389,7 @@ def build_cost_center(model_calls: list[dict[str, Any]], catalog: Any, recent_li
     recent_events: list[dict[str, Any]] = []
 
     for call in model_calls:
+        # 逐条重新按 catalog 估价，便于发现 ledger 内估算和当前目录的差异。
         provider = str(call.get("provider") or "")
         model_name = str(call.get("model_name") or "")
         price = resolve_price(provider, model_name, catalog)
@@ -377,6 +405,7 @@ def build_cost_center(model_calls: list[dict[str, Any]], catalog: Any, recent_li
         _add_to_bucket(by_agent.setdefault(agent_key, _new_bucket(agent_key)), call, price, call_cost)
         _add_to_bucket(by_model.setdefault(model_key, _new_bucket(model_key)), call, price, call_cost)
         if not price.get("priced") and not price.get("is_local"):
+            # 未定价云模型单独聚合，推动补齐 pricing.json。
             model_row = unpriced_models.setdefault(
                 model_key,
                 {
@@ -394,6 +423,7 @@ def build_cost_center(model_calls: list[dict[str, Any]], catalog: Any, recent_li
     total_calls = int(finalized_totals["call_count"])
     priced_calls = int(finalized_totals["priced_call_count"])
     warning_count = int(finalized_totals["unpriced_call_count"])
+    # 无调用时覆盖率为 1.0，避免空面板被误判为价格缺口。
     coverage_ratio = round(priced_calls / total_calls, 6) if total_calls else 1.0
     pricing_coverage = {
         "catalog_item_count": len(_catalog_items(catalog)),

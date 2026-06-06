@@ -1,8 +1,7 @@
-"""``python -m mase`` CLI.
+"""``python -m mase`` 命令行入口。
 
-Currently small (reload-config / health / describe-models / ask) — the goal
-is just to give operators an out-of-band knob.  Everything bigger should
-live in dedicated scripts under ``scripts/``.
+当前只保留小型运维命令（reload-config / health / describe-models / ask），用于给
+操作者一个旁路控制面。更复杂的批处理应放到 ``scripts/`` 下的专用脚本。
 """
 from __future__ import annotations
 
@@ -19,6 +18,7 @@ from .utils import memory_root
 
 
 def _cmd_reload_config(args: argparse.Namespace) -> int:
+    """校验并热重载配置。"""
     parsed, messages = validate_config_path(args.config or "config.json", strict=False)
     if parsed is None:
         print("config validation failed:", file=sys.stderr)
@@ -35,12 +35,14 @@ def _cmd_reload_config(args: argparse.Namespace) -> int:
 
 
 def _cmd_health(args: argparse.Namespace) -> int:
+    """输出候选模型健康快照。"""
     snap = get_tracker().snapshot()
     print(json.dumps(snap, indent=2, ensure_ascii=False))
     return 0
 
 
 def _cmd_metrics(args: argparse.Namespace) -> int:
+    """输出指标快照，支持 JSON 和 Prometheus 文本格式。"""
     if args.format == "prometheus":
         sys.stdout.write(get_metrics().format_prometheus())
         return 0
@@ -49,6 +51,7 @@ def _cmd_metrics(args: argparse.Namespace) -> int:
 
 
 def _cmd_migrate_db(args: argparse.Namespace) -> int:
+    """执行 SQLite schema migration。"""
     db_path = args.db or (memory_root(args.config) / "memory.sqlite")
     result = migrate_db(db_path)
     print(json.dumps({"db": str(db_path), **result}, indent=2))
@@ -56,16 +59,19 @@ def _cmd_migrate_db(args: argparse.Namespace) -> int:
 
 
 def _cmd_describe(args: argparse.Namespace) -> int:
+    """输出每个 agent 解析后的模型绑定。"""
     print(json.dumps(describe_models(args.config), indent=2, ensure_ascii=False))
     return 0
 
 
 def _cmd_ask(args: argparse.Namespace) -> int:
+    """通过完整 MASE pipeline 执行一次问答。"""
     print(mase_ask(args.question, log=not args.no_log))
     return 0
 
 
 def _build_parser() -> argparse.ArgumentParser:
+    """构造顶层 argparse parser。"""
     parser = argparse.ArgumentParser(prog="mase", description="MASE — Multi-Agent System Evolution")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
@@ -98,6 +104,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """CLI 主入口，返回进程退出码。"""
     parser = _build_parser()
     args = parser.parse_args(argv)
     return int(args.func(args) or 0)
