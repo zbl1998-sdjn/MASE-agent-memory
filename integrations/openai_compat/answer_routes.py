@@ -1,3 +1,4 @@
+"""回答证据支撑路由：检查最终回答的每个片段是否有证据。"""
 from __future__ import annotations
 
 import time

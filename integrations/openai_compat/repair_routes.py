@@ -1,3 +1,4 @@
+"""修复路由：创建修复工单、生成计划、试运行并受控执行。"""
 from __future__ import annotations
 
 import json

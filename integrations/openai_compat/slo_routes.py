@@ -1,3 +1,4 @@
+"""SLO 路由：把黄金测试和成本/召回信号汇总为可靠性目标。"""
 from __future__ import annotations
 
 import time

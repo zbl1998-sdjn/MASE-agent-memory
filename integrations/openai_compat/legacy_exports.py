@@ -1,3 +1,4 @@
+"""旧版导出兼容层：保留 server.py 过去直接导出的 helper 名称。"""
 from __future__ import annotations
 
 from integrations.openai_compat.answer_routes import ui_answer_support as ui_answer_support

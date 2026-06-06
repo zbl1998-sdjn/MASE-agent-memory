@@ -1,7 +1,7 @@
-"""Compatibility shim. Real implementation: ``mase.notetaker_agent``.
+"""根目录兼容 shim，真实实现位于 ``mase.notetaker_agent``。
 
-Kept so legacy imports (``from notetaker_agent import X``) keep resolving.
-New code should import from ``mase.notetaker_agent`` directly.
+Notetaker 的工具调用、事实抽取和写入策略都在 `src/mase` 中；
+这个文件只保证迁移前调用方不破。
 """
 from __future__ import annotations
 
@@ -9,6 +9,5 @@ import sys as _sys
 
 from mase import notetaker_agent as _impl
 
-# Alias both module names to the same object so attribute mutations and
-# ``from notetaker_agent import X`` behave identically to the pre-migration layout.
+# 旧根路径和新包路径共享同一实现对象，避免 notetaker 状态被拆成两份。
 _sys.modules[__name__] = _impl

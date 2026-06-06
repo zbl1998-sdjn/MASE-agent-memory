@@ -1,7 +1,7 @@
-"""Compatibility shim. Real implementation: ``mase.event_versioning``.
+"""根目录兼容 shim，真实实现位于 ``mase.event_versioning``。
 
-Kept so legacy imports (``from event_versioning import X``) keep resolving.
-New code should import from ``mase.event_versioning`` directly.
+它服务于迁移前的事件版本导入路径；面试读代码时应跳到
+`src/mase/event_versioning.py` 看当前实现。
 """
 from __future__ import annotations
 
@@ -9,6 +9,5 @@ import sys as _sys
 
 from mase import event_versioning as _impl
 
-# Alias both module names to the same object so attribute mutations and
-# ``from event_versioning import X`` behave identically to the pre-migration layout.
+# 复用真实模块对象，避免兼容入口和稳定核心出现两套全局状态。
 _sys.modules[__name__] = _impl

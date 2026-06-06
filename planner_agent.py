@@ -1,9 +1,7 @@
-"""Compatibility shim. Real implementation: ``mase.planner_agent``.
+"""根目录兼容 shim，主实现位于 ``mase.planner_agent``。
 
-Layered fallback: serve attrs from ``mase.planner_agent`` first; for any name
-that isn't there (e.g. ``InstructionPackage`` and other helpers tests still
-import), fall back to ``legacy_archive.planner_agent``. This avoids the
-src-migration leaving regression tests broken.
+这里比普通 shim 多一层兼容：优先导出 `src/mase` 的现代 Planner，
+缺失的旧符号再从 `legacy_archive.planner_agent` 补齐，保护历史测试和脚本。
 """
 from __future__ import annotations
 
@@ -16,11 +14,11 @@ _self = _sys.modules[__name__]
 _skip = {"__name__", "__doc__", "__loader__", "__spec__",
          "__file__", "__path__", "__builtins__", "__package__"}
 
-# Modern impl wins
+# 现代实现优先，保证新 Planner 的公共 API 覆盖旧实现。
 for _name in dir(_impl):
     if _name not in _skip:
         setattr(_self, _name, getattr(_impl, _name))
-# Fill missing with legacy (does not overwrite)
+# 旧实现只补缺口，不覆盖现代实现已有符号。
 for _name in dir(_legacy):
     if _name in _skip or hasattr(_self, _name):
         continue

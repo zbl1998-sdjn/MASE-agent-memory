@@ -1,3 +1,4 @@
+"""黄金测试路由：把固定记忆用例变成可调用的发布门禁。"""
 from __future__ import annotations
 
 import time

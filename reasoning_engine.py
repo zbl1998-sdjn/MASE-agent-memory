@@ -1,7 +1,7 @@
-"""Compatibility shim. Real implementation: ``mase.reasoning_engine``.
+"""根目录兼容 shim，真实实现位于 ``mase.reasoning_engine``。
 
-Kept so legacy imports (``from reasoning_engine import X``) keep resolving.
-New code should import from ``mase.reasoning_engine`` directly.
+推理链路是 benchmark/长上下文问答的重要能力，真实代码在 `src/mase`；
+这里不应继续承载产品逻辑。
 """
 from __future__ import annotations
 
@@ -9,6 +9,5 @@ import sys as _sys
 
 from mase import reasoning_engine as _impl
 
-# Alias both module names to the same object so attribute mutations and
-# ``from reasoning_engine import X`` behave identically to the pre-migration layout.
+# 别名到真实模块，避免根 shim 和包内模块的全局配置出现不一致。
 _sys.modules[__name__] = _impl

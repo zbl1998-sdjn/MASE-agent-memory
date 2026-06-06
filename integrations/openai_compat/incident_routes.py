@@ -1,3 +1,4 @@
+"""故障事件路由：把可靠性问题整理成可追踪的开放事件。"""
 from __future__ import annotations
 
 import time

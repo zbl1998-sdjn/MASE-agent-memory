@@ -1,3 +1,4 @@
+"""质量路由：计算 fact quality 与记忆回答可靠性指标。"""
 from __future__ import annotations
 
 import time

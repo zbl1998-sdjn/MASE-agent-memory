@@ -1,3 +1,4 @@
+"""可观测性路由：为前端工作台提供 dashboard、health、metrics 汇总。"""
 from __future__ import annotations
 
 import time

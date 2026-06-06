@@ -3,6 +3,9 @@ MCP Server: 把 MASE 当作 Claude Desktop / Cursor / 任何 MCP 客户端的记
 
 启动:
     python -m integrations.mcp_server.server
+
+这个入口比 HTTP API 更薄：只暴露记忆读写和完整 ask 工具，
+鉴权/隔离主要通过调用方传入的 tenant/workspace/visibility scope 完成。
 """
 from __future__ import annotations
 
@@ -10,6 +13,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
+# 支持源码树直接运行 MCP server，避免面试演示前必须先安装 wheel。
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
@@ -30,6 +34,7 @@ def _scope_filters(
     workspace_id: str | None = None,
     visibility: str | None = None,
 ) -> dict[str, str]:
+    """统一构造 scope 过滤器；空字符串不会进入查询条件。"""
     scope: dict[str, str] = {}
     if tenant_id:
         scope["tenant_id"] = tenant_id
@@ -106,6 +111,7 @@ def mase_recall_current_state(
     workspace_id: str = "",
     visibility: str = "",
 ) -> list[dict]:
+    """只召回当前事实表，适合 MCP 客户端询问“当前状态”。"""
     scope = _scope_filters(tenant_id or None, workspace_id or None, visibility or None)
     results = _memory_service.recall_current_state(query.split(), limit=top_k, scope_filters=scope)
     return [
@@ -132,6 +138,7 @@ def mase_recall_timeline(
     workspace_id: str = "",
     visibility: str = "",
 ) -> list[dict]:
+    """读取事件时间线，帮助客户端解释某条记忆来自哪段历史。"""
     scope = _scope_filters(tenant_id or None, workspace_id or None, visibility or None)
     rows = _memory_service.recall_timeline(thread_id=thread_id or None, limit=limit, scope_filters=scope)
     return [
@@ -156,6 +163,7 @@ def mase_explain_answer(
     workspace_id: str = "",
     visibility: str = "",
 ) -> dict:
+    """返回回答所依赖的证据链，而不是只给最终答案。"""
     scope = _scope_filters(tenant_id or None, workspace_id or None, visibility or None)
     return _memory_service.explain_memory_answer(query, limit=top_k, scope_filters=scope)
 

@@ -1,3 +1,8 @@
+"""记忆 API 路由：召回、时间线、事实、纠错和归并。
+
+读接口允许按 scope 查询；写接口必须通过 `require_write_access`，
+并在成功后写审计事件，保证演示环境和真实工作区的边界一致。
+"""
 from __future__ import annotations
 
 from typing import Any
@@ -30,6 +35,7 @@ router = APIRouter()
 
 
 def _auth_for_audit(auth: Any) -> AuthContext:
+    """把依赖注入结果规整成审计上下文。"""
     return auth if isinstance(auth, AuthContext) else default_auth_context()
 
 
@@ -42,6 +48,7 @@ def _audit_success(
     scope: dict[str, Any] | None = None,
     metadata: dict[str, Any] | None = None,
 ) -> None:
+    """写入成功后记录统一审计事件，便于 UI 和日志追踪。"""
     context = _auth_for_audit(auth)
     append_audit_event(
         actor_id=context.actor_id,
@@ -56,6 +63,7 @@ def _audit_success(
 
 @router.post("/v1/memory/recall")
 def memory_recall(req: MemoryRecallRequest) -> dict[str, Any]:
+    """按关键词/全文查询召回事件与事实证据。"""
     scope = scope_from_request(req)
     hits = memory_service.search_memory(
         req.query.split(),
@@ -73,6 +81,7 @@ def memory_recall(req: MemoryRecallRequest) -> dict[str, Any]:
 
 @router.post("/v1/memory/current-state")
 def memory_current_state(req: MemoryRecallRequest) -> dict[str, Any]:
+    """只召回当前事实表，适合回答“现在是什么状态”。"""
     scope = scope_from_request(req)
     hits = memory_service.recall_current_state(req.query.split(), limit=req.top_k, scope_filters=scope)
     return {
@@ -84,6 +93,7 @@ def memory_current_state(req: MemoryRecallRequest) -> dict[str, Any]:
 
 @router.post("/v1/memory/timeline")
 def memory_timeline(req: MemoryTimelineRequest) -> dict[str, Any]:
+    """POST 版本时间线接口，方便前端用 JSON body 传 scope。"""
     scope = scope_from_request(req)
     rows = memory_service.recall_timeline(thread_id=req.thread_id, limit=req.limit, scope_filters=scope)
     return {
@@ -101,6 +111,7 @@ def memory_timeline_get(
     workspace_id: str | None = None,
     visibility: str | None = None,
 ) -> dict[str, Any]:
+    """GET 版本时间线接口，方便浏览器地址栏和轻量脚本调试。"""
     scope = scope_from_query(tenant_id, workspace_id, visibility)
     rows = memory_service.recall_timeline(thread_id=thread_id, limit=limit, scope_filters=scope)
     return response_object(
@@ -112,6 +123,7 @@ def memory_timeline_get(
 
 @router.post("/v1/memory/events")
 def memory_event(req: MemoryEventRequest, auth: AuthContext = Depends(require_write_access)) -> dict[str, Any]:
+    """追加一条事件日志；这是长期记忆的 append-only 入口。"""
     scope = scope_from_request(req)
     result = memory_service.remember_event(
         req.thread_id,
@@ -132,6 +144,7 @@ def memory_event(req: MemoryEventRequest, auth: AuthContext = Depends(require_wr
 
 @router.post("/v1/memory/corrections")
 def memory_correction(req: MemoryCorrectionRequest, auth: AuthContext = Depends(require_write_access)) -> dict[str, Any]:
+    """记录纠错并触发旧事实 supersede/新事实写入链路。"""
     scope = scope_from_request(req)
     result = memory_service.correct_memory(
         req.thread_id,
@@ -157,6 +170,7 @@ def memory_facts(
     workspace_id: str | None = None,
     visibility: str | None = None,
 ) -> dict[str, Any]:
+    """列出当前事实表，category 可选过滤。"""
     scope = scope_from_query(tenant_id, workspace_id, visibility)
     rows = memory_service.list_facts(category=category, scope_filters=scope)
     return response_object(
@@ -168,6 +182,7 @@ def memory_facts(
 
 @router.post("/v1/memory/facts")
 def memory_fact_upsert(req: FactUpsertRequest, auth: AuthContext = Depends(require_write_access)) -> dict[str, Any]:
+    """显式写入/覆盖当前事实；category/key 是幂等边界。"""
     scope = scope_from_request(req)
     result = memory_service.upsert_fact(
         req.category,
@@ -199,6 +214,7 @@ def memory_fact_history(
     workspace_id: str | None = None,
     visibility: str | None = None,
 ) -> dict[str, Any]:
+    """查看事实槽位的历史版本，用于解释覆盖和过期。"""
     scope = scope_from_query(tenant_id, workspace_id, visibility)
     rows = memory_service.get_fact_history(
         category=category,

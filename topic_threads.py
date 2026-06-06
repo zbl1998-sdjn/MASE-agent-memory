@@ -1,7 +1,7 @@
-"""Compatibility shim. Real implementation: ``mase.topic_threads``.
+"""根目录兼容 shim，真实实现位于 ``mase.topic_threads``。
 
-Kept so legacy imports (``from topic_threads import X``) keep resolving.
-New code should import from ``mase.topic_threads`` directly.
+topic/thread 分桶会影响长期记忆召回边界；面试讲实现时应读
+`src/mase/topic_threads.py`。
 """
 from __future__ import annotations
 
@@ -9,6 +9,5 @@ import sys as _sys
 
 from mase import topic_threads as _impl
 
-# Alias both module names to the same object so attribute mutations and
-# ``from topic_threads import X`` behave identically to the pre-migration layout.
+# 兼容层只做 module alias，确保旧导入路径不会创建第二套 thread 状态。
 _sys.modules[__name__] = _impl

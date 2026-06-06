@@ -1,3 +1,4 @@
+"""成本中心路由：价格目录、调用账本聚合和路由策略。"""
 from __future__ import annotations
 
 import time
@@ -17,6 +18,7 @@ router = APIRouter()
 
 @router.get("/v1/ui/cost/pricing")
 def ui_cost_pricing(_: AuthContext = Depends(require_permission("pricing"))) -> dict[str, Any]:
+    """读取价格目录；此接口只读但仍要求 pricing 权限。"""
     pricing_catalog = load_pricing_catalog(config_path=SERVER_CONFIG_PATH)
     metadata = dict(pricing_catalog["metadata"])
     metadata["generated_at"] = int(time.time())
@@ -41,6 +43,7 @@ def ui_cost_summary(
     recent_limit: int = Query(default=50, ge=1, le=200),
     _: AuthContext = Depends(require_permission("pricing")),
 ) -> dict[str, Any]:
+    """按最近调用账本聚合成本摘要。"""
     pricing_catalog = load_pricing_catalog(config_path=SERVER_CONFIG_PATH)
     system = get_system(config_path=SERVER_CONFIG_PATH)
     model_calls = system.model_interface.get_call_log()
@@ -52,6 +55,7 @@ def ui_cost_summary(
 
 @router.get("/v1/ui/cost/routing")
 def ui_cost_routing(_: AuthContext = Depends(require_permission("pricing"))) -> dict[str, Any]:
+    """展示模型路由/预算策略，帮助面试时解释为什么某次调用走某个模型。"""
     system = get_system(config_path=SERVER_CONFIG_PATH)
     routing = system.model_interface.describe_cost_routing()
     metadata = dict(routing.get("catalog_metadata", {}))

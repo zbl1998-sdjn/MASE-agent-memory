@@ -1,3 +1,4 @@
+"""记忆漂移路由：暴露冲突事实、重复事实和过期压力报告。"""
 from __future__ import annotations
 
 import time

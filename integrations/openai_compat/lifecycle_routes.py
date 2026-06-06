@@ -1,3 +1,4 @@
+"""生命周期路由：解释事实是否 active、expired 或即将过期。"""
 from __future__ import annotations
 
 import time

@@ -1,5 +1,7 @@
-"""
-OpenAI-compatible Chat Completions API wrapping MASE.
+"""MASE 的 OpenAI 兼容 HTTP 入口。
+
+这个模块只负责 HTTP 协议、路由挂载、请求体限制、CORS、审计和静态前端托管；
+真正的记忆/治理/执行逻辑下沉到 `mase.*` 与各个 `*_routes.py`。
 
 启动:
     python -m integrations.openai_compat.server
@@ -99,10 +101,13 @@ logger = logging.getLogger("mase.openai_compat")
 
 
 class RequestBodyTooLargeError(Exception):
+    """请求体超过本地平台上限时使用的内部控制异常。"""
+
     pass
 
 
 def _configured_max_request_body_bytes() -> int:
+    """读取请求体大小上限，并限制在 1 KiB 到 1 MiB 之间。"""
     raw = os.environ.get("MASE_MAX_REQUEST_BODY_BYTES", "262144").strip()
     if not raw:
         return 262144
@@ -115,6 +120,8 @@ def _configured_max_request_body_bytes() -> int:
 
 
 class RequestBodySizeLimitMiddleware:
+    """ASGI 中间件：在进入 FastAPI 路由前截断过大的请求。"""
+
     def __init__(self, app: Any) -> None:
         self.app = app
 
@@ -155,6 +162,7 @@ _is_read_only_mode = is_read_only_mode
 
 
 def _configured_port() -> int:
+    """读取平台端口；非法配置回退到本地默认端口 8765。"""
     raw = os.environ.get("MASE_PLATFORM_PORT", "8765").strip()
     try:
         port = int(raw)
@@ -165,6 +173,7 @@ def _configured_port() -> int:
 
 
 def _configured_host() -> str:
+    """默认只监听回环地址，避免开发态 API 意外暴露到局域网。"""
     return os.environ.get("MASE_PLATFORM_HOST", "127.0.0.1").strip() or "127.0.0.1"
 
 
@@ -177,6 +186,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# 按产品能力分组挂载路由；写入类路由在各自模块内继续走鉴权依赖。
 app.include_router(cost_router)
 app.include_router(answer_router)
 app.include_router(diagnostic_router)
@@ -197,6 +207,7 @@ app.include_router(trace_router)
 
 
 def _last_user(msgs: list[ChatMessage]) -> str:
+    """从 OpenAI 消息列表中取最后一条 user 消息作为 MASE 问题。"""
     for m in reversed(msgs):
         if m.role == "user":
             return m.content
@@ -204,6 +215,7 @@ def _last_user(msgs: list[ChatMessage]) -> str:
 
 
 def _auth_for_audit(auth: Any) -> AuthContext:
+    """把 FastAPI dependency 的返回值规整成审计上下文。"""
     return auth if isinstance(auth, AuthContext) else default_auth_context()
 
 
@@ -216,6 +228,7 @@ def _audit_success(
     scope: dict[str, Any] | None = None,
     metadata: dict[str, Any] | None = None,
 ) -> None:
+    """统一记录成功写入/执行类动作的审计事件。"""
     context = _auth_for_audit(auth)
     append_audit_event(
         actor_id=context.actor_id,
@@ -229,6 +242,7 @@ def _audit_success(
 
 
 def _trace_to_dict(trace: Any) -> dict[str, Any]:
+    """把 OrchestrationTrace 转成前端和 API 都能读取的稳定字典。"""
     return {
         "schema_version": "mase.trace.v1",
         "trace_id": trace.trace_id,
@@ -246,22 +260,23 @@ def _trace_to_dict(trace: Any) -> dict[str, Any]:
 
 
 def _product_features() -> list[dict[str, str]]:
+    """首页 bootstrap 使用的产品特性文案。"""
     return [
         {
-            "title": "White-box memory",
-            "description": "SQLite current facts plus event-log evidence, all inspectable and reversible.",
+            "title": "白盒记忆",
+            "description": "SQLite 当前事实表和事件日志证据可检查、可回溯、可撤销。",
         },
         {
-            "title": "Traceable orchestration",
-            "description": "Router, notetaker, planner, executor and fact sheet are exposed as an audit chain.",
+            "title": "可追踪编排",
+            "description": "Router、notetaker、planner、executor 和事实表都会暴露为审计链路。",
         },
         {
-            "title": "Scope isolation",
-            "description": "Tenant, workspace and visibility filters are carried through every product surface.",
+            "title": "Scope 隔离",
+            "description": "租户、工作区和可见性过滤会贯穿每一个产品入口。",
         },
         {
-            "title": "Production bridge",
-            "description": "OpenAI-compatible API and built frontend can be served by one FastAPI process.",
+            "title": "生产接入桥",
+            "description": "OpenAI 兼容 API 和已构建前端可由同一个 FastAPI 进程托管。",
         },
     ]
 
@@ -302,7 +317,7 @@ def ui_bootstrap() -> dict[str, Any]:
             "validation": validation,
             "product": {
                 "name": "MASE Memory Platform",
-                "tagline": "White-box memory operations for LLM agents",
+                "tagline": "面向 LLM Agent 的白盒记忆平台",
                 "features": _product_features(),
                 "quick_actions": _quick_actions(),
                 "frontend_static_ready": (FRONTEND_DIST / "index.html").exists(),

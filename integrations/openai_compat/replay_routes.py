@@ -1,3 +1,4 @@
+"""合成回放路由：用合成用例回放记忆搜索，验证召回和 scope 隔离。"""
 from __future__ import annotations
 
 import time

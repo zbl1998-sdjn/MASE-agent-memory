@@ -1,9 +1,9 @@
-# Environment & secrets
+# 环境变量与密钥：真实 .env 永远不进 Git，只保留 .env.example 模板。
 .env
 .env.*
 !.env.example
 
-# Python
+# Python 构建、缓存和二进制产物。
 __pycache__/
 *.py[cod]
 *$py.class
@@ -13,7 +13,7 @@ dist/
 build/
 *.egg
 
-# IDE
+# IDE/编辑器本地状态。
 .vscode/
 .idea/
 .claude/
@@ -21,11 +21,11 @@ build/
 *.swo
 *~
 
-# OS
+# 操作系统临时文件。
 .DS_Store
 Thumbs.db
 
-# Local scratch / coverage artifacts
+# 本地临时文件、覆盖率和冲突补丁残留。
 /.coverage
 /.coverage.*
 /_t.py
@@ -36,21 +36,20 @@ Thumbs.db
 *.orig
 *.rej
 
-# MASE runtime artifacts (anchored to project root so we don't accidentally
-# exclude `mase_tools/memory/` source code).
+# MASE 运行产物。这里锚定到项目根，避免误排除 `mase_tools/memory/` 源码包。
 /memory/
 /data/
 results/
 event-bus-latest.json
 *.log
 
-# === Added 2026-04-19 for public publish ===
-# MASE runtime artifacts (must NOT be committed)
+# === 2026-04-19 公开发布前新增 ===
+# MASE 运行产物不能提交，否则会把本地记忆库和 benchmark 结果带进仓库。
 data/mase_memory.db
 data/mase_memory.db-wal
 data/mase_memory.db-shm
 memory_runs/
-# Per-day markdown audit logs at repo root only — do NOT match mase_tools/memory/ source pkg
+# 只忽略仓库根目录的每日 markdown 审计日志，不匹配 `mase_tools/memory/` 源码包。
 /memory/
 results/*.json
 results/external/
@@ -58,7 +57,7 @@ scripts/_*.log
 scripts/_*.json
 *.log
 
-# Large benchmark datasets (download separately, see docs/)
+# 大型 benchmark 数据集需要单独下载，源码仓库只保留说明和 .gitkeep。
 data/longmemeval-official/
 data/longmemeval_official/
 data/longmemeval/
@@ -70,8 +69,8 @@ data/**/*.jsonl
 !data/.gitkeep
 
 
-# === Repo slimming (2026-04-19) ===
-# External third-party benchmarks (NoLiMa/BAMBOO) — fetch separately, see benchmarks/external-benchmarks/README.md
+# === 仓库瘦身(2026-04-19) ===
+# 第三方 benchmark 代码/数据集单独获取；保留 README 和必要适配入口。
 /benchmarks/external-benchmarks/*
 !/benchmarks/external-benchmarks/README.md
 !/benchmarks/external-benchmarks/NoLiMa/
@@ -88,7 +87,7 @@ scripts/_*.ps1
 scripts/_external_logs/
 
 
-# --- secrets / private notes (added 2026-04-19 after key-leak audit) ---
+# --- 密钥/私人笔记：密钥泄漏审计后加固 ---
 /docs/notes/
 *.secret
 *.secrets
@@ -99,7 +98,7 @@ secrets.*
 .env.*.local
 .worktrees/
 
-# Frontend
+# 前端依赖、构建产物和缓存。
 node_modules/
 frontend/node_modules/
 frontend/dist/

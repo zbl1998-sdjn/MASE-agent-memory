@@ -1,3 +1,4 @@
+"""追踪 UI 路由：列出编排摘要并读取脱敏后的单条 trace。"""
 from __future__ import annotations
 
 import os
@@ -15,11 +16,13 @@ router = APIRouter()
 
 
 def trace_store_path() -> Path:
+    """解析 trace 存储路径；默认放在 repo-local memory/traces.jsonl。"""
     path_value = str(os.environ.get("MASE_TRACE_RECORD_PATH") or "").strip()
     return Path(path_value).expanduser().resolve() if path_value else (ROOT / "memory" / "traces.jsonl").resolve()
 
 
 def sanitize_trace_detail(value: Any) -> Any:
+    """递归移除敏感字段并脱敏值，避免 trace 详情泄漏 token。"""
     if isinstance(value, dict):
         return {
             key: sanitize_trace_detail(item)
@@ -43,6 +46,7 @@ def ui_trace_summaries(
     has_risk: bool | None = None,
     limit: int | None = Query(default=None, ge=0, le=1000),
 ) -> dict[str, Any]:
+    """按 trace_id、route、组件、成本和风险标签筛选摘要。"""
     result = list_trace_summaries(
         trace_store_path(),
         trace_id=trace_id,
@@ -60,6 +64,7 @@ def ui_trace_summaries(
 
 @router.get("/v1/ui/traces/{trace_id}")
 def ui_trace_detail(trace_id: str) -> dict[str, Any]:
+    """读取单条 trace 详情；返回前必须经过敏感字段清理。"""
     trace_path = trace_store_path()
     trace = get_trace_by_id(trace_path, trace_id)
     if trace is None:

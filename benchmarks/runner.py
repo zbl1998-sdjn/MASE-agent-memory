@@ -1,3 +1,9 @@
+"""MASE benchmark 统一运行器。
+
+它负责样本隔离、MASE/baseline 双路执行、逐样本计分、结果落盘、
+数据来源哈希和 data-gap 审计。面试讲 benchmark 可信度时，应从这里解释
+为什么“真实答错”“基础设施错误”“数据缺口”和“post-hoc retry”不会混报。
+"""
 from __future__ import annotations
 
 import hashlib
@@ -10,9 +16,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-# Benchmark runs MUST NOT pollute user-facing markdown audit logs
-# (memory/logs/YYYY-MM-DD.md). Importing this module flips the flag once;
-# explicit opt-in still possible via MASE_AUDIT_MARKDOWN=1.
+# benchmark 运行不能污染用户日常 markdown 审计日志
+# (memory/logs/YYYY-MM-DD.md)。导入本模块时默认进入 benchmark 模式；
+# 如确实需要写 markdown，可通过 MASE_AUDIT_MARKDOWN=1 显式打开。
 os.environ.setdefault("MASE_BENCHMARK_MODE", "1")
 
 try:
@@ -24,6 +30,7 @@ except Exception:
         existing: list[str] | None = None,
         limit: int = 8,
     ) -> list[str]:
+        """mase_tools.legacy 不可用时的保守实体抽取兜底。"""
         candidates = [*(existing or [])]
         for source in (text, summary):
             candidates.extend(re.findall(r"[A-Za-z][A-Za-z0-9_\-']{2,}|[\u4e00-\u9fff]{2,12}", str(source or "")))
@@ -56,6 +63,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def _resolve_runs_root() -> Path:
+    """解析 benchmark 输出根目录，优先使用 MASE_RUNS_DIR 隔离源码树。"""
     raw = os.environ.get("MASE_RUNS_DIR")
     if raw:
         return Path(raw).expanduser().resolve()
@@ -68,6 +76,7 @@ MEMORY_RUNS_DIR = RUNS_DIR / "memory_runs"
 
 
 def _load_config_profiles() -> dict[str, Any]:
+    """读取配置 profile 注册表，用于在结果里记录实际使用的配置档。"""
     registry_path = BASE_DIR / "config.profiles.json"
     if not registry_path.exists():
         return {}
@@ -76,9 +85,9 @@ def _load_config_profiles() -> dict[str, Any]:
 
 
 def _resolve_config_profile_name(config_path: Path, profiles: dict[str, Any]) -> str | None:
-    # Only configs residing directly under the repo root can match a registry entry.
-    # An external file (e.g. C:\temp\config.json) must never be tagged as a known profile
-    # just because its filename coincidentally matches a registry entry.
+    """把配置路径映射到 profile 名称；外部同名文件不视为仓库内 profile。"""
+    # 只有直接位于仓库根目录的配置文件才能匹配 registry。
+    # 外部文件(例如 C:\temp\config.json)即使同名，也不能被标成已知 profile。
     try:
         resolved = config_path.resolve()
         if resolved.parent != BASE_DIR:
@@ -93,6 +102,7 @@ BASELINE_SYSTEM_PROMPT = "你是一个直接回答用户问题的单体大模型
 
 
 def _merge_numeric_usage(usages: list[dict[str, Any] | None]) -> dict[str, float]:
+    """合并多次模型调用的数值 usage 字段。"""
     totals: dict[str, float] = {}
     for usage in usages:
         if not isinstance(usage, dict):
@@ -104,6 +114,7 @@ def _merge_numeric_usage(usages: list[dict[str, Any] | None]) -> dict[str, float
 
 
 def _aggregate_call_log(call_log: list[dict[str, Any]]) -> dict[str, Any]:
+    """按 agent_type 聚合调用次数、耗时和 token/usage。"""
     by_agent: dict[str, dict[str, Any]] = {}
     for item in call_log:
         agent_type = str(item.get("agent_type") or "unknown")
@@ -132,6 +143,7 @@ def _aggregate_call_log(call_log: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def _load_benchmark_fallbacks() -> dict[str, Any]:
+    """从配置读取 benchmark 失败重试等 fallback 策略。"""
     try:
         config = load_config(resolve_config_path())
     except FileNotFoundError:
@@ -141,6 +153,7 @@ def _load_benchmark_fallbacks() -> dict[str, Any]:
 
 
 def _summarize_sample_shapes(samples: list[BenchmarkSample]) -> dict[str, Any]:
+    """统计样本历史形态，区分 fulltext/focused/haystack 等评测口径。"""
     shape_counts: dict[str, int] = {}
     history_turn_counts: list[int] = []
     for sample in samples:
@@ -169,6 +182,7 @@ def _summarize_sample_shapes(samples: list[BenchmarkSample]) -> dict[str, Any]:
 
 
 def _shape_tag(primary_shape: str) -> str:
+    """把样本形态压缩成结果文件名可读的标签。"""
     normalized = str(primary_shape or "").strip().lower()
     mapping = {
         "focused_input": "focused",
@@ -182,15 +196,18 @@ def _shape_tag(primary_shape: str) -> str:
 
 
 def _hash_text(value: str) -> str:
+    """稳定文本哈希：公开 provenance 时不暴露原始长上下文。"""
     return hashlib.sha256(str(value or "").encode("utf-8")).hexdigest()
 
 
 def _hash_json(payload: Any) -> str:
+    """对 JSON 结构做确定性哈希，避免字段顺序影响样本指纹。"""
     raw = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return _hash_text(raw)
 
 
 def _sample_hash(sample: BenchmarkSample) -> str:
+    """基于样本完整内容生成哈希，防止运行时按题号过拟合。"""
     return _hash_json(
         {
             "id": sample.id,
@@ -207,10 +224,12 @@ def _sample_hash(sample: BenchmarkSample) -> str:
 
 
 def _sample_artifact_id(sample: BenchmarkSample) -> str:
+    """每个样本的隔离产物目录名，只使用截断哈希。"""
     return f"sample-{_sample_hash(sample)[:16]}"
 
 
 def _sample_fingerprint_row(sample: BenchmarkSample) -> dict[str, Any]:
+    """生成单样本 provenance 行，记录结构哈希和关键 metadata。"""
     metadata = sample.metadata if isinstance(sample.metadata, dict) else {}
     return {
         "id": sample.id,
@@ -246,6 +265,7 @@ def _build_dataset_provenance(
     config: str | None,
     split: str | None,
 ) -> dict[str, Any]:
+    """构建数据集 provenance，支撑 benchmark 结果复核。"""
     rows = [_sample_fingerprint_row(sample) for sample in samples]
     task_type_counts: dict[str, int] = {}
     for sample in samples:
@@ -264,6 +284,7 @@ def _build_dataset_provenance(
 
 
 def _build_run_protocol() -> dict[str, Any]:
+    """记录运行协议，明确单次运行不能和 post-hoc retry 混报。"""
     return {
         "schema_version": 1,
         "anti_overfit_policy": "docs/BENCHMARK_ANTI_OVERFIT.md",
@@ -277,6 +298,7 @@ def _build_run_protocol() -> dict[str, Any]:
 
 
 def _classify_error_kind(error: str | None) -> str | None:
+    """把错误粗分成 infra/data/skipped/execution，供 scoreboard 汇总。"""
     if not error:
         return None
     lowered = str(error).strip().lower()
@@ -319,6 +341,7 @@ def _count_error_kind(results: list[dict[str, Any]], side_key: str, error_kind: 
 
 
 def _collect_data_gap_rows(results: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """收集官方来源缺口，避免把缺数据样本误算成模型能力失败。"""
     rows: list[dict[str, Any]] = []
     for item in results:
         mase = item.get("mase") or {}
@@ -492,6 +515,7 @@ def _ingest_turns_into_mase(
     *,
     benchmark_question_id: str | None = None,
 ) -> None:
+    """把多轮历史写入当前样本的隔离 MASE 记忆目录。"""
     normalized_sample_hash = _normalize_sample_hash(benchmark_sample_hash or benchmark_question_id)
     benchmark_turn_index = 0
 
@@ -555,6 +579,7 @@ def _ingest_turns_into_mase(
 
 
 def _ingest_context_into_mase(system: MASESystem, context: str) -> None:
+    """把长上下文切块写入记忆，用于 long_context_qa 类 benchmark。"""
     for index, chunk in enumerate(_chunk_context(context), start=1):
         thread = derive_thread_context(chunk)
         language = detect_text_language(chunk)
@@ -584,6 +609,7 @@ def _ingest_context_into_mase(system: MASESystem, context: str) -> None:
 
 
 def _build_baseline_conversation(sample: BenchmarkSample) -> list[dict[str, str]]:
+    """把 benchmark 样本转换成单体 baseline 模型可读的对话。"""
     conversation: list[dict[str, str]] = []
     for turn in sample.history:
         conversation.append({"role": turn.role, "content": turn.content})
@@ -602,6 +628,8 @@ def _format_question(sample: BenchmarkSample) -> str:
 
 
 class BenchmarkRunner:
+    """统一 benchmark 执行器，负责样本隔离、重试、计分和结果落盘。"""
+
     def __init__(
         self,
         baseline_profile: str = "ollama-qwen25-7b",
@@ -627,18 +655,20 @@ class BenchmarkRunner:
         )
 
     def _baseline_enabled(self) -> bool:
+        """基线模型配置设为 none/disabled/skip/off 时跳过 baseline。"""
         normalized = str(self.baseline_profile or "").strip().lower()
         return normalized not in {"", "none", "disabled", "skip", "off"}
 
     def _safe_score(self, item: dict[str, Any], engine: str) -> dict[str, Any]:
-        """Safely get score dict from a result item, returning zeroed defaults on error."""
+        """安全读取计分字典，缺失时返回零分默认值。"""
         return ((item.get(engine) or {}).get("score") or {"all_matched": False, "score": 0.0})
 
     def _safe_metrics(self, item: dict[str, Any], engine: str) -> dict[str, Any]:
-        """Safely get metrics dict from a result item."""
+        """安全读取 metrics 字典，缺失时返回空字典。"""
         return ((item.get(engine) or {}).get("metrics") or {})
 
     def _build_scoreboard(self, results: list[dict[str, Any]]) -> dict[str, Any]:
+        """从逐样本结果聚合 pass/error/data-gap/cost 等 scoreboard。"""
         data_gap_count = sum(
             1 for item in results if ((item.get("mase") or {}).get("data_gap_audit") or {}).get("status") == "data_gap"
         )
@@ -697,6 +727,7 @@ class BenchmarkRunner:
         started_at: float,
         results: list[dict[str, Any]],
     ) -> None:
+        """打印单样本进度，长跑时可直接从终端判断是否卡死。"""
         elapsed_total = max(0.0, time.perf_counter() - started_at)
         avg_seconds = elapsed_total / max(1, index)
         remaining = max(0, total - index)
@@ -717,6 +748,7 @@ class BenchmarkRunner:
         )
 
     def _run_sample_once(self, sample: BenchmarkSample, run_root: Path, attempt: int) -> dict[str, Any]:
+        """执行单个样本的一次 attempt，并在 finally 中恢复环境变量。"""
         sample_hash = _sample_hash(sample)
         case_memory_dir = run_root / _sample_artifact_id(sample)
         if case_memory_dir.exists():
@@ -735,14 +767,13 @@ class BenchmarkRunner:
         if isinstance(sample.metadata, dict):
             ds_name = str(sample.metadata.get("dataset") or "").strip().lower()
         os.environ["MASE_LVEVAL_DATASET"] = ds_name
-        # Expose only a content hash to runtime code. The raw sample id remains
-        # in the result JSON for audit/debug, but it is not part of routing state.
+        # 运行时只拿到内容哈希；原始 sample id 仍写入结果 JSON 供审计/调试，
+        # 但不能进入路由状态，避免按题号过拟合。
         os.environ["MASE_CURRENT_SAMPLE_HASH"] = sample_hash
-        # iter5: expose LongMemEval question_type (single-session-user / multi-session
-        # / temporal-reasoning / single-session-preference / knowledge-update) so that
-        # mode_selector + multipass_retrieval can apply per-type routing
-        # (deep-reason executor for temporal, boosted rerank for multi-session).
-        # Only active when MASE_LME_QTYPE_ROUTING=1. Default off → no behaviour change.
+        # 第 5 轮优化：暴露 LongMemEval 题型(single-session-user / multi-session /
+        # temporal-reasoning / single-session-preference / knowledge-update)，让
+        # mode_selector + multipass_retrieval 能按题型启用不同召回策略。
+        # 只有 MASE_LME_QTYPE_ROUTING=1 时生效；默认关闭，不改变普通运行行为。
         try:
             qtype = (sample.metadata or {}).get("question_type") if isinstance(sample.metadata, dict) else None
         except Exception:
@@ -898,6 +929,7 @@ class BenchmarkRunner:
                 os.environ["MASE_QID_BUCKET"] = previous_qid_bucket
 
     def run_sample(self, sample: BenchmarkSample, run_root: Path) -> dict[str, Any]:
+        """带基础设施错误重试的单样本执行入口。"""
         max_attempts = self.sample_retry_count + 1
         attempt_rows: list[dict[str, Any]] = []
         final_result: dict[str, Any] | None = None
@@ -915,10 +947,9 @@ class BenchmarkRunner:
                     "mase_error_kind": (result.get("mase") or {}).get("error_kind"),
                     "baseline_error": (result.get("baseline") or {}).get("error"),
                     "baseline_error_kind": (result.get("baseline") or {}).get("error_kind"),
-                    # Retry decision today only looks at MASE side; baseline flag is
-                    # surfaced here so post-hoc analysis can spot runs where the
-                    # baseline silently collapsed while MASE succeeded. Do NOT change
-                    # retry semantics here without a product decision.
+                    # 当前重试决策只看 MASE 侧；baseline 标志仅用于事后分析，
+                    # 方便发现 baseline 悄悄崩掉而 MASE 成功的样本。
+                    # 未经产品口径确认，不要在这里改变重试语义。
                     "mase_infra_error": mase_infra_error,
                     "baseline_infra_error": baseline_infra_error,
                 }
@@ -947,11 +978,11 @@ class BenchmarkRunner:
         config: str | None = None,
         split: str | None = None,
     ) -> dict[str, Any]:
+        """运行完整 benchmark，并持续写 partial summary 防止长跑丢证据。"""
         run_id = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
         RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-        # Capture the config path once at run start so the profile recorded in the
-        # summary reflects what the benchmark system actually used, not a later
-        # re-resolution that may see a mutated MASE_CONFIG_PATH env var.
+        # 开始时固定配置路径，summary 记录的是本次实际使用的配置，
+        # 而不是之后因为 MASE_CONFIG_PATH 被改写而重新解析出的配置。
         run_config_path = resolve_config_path()
         samples = load_benchmark_samples(
             benchmark_name,

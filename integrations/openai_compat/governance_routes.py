@@ -1,3 +1,4 @@
+"""治理路由：聚合 inspector 清单、漂移报告、SLO 和 incident。"""
 from __future__ import annotations
 
 import time

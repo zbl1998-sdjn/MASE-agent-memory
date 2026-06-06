@@ -1,3 +1,4 @@
+"""诊断路由：定位“为什么没有记住/没有召回”的失败阶段。"""
 from __future__ import annotations
 
 import time

@@ -1,3 +1,4 @@
+"""隐私路由：对事实/trace/输入做敏感字段扫描和脱敏预览。"""
 from __future__ import annotations
 
 import time
