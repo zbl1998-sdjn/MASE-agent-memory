@@ -9,6 +9,7 @@ MCP Server: 把 MASE 当作 Claude Desktop / Cursor / 任何 MCP 客户端的记
 """
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -47,21 +48,79 @@ def _scope_filters(
 
 @mcp.tool()
 def mase_remember(
-    text: str,
+    text: str | int | float,
     thread_id: str = "mcp::default",
+    role: str = "user",
     tenant_id: str = "",
     workspace_id: str = "",
     visibility: str = "",
 ) -> str:
-    """把任意文本写入 MASE 长期记忆 (SQLite + FTS5).
+    """把一条对话事件写入 MASE 长期记忆 (SQLite + FTS5),返回里带 log_id 便于溯源.
 
     Args:
-        text: 要记住的内容
+        text: 要记住的内容(纯数字内容也兼容,统一 str() 归一)
         thread_id: 会话标识, 默认 'mcp::default'
+        role: 说话角色 'user' / 'assistant'(细分时间线), 默认 'user'
     """
     scope = _scope_filters(tenant_id or None, workspace_id or None, visibility or None)
-    _memory_service.remember_event(thread_id, "user", text, scope_filters=scope)
-    return f"✅ remembered ({len(text)} chars) under thread '{thread_id}'"
+    # 容错:有些 MCP 客户端会把纯数字串转成 int/float,统一 str() 归一,避免如 "5050" 这种纯数字消息丢失。
+    content = str(text)
+    result = _memory_service.remember_event(thread_id, role, content, scope_filters=scope)
+    return f"✅ remembered role={role} ({len(content)} chars); {result.get('result', '')}"
+
+
+@mcp.tool()
+def mase_upsert_fact(
+    category: str | int | float,
+    key: str | int | float,
+    value: str | int | float,
+    reason: str = "",
+    source_log_id: int = 0,
+    tenant_id: str = "",
+    workspace_id: str = "",
+    visibility: str = "",
+) -> str:
+    """把一条结构化事实写入 MASE 当前事实表 (entity_state).
+
+    同一个 (category, key) 再次写入不同 value 会触发 supersede:旧值被盖章进
+    entity_state_history, facts-first 召回只返回最新值. 适合"用户陈述的当前事实".
+
+    Args:
+        category: 事实分类, 如 'conversation_facts'
+        key: 事实键, 如 '项目代号'
+        value: 事实值, 如 'ORION-7'
+        reason: 写入原因(如 'user_correction'),用于审计
+        source_log_id: 触发本次事实变化的对话 log_id,做"事实 ⇄ 对话"双向溯源(0=不关联)
+    """
+    scope = _scope_filters(tenant_id or None, workspace_id or None, visibility or None)
+    # 容错:有些 MCP 客户端会把纯数字串转成 int/float,这里统一 str() 归一,避免端口/房间号等数字 key/value 丢失。
+    result = _memory_service.upsert_fact(
+        str(category),
+        str(key),
+        str(value),
+        reason=reason or None,
+        source_log_id=source_log_id or None,
+        scope_filters=scope,
+    )
+    return f"✅ fact upserted: {result.get('category')}.{result.get('key')} = {result.get('value')}"
+
+
+@mcp.tool()
+def mase_get_facts(
+    category: str = "",
+    tenant_id: str = "",
+    workspace_id: str = "",
+    visibility: str = "",
+) -> str:
+    """读取 MASE 当前事实表 (entity_state) 的全部(或某分类)结构化事实.
+
+    每条含 category / entity_key / entity_value, 适合作为"当前状态"高优先级、
+    不依赖关键词召回地注入上下文,保证当前事实始终在场.
+    """
+    scope = _scope_filters(tenant_id or None, workspace_id or None, visibility or None)
+    facts = _memory_service.list_facts(category or None, scope_filters=scope)
+    # 返回 JSON 字符串(而非 list[dict]):序列化进 content[].text 更稳,桥接侧解析确定。
+    return json.dumps(facts, ensure_ascii=False, default=str)
 
 
 @mcp.tool()
