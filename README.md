@@ -11,6 +11,7 @@
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
 ![Tests](https://img.shields.io/badge/tests-620%2B%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
+![Crash-safe](https://img.shields.io/badge/storage-crash--safe-success)
 ![LV-Eval](https://img.shields.io/badge/LV--Eval--256k-88.71%25-red)
 ![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
 ![LongMemEval-S](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
@@ -51,6 +52,7 @@ MASE focuses on problems that show up in real agent systems:
 - facts change over time;
 - user preferences conflict with old sessions;
 - agents need cross-session continuity;
+- a crash or machine reboot must not wipe persisted memory (SQLite WAL keeps committed facts durable; see `examples/09_resume_after_crash`, `10_persistent_chat_cli`);
 - memory writes must be reviewable;
 - recall should explain why something was selected;
 - tests should verify memory behavior without relying on a black box.
