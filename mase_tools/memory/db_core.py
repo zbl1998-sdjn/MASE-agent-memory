@@ -1807,6 +1807,7 @@ def fetch_memory_rows(
     tenant_id: str | None = None,
     workspace_id: str | None = None,
     visibility: str | None = None,
+    thread_id: str | None = None,
 ) -> list[dict[str, Any]]:
     sql = "SELECT *, COALESCE(timestamp, created_at) AS event_timestamp FROM memory_log"
     params: list[Any] = []
@@ -1821,6 +1822,9 @@ def fetch_memory_rows(
     if scope_clauses:
         where_clauses.extend(scope_clauses)
         params.extend(scope_params)
+    if thread_id is not None:
+        where_clauses.append("thread_id = ?")
+        params.append(thread_id)
     if where_clauses:
         sql += " WHERE " + " AND ".join(where_clauses)
     sql += " ORDER BY id ASC" if chronological else " ORDER BY id DESC"

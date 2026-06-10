@@ -215,6 +215,32 @@ def mase_recall_timeline(
 
 
 @mcp.tool()
+def mase_recall_thread_tail(
+    thread_id: str,
+    limit: int = 24,
+    tenant_id: str = "",
+    workspace_id: str = "",
+    visibility: str = "",
+) -> list[dict]:
+    """取某会话线程最近 limit 条事件, 按时序升序返回(最早在前).
+
+    适合"对话连续性"注入: 把最近几轮原样喂回模型, 回答"我第一句说了啥 /
+    刚才聊了啥 / 接着上文"这类按时间顺序的问题. thread 过滤在 SQL 内先于 LIMIT,
+    取的是该线程最近 N 条, 而非全局最早 N 条里恰属于该线程的.
+    """
+    scope = _scope_filters(tenant_id or None, workspace_id or None, visibility or None)
+    rows = _memory_service.recall_thread_tail(thread_id=thread_id, limit=limit, scope_filters=scope)
+    return [
+        {
+            "role": r.get("role", ""),
+            "content": r.get("content", ""),
+            "timestamp": r.get("event_timestamp") or r.get("timestamp") or r.get("created_at"),
+        }
+        for r in rows
+    ]
+
+
+@mcp.tool()
 def mase_explain_answer(
     query: str,
     top_k: int = 5,

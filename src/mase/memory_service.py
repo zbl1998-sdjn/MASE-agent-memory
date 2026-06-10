@@ -172,6 +172,27 @@ class MemoryService:
             return rows
         return [row for row in rows if str(row.get("thread_id") or "") == thread_id]
 
+    def recall_thread_tail(
+        self,
+        *,
+        thread_id: str,
+        limit: int = 24,
+        scope_filters: dict[str, Any] | None = None,
+    ) -> list[dict[str, Any]]:
+        """取某线程最近 limit 条事件，按时序升序返回（对话连续性注入用）。
+
+        与 recall_timeline 不同：thread 过滤在 SQL 内、先于 LIMIT，拿到的是
+        “该线程最近 N 条”，而非“全局最早 N 条里恰好属于该线程的”。
+        """
+        rows = fetch_memory_rows(
+            limit=limit,
+            chronological=False,
+            include_superseded=True,
+            thread_id=thread_id,
+            **self._scope(scope_filters),
+        )
+        return list(reversed(rows))
+
     def correct_memory(
         self,
         thread_id: str,
