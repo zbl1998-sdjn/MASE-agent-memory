@@ -3,7 +3,7 @@
 **版本**：v2.0.0
 **标签**：`Agent`, `LangGraph`, `SQLite`, `Anti-RAG`, `Memory-Augmented`
 
-各位开发者，我们非常激动地宣布 **MASE (Memory-Augmented Smart Entity) 2.0** 正式上线！
+各位开发者，我们非常激动地宣布 **MASE (Memory-Augmented Session Engine) 2.0** 正式上线！
 
 这不仅是一次代码级别的重构，更是一次对当前 AI 智能体“长文本记忆”共识的**降维打击与理念颠覆**。
 

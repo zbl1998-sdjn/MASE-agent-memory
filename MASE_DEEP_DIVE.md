@@ -8,7 +8,7 @@
 
 ### 1.1 核心主张：先治理记忆，再喂模型上下文
 
-MASE 的名字是 **Memory-Augmented Smart Entity**。它的核心假设是：
+MASE 的名字是 **Memory-Augmented Session Engine**。它的核心假设是：
 
 > **Agent 记忆的问题不是"模型记不住"，而是"记忆层没有提供可治理的语义"。**
 

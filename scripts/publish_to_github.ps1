@@ -16,7 +16,7 @@ Set-Location E:\MASE-demo
 
 # ---- CONFIGURE THESE ----
 $REPO_NAME = "MASE-demo"
-$REPO_DESC = "Memory-Augmented Smart Entity 2.0 — Schema-less SQLite memory + chunked recall. Lifts 7B local models from 1.79% to 60.71% on NoLiMa-32k. 84.8% LongMemEval, ~0% hallucination."
+$REPO_DESC = "Memory-Augmented Session Engine 2.0 — Schema-less SQLite memory + chunked recall. Lifts 7B local models from 1.79% to 60.71% on NoLiMa-32k. 80.2% LongMemEval (LLM-judge headline), ~0% hallucination."
 $REPO_HOMEPAGE = ""  # optional, leave empty
 # Topics: GitHub allows up to 20, each ≤35 chars, lowercase, hyphenated
 $TOPICS = @(

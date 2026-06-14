@@ -130,7 +130,7 @@ MASE welcomes contributions. If you'd like to help, please consider:
 ```bibtex
 @software{mase2026,
   author = {zbl1998-sdjn},
-  title = {{MASE}: Memory-Augmented Smart Entity — Schema-less SQLite memory for LLM agents},
+  title = {{MASE}: Memory-Augmented Session Engine — Schema-less SQLite memory for LLM agents},
   year = {2026},
   url = {https://github.com/zbl1998-sdjn/MASE},
   note = {Lifts qwen2.5:7b from 1.79\% to 60.71\% on NoLiMa-32k; 61.0\% official substring / 80.2\% LLM-judge on LongMemEval-S}
