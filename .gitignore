@@ -42,6 +42,13 @@ Thumbs.db
 results/
 event-bus-latest.json
 *.log
+# 本地 Windows 启动器(屏蔽被父进程注入的坏 PYTHONHOME),只在本机用,不入库。
+/run_mase.ps1
+
+# 前端 Node 依赖 / 构建产物,绝不入库(任意层级)。
+node_modules/
+frontend/dist/
+frontend/dev-server.log
 
 # === 2026-04-19 公开发布前新增 ===
 # MASE 运行产物不能提交，否则会把本地记忆库和 benchmark 结果带进仓库。
