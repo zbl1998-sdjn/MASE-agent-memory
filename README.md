@@ -9,7 +9,7 @@
 [![CI](https://github.com/zbl1998-sdjn/MASE-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/zbl1998-sdjn/MASE-agent-memory/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
-![Tests](https://img.shields.io/badge/tests-620%2B%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-640%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![Crash-safe](https://img.shields.io/badge/storage-crash--safe-success)
 ![LV-Eval](https://img.shields.io/badge/LV--Eval--256k-88.71%25-red)
