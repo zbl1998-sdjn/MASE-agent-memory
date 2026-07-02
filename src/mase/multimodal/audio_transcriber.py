@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 from .document_loader import AudioTrack, MissingDependencyError
@@ -16,6 +17,33 @@ BEAM_SIZE = 5
 DEFAULT_WHISPER_MODEL = "large-v3"
 
 _MODEL_CACHE: dict[tuple[str, str, str], tuple[Any, str, str, bool]] = {}
+_DLL_DIRS_REGISTERED = False
+
+
+def _register_nvidia_dll_dirs() -> None:
+    """把 pip 安装的 nvidia wheels(cublas/cudnn)的 bin 目录加进 DLL 搜索路径。
+
+    Windows 上 ctranslate2 通过 LoadLibrary 找 cublas64_12/cudnn 系列 DLL,
+    pip wheel 落在 site-packages/nvidia/<pkg>/bin 却不在默认搜索路径;
+    显式 add_dll_directory 是 faster-whisper Windows 部署的标准做法。
+    幂等 + best-effort:目录不存在/非 Windows 时静默跳过。
+    """
+    global _DLL_DIRS_REGISTERED
+    if _DLL_DIRS_REGISTERED:
+        return
+    _DLL_DIRS_REGISTERED = True
+    try:
+        import site
+
+        for site_dir in site.getsitepackages():
+            nvidia_root = Path(site_dir) / "nvidia"
+            if not nvidia_root.is_dir():
+                continue
+            for bin_dir in sorted(nvidia_root.glob("*/bin")):
+                if any(bin_dir.glob("*.dll")):
+                    os.add_dll_directory(str(bin_dir))
+    except Exception:
+        pass
 
 
 @dataclass(frozen=True)
@@ -46,6 +74,7 @@ def format_transcript(segments: list[TranscriptSegment]) -> str:
 
 def _load_model(model_name: str, device: str, compute_type: str) -> tuple[Any, str, str, bool]:
     """建模并缓存;cuda 失败回退 cpu+int8。返回 (model, 实际device, 实际compute, 是否回退)。"""
+    _register_nvidia_dll_dirs()
     try:
         from faster_whisper import WhisperModel
     except ImportError as exc:

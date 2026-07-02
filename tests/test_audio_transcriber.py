@@ -115,6 +115,31 @@ def test_model_instance_cached_per_settings(tmp_path, monkeypatch):
     assert len(created) == 1  # 批处理不重复建模
 
 
+def test_nvidia_dll_dirs_registered_when_present(tmp_path, monkeypatch):
+    """pip 安装的 nvidia wheels 的 bin 目录需显式 add_dll_directory(Windows)。"""
+    import site
+
+    from mase.multimodal import audio_transcriber
+
+    nvidia = tmp_path / "site" / "nvidia"
+    for pkg in ("cublas", "cudnn"):
+        (nvidia / pkg / "bin").mkdir(parents=True)
+        (nvidia / pkg / "bin" / f"{pkg}64_12.dll").write_bytes(b"x")
+    (nvidia / "empty_pkg").mkdir()  # 无 bin 的包不应报错
+
+    monkeypatch.setattr(site, "getsitepackages", lambda: [str(tmp_path / "site")])
+    registered: list[str] = []
+    monkeypatch.setattr(audio_transcriber.os, "add_dll_directory", registered.append, raising=False)
+    audio_transcriber._DLL_DIRS_REGISTERED = False
+
+    audio_transcriber._register_nvidia_dll_dirs()
+    assert sorted(Path(p).parent.name for p in registered) == ["cublas", "cudnn"]
+
+    registered.clear()
+    audio_transcriber._register_nvidia_dll_dirs()  # 幂等:第二次不重复注册
+    assert registered == []
+
+
 def test_cuda_inference_failure_falls_back_to_cpu(tmp_path, monkeypatch):
     """S1 验收实测坑:CUDA 建模成功但推理时 cublas DLL 缺失才报错
     (ctranslate2 惰性 generator)。推理期 CUDA 错误必须同样回退 cpu+int8。"""
