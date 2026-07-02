@@ -55,6 +55,9 @@ from integrations.openai_compat.legacy_exports import *  # noqa: F403
 from integrations.openai_compat.lifecycle_routes import (
     router as lifecycle_router,
 )
+from integrations.openai_compat.media_routes import (
+    router as media_router,
+)
 from integrations.openai_compat.memory_routes import (
     router as memory_router,
 )
@@ -195,6 +198,7 @@ app.include_router(golden_router)
 app.include_router(governance_router)
 app.include_router(incident_router)
 app.include_router(lifecycle_router)
+app.include_router(media_router)
 app.include_router(memory_router)
 app.include_router(observability_router)
 app.include_router(privacy_router)
