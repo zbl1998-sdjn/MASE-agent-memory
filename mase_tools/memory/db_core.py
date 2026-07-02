@@ -775,6 +775,38 @@ def _compute_expiry(ttl_days: int | None) -> str | None:
     return (now + timedelta(days=days)).strftime("%Y-%m-%d %H:%M:%S")
 
 
+def _recall_query_variants(keyword: str) -> list[str]:
+    """为单个查询词生成 FTS phrase 变体,容忍多模态转写的两类真实形态。
+
+    审计底稿(VLM/ASR 转写)必须逐字忠实,不可在写侧改写;因此在查询侧
+    生成变体(multimodal_eval dev 实证的两种 miss 形态):
+    1. 千分位:存储 "¥731,000" → token [731][000];查 "731000" 补相邻
+       phrase 变体 "731 000"(FTS phrase 匹配相邻 token)。
+    2. 字符间空格伪影:存储 "P O - 2 0 2 6" → 单字符 token;查
+       "PO-2026-9561"/"Tianshan" 补逐字符 phrase 变体。
+    变体只增召回不改排序主序(原词 phrase 仍在最前)。
+    """
+    variants: list[str] = []
+    stripped = keyword.strip()
+    if not stripped:
+        return variants
+    # 千分位分组:纯数字且 4 位以上,从右每 3 位分组
+    if stripped.isdigit() and len(stripped) > 3:
+        groups: list[str] = []
+        remainder = stripped
+        while len(remainder) > 3:
+            groups.insert(0, remainder[-3:])
+            remainder = remainder[:-3]
+        groups.insert(0, remainder)
+        variants.append(" ".join(groups))
+    # 逐字符 phrase:字母数字骨架(分隔符在 FTS 分词中本就丢弃),
+    # 限制长度避免超长查询;纯 CJK 不适用(CJK 连续串本身是单 token)。
+    alnum = [ch for ch in stripped if ch.isalnum() and ord(ch) < 0x2E80]
+    if 3 <= len(alnum) <= 32 and len(alnum) >= len(stripped) // 2:
+        variants.append(" ".join(alnum))
+    return variants
+
+
 def search_event_log(
     keywords: list[str],
     limit: int = 5,
@@ -794,7 +826,11 @@ def search_event_log(
     # 对于中文环境，由于 FTS5 的 unicode61 默认按空格或标点分词，
     # 如果不自己实现自定义分词器，一个简单的 workaround 是用通配符或 LIKE 结合
     # 这里我们使用简单的 match，同时如果没匹配到我们用 like 兜底（或者改成分字插入）
-    match_query = " OR ".join(f'"{k}"' for k in clean_keywords)
+    phrases: list[str] = []
+    for keyword in clean_keywords:
+        phrases.append(keyword)
+        phrases.extend(_recall_query_variants(keyword))
+    match_query = " OR ".join(f'"{p}"' for p in phrases)
 
     with closing(get_connection(db_path)) as conn:
         cursor = conn.cursor()
