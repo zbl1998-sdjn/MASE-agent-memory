@@ -119,3 +119,62 @@ def test_non_allowlisted_and_escaping_files_are_skipped(tmp_path, monkeypatch):
     report = ingest_folder(docs, extractor=FakeExtractor(), asset_root=assets)
     assert report.processed == ("ok.png",)
     assert any(s["file"] == "note.txt" and s["reason"] == "unsupported_media" for s in report.skipped)
+
+
+def test_mixed_folder_dispatches_by_media_type(tmp_path, monkeypatch):
+    """图像走 vision、音频走 audio,一次批处理各归其位(全假抽取,不碰真模型)。"""
+    _, docs, assets = _setup(tmp_path, monkeypatch)
+    (docs / "pic.png").write_bytes(b"img-bytes")
+    (docs / "talk.wav").write_bytes(b"RIFF-bytes")
+
+    from mase.multimodal import ingest as ingest_mod
+    from mase.multimodal.ingest import ingest_folder
+
+    class _StubVision:
+        name, version = "vision", "1"
+
+        def supports(self, media_type):
+            return not media_type.startswith("audio/")
+
+        def extract(self, asset, payload):
+            return FakeExtractor().extract(asset, payload)
+
+    class _StubAudio:
+        name, version = "audio", "1"
+        seen = []
+
+        def supports(self, media_type):
+            return media_type.startswith("audio/")
+
+        def extract(self, asset, payload):
+            _StubAudio.seen.append(asset.media_type)
+            assert payload.audio is not None
+            return FakeExtractor().extract(asset, payload)
+
+    monkeypatch.setattr(
+        ingest_mod, "_default_extractors", lambda mode, whisper_model: [_StubVision(), _StubAudio()]
+    )
+    report = ingest_folder(docs, asset_root=assets)
+    assert sorted(report.processed) == ["pic.png", "talk.wav"]
+    assert _StubAudio.seen == ["audio/wav"]
+
+
+def test_no_extractor_supports_type_is_skipped(tmp_path, monkeypatch):
+    _, docs, assets = _setup(tmp_path, monkeypatch)
+    (docs / "talk.wav").write_bytes(b"RIFF")
+
+    from mase.multimodal import ingest as ingest_mod
+    from mase.multimodal.ingest import ingest_folder
+
+    class _OnlyVision:
+        name, version = "vision", "1"
+
+        def supports(self, media_type):
+            return media_type.startswith("image/")
+
+        def extract(self, asset, payload):
+            raise AssertionError("不应被调用")
+
+    monkeypatch.setattr(ingest_mod, "_default_extractors", lambda mode, whisper_model: [_OnlyVision()])
+    report = ingest_folder(docs, asset_root=assets)
+    assert any(s["file"] == "talk.wav" and s["reason"] == "no_extractor" for s in report.skipped)

@@ -28,6 +28,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--force", action="store_true", help="忽略幂等跳过,强制重新抽取")
     parser.add_argument("--allowed-root", default=None, help="路径 jail 根目录(默认= folder)")
     parser.add_argument(
+        "--whisper-model", default=None,
+        help="ASR 模型,如 large-v3-turbo(默认 large-v3,可用 MASE_WHISPER_MODEL 覆盖)",
+    )
+    parser.add_argument(
         "--max-mb", type=int, default=None,
         help="单文件大小上限 MB(默认按类型:图像/文档 50,音频 500)",
     )
@@ -43,6 +47,7 @@ def main(argv: list[str] | None = None) -> int:
         allowed_root=Path(args.allowed_root) if args.allowed_root else None,
         mode=args.mode,
         force=args.force,
+        whisper_model=args.whisper_model,
         max_bytes=args.max_mb * 1024 * 1024 if args.max_mb is not None else None,
     )
     print(

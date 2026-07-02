@@ -55,3 +55,14 @@ def test_cli_rejects_missing_folder(tmp_path):
     from mase.multimodal import cli
 
     assert cli.main([str(tmp_path / "nope")]) == 2
+
+
+def test_cli_passes_whisper_model(tmp_path, monkeypatch):
+    from mase.multimodal import cli
+
+    captured = {}
+    monkeypatch.setattr(cli, "ingest_folder", lambda folder, **kw: (captured.update(kw), _fake_report())[1])
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    assert cli.main([str(docs), "--whisper-model", "large-v3-turbo"]) == 0
+    assert captured["whisper_model"] == "large-v3-turbo"

@@ -42,6 +42,14 @@ _SUFFIX_BY_MEDIA_TYPE = {
 }
 
 
+def _default_extractors(mode: str | None, whisper_model: str | None) -> list[MediaExtractor]:
+    """默认抽取器组:视觉在前、音频在后;按 supports() 调度。懒导入避免无关依赖。"""
+    from .audio_extractor import AudioExtractor
+    from .vision_extractor import VisionExtractor
+
+    return [VisionExtractor(mode=mode), AudioExtractor(whisper_model=whisper_model)]
+
+
 @dataclass(frozen=True)
 class IngestReport:
     """一次批处理的可审计汇总。"""
@@ -62,14 +70,16 @@ def ingest_folder(
     force: bool = False,
     asset_root: Path | None = None,
     max_bytes: int | None = None,
+    whisper_model: str | None = None,
 ) -> IngestReport:
     """摄取 folder 下全部受支持文件(递归、字典序,保证批次确定性)。"""
     folder = Path(folder).resolve()
     root = Path(allowed_root).resolve() if allowed_root is not None else folder
-    if extractor is None:
-        from .vision_extractor import VisionExtractor
-
-        extractor = VisionExtractor(mode=mode)
+    extractors: list[MediaExtractor]
+    if extractor is not None:
+        extractors = [extractor]
+    else:
+        extractors = _default_extractors(mode, whisper_model)
 
     processed: list[str] = []
     skipped: list[dict[str, Any]] = []
@@ -89,6 +99,11 @@ def ingest_folder(
             skipped.append({"file": rel_name, "reason": "security_rejected", "detail": str(exc)})
             continue
 
+        selected = next((e for e in extractors if e.supports(media_type)), None)
+        if selected is None:
+            skipped.append({"file": rel_name, "reason": "no_extractor", "media_type": media_type})
+            continue
+
         try:
             data = checked.read_bytes()
             sha256, _stored = store_bytes(
@@ -104,7 +119,7 @@ def ingest_folder(
                 page_count=page_count,
             )
             if not force and find_extraction(
-                media_id, extractor_name=extractor.name, extractor_version=extractor.version
+                media_id, extractor_name=selected.name, extractor_version=selected.version
             ):
                 skipped.append({"file": rel_name, "reason": "already_extracted", "sha256": sha256})
                 continue
@@ -113,7 +128,7 @@ def ingest_folder(
                 media_id=media_id, sha256=sha256, media_type=media_type,
                 source_uri=rel_name, page_count=page_count,
             )
-            result = extractor.extract(asset_info, payload)
+            result = selected.extract(asset_info, payload)
             mase2_record_extraction(
                 media_id,
                 extractor_name=result.extractor_name,
