@@ -1,9 +1,19 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
-import { api } from "../api";
+import { DragEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { api, uploadMedia } from "../api";
 import { Card } from "../components/Card";
 import { JsonBlock } from "../components/JsonBlock";
+import { MediaIngestCard } from "../components/MediaIngestCard";
 import { StatusLine } from "../components/StatusLine";
-import type { ChatMessage, JsonRecord, MaseResponse, TraceDetailData, TraceFilters, TraceListData, TraceSummary } from "../types";
+import type {
+  ChatMessage,
+  JsonRecord,
+  MaseResponse,
+  MediaUploadData,
+  TraceDetailData,
+  TraceFilters,
+  TraceListData,
+  TraceSummary
+} from "../types";
 import { sanitizeForDisplay } from "../utils";
 
 // ChatPage 同时提供两条能力：
@@ -107,11 +117,25 @@ function compareSummaries(left: TraceSummary, right: TraceSummary): CompareRow[]
   ];
 }
 
+type ChatEntry =
+  | { kind: "chat"; message: ChatMessage }
+  | { kind: "media"; fileName: string; data?: MediaUploadData; error?: string };
+
 export function ChatPage({ readOnly }: ChatPageProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: "assistant", content: "你好，我是 MASE 控制台。可以直接提问，或运行带审计链的 Trace。" }
+  const [entries, setEntries] = useState<ChatEntry[]>([
+    {
+      kind: "chat",
+      message: { role: "assistant", content: "你好，我是 MASE 控制台。可以直接提问，或运行带审计链的 Trace。" }
+    }
   ]);
+  // /v1/chat/completions 的载荷只含 chat 条目;媒体卡片是本地展示,不进消息协议。
+  const messages = useMemo(
+    () => entries.filter((entry): entry is Extract<ChatEntry, { kind: "chat" }> => entry.kind === "chat").map((entry) => entry.message),
+    [entries]
+  );
   const [input, setInput] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [trace, setTrace] = useState<JsonRecord>();
   const [writeTraceToMemory, setWriteTraceToMemory] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -174,18 +198,59 @@ export function ChatPage({ readOnly }: ChatPageProps) {
       return;
     }
     const nextMessages: ChatMessage[] = [...messages, { role: "user", content: input.trim() }];
-    setMessages(nextMessages);
+    setEntries((prev) => [...prev, { kind: "chat", message: { role: "user", content: input.trim() } }]);
     setInput("");
     setLoading(true);
     setError("");
     try {
       const response = await api.chat(nextMessages);
-      setMessages([...nextMessages, response.choices[0]?.message ?? { role: "assistant", content: "" }]);
+      const reply = response.choices[0]?.message ?? { role: "assistant", content: "" };
+      setEntries((prev) => [...prev, { kind: "chat", message: reply }]);
     } catch (err) {
       setError((err as Error).message);
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleFiles(files: FileList | null) {
+    // 上传即摄取:图片走 S0 管线入库,卡片回显抽取结果;
+    // 后续提问由 chat/completions 经记忆召回已入库事实回答。
+    if (readOnly || uploading || !files || files.length === 0) {
+      return;
+    }
+    const file = files[0];
+    setUploading(true);
+    setEntries((prev) => [...prev, { kind: "media", fileName: file.name }]);
+    try {
+      const data = await uploadMedia(file);
+      setEntries((prev) =>
+        prev.map((entry, index) =>
+          index === prev.length - 1 && entry.kind === "media" && !entry.data && !entry.error
+            ? { kind: "media", fileName: file.name, data }
+            : entry
+        )
+      );
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setEntries((prev) =>
+        prev.map((entry, index) =>
+          index === prev.length - 1 && entry.kind === "media" && !entry.data && !entry.error
+            ? { kind: "media", fileName: file.name, error: message }
+            : entry
+        )
+      );
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  }
+
+  function onDrop(event: DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    void handleFiles(event.dataTransfer?.files ?? null);
   }
 
   async function runTrace() {
@@ -257,17 +322,36 @@ export function ChatPage({ readOnly }: ChatPageProps) {
     <div className="stack">
       <div className="grid two">
         <Card title="Chat Completions" subtitle="使用 /v1/chat/completions 调用 MASE">
-          <div className="chat-log">
-            {messages.map((message, index) => (
-              <div className={`bubble ${message.role}`} key={`${message.role}-${index}`}>
-                <strong>{message.role}</strong>
-                <p>{message.content}</p>
-              </div>
-            ))}
+          <div className="chat-log" onDrop={onDrop} onDragOver={(event) => event.preventDefault()}>
+            {entries.map((entry, index) =>
+              entry.kind === "chat" ? (
+                <div className={`bubble ${entry.message.role}`} key={`chat-${index}`}>
+                  <strong>{entry.message.role}</strong>
+                  <p>{entry.message.content}</p>
+                </div>
+              ) : (
+                <MediaIngestCard key={`media-${index}`} fileName={entry.fileName} data={entry.data} error={entry.error} />
+              )
+            )}
           </div>
           <form className="row-form" onSubmit={send}>
-            <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="输入问题..." />
+            <input value={input} onChange={(event) => setInput(event.target.value)} placeholder="输入问题...(可拖放图片/PDF 到对话区)" />
             <button type="submit">发送</button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".png,.jpg,.jpeg,.webp,.gif,.pdf"
+              style={{ display: "none" }}
+              onChange={(event) => void handleFiles(event.target.files)}
+            />
+            <button
+              type="button"
+              className="secondary"
+              disabled={readOnly || uploading}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {uploading ? "抽取中…" : "📎 上传资料"}
+            </button>
             <button type="button" className="secondary" onClick={runTrace}>
               运行 Trace
             </button>

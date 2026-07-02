@@ -1,5 +1,50 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { api, saveInternalApiKey } from "./api";
+import { api, saveInternalApiKey, uploadMedia } from "./api";
+
+describe("uploadMedia", () => {
+  afterEach(() => {
+    saveInternalApiKey("");
+    vi.restoreAllMocks();
+  });
+
+  it("posts FormData without forcing a JSON content-type", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        media_id: 1,
+        sha256: "x",
+        media_type: "image/png",
+        deduplicated: false,
+        extraction: {
+          extractor: "vision", model: "m", version: "1",
+          full_text_excerpt: "", facts: [], warnings: []
+        }
+      })
+    } as Response);
+
+    const file = new File([new Uint8Array([1, 2, 3])], "a.png", { type: "image/png" });
+    const result = await uploadMedia(file);
+
+    expect(result.media_id).toBe(1);
+    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    expect(String(url)).toContain("/v1/mase/media/upload");
+    expect(init.body).toBeInstanceOf(FormData);
+    // multipart 边界由浏览器生成,手动设 Content-Type 会破坏请求
+    expect((init.headers as Record<string, string>)["Content-Type"]).toBeUndefined();
+  });
+
+  it("throws a readable error on http failure", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: false,
+      status: 415,
+      statusText: "Unsupported Media Type",
+      text: async () => "unsupported media type: '.exe'"
+    } as Response);
+
+    const file = new File([new Uint8Array([1])], "evil.exe");
+    await expect(uploadMedia(file)).rejects.toThrow(/415/);
+  });
+});
 
 describe("api.runTrace", () => {
   afterEach(() => {

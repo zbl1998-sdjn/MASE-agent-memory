@@ -15,6 +15,7 @@ import type {
   JsonRecord,
   LifecycleData,
   MaseResponse,
+  MediaUploadData,
   ObservabilityData,
   PrivacyPreviewData,
   PrivacyScanData,
@@ -110,6 +111,26 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     throw new Error(`${response.status} ${response.statusText}: ${text}`);
   }
   return response.json() as Promise<T>;
+}
+
+export async function uploadMedia(file: File, mode?: string): Promise<MediaUploadData> {
+  // multipart 边界由浏览器自动生成;绝不能手动设 Content-Type,
+  // 因此不走 request<T>(它强制 JSON 头),只复用鉴权头。
+  const form = new FormData();
+  form.append("file", file);
+  if (mode) {
+    form.append("mode", mode);
+  }
+  const response = await fetch(`${API_BASE}/v1/mase/media/upload`, {
+    method: "POST",
+    headers: { ...authHeaders() },
+    body: form
+  });
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`${response.status} ${response.statusText}: ${text}`);
+  }
+  return response.json() as Promise<MediaUploadData>;
 }
 
 export const api = {

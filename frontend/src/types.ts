@@ -423,3 +423,28 @@ export type NavKey =
   | "timeline"
   | "sessions"
   | "procedures";
+
+// ---------- S2 多模态上传(/v1/mase/media/upload 响应契约) ----------
+
+export type MediaUploadFact = {
+  category: string;
+  key: string;
+  value: string;
+  confidence: number;
+  evidence: string;
+};
+
+export type MediaUploadData = {
+  media_id: number;
+  sha256: string;
+  media_type: string;
+  deduplicated: boolean;
+  extraction: {
+    extractor: string;
+    model: string;
+    version: string;
+    full_text_excerpt: string;
+    facts: MediaUploadFact[];
+    warnings: string[];
+  };
+};
