@@ -147,6 +147,12 @@ def main():
             print("无效的选择，请重试。")
 
 if __name__ == "__main__":
+    # 非交互子命令分发:`python mase_cli.py ingest <folder>` 走多模态批处理,
+    # 其余保持原交互式菜单。
+    if len(sys.argv) > 1 and sys.argv[1] == "ingest":
+        from mase.multimodal.cli import main as _ingest_main
+
+        sys.exit(_ingest_main(sys.argv[2:]))
     try:
         main()
     except KeyboardInterrupt:
