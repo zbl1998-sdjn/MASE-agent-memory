@@ -1,6 +1,6 @@
 # MASE 多模态能力 — S1 设计:语音转写与时间线事实
 
-- 状态:草案(待用户审阅)
+- 状态:已实现并验收(v0.6.0,双 lane 全 GPU PASS,证据 `E:/MASE-runs/s1_acceptance/20260702T211558Z/`)
 - 日期:2026-07-03
 - 前置:S0 已验收(v0.5.0,`docs/superpowers/specs/2026-07-02-mase-multimodal-s0-design.md`)。本文件只写 S1 增量,S0 既定模式(资产库溯源、批处理 CLI、逐文件隔离、幂等键、双 lane 验收证据)直接沿用不重复。
 
