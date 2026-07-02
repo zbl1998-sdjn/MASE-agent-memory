@@ -59,11 +59,30 @@ def test_chunks_long_text_at_line_boundaries():
             assert line.startswith("line-")  # 不劈开行
 
 
-def test_malformed_reply_degrades_with_warning():
+def test_malformed_reply_retried_once_with_corrective_hint():
+    """非法 JSON 触发一次纠正性重试(追加提示改变输入);重试成功则事实照常入库。"""
     from mase.multimodal.text_facts import extract_facts_from_text
 
+    good = json.dumps({"facts": [{"category": "general_facts", "key": "k", "value": "v",
+                                  "confidence": 0.5, "evidence": "e"}]})
+    fake = FakeModelInterface(["not json", good])
     facts, warnings, _ = extract_facts_from_text(
-        FakeModelInterface(["not json"]), agent_type="doc_facts", system_prompt="S", text="t",
+        fake, agent_type="doc_facts", system_prompt="S", text="content",
     )
+    assert len(fake.calls) == 2
+    # 重试输入必须带纠正提示(temp=0 下原输入只会得到同样的坏输出)
+    assert "JSON" in fake.calls[1]["messages"][0]["content"]
+    assert [f.key for f in facts] == ["k"]
+    assert "non_json_response(recovered_on_retry)" in warnings
+
+
+def test_malformed_reply_degrades_after_failed_retry():
+    from mase.multimodal.text_facts import extract_facts_from_text
+
+    fake = FakeModelInterface(["not json", "still not json"])
+    facts, warnings, _ = extract_facts_from_text(
+        fake, agent_type="doc_facts", system_prompt="S", text="t",
+    )
+    assert len(fake.calls) == 2
     assert facts == []
     assert "non_json_response" in warnings

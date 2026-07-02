@@ -103,7 +103,8 @@ def test_multipage_transcripts_aggregate_before_single_fact_pass():
 def test_malformed_facts_reply_degrades_to_transcript_only():
     from mase.multimodal.vision_extractor import VisionExtractor
 
-    fake = FakeModelInterface(transcripts=["The invoice text"], facts_replies=["not json"])
+    # 两条坏回复:纠正性重试一次后仍失败 → 降级为仅转写稿
+    fake = FakeModelInterface(transcripts=["The invoice text"], facts_replies=["not json", "still bad"])
     result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"img", "image/png")))
     assert "invoice" in result.full_text
     assert result.candidate_facts == ()

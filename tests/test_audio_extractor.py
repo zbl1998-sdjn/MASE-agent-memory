@@ -107,7 +107,8 @@ def test_malformed_llm_reply_degrades_to_transcript_only(tmp_path):
     from mase.multimodal.audio_extractor import AudioExtractor
 
     segs = [TranscriptSegment(0.0, 3.0, "内容")]
-    extractor = AudioExtractor(FakeModelInterface(["not json"]), transcribe_fn=_fake_transcribe(segs))
+    # 两条坏回复:纠正性重试一次后仍失败 → 降级为仅转写稿
+    extractor = AudioExtractor(FakeModelInterface(["not json", "still bad"]), transcribe_fn=_fake_transcribe(segs))
     result = extractor.extract(_asset(), _payload(tmp_path))
     assert result.full_text == "[00:00:00] 内容"  # 转写稿完整保留
     assert result.candidate_facts == ()

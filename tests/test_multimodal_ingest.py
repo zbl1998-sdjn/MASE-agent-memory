@@ -121,6 +121,41 @@ def test_non_allowlisted_and_escaping_files_are_skipped(tmp_path, monkeypatch):
     assert any(s["file"] == "note.txt" and s["reason"] == "unsupported_media" for s in report.skipped)
 
 
+def test_duplicate_fact_keys_within_one_extraction_do_not_overwrite(tmp_path, monkeypatch):
+    """多实体文档同 key 事实(如两张 PO 各有 order_total)不得静默覆盖丢数据。"""
+    db, docs, assets = _setup(tmp_path, monkeypatch)
+    (docs / "two-orders.png").write_bytes(b"img")
+
+    class _DupKeyExtractor:
+        name, version = "fake", "1"
+
+        def supports(self, media_type):
+            return True
+
+        def extract(self, asset, payload):
+            return ExtractionResult(
+                full_text="PO-1 total 100 | PO-2 total 200",
+                candidate_facts=(
+                    CandidateFact("finance_budget", "order_total", "100", 0.9, "PO-1 total 100"),
+                    CandidateFact("finance_budget", "order_total", "200", 0.9, "PO-2 total 200"),
+                ),
+                extractor_name="fake", model_name="m", extractor_version="1", warnings=(),
+            )
+
+    from mase.multimodal.ingest import ingest_folder
+
+    report = ingest_folder(docs, extractor=_DupKeyExtractor(), asset_root=assets)
+    assert report.facts_written == 2
+    conn = sqlite3.connect(db)
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        "SELECT entity_key, entity_value FROM entity_state WHERE entity_key LIKE 'order_total%' ORDER BY entity_key"
+    ).fetchall()
+    conn.close()
+    values = {r["entity_value"] for r in rows}
+    assert values == {"100", "200"}  # 两个值都在,第二条 key 被确定性后缀区分
+
+
 def test_mixed_folder_dispatches_by_media_type(tmp_path, monkeypatch):
     """图像走 vision、音频走 audio,一次批处理各归其位(全假抽取,不碰真模型)。"""
     _, docs, assets = _setup(tmp_path, monkeypatch)

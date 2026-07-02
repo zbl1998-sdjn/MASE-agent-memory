@@ -52,14 +52,24 @@ def extract_facts_from_text(
         warnings.append(f"chunked: {len(chunks)} parts")
 
     for chunk_text in chunks:
-        response = model_interface.chat(
-            agent_type,
-            messages=[{"role": "user", "content": chunk_text}],
-            override_system_prompt=system_prompt,
-        )
-        llm_model = str(response.get("model") or llm_model)
-        raw = str((response.get("message") or {}).get("content") or "")
-        reply = parse_json_blob(raw)
+        reply = None
+        for attempt in (1, 2):
+            # 重试必须改变输入:temp=0 下同输入只会复现同样的坏输出。
+            content = chunk_text if attempt == 1 else (
+                chunk_text + "\n\n(你上一次的输出不是合法 JSON。请只输出符合契约的 JSON 对象,不要任何其他文字。)"
+            )
+            response = model_interface.chat(
+                agent_type,
+                messages=[{"role": "user", "content": content}],
+                override_system_prompt=system_prompt,
+            )
+            llm_model = str(response.get("model") or llm_model)
+            raw = str((response.get("message") or {}).get("content") or "")
+            reply = parse_json_blob(raw)
+            if reply is not None:
+                if attempt == 2:
+                    warnings.append("non_json_response(recovered_on_retry)")
+                break
         if reply is None:
             warnings.append("non_json_response")
             continue

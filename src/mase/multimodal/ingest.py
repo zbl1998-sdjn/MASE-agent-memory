@@ -142,9 +142,16 @@ def ingest_folder(
             mase2_write_interaction(
                 f"ingest::{sha256[:12]}", "system", result.full_text, source_media_id=media_id
             )
+            # 同批同 (category, key) 防覆盖:多实体文档(如两张 PO 各有
+            # order_total)若复用 key,entity_state 的 upsert 会静默丢前值;
+            # 确定性后缀 _2/_3 保全部事实,溯源链不受影响。
+            seen_keys: dict[tuple[str, str], int] = {}
             for fact in result.candidate_facts:
+                dedup_key = (fact.category, fact.key)
+                seen_keys[dedup_key] = seen_keys.get(dedup_key, 0) + 1
+                effective_key = fact.key if seen_keys[dedup_key] == 1 else f"{fact.key}_{seen_keys[dedup_key]}"
                 mase2_upsert_fact(
-                    fact.category, fact.key, fact.value,
+                    fact.category, effective_key, fact.value,
                     reason=f"media_extraction:{sha256}", source_media_id=media_id,
                 )
                 facts_written += 1
