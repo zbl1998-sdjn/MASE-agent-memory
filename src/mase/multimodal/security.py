@@ -17,6 +17,7 @@ ALLOWED_MEDIA_TYPES: dict[str, str] = {
     ".wav": "audio/wav",
     ".mp3": "audio/mpeg",
     ".m4a": "audio/mp4",
+    ".flac": "audio/flac",
 }
 
 DEFAULT_MAX_BYTES = 50 * 1024 * 1024   # 图像/文档单文件上限

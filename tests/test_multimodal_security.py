@@ -60,7 +60,12 @@ def test_classify_media_rejects_oversize(tmp_path):
 def test_audio_types_in_allowlist(tmp_path):
     from mase.multimodal.security import classify_media
 
-    for name, expected in (("m.wav", "audio/wav"), ("m.MP3", "audio/mpeg"), ("m.m4a", "audio/mp4")):
+    for name, expected in (
+        ("m.wav", "audio/wav"),
+        ("m.MP3", "audio/mpeg"),
+        ("m.m4a", "audio/mp4"),
+        ("m.flac", "audio/flac"),
+    ):
         f = tmp_path / name
         f.write_bytes(b"x" * 10)
         assert classify_media(f) == expected

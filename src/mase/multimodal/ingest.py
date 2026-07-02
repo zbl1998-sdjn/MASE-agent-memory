@@ -39,6 +39,7 @@ _SUFFIX_BY_MEDIA_TYPE = {
     "audio/wav": "wav",
     "audio/mpeg": "mp3",
     "audio/mp4": "m4a",
+    "audio/flac": "flac",
 }
 
 
