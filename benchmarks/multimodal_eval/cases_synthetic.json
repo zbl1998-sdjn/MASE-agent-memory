@@ -1,0 +1,2342 @@
+[
+  {
+    "case_id": "vis-L1-001",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-001.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "PO-2026-9561",
+      "731000",
+      "2026-07-23"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "731000"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-07-23"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "采购订单 PO-2026-9561 的总额是多少?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "distractor_qa": [
+      {
+        "q": "公司年会的抽奖一等奖是什么?",
+        "must_not_recall": true
+      }
+    ],
+    "sha256": "569d356d6dbbbcf8f08a277445f542995058938661080fbac366fdd886827cf7",
+    "byte_size": 43345,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-002",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-002.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "Phoenix",
+      "8640"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What phase-2 budget was approved for Phoenix?",
+        "answer_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "distractor_qa": [
+      {
+        "q": "Which airline was booked for the offsite?",
+        "must_not_recall": true
+      }
+    ],
+    "sha256": "3c45a17e339f348cec1fa1c4f59302cfc3ea03ef68d199e459edd2eaca2adb47",
+    "byte_size": 44757,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-003",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-003.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "0.8%",
+      "2026-04-08"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "0.8%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "与 华澜数据 合同的每日违约金比例是多少?",
+        "answer_anchors": [
+          "0.8%"
+        ]
+      }
+    ],
+    "distractor_qa": [
+      {
+        "q": "食堂周三的菜单是什么?",
+        "must_not_recall": true
+      }
+    ],
+    "sha256": "176874b27295130c574c8e431a759f7828c0bfaf26320b8e2f9c4b44a1ffffd2",
+    "byte_size": 42347,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-004",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-004.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "INV-680303",
+      "86400"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the total of invoice INV-680303?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "distractor_qa": [
+      {
+        "q": "What is the CEO's home address?",
+        "must_not_recall": true
+      }
+    ],
+    "sha256": "42114f44032057da09d66b899da08e763819bc35a88cde37095b5e56ddadcd20",
+    "byte_size": 30579,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-005",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-005.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "PO-2026-4257",
+      "58200",
+      "2026-02-17"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "58200"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-02-17"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "采购订单 PO-2026-4257 的总额是多少?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "distractor_qa": [
+      {
+        "q": "新办公楼的物业电话是多少?",
+        "must_not_recall": true
+      }
+    ],
+    "sha256": "3b199a2e5904ab6724dd3bacbb0aace83e9dc45edcea491c1d1bb3455259ee4e",
+    "byte_size": 41701,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-006",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-006.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "Kunlun",
+      "265000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What phase-2 budget was approved for Kunlun?",
+        "answer_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "distractor_qa": [
+      {
+        "q": "What is the wifi password of the branch office?",
+        "must_not_recall": true
+      }
+    ],
+    "sha256": "d2f7f1a698400ecdec31420ede744d22b101882a67fe9763d2e6d3e0a7e05719",
+    "byte_size": 43668,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-007",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-007.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "0.8%",
+      "2026-07-15"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "0.8%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "与 启明重工 合同的每日违约金比例是多少?",
+        "answer_anchors": [
+          "0.8%"
+        ]
+      }
+    ],
+    "sha256": "a55964c7936f9359be14f9f3335fadd2b4ba1044746c3288de10b1a39f83c077",
+    "byte_size": 40610,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-008",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-008.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "INV-104221",
+      "129500"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "129500"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the total of invoice INV-104221?",
+        "answer_anchors": [
+          "129500"
+        ]
+      }
+    ],
+    "sha256": "d728725434968e25164553fb2f0d421f5b17ce0f4a09ee44f6313bdfd928af03",
+    "byte_size": 29154,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-009",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-009.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "PO-2026-8147",
+      "47300",
+      "2026-04-13"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "47300"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-04-13"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "采购订单 PO-2026-8147 的总额是多少?",
+        "answer_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "sha256": "6131e5570444d249c771c69547d3b124c136928322384ef6ca69fdc76596dab7",
+    "byte_size": 42359,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-010",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-010.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "Meridian",
+      "58200"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What phase-2 budget was approved for Meridian?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "da253b19eb09bbe5f8e927fbd839d497fa681dc9f64cd47cdf3c98f025932b52",
+    "byte_size": 44649,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-011",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-011.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "1.2%",
+      "2026-08-15"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "1.2%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "与 启明重工 合同的每日违约金比例是多少?",
+        "answer_anchors": [
+          "1.2%"
+        ]
+      }
+    ],
+    "sha256": "9f0ce92f50e39e5083e105d43c45e417af5ebb1e045e6d4f563b7d0a6769a4bb",
+    "byte_size": 40448,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-012",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-012.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "INV-987044",
+      "731000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the total of invoice INV-987044?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "sha256": "1a0f4eb4a793034a1caa12a93a40b72423b93c921b7ebca04b3a29011bcb6ec9",
+    "byte_size": 29386,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-013",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-013.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "PO-2026-9035",
+      "265000",
+      "2026-05-26"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "265000"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-05-26"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "采购订单 PO-2026-9035 的总额是多少?",
+        "answer_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "sha256": "ee767685f3c542577c39c18f75b86b746ac06a6a89ed62183257a9bd0aca31f9",
+    "byte_size": 44848,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-014",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-014.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "Aurora",
+      "129500"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "129500"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What phase-2 budget was approved for Aurora?",
+        "answer_anchors": [
+          "129500"
+        ]
+      }
+    ],
+    "sha256": "8ddb0ee7e4c5d032daa72ebbd4bd9c8152c62b4e6e4a0f0fafc2b14d1ec075a3",
+    "byte_size": 44682,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-015",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-015.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "1.2%",
+      "2026-07-25"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "1.2%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "与 泰岳智造 合同的每日违约金比例是多少?",
+        "answer_anchors": [
+          "1.2%"
+        ]
+      }
+    ],
+    "sha256": "a5db3ca7b401752b52a72c47f1db84bac074b950e7b6b066dca48092f52bf094",
+    "byte_size": 41178,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-016",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/vis-L2-016.png",
+    "negative": false,
+    "degrade": {
+      "dpi": 75
+    },
+    "anchors_fulltext": [
+      "Tianshan",
+      "58200"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Tianshan 项目二期预算是多少?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "351922eff481c3ebb0894ee05f0788d992780409e4ba264e6e28f2fe44d079ac",
+    "byte_size": 21245,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-017",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/vis-L2-017.jpg",
+    "negative": false,
+    "degrade": {
+      "jpeg_quality": 30
+    },
+    "anchors_fulltext": [
+      "0.8%",
+      "2026-11-16"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "0.8%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the daily penalty rate in the Northwind Systems agreement?",
+        "answer_anchors": [
+          "0.8%"
+        ]
+      }
+    ],
+    "sha256": "4159f882b560bc0591d91daaf63be92d249eacfa11a73951a693cdf8ecaeee55",
+    "byte_size": 42129,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-018",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/vis-L2-018.png",
+    "negative": false,
+    "degrade": {
+      "rotate": 3
+    },
+    "anchors_fulltext": [
+      "INV-127182",
+      "47300"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "发票 INV-127182 的价税合计是多少?",
+        "answer_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "sha256": "a3da13d6e780e0fe129eaa4aecc18560dca3b039cd1fc45abd7baf4ef38e89cb",
+    "byte_size": 40653,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-019",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/vis-L2-019.png",
+    "negative": false,
+    "degrade": {
+      "rotate": -3
+    },
+    "anchors_fulltext": [
+      "PO-2026-3268",
+      "47300",
+      "2026-01-11"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "47300"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-01-11"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the total of purchase order PO-2026-3268?",
+        "answer_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "sha256": "0832454f2b04f2afb959e3974fbb1015bebe47301b93fd0685134ebb98440f73",
+    "byte_size": 57270,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-020",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/vis-L2-020.png",
+    "negative": false,
+    "degrade": {
+      "gray_bg": true
+    },
+    "anchors_fulltext": [
+      "Tianshan",
+      "731000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Tianshan 项目二期预算是多少?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "sha256": "3cd8c06cf06276ab04183fe63e591938d37297197e89ba19cf879b0640b2529a",
+    "byte_size": 43625,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-021",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/vis-L2-021.png",
+    "negative": false,
+    "degrade": {
+      "dpi": 75,
+      "gray_bg": true
+    },
+    "anchors_fulltext": [
+      "0.5%",
+      "2026-02-05"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "0.5%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the daily penalty rate in the Ironwood Manufacturing agreement?",
+        "answer_anchors": [
+          "0.5%"
+        ]
+      }
+    ],
+    "sha256": "fea6e9c85e241b76f479fb0e21dea6777176b09c6569500360130aa99b7a0af3",
+    "byte_size": 19670,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-022",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/vis-L2-022.png",
+    "negative": false,
+    "degrade": {
+      "font_size": 9
+    },
+    "anchors_fulltext": [
+      "INV-139838",
+      "8640"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "发票 INV-139838 的价税合计是多少?",
+        "answer_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "sha256": "c7041a7e04b8e2aecbd990254722e07b28ed5f9644254c344e56c10df4cea690",
+    "byte_size": 26008,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-023",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/vis-L2-023.jpg",
+    "negative": false,
+    "degrade": {
+      "jpeg_quality": 25,
+      "dpi": 100
+    },
+    "anchors_fulltext": [
+      "PO-2026-4843",
+      "265000",
+      "2026-03-09"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "265000"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-03-09"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the total of purchase order PO-2026-4843?",
+        "answer_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "sha256": "00dac93388abba779bacee2e3c56bfd59e0ad57b8d0b5f77626a5e4bb4a0fc47",
+    "byte_size": 19388,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-024",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/vis-L2-024.png",
+    "negative": false,
+    "degrade": {
+      "dpi": 75
+    },
+    "anchors_fulltext": [
+      "Meridian",
+      "731000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Meridian 项目二期预算是多少?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "sha256": "6f583030a8a4137491823e547d212b50990037f4815577ea921f35526c7ade50",
+    "byte_size": 21574,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-025",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/vis-L2-025.jpg",
+    "negative": false,
+    "degrade": {
+      "jpeg_quality": 30
+    },
+    "anchors_fulltext": [
+      "1.2%",
+      "2026-04-02"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "1.2%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the daily penalty rate in the Ironwood Manufacturing agreement?",
+        "answer_anchors": [
+          "1.2%"
+        ]
+      }
+    ],
+    "sha256": "254d3f9680cff3adfb9e2087e49992806e6858ee1da3b86ca2c298e3a9b6173d",
+    "byte_size": 42419,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-026",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/vis-L2-026.png",
+    "negative": false,
+    "degrade": {
+      "rotate": 3
+    },
+    "anchors_fulltext": [
+      "INV-280356",
+      "86400"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "发票 INV-280356 的价税合计是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "04e5503b8c22024ea25691681eee36a3a5ed981f0ebb6f77d1e427e82cc0df4f",
+    "byte_size": 41157,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-027",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/vis-L2-027.png",
+    "negative": false,
+    "degrade": {
+      "rotate": -3
+    },
+    "anchors_fulltext": [
+      "PO-2026-4850",
+      "58200",
+      "2026-10-06"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "58200"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-10-06"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the total of purchase order PO-2026-4850?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "2ffd68e11bc9705927bec82b23e2498bd809f2d5ec5c11cd31493a18f40a1e75",
+    "byte_size": 59674,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-028",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/vis-L2-028.png",
+    "negative": false,
+    "degrade": {
+      "gray_bg": true
+    },
+    "anchors_fulltext": [
+      "Kunlun",
+      "265000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Kunlun 项目二期预算是多少?",
+        "answer_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "sha256": "de60ac12d1f1a86107d7788708632b83dcf321667b5aba1742f263487a0d2220",
+    "byte_size": 43058,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-029",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/vis-L2-029.png",
+    "negative": false,
+    "degrade": {
+      "dpi": 75,
+      "gray_bg": true
+    },
+    "anchors_fulltext": [
+      "1.2%",
+      "2026-02-17"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "1.2%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the daily penalty rate in the Ironwood Manufacturing agreement?",
+        "answer_anchors": [
+          "1.2%"
+        ]
+      }
+    ],
+    "sha256": "6f1e36142bda8dcc83b091e5b1ae0153a3fdcb3b8dd12787f17e5c8ede9149ff",
+    "byte_size": 19448,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L2-030",
+    "modality": "image",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/vis-L2-030.png",
+    "negative": false,
+    "degrade": {
+      "font_size": 9
+    },
+    "anchors_fulltext": [
+      "INV-677393",
+      "86400"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "发票 INV-677393 的价税合计是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "c52669cb6fa5806912dbb18eabd5c832143320c49dd5b1d9850a7f62c9bb3885",
+    "byte_size": 25093,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-031",
+    "modality": "pdf",
+    "difficulty": 3,
+    "language": "mixed",
+    "file": "files/vis-L3-031.pdf",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "PO-2026-8015",
+      "47300",
+      "2026-09-02",
+      "PO-2026-5248",
+      "731000",
+      "2026-04-10"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "47300"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-09-02"
+        ]
+      },
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "731000"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-04-10"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "采购订单 PO-2026-8015 的总额是多少?",
+        "answer_anchors": [
+          "47300"
+        ]
+      },
+      {
+        "q": "What is the total of purchase order PO-2026-5248?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "sha256": "bc0a1f8079992debc421fa9aa989f738198db058b88051986627cdbb810cdab2",
+    "byte_size": 3629,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-032",
+    "modality": "pdf",
+    "difficulty": 3,
+    "language": "mixed",
+    "file": "files/vis-L3-032.pdf",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "Kunlun",
+      "8640",
+      "Phoenix",
+      "47300"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "8640"
+        ]
+      },
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Kunlun 项目二期预算是多少?",
+        "answer_anchors": [
+          "8640"
+        ]
+      },
+      {
+        "q": "What phase-2 budget was approved for Phoenix?",
+        "answer_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "sha256": "aa509d33acd2d3340be26b0778f180c6b6928eeb9ebdc606ae7a74e15265ae25",
+    "byte_size": 3083,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-033",
+    "modality": "pdf",
+    "difficulty": 3,
+    "language": "mixed",
+    "file": "files/vis-L3-033.pdf",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "1.2%",
+      "2026-02-22",
+      "0.8%",
+      "2026-12-17"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "1.2%"
+        ]
+      },
+      {
+        "key_hint": "penalty_rate",
+        "value_anchors": [
+          "0.8%"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "与 启明重工 合同的每日违约金比例是多少?",
+        "answer_anchors": [
+          "1.2%"
+        ]
+      },
+      {
+        "q": "What is the daily penalty rate in the Apex Logistics agreement?",
+        "answer_anchors": [
+          "0.8%"
+        ]
+      }
+    ],
+    "sha256": "efd2528cd20895bd63b0552c14d8712d8d3ecc33c366f914dc43c5d248996c95",
+    "byte_size": 3009,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-034",
+    "modality": "pdf",
+    "difficulty": 3,
+    "language": "mixed",
+    "file": "files/vis-L3-034.pdf",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "INV-633240",
+      "86400",
+      "INV-743308",
+      "731000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "86400"
+        ]
+      },
+      {
+        "key_hint": "invoice_total",
+        "value_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "发票 INV-633240 的价税合计是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      },
+      {
+        "q": "What is the total of invoice INV-743308?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "sha256": "c2bcae9b0dd3406626d470a04010d5562473c8df41944a8fa5f439b6b2837f4a",
+    "byte_size": 2785,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-035",
+    "modality": "pdf",
+    "difficulty": 3,
+    "language": "mixed",
+    "file": "files/vis-L3-035.pdf",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "PO-2026-1724",
+      "86400",
+      "2026-08-12",
+      "PO-2026-2002",
+      "8640",
+      "2026-01-13"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "86400"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-08-12"
+        ]
+      },
+      {
+        "key_hint": "order_total",
+        "value_anchors": [
+          "8640"
+        ]
+      },
+      {
+        "key_hint": "delivery_date",
+        "value_anchors": [
+          "2026-01-13"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "采购订单 PO-2026-1724 的总额是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      },
+      {
+        "q": "What is the total of purchase order PO-2026-2002?",
+        "answer_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "sha256": "3fbd0685eedd284c96f184928dcad0214de42cbfc3e726ef6438d102f85ca435",
+    "byte_size": 3639,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-036",
+    "modality": "pdf",
+    "difficulty": 3,
+    "language": "mixed",
+    "file": "files/vis-L3-036.pdf",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "Meridian",
+      "86400",
+      "Phoenix",
+      "731000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "86400"
+        ]
+      },
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Meridian 项目二期预算是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      },
+      {
+        "q": "What phase-2 budget was approved for Phoenix?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "sha256": "57b075f036ebf8108869eaa4f5a137df7ec33a13f97d95579fe480f21190f983",
+    "byte_size": 3093,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-037",
+    "modality": "image",
+    "difficulty": 3,
+    "language": "zh",
+    "file": "files/vis-L3-037.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "8640",
+      "86400",
+      "864000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "phase2",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Tianshan 二期实施服务的金额是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "afb4f72a4f16db7bae538576b2ea91f4cc61cfbf4b28a51617f9f272ca4ab230",
+    "byte_size": 39091,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-038",
+    "modality": "image",
+    "difficulty": 3,
+    "language": "en",
+    "file": "files/vis-L3-038.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "8640",
+      "86400",
+      "864000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "phase2",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the Meridian phase-2 services amount?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "2efd7283892f484704c4dd9891359e6e3e90d9369f1114d27844326f0e96acb5",
+    "byte_size": 37645,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-039",
+    "modality": "image",
+    "difficulty": 3,
+    "language": "zh",
+    "file": "files/vis-L3-039.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "8640",
+      "86400",
+      "864000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "phase2",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Tianshan 二期实施服务的金额是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "afb4f72a4f16db7bae538576b2ea91f4cc61cfbf4b28a51617f9f272ca4ab230",
+    "byte_size": 39091,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-040",
+    "modality": "image",
+    "difficulty": 3,
+    "language": "en",
+    "file": "files/vis-L3-040.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "8640",
+      "86400",
+      "864000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "phase2",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the Meridian phase-2 services amount?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "2efd7283892f484704c4dd9891359e6e3e90d9369f1114d27844326f0e96acb5",
+    "byte_size": 37645,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-041",
+    "modality": "image",
+    "difficulty": 3,
+    "language": "zh",
+    "file": "files/vis-L3-041.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "8640",
+      "86400",
+      "864000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "phase2",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Meridian 二期实施服务的金额是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "6b244cbd152bb229fe9aeb7ad07e43300bcb003e6f5c1cb044d14b19cc06ddea",
+    "byte_size": 39774,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L3-042",
+    "modality": "image",
+    "difficulty": 3,
+    "language": "en",
+    "file": "files/vis-L3-042.png",
+    "negative": false,
+    "degrade": {},
+    "anchors_fulltext": [
+      "8640",
+      "86400",
+      "864000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "phase2",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What is the Tianshan phase-2 services amount?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "ce7d12bf996e2643f74bb8efad81c182e461decaa79216877599a65099f8c40e",
+    "byte_size": 37365,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-043",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-043.png",
+    "negative": true,
+    "degrade": {},
+    "anchors_fulltext": [],
+    "expected_facts": [],
+    "qa": [],
+    "sha256": "4ccc87adedb88c8dedf62a562838fa0b71fd8e2741c6de3bcde05efd259212b9",
+    "byte_size": 21388,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-044",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-044.png",
+    "negative": true,
+    "degrade": {},
+    "anchors_fulltext": [],
+    "expected_facts": [],
+    "qa": [],
+    "sha256": "a91ab5944a90decf7318fc1013bdc4e22f54c008a205c519ad6a742760174039",
+    "byte_size": 22567,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-045",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-045.png",
+    "negative": true,
+    "degrade": {},
+    "anchors_fulltext": [],
+    "expected_facts": [],
+    "qa": [],
+    "sha256": "245d54a4cd0218cfc123bcc9c8505d462e333ba058c617c64dde1725c80c1600",
+    "byte_size": 18978,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-046",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-046.png",
+    "negative": true,
+    "degrade": {},
+    "anchors_fulltext": [],
+    "expected_facts": [],
+    "qa": [],
+    "sha256": "a91ab5944a90decf7318fc1013bdc4e22f54c008a205c519ad6a742760174039",
+    "byte_size": 22567,
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-047",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/vis-L1-047.png",
+    "negative": true,
+    "degrade": {},
+    "anchors_fulltext": [],
+    "expected_facts": [],
+    "qa": [],
+    "sha256": "5304fd78d3cc868bf38aa01fa16e6ad17a1875140e6b9b688c45a97842ec7f60",
+    "byte_size": 21202,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "vis-L1-048",
+    "modality": "image",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/vis-L1-048.png",
+    "negative": true,
+    "degrade": {},
+    "anchors_fulltext": [],
+    "expected_facts": [],
+    "qa": [],
+    "sha256": "2d4815f34b995399d65cb38717a3447ea719c5d5f9671fe6363af1169df14a93",
+    "byte_size": 22750,
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L1-049",
+    "modality": "audio",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/aud-L1-049.wav",
+    "negative": false,
+    "voice": "Microsoft Huihui Desktop",
+    "anchors_fulltext": [
+      "731000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Kunlun 项目的预算是多少?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "sha256": "5d0c5d44b981ebedcf9ffff7b88a6fdf4cc1e03c03d5e9c41362b76f658f8536",
+    "byte_size": 338160,
+    "tts_script": "会议决定,Kunlun 项目的预算是 731000 元,由 张伟 负责执行。",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L1-050",
+    "modality": "audio",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/aud-L1-050.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "8640"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Phoenix?",
+        "answer_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "sha256": "1931beeb295f436e4201dcf229f0d24c9499fe297667c242444f2092e5fd7ae6",
+    "byte_size": 323878,
+    "tts_script": "The meeting approved a budget of 8640 euros for project Phoenix, owned by David Okafor.",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L1-051",
+    "modality": "audio",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/aud-L1-051.wav",
+    "negative": false,
+    "voice": "Microsoft Kangkang",
+    "anchors_fulltext": [
+      "58200"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Aurora 项目的预算是多少?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "d10994b38fb1dac00ec5526ef44f99d67185c9799d3cbdc09548b7761ab9fd3c",
+    "byte_size": 334180,
+    "tts_script": "会议决定,Aurora 项目的预算是 58200 元,由 陈静 负责执行。",
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L1-052",
+    "modality": "audio",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/aud-L1-052.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "58200"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Aurora?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "bd9e1564ce886034987994491519fd3526321303bea64f609c2ea3f022f5bb5f",
+    "byte_size": 315944,
+    "tts_script": "The meeting approved a budget of 58200 euros for project Aurora, owned by David Okafor.",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L1-053",
+    "modality": "audio",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/aud-L1-053.wav",
+    "negative": false,
+    "voice": "Microsoft Yaoyao",
+    "anchors_fulltext": [
+      "47300"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Aurora 项目的预算是多少?",
+        "answer_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "sha256": "c0c7c10d99f8ee702e671f0e7e41ec44f40f2edeb03b16497a605c1e34d7b77d",
+    "byte_size": 334182,
+    "tts_script": "会议决定,Aurora 项目的预算是 47300 元,由 李娜 负责执行。",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L1-054",
+    "modality": "audio",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/aud-L1-054.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "265000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Aurora?",
+        "answer_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "sha256": "a2c51b7e1eb9f6b2b5d4a2565be2da191231204b85682efb13aadf723a69f0d5",
+    "byte_size": 336016,
+    "tts_script": "The meeting approved a budget of 265000 euros for project Aurora, owned by Michael Torres.",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L1-055",
+    "modality": "audio",
+    "difficulty": 1,
+    "language": "zh",
+    "file": "files/aud-L1-055.wav",
+    "negative": false,
+    "voice": "Microsoft Huihui Desktop",
+    "anchors_fulltext": [
+      "129500"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "129500"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Aurora 项目的预算是多少?",
+        "answer_anchors": [
+          "129500"
+        ]
+      }
+    ],
+    "sha256": "fd257e52d241a6a17103b3085e282d85f648a7f22c884f20701a391c37cf69f0",
+    "byte_size": 344760,
+    "tts_script": "会议决定,Aurora 项目的预算是 129500 元,由 赵敏 负责执行。",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L1-056",
+    "modality": "audio",
+    "difficulty": 1,
+    "language": "en",
+    "file": "files/aud-L1-056.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "58200"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Tianshan?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "c877e036341068fe3c6cc91a5284ac9d3bceb6e3dabed3613c07ed5dad860627",
+    "byte_size": 332698,
+    "tts_script": "The meeting approved a budget of 58200 euros for project Tianshan, owned by Michael Torres.",
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L2-057",
+    "modality": "audio",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/aud-L2-057.wav",
+    "negative": false,
+    "voice": "Microsoft Huihui Desktop",
+    "anchors_fulltext": [
+      "86400"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Kunlun 项目的预算是多少?",
+        "answer_anchors": [
+          "86400"
+        ]
+      }
+    ],
+    "sha256": "bb11d3a29c01b101949b33c7331217c1cfeaafcf805bc82142f74dcc34363fc7",
+    "byte_size": 846228,
+    "tts_script": "会议决定,Kunlun 项目的预算是 86400 元,由 陈静 负责执行。 另外说一下,今天午餐订的是楼下那家,大家记得去前台取餐。会议室下周装修,先换到三楼。",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L2-058",
+    "modality": "audio",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/aud-L2-058.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "8640"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Aurora?",
+        "answer_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "sha256": "ea4bb040ee98e92917dba885f86919cad5347554710dee452f89722c68d44171",
+    "byte_size": 613130,
+    "tts_script": "The meeting approved a budget of 8640 euros for project Aurora, owned by Sarah Chen. Also, lunch is at the usual place downstairs, and the meeting room moves to floor three next week.",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L2-059",
+    "modality": "audio",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/aud-L2-059.wav",
+    "negative": false,
+    "voice": "Microsoft Kangkang",
+    "anchors_fulltext": [
+      "265000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Aurora 项目的预算是多少?",
+        "answer_anchors": [
+          "265000"
+        ]
+      }
+    ],
+    "sha256": "d9eae3e2f350205f59bfe1a0946a8397ffa1af56a21fc5e9206525cb8ebd3ffc",
+    "byte_size": 839182,
+    "tts_script": "会议决定,Aurora 项目的预算是 265000 元,由 王强 负责执行。 另外说一下,今天午餐订的是楼下那家,大家记得去前台取餐。会议室下周装修,先换到三楼。",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L2-060",
+    "modality": "audio",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/aud-L2-060.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "58200"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Meridian?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "39210f8dd63da26dfb60fe3251446606c73a019f3052e6befbd081193f64a819",
+    "byte_size": 620184,
+    "tts_script": "The meeting approved a budget of 58200 euros for project Meridian, owned by David Okafor. Also, lunch is at the usual place downstairs, and the meeting room moves to floor three next week.",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L2-061",
+    "modality": "audio",
+    "difficulty": 2,
+    "language": "zh",
+    "file": "files/aud-L2-061.wav",
+    "negative": false,
+    "voice": "Microsoft Yaoyao",
+    "anchors_fulltext": [
+      "731000"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Tianshan 项目的预算是多少?",
+        "answer_anchors": [
+          "731000"
+        ]
+      }
+    ],
+    "sha256": "46f641ce629404b663533f873ed7916434b6413da64b357b75f8103e65fc54ef",
+    "byte_size": 847334,
+    "tts_script": "会议决定,Tianshan 项目的预算是 731000 元,由 张伟 负责执行。 另外说一下,今天午餐订的是楼下那家,大家记得去前台取餐。会议室下周装修,先换到三楼。",
+    "split": "dev",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L2-062",
+    "modality": "audio",
+    "difficulty": 2,
+    "language": "en",
+    "file": "files/aud-L2-062.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "58200"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Tianshan?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "7fa0a5dd4a1892e284f75d729e9b2f0ffdd9a207efaf2edc42e65ab90394f146",
+    "byte_size": 633192,
+    "tts_script": "The meeting approved a budget of 58200 euros for project Tianshan, owned by Michael Torres. Also, lunch is at the usual place downstairs, and the meeting room moves to floor three next week.",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L3-063",
+    "modality": "audio",
+    "difficulty": 3,
+    "language": "zh",
+    "file": "files/aud-L3-063.wav",
+    "negative": false,
+    "voice": "Microsoft Huihui Desktop",
+    "anchors_fulltext": [
+      "58200",
+      "2026-01-14"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      },
+      {
+        "key_hint": "acceptance_date",
+        "value_anchors": [
+          "2026-01-14"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Kunlun 项目的预算是多少?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "642df39676776a65e682e12f9dfe34d24756959fd957a0975414657c54b15875",
+    "byte_size": 1410518,
+    "tts_script": "会议决定,Kunlun 项目的预算是 58200 元,由 刘洋 负责执行。 另外说一下,今天午餐订的是楼下那家,大家记得去前台取餐。会议室下周装修,先换到三楼。 补充三点:第一,验收日期定在 2026-01-14;第二,尾款比例是百分之三十;第三,对接人换成 刘洋。",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L3-064",
+    "modality": "audio",
+    "difficulty": 3,
+    "language": "en",
+    "file": "files/aud-L3-064.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "8640",
+      "2026-02-06"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "8640"
+        ]
+      },
+      {
+        "key_hint": "acceptance_date",
+        "value_anchors": [
+          "2026-02-06"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Phoenix?",
+        "answer_anchors": [
+          "8640"
+        ]
+      }
+    ],
+    "sha256": "9f14c384e54326f909a82b30d76ac691fe23a9c1d10ab74814f736040073145a",
+    "byte_size": 1067714,
+    "tts_script": "The meeting approved a budget of 8640 euros for project Phoenix, owned by David Okafor. Also, lunch is at the usual place downstairs, and the meeting room moves to floor three next week. Three updates: acceptance is due 2026-02-06; the final payment is thirty percent; the new contact is David Okafor.",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L3-065",
+    "modality": "audio",
+    "difficulty": 3,
+    "language": "zh",
+    "file": "files/aud-L3-065.wav",
+    "negative": false,
+    "voice": "Microsoft Kangkang",
+    "anchors_fulltext": [
+      "47300",
+      "2026-01-10"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "47300"
+        ]
+      },
+      {
+        "key_hint": "acceptance_date",
+        "value_anchors": [
+          "2026-01-10"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "Phoenix 项目的预算是多少?",
+        "answer_anchors": [
+          "47300"
+        ]
+      }
+    ],
+    "sha256": "46b39e79f7f06dabf553315f4a2c82bf72af1d96c0eff4531a8a821a4459039e",
+    "byte_size": 1406124,
+    "tts_script": "会议决定,Phoenix 项目的预算是 47300 元,由 张伟 负责执行。 另外说一下,今天午餐订的是楼下那家,大家记得去前台取餐。会议室下周装修,先换到三楼。 补充三点:第一,验收日期定在 2026-01-10;第二,尾款比例是百分之三十;第三,对接人换成 张伟。",
+    "split": "holdout",
+    "lane": "synthetic"
+  },
+  {
+    "case_id": "aud-L3-066",
+    "modality": "audio",
+    "difficulty": 3,
+    "language": "en",
+    "file": "files/aud-L3-066.wav",
+    "negative": false,
+    "voice": "Microsoft Zira Desktop",
+    "anchors_fulltext": [
+      "58200",
+      "2026-03-11"
+    ],
+    "expected_facts": [
+      {
+        "key_hint": "budget",
+        "value_anchors": [
+          "58200"
+        ]
+      },
+      {
+        "key_hint": "acceptance_date",
+        "value_anchors": [
+          "2026-03-11"
+        ]
+      }
+    ],
+    "qa": [
+      {
+        "q": "What budget was approved for project Kunlun?",
+        "answer_anchors": [
+          "58200"
+        ]
+      }
+    ],
+    "sha256": "bededbe62888b1a8693817ebb84e9130646b72efe4bb67ceffffc3e2ec432cb4",
+    "byte_size": 1050736,
+    "tts_script": "The meeting approved a budget of 58200 euros for project Kunlun, owned by David Okafor. Also, lunch is at the usual place downstairs, and the meeting room moves to floor three next week. Three updates: acceptance is due 2026-03-11; the final payment is thirty percent; the new contact is David Okafor.",
+    "split": "dev",
+    "lane": "synthetic"
+  }
+]
