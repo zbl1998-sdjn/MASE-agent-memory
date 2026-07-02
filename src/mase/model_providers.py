@@ -23,17 +23,27 @@ class ModelProviderMixin:
     fallbacks: dict[str, Any]
 
     def _split_system_messages(self: Any, messages: list[dict[str, Any]]) -> tuple[str | None, list[dict[str, Any]]]:
-        """Anthropic API 单独传 system；这里把 system 消息从对话消息中拆出。"""
+        """Anthropic API 单独传 system；这里把 system 消息从对话消息中拆出。
+
+        system 字段在 Anthropic API 里必须是纯文本，因此 system 消息的 content
+        始终被压平成字符串。conversational 消息则原样透传：字符串/None 按原有
+        行为归一化，但结构化 content（例如多模态 content blocks 列表）不能被
+        `str()` 压成 repr 字符串，否则会破坏 Anthropic 多模态请求体的形状。
+        """
         system_parts: list[str] = []
         conversational: list[dict[str, Any]] = []
         for message in messages:
             role = str(message.get("role") or "")
             content = message.get("content")
-            normalized_content = content if isinstance(content, str) else str(content or "")
             if role == "system":
-                if normalized_content.strip():
-                    system_parts.append(normalized_content)
+                normalized_system = content if isinstance(content, str) else str(content or "")
+                if normalized_system.strip():
+                    system_parts.append(normalized_system)
                 continue
+            if content is None or isinstance(content, str):
+                normalized_content: Any = content or ""
+            else:
+                normalized_content = content
             conversational.append(
                 {
                     "role": role or "user",

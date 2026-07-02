@@ -116,6 +116,29 @@ def test_split_system_messages_keeps_conversation_order() -> None:
     ]
 
 
+def test_split_system_messages_preserves_multimodal_content_blocks() -> None:
+    """Anthropic-style content blocks (e.g. text+image) must pass through
+    unchanged for conversational messages; only plain-text/None content is
+    normalized to a string. System messages remain flattened to text because
+    the Anthropic API's ``system`` field is always a plain string."""
+    provider = DummyProvider()
+
+    blocks = [
+        {"type": "text", "text": "what is in this image?"},
+        {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": "AAAA"}},
+    ]
+
+    system_prompt, messages = provider._split_system_messages(
+        [
+            {"role": "system", "content": "Policy A"},
+            {"role": "user", "content": blocks},
+        ]
+    )
+
+    assert system_prompt == "Policy A"
+    assert messages == [{"role": "user", "content": blocks}]
+
+
 def test_resolve_keep_alive_prefers_env_then_config(monkeypatch) -> None:
     provider = DummyProvider()
     provider.fallbacks = {"ollama_keep_alive": "5m"}
