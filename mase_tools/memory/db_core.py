@@ -611,6 +611,41 @@ def _create_legacy_schema(db_path: Path) -> None:
             "CREATE INDEX IF NOT EXISTS idx_session_context_scope ON session_context(tenant_id, workspace_id, updated_at DESC)"
         )
 
+        # 3.9 多模态溯源:原始媒体资产 + 抽取记录(S0,additive)。
+        # 事实行经 entity_state.source_media_id / memory_log.source_media_id
+        # 指回 media_extraction → media_asset → 资产库原始字节,构成白盒溯源链。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS media_asset (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                sha256 TEXT NOT NULL,
+                source_uri TEXT,
+                media_type TEXT NOT NULL,
+                byte_size INTEGER,
+                page_count INTEGER,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                tenant_id TEXT NOT NULL DEFAULT '',
+                workspace_id TEXT NOT NULL DEFAULT '',
+                UNIQUE (sha256, tenant_id, workspace_id)
+            )
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS media_extraction (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                media_id INTEGER NOT NULL,
+                extractor_name TEXT NOT NULL,
+                model_name TEXT NOT NULL,
+                extractor_version TEXT NOT NULL,
+                full_text TEXT,
+                result_json TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                tenant_id TEXT NOT NULL DEFAULT '',
+                workspace_id TEXT NOT NULL DEFAULT ''
+            )
+        """)
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_media_extraction_media ON media_extraction(media_id, created_at DESC)"
+        )
+
         # 4. 建立触发器：当 memory_log 有新记录时，自动同步到 FTS 检索表
         # 注意: fts5 中的 rowid 不能显式指定 content_rowid 的列名去 insert，而是可以直接用 rowid
         cursor.execute("""
