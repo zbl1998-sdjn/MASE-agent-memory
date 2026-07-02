@@ -9,7 +9,6 @@ OpenAI image_url / Anthropic image block。
 """
 from __future__ import annotations
 
-import base64
 from typing import Any
 
 from .document_loader import MediaPayload
@@ -20,6 +19,7 @@ from .extractor import (
     coerce_confidence,
     parse_json_blob,
 )
+from .image_message import build_image_message
 
 VISION_EXTRACTOR_VERSION = "1"
 
@@ -59,18 +59,17 @@ class VisionExtractor:
         facts: list[CandidateFact] = []
         warnings: list[str] = []
         model_name = "unknown"
+        # 引擎无关接缝:按 vision agent 的最终 provider 选消息序列化;
+        # 云 provider 的出网仍受 _enforce_cloud_model_policy 审批门控。
+        agent_config = self.model_interface.get_effective_agent_config("vision", mode=self.mode)
+        provider = str(agent_config.get("provider") or "ollama")
 
         for page in pages:
             prompt = (
                 f"来源: {asset.source_uri or asset.sha256[:12]}"
                 f" 第 {page.index + 1}/{asset.page_count} 页。请按系统提示抽取。"
             )
-            message = {
-                "role": "user",
-                "content": prompt,
-                # Ollama chat 多模态约定:base64 图放 message 级 images 兄弟字段
-                "images": [base64.b64encode(page.image_bytes).decode("ascii")],
-            }
+            message = build_image_message(provider, prompt, page)
             response = self.model_interface.chat(
                 "vision",
                 messages=[message],

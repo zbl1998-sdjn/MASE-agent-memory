@@ -23,9 +23,14 @@ def _pages(*page_images):
 class FakeModelInterface:
     """记录 chat() 入参并按序返回预置响应。"""
 
+    provider = "ollama"
+
     def __init__(self, replies):
         self.replies = list(replies)
         self.calls = []
+
+    def get_effective_agent_config(self, agent_type, mode=None):
+        return {"provider": self.provider, "model_name": "fake-vlm"}
 
     def chat(self, agent_type, messages, mode=None, tools=None, override_system_prompt=None, prompt_key="system_prompt"):
         self.calls.append({
@@ -111,6 +116,19 @@ def test_supports_matrix():
     extractor = VisionExtractor(FakeModelInterface([]))
     assert extractor.supports("image/png") and extractor.supports("application/pdf")
     assert not extractor.supports("audio/wav")
+
+
+def test_openai_provider_builds_content_blocks():
+    """provider=openai 时消息为 image_url blocks(引擎无关接缝的云路径)。"""
+    from mase.multimodal.vision_extractor import VisionExtractor
+
+    fake = FakeModelInterface([json.dumps({"full_text": "t", "facts": []})])
+    fake.provider = "openai"
+    VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
+    content = fake.calls[0]["messages"][0]["content"]
+    assert isinstance(content, list)
+    assert content[1]["type"] == "image_url"
+    assert content[1]["image_url"]["url"].startswith("data:image/png;base64,")
 
 
 def test_vision_agent_configured_in_config_json():
