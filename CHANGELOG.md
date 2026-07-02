@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.0] — 2026-07-03 — S1 语音转写与时间线事实
+
+### Added
+- **语音转写(S1)**:录音(wav/mp3/m4a/flac)→ faster-whisper 本地转写 → 带 `[HH:MM:SS]` 时间戳审计底稿 → `speech_facts` agent(qwen2.5:7b)抽取带时间线 evidence 的事实
+  - 接缝演化:`MediaExtractor.extract(asset, payload: MediaPayload)`(视觉 pages / 音频 AudioTrack),S0 特征测试断言零改动
+  - `audio_transcriber`(确定性 temp=0/beam=5、模型进程内缓存、CUDA 双时点回退 cpu+int8 且 `device_fallback` 如实标注)+ `audio_extractor`(6000 字符按段分块、畸形回复降级仅存转写稿)
+  - 调度:混合文件夹按 `supports(media_type)` 自动分派 vision/audio;CLI `--whisper-model`(默认 large-v3,可切 large-v3-turbo)
+  - 音频独立大小上限 500MB;可选依赖 extra `[audio]`(faster-whisper)
+  - Windows CUDA DLL:自动注册 pip nvidia wheels(add_dll_directory + **前置 PATH**,后者为 ctranslate2 传统 LoadLibrary 所必需,本机实测)
+- **S1 验收证据(双 lane 全 GPU,verdict=PASS)**:`E:/MASE-runs/s1_acceptance/20260702T211558Z/evidence.{json,md}`
+  - large-v3:11.9s,带时间戳事实 1,锚词召回 2/2,cuda/float16 零降级;large-v3-turbo:5.3s,同判据全过
+- **多模态评测集 multimodal_eval_v1(266 例,4 lane,建集先于优化冻结)**:`benchmarks/multimodal_eval/`
+  - synthetic 66(溯源/负例/干扰/三档退化)+ SROIE 100(真实扫描小票,MIT)+ XFUND-zh 50(真实中文表单)+ LibriSpeech 50(真实语音);dev 54 / holdout 212,`sample_ids_sha256` 冻结;确定性跑分器无 LLM 评委
+
 ## [0.5.0] — 2026-07-03 — S0 多模态摄取地基(文档/图像)
 
 ### Added
