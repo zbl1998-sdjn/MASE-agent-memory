@@ -24,7 +24,6 @@ from mase_tools.memory.media_records import find_extraction
 from .document_loader import load_media
 from .extractor import MediaAssetInfo, MediaExtractor
 from .security import (
-    DEFAULT_MAX_BYTES,
     IngestSecurityError,
     UnsupportedMedia,
     assert_within_jail,
@@ -37,6 +36,9 @@ _SUFFIX_BY_MEDIA_TYPE = {
     "image/webp": "webp",
     "image/gif": "gif",
     "application/pdf": "pdf",
+    "audio/wav": "wav",
+    "audio/mpeg": "mp3",
+    "audio/mp4": "m4a",
 }
 
 
@@ -59,7 +61,7 @@ def ingest_folder(
     extractor: MediaExtractor | None = None,
     force: bool = False,
     asset_root: Path | None = None,
-    max_bytes: int = DEFAULT_MAX_BYTES,
+    max_bytes: int | None = None,
 ) -> IngestReport:
     """摄取 folder 下全部受支持文件(递归、字典序,保证批次确定性)。"""
     folder = Path(folder).resolve()

@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 
 from .ingest import ingest_folder
-from .security import DEFAULT_MAX_BYTES
 
 
 def _ensure_utf8_stdout() -> None:
@@ -28,7 +27,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--mode", default=None, help="vision agent 模式,如 minicpm 切换 minicpm-v4.5")
     parser.add_argument("--force", action="store_true", help="忽略幂等跳过,强制重新抽取")
     parser.add_argument("--allowed-root", default=None, help="路径 jail 根目录(默认= folder)")
-    parser.add_argument("--max-mb", type=int, default=DEFAULT_MAX_BYTES // (1024 * 1024), help="单文件大小上限 MB")
+    parser.add_argument(
+        "--max-mb", type=int, default=None,
+        help="单文件大小上限 MB(默认按类型:图像/文档 50,音频 500)",
+    )
     args = parser.parse_args(argv)
 
     folder = Path(args.folder)
@@ -41,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
         allowed_root=Path(args.allowed_root) if args.allowed_root else None,
         mode=args.mode,
         force=args.force,
-        max_bytes=args.max_mb * 1024 * 1024,
+        max_bytes=args.max_mb * 1024 * 1024 if args.max_mb is not None else None,
     )
     print(
         f"[ingest] processed={len(report.processed)} skipped={len(report.skipped)} "

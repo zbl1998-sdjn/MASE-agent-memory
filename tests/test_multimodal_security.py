@@ -55,3 +55,32 @@ def test_classify_media_rejects_oversize(tmp_path):
     big.write_bytes(b"x" * 1024)
     with pytest.raises(UnsupportedMedia):
         classify_media(big, max_bytes=512)
+
+
+def test_audio_types_in_allowlist(tmp_path):
+    from mase.multimodal.security import classify_media
+
+    for name, expected in (("m.wav", "audio/wav"), ("m.MP3", "audio/mpeg"), ("m.m4a", "audio/mp4")):
+        f = tmp_path / name
+        f.write_bytes(b"x" * 10)
+        assert classify_media(f) == expected
+
+
+def test_per_type_default_max_bytes():
+    """None → 音频 500MB / 图像 50MB 分档;显式 max_bytes 仍全类型统一。"""
+    from mase.multimodal.security import AUDIO_MAX_BYTES, DEFAULT_MAX_BYTES, default_max_bytes
+
+    assert default_max_bytes("audio/mpeg") == AUDIO_MAX_BYTES == 500 * 1024 * 1024
+    assert default_max_bytes("image/png") == DEFAULT_MAX_BYTES
+
+
+def test_audio_over_image_cap_but_under_audio_cap_passes(tmp_path, monkeypatch):
+    from mase.multimodal import security
+    from mase.multimodal.security import classify_media
+
+    big_audio = tmp_path / "long.mp3"
+    big_audio.write_bytes(b"x" * 128)
+    # 通过打小上限常量模拟"超图像档但在音频档内",避免真写 60MB 文件
+    monkeypatch.setattr(security, "DEFAULT_MAX_BYTES", 64)
+    monkeypatch.setattr(security, "AUDIO_MAX_BYTES", 256)
+    assert classify_media(big_audio) == "audio/mpeg"  # None → 按类型默认,128 < 256
