@@ -115,6 +115,50 @@ def test_model_instance_cached_per_settings(tmp_path, monkeypatch):
     assert len(created) == 1  # 批处理不重复建模
 
 
+def test_cuda_inference_failure_falls_back_to_cpu(tmp_path, monkeypatch):
+    """S1 验收实测坑:CUDA 建模成功但推理时 cublas DLL 缺失才报错
+    (ctranslate2 惰性 generator)。推理期 CUDA 错误必须同样回退 cpu+int8。"""
+    import types
+
+    module = types.ModuleType("faster_whisper")
+    created: list = []
+
+    class WhisperModel:
+        def __init__(self, model_name, device="cpu", compute_type="default"):
+            self.device = device
+            created.append((model_name, device, compute_type))
+
+        def transcribe(self, path, beam_size=None, temperature=None):
+            if self.device == "cuda":
+                # 模拟惰性生成器:迭代时才抛 cublas 缺失
+                def _boom():
+                    raise RuntimeError("Library cublas64_12.dll is not found or cannot be loaded")
+                    yield  # pragma: no cover
+                return _boom(), _FakeInfo()
+            return iter([_FakeSeg(0.0, 1.0, "cpu ok")]), _FakeInfo()
+
+    module.WhisperModel = WhisperModel
+    monkeypatch.setitem(sys.modules, "faster_whisper", module)
+    from mase.multimodal import audio_transcriber
+    audio_transcriber._MODEL_CACHE.clear()
+    wav = tmp_path / "a.wav"
+    wav.write_bytes(b"RIFF")
+
+    segments, info = audio_transcriber.transcribe(
+        AudioTrack(wav, "audio/wav"), model_name="large-v3", device="cuda", compute_type="float16",
+    )
+    assert [s.text for s in segments] == ["cpu ok"]
+    assert info["device_fallback"] is True
+    assert info["device"] == "cpu" and info["compute_type"] == "int8"
+    assert created[-1] == ("large-v3", "cpu", "int8")
+
+    # 缓存已被 CPU 实例顶替:同设置再来一次不再动 CUDA
+    audio_transcriber.transcribe(
+        AudioTrack(wav, "audio/wav"), model_name="large-v3", device="cuda", compute_type="float16",
+    )
+    assert created.count(("large-v3", "cuda", "float16")) == 1
+
+
 def test_missing_faster_whisper_actionable_error(tmp_path, monkeypatch):
     import builtins
 

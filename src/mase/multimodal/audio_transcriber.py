@@ -72,6 +72,14 @@ def _load_model(model_name: str, device: str, compute_type: str) -> tuple[Any, s
     return entry
 
 
+_CUDA_ERROR_MARKERS = ("cublas", "cudnn", "cuda", "cudart")
+
+
+def _is_cuda_runtime_error(error: Exception) -> bool:
+    message = str(error).lower()
+    return any(marker in message for marker in _CUDA_ERROR_MARKERS)
+
+
 def transcribe(
     track: AudioTrack,
     *,
@@ -79,13 +87,32 @@ def transcribe(
     device: str,
     compute_type: str,
 ) -> tuple[list[TranscriptSegment], dict[str, Any]]:
-    """转写单个音频文件;返回 (segments, info)。info 全量入 result 元数据供审计。"""
+    """转写单个音频文件;返回 (segments, info)。info 全量入 result 元数据供审计。
+
+    CUDA 失败有两个时点:建模期(_load_model 已回退)与推理期——
+    ctranslate2 的 transcribe 是惰性 generator,cublas/cudnn DLL 缺失
+    要到迭代 segments 时才爆(S1 验收实测)。两处都回退 cpu+int8,
+    并把 CPU 实例顶进缓存,后续文件不再重试 CUDA。
+    """
     model, actual_device, actual_compute, fell_back = _load_model(model_name, device, compute_type)
-    raw_segments, raw_info = model.transcribe(str(track.path), beam_size=BEAM_SIZE, temperature=0.0)
-    segments = [
-        TranscriptSegment(float(seg.start), float(seg.end), str(seg.text).strip())
-        for seg in raw_segments
-    ]
+    try:
+        raw_segments, raw_info = model.transcribe(str(track.path), beam_size=BEAM_SIZE, temperature=0.0)
+        segments = [
+            TranscriptSegment(float(seg.start), float(seg.end), str(seg.text).strip())
+            for seg in raw_segments
+        ]
+    except Exception as error:
+        if actual_device != "cuda" or not _is_cuda_runtime_error(error):
+            raise
+        cpu_model, actual_device, actual_compute, _ = _load_model(model_name, "cpu", "int8")
+        # 顶替失效的 CUDA 缓存项,批处理内后续文件直接走 CPU
+        _MODEL_CACHE[(model_name, device, compute_type)] = (cpu_model, "cpu", "int8", True)
+        fell_back = True
+        raw_segments, raw_info = cpu_model.transcribe(str(track.path), beam_size=BEAM_SIZE, temperature=0.0)
+        segments = [
+            TranscriptSegment(float(seg.start), float(seg.end), str(seg.text).strip())
+            for seg in raw_segments
+        ]
     info: dict[str, Any] = {
         "language": getattr(raw_info, "language", None),
         "duration_seconds": getattr(raw_info, "duration", None),
