@@ -288,6 +288,10 @@ def _create_legacy_schema(db_path: Path) -> None:
                     """
                 )
             log_cols.add("timestamp")
+        if "source_media_id" not in log_cols:
+            # 多模态溯源:全文行指回 media_asset.id;纯文本路径恒为 NULL。
+            cursor.execute("ALTER TABLE memory_log ADD COLUMN source_media_id INTEGER")
+            log_cols.add("source_media_id")
 
         # 2. 创建基于 FTS5 的虚拟全文检索表
         # 使用 unicode61 tokenize 分词
@@ -331,6 +335,7 @@ def _create_legacy_schema(db_path: Path) -> None:
             ("tenant_id", "TEXT NOT NULL DEFAULT ''"),
             ("workspace_id", "TEXT NOT NULL DEFAULT ''"),
             ("visibility", "TEXT DEFAULT 'private'"),
+            ("source_media_id", "INTEGER"),  # 多模态溯源:指向 media_asset.id
         ]:
             if _entity_col not in entity_cols:
                 cursor.execute(f"ALTER TABLE entity_state ADD COLUMN {_entity_col} {_entity_def}")
@@ -351,9 +356,12 @@ def _create_legacy_schema(db_path: Path) -> None:
                     tenant_id TEXT NOT NULL DEFAULT '',
                     workspace_id TEXT NOT NULL DEFAULT '',
                     visibility TEXT DEFAULT 'private',
+                    source_media_id INTEGER,
                     PRIMARY KEY (category, entity_key, tenant_id, workspace_id)
                 )
             """)
+            # 上方 ALTER 循环已保证 legacy 表带 source_media_id,复制时一并保留,
+            # 否则重建后同进程内的 INSERT 会因缺列崩溃。
             cursor.execute("""
                 INSERT INTO entity_state (
                     category,
@@ -368,7 +376,8 @@ def _create_legacy_schema(db_path: Path) -> None:
                     archived,
                     tenant_id,
                     workspace_id,
-                    visibility
+                    visibility,
+                    source_media_id
                 )
                 SELECT
                     category,
@@ -383,7 +392,8 @@ def _create_legacy_schema(db_path: Path) -> None:
                     COALESCE(archived, 0),
                     COALESCE(tenant_id, ''),
                     COALESCE(workspace_id, ''),
-                    COALESCE(visibility, 'private')
+                    COALESCE(visibility, 'private'),
+                    source_media_id
                 FROM entity_state_legacy
             """)
             cursor.execute("DROP TABLE entity_state_legacy")
@@ -680,6 +690,7 @@ def add_memory_log(
     tenant_id: str | None = None,
     workspace_id: str | None = None,
     visibility: str | None = None,
+    source_media_id: int | None = None,
     db_path: str | Path | None = None,
 ) -> int:
     """Write a memory_log row using the unified backend."""
@@ -703,9 +714,10 @@ def add_memory_log(
                     created_at,
                     tenant_id,
                     workspace_id,
-                    visibility
+                    visibility,
+                    source_media_id
                 )
-            VALUES (?, ?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?)
+            VALUES (?, ?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?)
             """,
             (
                 thread_id,
@@ -720,6 +732,7 @@ def add_memory_log(
                 normalized_tenant,
                 normalized_workspace,
                 normalized_visibility,
+                source_media_id,
             ),
         )
         return cursor.lastrowid
@@ -733,6 +746,7 @@ def add_event_log(
     tenant_id: str | None = None,
     workspace_id: str | None = None,
     visibility: str | None = None,
+    source_media_id: int | None = None,
     db_path: str | Path | None = None,
 ) -> int:
     """写入流水账"""
@@ -743,6 +757,7 @@ def add_event_log(
         tenant_id=tenant_id,
         workspace_id=workspace_id,
         visibility=visibility,
+        source_media_id=source_media_id,
         db_path=db_path,
     )
 
@@ -828,6 +843,7 @@ def upsert_entity_fact(
     *,
     reason: str | None = None,
     source_log_id: int | None = None,
+    source_media_id: int | None = None,
     importance_score: float | None = None,
     ttl_days: int | None = None,
     archived: bool = False,
@@ -874,7 +890,9 @@ def upsert_entity_fact(
         old_tenant_id = row["tenant_id"] if row and "tenant_id" in row.keys() else None
         old_workspace_id = row["workspace_id"] if row and "workspace_id" in row.keys() else None
         old_visibility = row["visibility"] if row and "visibility" in row.keys() else None
+        old_source_media_id = row["source_media_id"] if row and "source_media_id" in row.keys() else None
         effective_source_log_id = source_log_id if source_log_id is not None else old_source_log_id
+        effective_source_media_id = source_media_id if source_media_id is not None else old_source_media_id
         effective_source_reason = reason if reason is not None else old_source_reason
         effective_importance = old_importance if importance_score is None else float(importance_score)
         effective_ttl_days = old_ttl_days if ttl_days is None else int(ttl_days)
@@ -892,9 +910,10 @@ def upsert_entity_fact(
         cursor.execute('''
             INSERT INTO entity_state (
                 category, entity_key, entity_value, source_log_id, source_reason, updated_at,
-                importance_score, ttl_days, will_expire_at, archived, tenant_id, workspace_id, visibility
+                importance_score, ttl_days, will_expire_at, archived, tenant_id, workspace_id, visibility,
+                source_media_id
             )
-            VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(category, entity_key, tenant_id, workspace_id)
             DO UPDATE SET
                 entity_value=excluded.entity_value,
@@ -907,6 +926,7 @@ def upsert_entity_fact(
                 tenant_id=excluded.tenant_id,
                 workspace_id=excluded.workspace_id,
                 visibility=excluded.visibility,
+                source_media_id=excluded.source_media_id,
                 updated_at=CURRENT_TIMESTAMP
         ''', (
             category,
@@ -921,6 +941,7 @@ def upsert_entity_fact(
             effective_tenant_id,
             effective_workspace_id,
             effective_visibility,
+            effective_source_media_id,
         ))
 
         # 仅当值真正变化时记录一条历史

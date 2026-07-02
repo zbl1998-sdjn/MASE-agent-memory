@@ -23,6 +23,11 @@ from .db_core import (
     upsert_entity_fact,
     upsert_session_context,
 )
+from .media_records import (
+    get_media_provenance,
+    record_extraction,
+    register_media_asset,
+)
 
 
 def mase2_write_interaction(
@@ -30,11 +35,12 @@ def mase2_write_interaction(
     role: str,
     content: str,
     *,
+    source_media_id: int | None = None,
     scope_filters: dict[str, Any] | None = None,
 ) -> str:
     """写入基础的对话流水账"""
     scope = dict(scope_filters or {})
-    log_id = add_event_log(thread_id, role, content, **scope)
+    log_id = add_event_log(thread_id, role, content, source_media_id=source_media_id, **scope)
     return f"Success: Event logged with ID {log_id}"
 
 def mase2_upsert_fact(
@@ -44,6 +50,7 @@ def mase2_upsert_fact(
     *,
     reason: str | None = None,
     source_log_id: int | None = None,
+    source_media_id: int | None = None,
     scope_filters: dict[str, Any] | None = None,
 ) -> str:
     """写入提取出的实体状态 (Entity Fact)"""
@@ -53,6 +60,7 @@ def mase2_upsert_fact(
         value,
         reason=reason,
         source_log_id=source_log_id,
+        source_media_id=source_media_id,
         **dict(scope_filters or {}),
     )
     return f"Success: Fact {category}.{key} updated to {value}"
@@ -275,3 +283,52 @@ def mase2_forget_session_context(
 
 def mase2_gc_session_context() -> dict[str, Any]:
     return {"deleted_count": gc_expired_session_context()}
+
+
+# ---------- Multimodal provenance (S0) ----------
+
+def mase2_register_media_asset(
+    sha256: str,
+    *,
+    source_uri: str | None,
+    media_type: str,
+    byte_size: int | None = None,
+    page_count: int | None = None,
+    scope_filters: dict[str, Any] | None = None,
+) -> int:
+    """登记媒体资产(内容寻址,幂等),返回 media_id。"""
+    return register_media_asset(
+        sha256,
+        source_uri=source_uri,
+        media_type=media_type,
+        byte_size=byte_size,
+        page_count=page_count,
+        **dict(scope_filters or {}),
+    )
+
+
+def mase2_record_extraction(
+    media_id: int,
+    *,
+    extractor_name: str,
+    model_name: str,
+    extractor_version: str,
+    full_text: str,
+    result_json: str,
+    scope_filters: dict[str, Any] | None = None,
+) -> int:
+    """落一条可审计抽取记录,返回 extraction_id。"""
+    return record_extraction(
+        media_id,
+        extractor_name=extractor_name,
+        model_name=model_name,
+        extractor_version=extractor_version,
+        full_text=full_text,
+        result_json=result_json,
+        **dict(scope_filters or {}),
+    )
+
+
+def mase2_get_media_provenance(media_id: int) -> dict[str, Any]:
+    """读取媒体溯源链:资产 + 抽取记录列表。"""
+    return get_media_provenance(media_id)
