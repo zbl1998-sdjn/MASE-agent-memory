@@ -10,22 +10,16 @@ from __future__ import annotations
 from typing import Any
 
 from .audio_transcriber import (
-    TranscriptSegment,
     format_transcript,
     resolve_whisper_settings,
     transcribe,
 )
 from .document_loader import MediaPayload
-from .extractor import (
-    CandidateFact,
-    ExtractionResult,
-    MediaAssetInfo,
-    coerce_confidence,
-    parse_json_blob,
-)
+from .extractor import ExtractionResult, MediaAssetInfo
+from .text_facts import extract_facts_from_text
 
 AUDIO_EXTRACTOR_VERSION = "1"
-TRANSCRIPT_CHUNK_CHARS = 6000  # 超过则按 segment 边界分块抽取(spec §5)
+TRANSCRIPT_CHUNK_CHARS = 6000  # 超过则按 segment 行边界分块抽取(spec §5)
 
 SPEECH_FACTS_SYSTEM = """你是会议纪要事实抽取器。输入是带 [HH:MM:SS] 时间戳的会议/语音转写稿。
 请输出严格的 JSON(不要 markdown 代码围栏),形状:
@@ -76,44 +70,19 @@ class AudioExtractor:
         )
         full_text = format_transcript(segments)
 
-        facts: list[CandidateFact] = []
-        warnings: list[str] = []
-        llm_model = "unknown"
-        chunks = _chunk_transcript(segments)
-        if len(chunks) > 1:
-            warnings.append(f"chunked: {len(chunks)} parts")
-
-        for chunk_text in chunks:
-            response = self.model_interface.chat(
-                "speech_facts",
-                messages=[{"role": "user", "content": chunk_text}],
-                override_system_prompt=SPEECH_FACTS_SYSTEM,
-            )
-            llm_model = str(response.get("model") or llm_model)
-            raw = str((response.get("message") or {}).get("content") or "")
-            reply = parse_json_blob(raw)
-            if reply is None:
-                warnings.append("non_json_response")
-                continue
-            for item in reply.get("facts") or []:
-                if not isinstance(item, dict):
-                    continue
-                key = str(item.get("key") or "").strip()
-                value = str(item.get("value") or "").strip()
-                if not key or not value:
-                    continue
-                evidence = str(item.get("evidence") or "").strip()
-                if not evidence.startswith("["):
-                    warnings.append(f"fact {key}: evidence missing timestamp")
-                facts.append(
-                    CandidateFact(
-                        category=str(item.get("category") or "general_facts"),
-                        key=key,
-                        value=value,
-                        confidence=coerce_confidence(item.get("confidence")),
-                        evidence=evidence,
-                    )
-                )
+        # 第二段走公共 text_facts(与视觉 v2 同一执行点);
+        # 时间戳 evidence 校验是音频特有契约,在事实返回后补充。
+        facts, warnings, llm_model = extract_facts_from_text(
+            self.model_interface,
+            agent_type="speech_facts",
+            system_prompt=SPEECH_FACTS_SYSTEM,
+            text=full_text,
+            chunk_chars=TRANSCRIPT_CHUNK_CHARS,
+        )
+        warnings = list(warnings)
+        for fact in facts:
+            if not fact.evidence.startswith("["):
+                warnings.append(f"fact {fact.key}: evidence missing timestamp")
 
         return ExtractionResult(
             full_text=full_text,
@@ -125,20 +94,3 @@ class AudioExtractor:
             warnings=tuple(warnings),
             metadata={"asr": info},
         )
-
-
-def _chunk_transcript(segments: list[TranscriptSegment]) -> list[str]:
-    """按 segment 边界切块:不劈开单段,块字符数 ≤ TRANSCRIPT_CHUNK_CHARS(单段超限自成一块)。"""
-    chunks: list[str] = []
-    current: list[str] = []
-    current_len = 0
-    for seg in segments:
-        line = format_transcript([seg])
-        if current and current_len + len(line) + 1 > TRANSCRIPT_CHUNK_CHARS:
-            chunks.append("\n".join(current))
-            current, current_len = [], 0
-        current.append(line)
-        current_len += len(line) + 1
-    if current:
-        chunks.append("\n".join(current))
-    return chunks or [""]

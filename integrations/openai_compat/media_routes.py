@@ -21,6 +21,7 @@ from integrations.openai_compat.auth_dependencies import (
 )
 from mase.multimodal.ingest import ingest_folder
 from mase.multimodal.security import ALLOWED_MEDIA_TYPES, default_max_bytes
+from mase.multimodal.vision_extractor import VISION_EXTRACTOR_VERSION
 from mase_tools.memory.media_records import find_extraction, get_media_asset
 
 router = APIRouter()
@@ -79,7 +80,9 @@ def upload_media(
     asset = get_media_asset(sha256=sha256)
     if asset is None:
         raise HTTPException(status_code=502, detail="asset registration missing after ingest")
-    extraction = find_extraction(int(asset["id"]), extractor_name="vision", extractor_version="1")
+    extraction = find_extraction(
+        int(asset["id"]), extractor_name="vision", extractor_version=VISION_EXTRACTOR_VERSION
+    )
     if extraction is None:
         raise HTTPException(status_code=502, detail="extraction record missing after ingest")
 

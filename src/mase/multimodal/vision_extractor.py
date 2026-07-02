@@ -1,43 +1,46 @@
-"""本地 VLM 视觉抽取器(S0 参考模态)。
+"""本地 VLM 视觉抽取器 v2(两段式:忠实转写 → 文本 LLM 抽既定事实)。
 
-引擎无关约定:抽取器只构造"文本提示 + 页图字节"的抽象请求;当前唯一
-序列化目标是 Ollama chat 的 message 级 ``images:[base64]`` 兄弟字段
-(官方 docs/api.md,裸 base64 无 data URI 前缀)。S2 在同一接缝扩展
-OpenAI image_url / Anthropic image block。
-
-提示词与解析器刻意同居本模块:JSON 输出契约变更时两者一起改。
+v1(单段式,VLM 同时转写+抽事实)在真实扫描件上"读得懂但抽不全"
+(dev 评测:SROIE 全文锚串 1.00 但事实锚串 0.28)。v2 与 S1 音频同构:
+- 第一段:VLM 只负责逐字忠实转写(审计底稿),每页一调;
+- 第二段:现有文本 LLM(config `doc_facts`)按严格 JSON 契约从底稿
+  抽取全部具体业务事实,只允许引用原文,不允许推测——"在既定事实的
+  基础上保证正确率和低幻觉率"。
+引擎无关接缝不变:图像消息经 image_message 按 provider 序列化;云
+provider 出网仍受 MASE_ALLOW_CLOUD_MODELS 审批门控。
 """
 from __future__ import annotations
 
 from typing import Any
 
 from .document_loader import MediaPayload
-from .extractor import (
-    CandidateFact,
-    ExtractionResult,
-    MediaAssetInfo,
-    coerce_confidence,
-    parse_json_blob,
-)
+from .extractor import ExtractionResult, MediaAssetInfo
 from .image_message import build_image_message
+from .text_facts import extract_facts_from_text
 
-VISION_EXTRACTOR_VERSION = "1"
+VISION_EXTRACTOR_VERSION = "2"
 
-# 类别引导对齐 db_core.PROFILE_TEMPLATES;未知类别由 upsert_entity_fact
-# 的既有护栏归入 general_facts,这里不重复实现。
-VISION_EXTRACTION_SYSTEM = """你是企业文档抽取器。请仔细阅读图片并输出严格的 JSON(不要 markdown 代码围栏),形状:
-{"full_text": "<转写图中全部可读文本,保留数字与单位>",
- "facts": [{"category": "<user_preferences|people_relations|project_status|finance_budget|location_events|general_facts 之一>",
+VISION_TRANSCRIBE_SYSTEM = """你是文档转写器。请逐字忠实转写图片中全部可读文本:
+- 保留数字、单位、编号、日期的原始写法;
+- 不要在字符之间插入多余空格;
+- 按版面自上而下逐行输出,不要解释、不要总结、不要输出 JSON,只输出转写文本;
+- 图片中没有可读文本时输出空行。"""
+
+# 类别引导对齐 db_core.PROFILE_TEMPLATES;未知类别由 upsert_entity_fact 护栏归入 general_facts。
+DOC_FACTS_SYSTEM = """你是企业文档事实抽取器。输入是一份文档的逐字转写稿。
+请输出严格的 JSON(不要 markdown 代码围栏),形状:
+{"facts": [{"category": "<user_preferences|people_relations|project_status|finance_budget|location_events|general_facts 之一>",
             "key": "<snake_case 唯一键>", "value": "<事实当前值>",
-            "confidence": <0到1的数字>, "evidence": "<full_text 中支撑该事实的原文片段>"}]}
+            "confidence": <0到1的数字>, "evidence": "<支撑该事实的转写稿原文片段>"}]}
 规则:
-- full_text 必须尽量完整转写,这是审计底稿;
-- 只提取图中明确出现的事实,不要推测;没有事实就返回空数组;
-- evidence 必须是 full_text 的子串级别引用。"""
+- 系统性抽取全部具体业务事实:单据编号、日期、金额、税额、交易方名称、地址、条款比例、负责人、期限等;
+- 只抽取转写稿中明确出现的内容,evidence 必须引用原文,严禁推测或补全;
+- 口号、标语、栏目标题、装饰文字(如"创新·协作·卓越"、"Culture wall")不是业务事实,不要抽取;
+- 页面只有名称/口号等装饰内容而无任何业务数据时,返回 {"facts": []}。"""
 
 
 class VisionExtractor:
-    """把页图交给本地 VLM,产出可审计 ExtractionResult。"""
+    """把页图转成"忠实转写 + 既定事实"的可审计 ExtractionResult(两段式)。"""
 
     name = "vision"
     version = VISION_EXTRACTOR_VERSION
@@ -56,60 +59,44 @@ class VisionExtractor:
     def extract(self, asset: MediaAssetInfo, payload: MediaPayload) -> ExtractionResult:
         pages = payload.pages
         text_parts: list[str] = []
-        facts: list[CandidateFact] = []
-        warnings: list[str] = []
-        model_name = "unknown"
-        # 引擎无关接缝:按 vision agent 的最终 provider 选消息序列化;
-        # 云 provider 的出网仍受 _enforce_cloud_model_policy 审批门控。
+        vlm_model = "unknown"
         agent_config = self.model_interface.get_effective_agent_config("vision", mode=self.mode)
         provider = str(agent_config.get("provider") or "ollama")
 
+        # 第一段:每页忠实转写(审计底稿)
         for page in pages:
             prompt = (
                 f"来源: {asset.source_uri or asset.sha256[:12]}"
-                f" 第 {page.index + 1}/{asset.page_count} 页。请按系统提示抽取。"
+                f" 第 {page.index + 1}/{asset.page_count} 页。请按系统提示转写。"
             )
             message = build_image_message(provider, prompt, page)
             response = self.model_interface.chat(
                 "vision",
                 messages=[message],
                 mode=self.mode,
-                override_system_prompt=VISION_EXTRACTION_SYSTEM,
+                override_system_prompt=VISION_TRANSCRIBE_SYSTEM,
             )
-            model_name = str(response.get("model") or model_name)
-            raw = str((response.get("message") or {}).get("content") or "")
-            page_text, page_facts, page_warnings = _parse_page_reply(raw, page_number=page.index + 1)
+            vlm_model = str(response.get("model") or vlm_model)
+            page_text = str((response.get("message") or {}).get("content") or "").strip()
             if page.index > 0:
                 text_parts.append(f"--- page {page.index + 1} ---")
             text_parts.append(page_text)
-            facts.extend(page_facts)
-            warnings.extend(page_warnings)
+
+        full_text = "\n\n".join(part for part in text_parts if part).strip()
+
+        # 第二段:文本 LLM 从底稿抽既定事实
+        facts, warnings, llm_model = extract_facts_from_text(
+            self.model_interface,
+            agent_type="doc_facts",
+            system_prompt=DOC_FACTS_SYSTEM,
+            text=full_text,
+        )
 
         return ExtractionResult(
-            full_text="\n\n".join(part for part in text_parts if part).strip(),
+            full_text=full_text,
             candidate_facts=tuple(facts),
             extractor_name=self.name,
-            model_name=model_name,
+            model_name=f"{vlm_model}+{llm_model}",
             extractor_version=self.version,
             warnings=tuple(warnings),
         )
-
-
-def _parse_page_reply(raw: str, *, page_number: int) -> tuple[str, list[CandidateFact], list[str]]:
-    """解析单页模型回复;畸形输出降级为"原文即全文",绝不抛穿。"""
-    reply = parse_json_blob(raw)
-    if reply is not None:
-        full_text = str(reply.get("full_text") or "").strip()
-        facts = [
-            CandidateFact(
-                category=str(item.get("category") or "general_facts"),
-                key=str(item.get("key") or "").strip(),
-                value=str(item.get("value") or "").strip(),
-                confidence=coerce_confidence(item.get("confidence")),
-                evidence=str(item.get("evidence") or "").strip(),
-            )
-            for item in (reply.get("facts") or [])
-            if isinstance(item, dict) and str(item.get("key") or "").strip() and str(item.get("value") or "").strip()
-        ]
-        return full_text or raw.strip(), facts, []
-    return raw.strip(), [], [f"page {page_number}: non_json_response"]

@@ -17,8 +17,13 @@ from fastapi.testclient import TestClient
 from mase.multimodal.extractor import CandidateFact, ExtractionResult
 
 
+from mase.multimodal.vision_extractor import VISION_EXTRACTOR_VERSION
+
+
 class _FakeVision:
-    name, version = "vision", "1"
+    # version 必须与生产 VisionExtractor 一致:上传路由按 (name, version) 反查抽取记录,
+    # 版本升级时这里跟着产线常量走,防止路由/抽取器版本漂移(P2 实测踩过)。
+    name, version = "vision", VISION_EXTRACTOR_VERSION
 
     def supports(self, media_type):
         return media_type.startswith("image/") or media_type == "application/pdf"
@@ -29,7 +34,8 @@ class _FakeVision:
             candidate_facts=(
                 CandidateFact("finance_budget", "invoice_total", "4200 EUR", 0.9, "total 4200 EUR"),
             ),
-            extractor_name="vision", model_name="fake-vlm", extractor_version="1", warnings=(),
+            extractor_name="vision", model_name="fake-vlm",
+            extractor_version=VISION_EXTRACTOR_VERSION, warnings=(),
         )
 
 

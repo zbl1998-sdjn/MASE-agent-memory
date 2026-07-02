@@ -619,6 +619,15 @@
       },
       "temperature": 0.0,
       "max_tokens": 1024
+    },
+    "doc_facts": {
+      "provider": "ollama",
+      "model_name": "qwen2.5:7b",
+      "ollama_options": {
+        "num_ctx": 8192
+      },
+      "temperature": 0.0,
+      "max_tokens": 1024
     }
   },
   "memory": {
