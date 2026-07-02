@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.7.0] — 2026-07-03 — S2 交互式图像摄取与云视觉序列化
+
+### Added
+- **交互式上传(S2)**:ChatPage 贴图/拖放 → `POST /v1/mase/media/upload`(multipart,仅图像/PDF,零 URL 抓取)→ 复用 S0 摄取管线(jail/资产库/调度/溯源/幂等)→ 前端 MediaIngestCard 回显事实/sha256/全文摘录/warnings;后续对话经记忆召回回答
+  - 路由防护:internal-key 鉴权 + 只读模式拒写 + 落盘前大小上限 + 同哈希去重回显(`deduplicated:true`)
+  - provider 感知图像序列化 `image_message.py`:ollama `images` / openai `image_url` data URI / anthropic 图前文后 blocks;vision agent 换云 provider 纯配置,出网仍受 `MASE_ALLOW_CLOUD_MODELS` 审批
+  - 前端:`uploadMedia`(multipart 绕过 JSON 头包装器)+ 卡片摘要纯函数化(贴合仓库无 DOM 测试风格);`python-multipart` 钉入 server extra
+- **S2 验收证据(verdict=PASS)**:`E:/MASE-runs/s2_acceptance/20260702T213040Z/evidence.{json,md}`
+  - 真起 sidecar + httpx 真传:抽取 10.8s 事实全对(发票号/供应商/总额)、召回命中、溯源到资产字节;chat 诊断回答正确(不判分);云 lane 如实 skipped
+
 ## [0.6.0] — 2026-07-03 — S1 语音转写与时间线事实
 
 ### Added
