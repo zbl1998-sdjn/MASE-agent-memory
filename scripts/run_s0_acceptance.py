@@ -1,7 +1,7 @@
 """S0 验收 harness:双模型 lane 真跑 + 证据文件。
 
 用法: python -X utf8 scripts/run_s0_acceptance.py [--runs-dir E:/MASE-runs]
-前置: ollama 已 pull qwen2.5vl:7b 和 minicpm-v:4.5;缺则 exit 2 并给指引。
+前置: ollama 已 pull qwen2.5vl:7b 和 minicpm-v4.5;缺则 exit 2 并给指引。
 产出: <runs>/s0_acceptance/<UTC时间戳>/evidence.{json,md}
 
 判定(每个 lane 都必须满足,否则 verdict=FAIL / exit 1):
@@ -28,7 +28,7 @@ for _p in (_ROOT / "src", _ROOT):
 
 import httpx
 
-REQUIRED_MODELS = ("qwen2.5vl:7b", "minicpm-v:4.5")
+REQUIRED_MODELS = ("qwen2.5vl:7b", "minicpm-v4.5")
 ANCHORS = ("ACME-INV-2026-001", "4200")
 PDF_DPI = 150
 

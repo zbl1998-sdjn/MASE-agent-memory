@@ -25,7 +25,7 @@ def main(argv: list[str] | None = None) -> int:
         description="批量摄取本地文档/图像(png/jpg/webp/gif/pdf)为白盒记忆事实。",
     )
     parser.add_argument("folder", help="待摄取的本地文件夹(默认同时作为路径 jail 根)")
-    parser.add_argument("--mode", default=None, help="vision agent 模式,如 minicpm 切换 minicpm-v:4.5")
+    parser.add_argument("--mode", default=None, help="vision agent 模式,如 minicpm 切换 minicpm-v4.5")
     parser.add_argument("--force", action="store_true", help="忽略幂等跳过,强制重新抽取")
     parser.add_argument("--allowed-root", default=None, help="路径 jail 根目录(默认= folder)")
     parser.add_argument("--max-mb", type=int, default=DEFAULT_MAX_BYTES // (1024 * 1024), help="单文件大小上限 MB")

@@ -607,7 +607,7 @@
       "max_tokens": 2048,
       "modes": {
         "minicpm": {
-          "model_name": "minicpm-v:4.5"
+          "model_name": "minicpm-v4.5"
         }
       }
     }

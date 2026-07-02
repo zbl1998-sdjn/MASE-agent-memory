@@ -23,7 +23,7 @@ MASE 是"双白盒记忆引擎":先治理记忆、只留必要事实、以人和
 | 决策点 | 选定 | 含义 |
 |---|---|---|
 | 核心架构 | **方案 A:看一次·记文字** | 原始媒体存资产库做溯源;抽取出的全文+事实进现有 `entity_state`/`memory_log`+FTS5,与文本事实同构 |
-| 视觉模型 | **两个都装按配置切换** | 默认 `qwen2.5vl:7b`;`mode=minicpm` 切 `minicpm-v:4.5`。抽取器接口保持模型无关 |
+| 视觉模型 | **两个都装按配置切换** | 默认 `qwen2.5vl:7b`;`mode=minicpm` 切 `minicpm-v4.5`。抽取器接口保持模型无关 |
 | 文档格式 | **图像 + PDF** | png/jpg/webp/gif/截图 + PDF(PyMuPDF 按页栅格化,无系统级 poppler 依赖) |
 | 写入策略 | **自动写入 + 溯源 + 可纠正** | 每条事实带 media 溯源写入;原始抽取文本留存可审计;可用现有纠正工具改 |
 | 入口形态 | **CLI/库批处理先做** | 读本地文件夹,走路径 jail,安全面最小;HTTP 上传留到 S2 |
@@ -66,7 +66,7 @@ MASE 是"双白盒记忆引擎":先治理记忆、只留必要事实、以人和
                                         既有 mase2_write_interaction、mase2_upsert_fact 增加可选 source_media_id 参数(底层 add_event_log/upsert_entity_fact 同步接受并落列)
 
 配置
-  config.json                       新增 "vision" agent:provider=ollama、model_name=qwen2.5vl:7b;modes.minicpm.model_name=minicpm-v:4.5
+  config.json                       新增 "vision" agent:provider=ollama、model_name=qwen2.5vl:7b;modes.minicpm.model_name=minicpm-v4.5
 
 依赖
   pyproject.toml                    新增 optional extra [multimodal] = ["pymupdf>=1.24,<2.0"]
@@ -180,7 +180,7 @@ ingest(folder, allowed_root, mode=None):
 ## 7. 模型集成(Ollama,引擎无关)
 
 - 新增 `"vision"` agent 配置,`provider=ollama`。`vision_extractor` 构造引擎无关图像表示,内部序列化器映射到 Ollama chat 的 message 级 `images:[base64]` 兄弟字段(已核实:官方 `docs/api.md`,base64 裸串)。
-- 双模型:默认 `qwen2.5vl:7b`;调用 `model_interface.chat("vision", mode="minicpm")` 经现有 mode 机制切 `minicpm-v:4.5`——无需新增切换代码。
+- 双模型:默认 `qwen2.5vl:7b`;调用 `model_interface.chat("vision", mode="minicpm")` 经现有 mode 机制切 `minicpm-v4.5`——无需新增切换代码。
 - 云策略无碍:Ollama 属本地 provider,不触发 `_enforce_cloud_model_policy`。
 - **引擎无关接缝**:序列化器把内部图像表示 → Ollama `images`(S0 唯一后端)。S2 扩展同一接缝到 OpenAI `image_url` / Anthropic `image` block;将来 vLLM 走现有 `openai` provider + localhost base_url(另需一处"localhost 的 openai 视为本地"的小策略调整,属 S2/部署级,不在 S0)。
 - **与既有修复的关系(诚实)**:`_split_system_messages` 的多模态透传修复 **S0 不依赖**(Ollama 不走 content block);它是 **S2** 前置。该修复仍应作为独立 `fix:` 先行提交(一特性一提交)。
@@ -221,7 +221,7 @@ ingest(folder, allowed_root, mode=None):
 - schema 迁移:打开旧库 → 断言新表/新列出现且旧行不变。
 
 **验收(integration/slow,真模型,不进默认套件)**:
-- 真实 `ollama pull qwen2.5vl:7b` **和** `minicpm-v:4.5`。
+- 真实 `ollama pull qwen2.5vl:7b` **和** `minicpm-v4.5`。
 - 对小样本(截图 + 扫描件 + 1 个 PDF)分别用两模型各跑一遍批处理。
 - 断言:两条模型路径均产出 media_extraction 记录 + 带溯源的事实;full_text 可召回。
 - **产出证据文件**落 `MASE-runs`(源码树外),记录 sample、sha256、模型、facts 数、溯源链抽样。

@@ -116,4 +116,4 @@ def test_vision_agent_configured_in_config_json():
     vision = config["models"]["vision"]
     assert vision["provider"] == "ollama"
     assert vision["model_name"] == "qwen2.5vl:7b"
-    assert vision["modes"]["minicpm"]["model_name"] == "minicpm-v:4.5"
+    assert vision["modes"]["minicpm"]["model_name"] == "minicpm-v4.5"

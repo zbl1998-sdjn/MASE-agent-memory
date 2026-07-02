@@ -21,7 +21,7 @@
 - 运行测试命令统一:`python -m pytest tests/<file>.py -q`;全量:`python -m pytest -q -m "not integration and not slow"`(当前基线 641 passed)。
 - Python 3.10 语法(`X | None`、`dataclass`);行宽 120;中文注释风格与仓库一致。
 - 版本钉:`pymupdf>=1.24,<2.0`(仅 optional extra + dev)。
-- 视觉模型名(验收用,写死为配置默认):`qwen2.5vl:7b`(默认)/`minicpm-v:4.5`(mode=minicpm)。
+- 视觉模型名(验收用,写死为配置默认):`qwen2.5vl:7b`(默认)/`minicpm-v4.5`(mode=minicpm)。
 
 ---
 
@@ -1298,7 +1298,7 @@ git commit -m "feat(multimodal): MediaExtractor contract and registry"
   - `class VisionExtractor: def __init__(self, model_interface=None, *, mode: str | None = None)`;`name = "vision"`;`version = VISION_EXTRACTOR_VERSION`;`supports(media_type)`(image/* 与 application/pdf 为 True);`extract(asset, pages) -> ExtractionResult`
   - 每页一次 `chat()` 调用;页间聚合:full_text 以 `\n\n--- page {n} ---\n\n` 连接,facts 串接
   - JSON 解析失败降级:该页原文进 full_text、无 facts、warnings 加 `"page {n}: non_json_response"`
-  - config.json 新增 `models.vision`(默认 qwen2.5vl:7b;`modes.minicpm.model_name = "minicpm-v:4.5"`)
+  - config.json 新增 `models.vision`(默认 qwen2.5vl:7b;`modes.minicpm.model_name = "minicpm-v4.5"`)
 
 - [ ] **Step 1: 写失败测试**
 
@@ -1563,7 +1563,7 @@ def _coerce_confidence(value: Any) -> float:
   "max_tokens": 2048,
   "modes": {
     "minicpm": {
-      "model_name": "minicpm-v:4.5"
+      "model_name": "minicpm-v4.5"
     }
   }
 }
@@ -2027,7 +2027,7 @@ def main(argv: list[str] | None = None) -> int:
         description="批量摄取本地文档/图像(png/jpg/webp/gif/pdf)为白盒记忆事实。",
     )
     parser.add_argument("folder", help="待摄取的本地文件夹(默认同时作为路径 jail 根)")
-    parser.add_argument("--mode", default=None, help="vision agent 模式,如 minicpm 切换 minicpm-v:4.5")
+    parser.add_argument("--mode", default=None, help="vision agent 模式,如 minicpm 切换 minicpm-v4.5")
     parser.add_argument("--force", action="store_true", help="忽略幂等跳过,强制重新抽取")
     parser.add_argument("--allowed-root", default=None, help="路径 jail 根目录(默认= folder)")
     parser.add_argument("--max-mb", type=int, default=DEFAULT_MAX_BYTES // (1024 * 1024), help="单文件大小上限 MB")
@@ -2118,7 +2118,7 @@ git commit -m "feat(multimodal): ingest CLI entry (module and mase_cli dispatch)
 **Interfaces:**
 - Consumes: `ingest_folder`、`mase2_get_media_provenance`、`mase2_search_memory`、Ollama `/api/tags`
 - Produces: `scripts/run_s0_acceptance.py`,行为:
-  1. 探测 `http://127.0.0.1:11434/api/tags`;缺 `qwen2.5vl:7b` 或 `minicpm-v:4.5` → 打印 `ollama pull` 指引,exit 2
+  1. 探测 `http://127.0.0.1:11434/api/tags`;缺 `qwen2.5vl:7b` 或 `minicpm-v4.5` → 打印 `ollama pull` 指引,exit 2
   2. 用 PyMuPDF 生成确定性样本(1 张发票样式 PNG + 1 个 2 页 PDF,内容含可验证锚词如 `ACME-INV-2026-001`、`4200 EUR`)到 `MASE_RUNS_DIR/s0_acceptance/<ts>/samples/`
   3. 对每个模型 lane(默认 / `--mode minicpm`)各自用独立 `MASE_DB_PATH` 跑 `ingest_folder`
   4. 断言:每 lane `extractions ≥ 2`、`infra_errors == 0`、锚词可经 `mase2_search_memory` 召回、事实溯源链完整(fact→extraction→asset→文件存在)
@@ -2133,7 +2133,7 @@ git commit -m "feat(multimodal): ingest CLI entry (module and mase_cli dispatch)
 """S0 验收 harness:双模型 lane 真跑 + 证据文件。
 
 用法: python -X utf8 scripts/run_s0_acceptance.py [--runs-dir E:/MASE-runs]
-前置: ollama 已 pull qwen2.5vl:7b 和 minicpm-v:4.5;缺则 exit 2 并给指引。
+前置: ollama 已 pull qwen2.5vl:7b 和 minicpm-v4.5;缺则 exit 2 并给指引。
 产出: <runs>/s0_acceptance/<UTC时间戳>/evidence.{json,md}
 """
 from __future__ import annotations
@@ -2153,7 +2153,7 @@ for _p in (_ROOT / "src", _ROOT):
 
 import httpx
 
-REQUIRED_MODELS = ("qwen2.5vl:7b", "minicpm-v:4.5")
+REQUIRED_MODELS = ("qwen2.5vl:7b", "minicpm-v4.5")
 ANCHORS = ("ACME-INV-2026-001", "4200")
 PDF_DPI = 150
 
@@ -2281,7 +2281,7 @@ git commit -m "feat(multimodal): S0 acceptance harness with dual-model evidence"
 
 ```bash
 ollama pull qwen2.5vl:7b
-ollama pull minicpm-v:4.5
+ollama pull minicpm-v4.5
 python -X utf8 scripts/run_s0_acceptance.py --runs-dir E:/MASE-runs
 ```
 
