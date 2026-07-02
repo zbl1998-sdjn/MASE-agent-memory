@@ -130,10 +130,17 @@ def test_nvidia_dll_dirs_registered_when_present(tmp_path, monkeypatch):
     monkeypatch.setattr(site, "getsitepackages", lambda: [str(tmp_path / "site")])
     registered: list[str] = []
     monkeypatch.setattr(audio_transcriber.os, "add_dll_directory", registered.append, raising=False)
+    monkeypatch.setenv("PATH", "ORIGINAL")
     audio_transcriber._DLL_DIRS_REGISTERED = False
 
     audio_transcriber._register_nvidia_dll_dirs()
     assert sorted(Path(p).parent.name for p in registered) == ["cublas", "cudnn"]
+    # ctranslate2 走传统 LoadLibrary 搜索(本机实测只认 PATH),必须同时前置 PATH
+    import os as _os
+
+    path_parts = _os.environ["PATH"].split(_os.pathsep)
+    assert any("cublas" in p for p in path_parts[:2])
+    assert path_parts[-1] == "ORIGINAL"
 
     registered.clear()
     audio_transcriber._register_nvidia_dll_dirs()  # 幂等:第二次不重复注册

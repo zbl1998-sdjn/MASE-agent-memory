@@ -23,10 +23,11 @@ _DLL_DIRS_REGISTERED = False
 def _register_nvidia_dll_dirs() -> None:
     """把 pip 安装的 nvidia wheels(cublas/cudnn)的 bin 目录加进 DLL 搜索路径。
 
-    Windows 上 ctranslate2 通过 LoadLibrary 找 cublas64_12/cudnn 系列 DLL,
-    pip wheel 落在 site-packages/nvidia/<pkg>/bin 却不在默认搜索路径;
-    显式 add_dll_directory 是 faster-whisper Windows 部署的标准做法。
-    幂等 + best-effort:目录不存在/非 Windows 时静默跳过。
+    Windows 上 ctranslate2 用传统 LoadLibrary 搜索找 cublas64_12/cudnn 系列
+    DLL(本机实测:仅 add_dll_directory 不生效,传统搜索只认 PATH),
+    pip wheel 落在 site-packages/nvidia/<pkg>/bin 却不在默认搜索路径。
+    因此两种机制都注册:add_dll_directory(带搜索标志的加载)+ 前置
+    PATH(传统 LoadLibrary)。幂等 + best-effort,非 Windows 静默跳过。
     """
     global _DLL_DIRS_REGISTERED
     if _DLL_DIRS_REGISTERED:
@@ -35,13 +36,17 @@ def _register_nvidia_dll_dirs() -> None:
     try:
         import site
 
+        found: list[str] = []
         for site_dir in site.getsitepackages():
             nvidia_root = Path(site_dir) / "nvidia"
             if not nvidia_root.is_dir():
                 continue
             for bin_dir in sorted(nvidia_root.glob("*/bin")):
                 if any(bin_dir.glob("*.dll")):
+                    found.append(str(bin_dir))
                     os.add_dll_directory(str(bin_dir))
+        if found:
+            os.environ["PATH"] = os.pathsep.join([*found, os.environ.get("PATH", "")])
     except Exception:
         pass
 
