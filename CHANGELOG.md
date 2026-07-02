@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.0] — 2026-07-03 — S0 多模态摄取地基(文档/图像)
+
+### Added
+- **多模态摄取地基(S0)**:企业文档/图像 → 本地 VLM 白盒抽取 → 带溯源事实入库
+  - 新子包 `src/mase/multimodal/`:`security`(路径 jail + allowlist)、`document_loader`(图像直通 / PDF 按页栅格化)、`extractor`(MediaExtractor 协议 + 注册表)、`vision_extractor`(Ollama VLM,严格 JSON 抽取契约,畸形输出降级)、`ingest`(批处理编排,逐文件隔离,幂等键 sha256+extractor+version)、`cli`
+  - 存储侧:`mase_tools/media/asset_store.py` 内容寻址资产库(sha256 去重、原子写、写 jail);`mase_tools/memory/media_records.py` 溯源表 CRUD
+  - schema(additive):新表 `media_asset` / `media_extraction`;`entity_state`、`memory_log` 加 nullable `source_media_id`;修复 entity_state PK 重建迁移丢新列问题(带回归测试)
+  - 溯源链:事实 → media_extraction(全文可审计)→ media_asset(sha256)→ 资产库原始字节;full_text 进 memory_log + FTS5 可召回
+  - CLI:`python -m mase.multimodal ingest <folder>`、`python mase_cli.py ingest <folder>`(--mode/--force/--allowed-root/--max-mb)
+  - 配置:`config.json` 新增 `vision` agent(默认 `qwen2.5vl:7b`,`--mode minicpm` 切 `minicpm-v4.5`);可选依赖 extra `[multimodal]`(pymupdf)
+  - 测试:+33 项(单元全部假抽取器,不碰真模型);`src/mase/multimodal` 纳入 mypy 严格门
+- **S0 验收证据(真模型双 lane,verdict=PASS)**:`E:/MASE-runs/s0_acceptance/20260702T140935Z/evidence.{json,md}`
+  - qwen2.5vl:7b:PNG+2页PDF → 2 extractions / 6 facts,锚词召回 2/2,溯源链完整,59.1s
+  - minicpm-v4.5:同样本 → 2 extractions / 4 facts,锚词召回 2/2,溯源链完整,34.4s
+- 设计与计划:`docs/superpowers/specs/2026-07-02-mase-multimodal-s0-design.md`、`docs/superpowers/plans/2026-07-02-mase-multimodal-s0.md`
+
+### Fixed
+- `model_providers._split_system_messages` 不再把结构化多模态 content blocks 压成 repr 字符串(S2 交互式贴图前置)
+
 ## [Unreleased] — 2026-04-19 — Plan A 收口 + ROI 扩展
 
 ### Added
