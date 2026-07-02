@@ -104,6 +104,42 @@ def build_sroie(root: Path, rng: random.Random) -> list[dict[str, Any]]:
 # XFUND-zh:真实中文表单,question→answer linking 展开为 KV 事实
 # ---------------------------------------------------------------------------
 
+_CHECKBOX_UNCHECKED = ("□", "☐")
+_CHECKBOX_CHECKED = ("√", "☑", "■", "✓")
+_SENTENCE_PUNCT = set("。;;!?")
+
+
+def extract_xfund_pairs(doc: dict[str, Any]) -> list[tuple[str, str]]:
+    """从 XFUND 文档展开 question→answer KV 对,带标注卫生过滤(v1.1)。
+
+    通用卫生规则(dev 取证发现的客观错标形态,不引用任何评测锚串):
+    - 未勾选复选框项(□/☐ 开头)不是"值",排除;勾选项保留并去勾选符;
+    - 含句读的长段落是描述不是 KV 事实值,排除;
+    - 纯符号/单字符值无判定意义,排除。
+    """
+    by_id = {e["id"]: e for e in doc["document"]}
+    pairs: list[tuple[str, str]] = []
+    for entity in doc["document"]:
+        if entity["label"] != "question":
+            continue
+        for link in entity.get("linking", []):
+            other = by_id.get(link[1] if link[0] == entity["id"] else link[0])
+            if other is None or other["label"] != "answer":
+                continue
+            q_text = str(entity["text"]).strip()
+            a_text = str(other["text"]).strip()
+            if a_text.startswith(_CHECKBOX_UNCHECKED):
+                continue
+            if a_text.startswith(_CHECKBOX_CHECKED):
+                a_text = a_text.lstrip("".join(_CHECKBOX_CHECKED)).strip()
+            if any(ch in _SENTENCE_PUNCT for ch in a_text):
+                continue
+            if not (2 <= len(a_text) <= 30) or not any(ch.isalnum() for ch in a_text):
+                continue
+            pairs.append((q_text, a_text))
+    return pairs
+
+
 def build_xfund_zh(root: Path, rng: random.Random) -> list[dict[str, Any]]:
     ann_path = root / "xfund-zh" / "zh.val.json"
     img_dir = root / "xfund-zh" / "images"
@@ -116,20 +152,7 @@ def build_xfund_zh(root: Path, rng: random.Random) -> list[dict[str, Any]]:
         img = img_dir / doc["img"]["fname"]
         if not img.is_file():
             continue
-        by_id = {e["id"]: e for e in doc["document"]}
-        pairs: list[tuple[str, str]] = []
-        for entity in doc["document"]:
-            if entity["label"] != "question":
-                continue
-            for link in entity.get("linking", []):
-                other = by_id.get(link[1] if link[0] == entity["id"] else link[0])
-                if other is None or other["label"] != "answer":
-                    continue
-                q_text = str(entity["text"]).strip()
-                a_text = str(other["text"]).strip()
-                # 过滤太短/太长/纯符号的 answer,保证锚串可判
-                if 2 <= len(a_text) <= 30 and any(ch.isalnum() for ch in a_text):
-                    pairs.append((q_text, a_text))
+        pairs = extract_xfund_pairs(doc)
         if not pairs:
             continue
         picked = pairs[:XFUND_MAX_FACTS_PER_DOC] if len(pairs) <= XFUND_MAX_FACTS_PER_DOC \

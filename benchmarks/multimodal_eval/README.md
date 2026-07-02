@@ -44,6 +44,14 @@ python -X utf8 benchmarks/multimodal_eval/run_eval.py --split dev --limit 5
 - `provenance_ok_rate`:事实→media_extraction→media_asset→资产字节 机械链检
 - `char_similarity_mean`:音频转写 vs 参考转写的归一化字符相似度(SequenceMatcher;**非严格 WER/CER**,只用于纵向自比)
 
+## 版本修订
+
+- **v1.1(2026-07-03,holdout 从未运行过,重冻结合规)**:XFUND 适配器加标注卫生规则——
+  未勾选复选框项(□)不作期望值(客观错标:真实值是 √ 勾选项)、含句读长段落不作 KV 值、
+  纯符号值排除。规则通用,不引用任何评测锚串;`sample_ids_sha256=09bc7a2886b7b32e…`。
+  依据:dev 逐例取证(`eval_runs/multimodal_eval_v1_dev_20260702T222829Z`)。
+- v1.0(2026-07-03):初版冻结,`sample_ids_sha256=9845e185e30ae4eb…`。
+
 ## 反过拟合政策(与 docs/BENCHMARK_ANTI_OVERFIT.md 同口径)
 
 1. **holdout(~80%)冻结**:优化期间禁止查看 holdout 逐例结果;只有优化收口后才跑 holdout。

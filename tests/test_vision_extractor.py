@@ -73,7 +73,7 @@ def test_two_stage_transcribe_then_extract_facts():
 
     assert result.full_text == "Invoice #001 total 4200 EUR"
     assert result.candidate_facts[0].key == "invoice_total"
-    assert result.extractor_name == "vision" and result.extractor_version == "2"
+    assert result.extractor_name == "vision" and result.extractor_version == "3"
     # 两段归因:VLM + 事实 LLM
     assert "fake-vlm" in result.model_name and "fake-llm" in result.model_name
     assert result.warnings == ()
