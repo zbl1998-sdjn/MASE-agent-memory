@@ -23,6 +23,34 @@ class PageImage:
     media_type: str
 
 
+@dataclass(frozen=True)
+class AudioTrack:
+    """音频轨引用:不预解码,faster-whisper 按路径自行解码(PyAV)。"""
+
+    path: Path
+    media_type: str
+    duration_seconds: float | None = None
+
+
+@dataclass(frozen=True)
+class MediaPayload:
+    """统一媒体载荷:视觉走 pages,音频走 audio;二选一填充。"""
+
+    pages: tuple[PageImage, ...] = ()
+    audio: AudioTrack | None = None
+
+
+def load_media(path: Path, media_type: str, *, pdf_dpi: int = 150) -> MediaPayload:
+    """把已过安全检查的文件封装为 MediaPayload。
+
+    音频刻意不在此解码:转写器(faster-whisper/PyAV)直接吃文件路径,
+    避免双重解码;时长等元数据由转写阶段回填到 result 元数据。
+    """
+    if media_type.startswith("audio/"):
+        return MediaPayload(audio=AudioTrack(path=Path(path), media_type=media_type))
+    return MediaPayload(pages=tuple(load_pages(path, media_type, pdf_dpi=pdf_dpi)))
+
+
 def load_pages(path: Path, media_type: str, *, pdf_dpi: int = 150) -> list[PageImage]:
     """把一个已过安全检查的文件转成页图列表。
 

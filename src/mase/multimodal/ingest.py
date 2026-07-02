@@ -21,7 +21,7 @@ from mase_tools.memory.api import (
 )
 from mase_tools.memory.media_records import find_extraction
 
-from .document_loader import load_pages
+from .document_loader import load_media
 from .extractor import MediaAssetInfo, MediaExtractor
 from .security import (
     DEFAULT_MAX_BYTES,
@@ -92,13 +92,14 @@ def ingest_folder(
             sha256, _stored = store_bytes(
                 data, suffix=_SUFFIX_BY_MEDIA_TYPE[media_type], root=asset_root
             )
-            pages = load_pages(checked, media_type)
+            payload = load_media(checked, media_type)
+            page_count = len(payload.pages)
             media_id = mase2_register_media_asset(
                 sha256,
                 source_uri=rel_name,
                 media_type=media_type,
                 byte_size=len(data),
-                page_count=len(pages),
+                page_count=page_count,
             )
             if not force and find_extraction(
                 media_id, extractor_name=extractor.name, extractor_version=extractor.version
@@ -108,9 +109,9 @@ def ingest_folder(
 
             asset_info = MediaAssetInfo(
                 media_id=media_id, sha256=sha256, media_type=media_type,
-                source_uri=rel_name, page_count=len(pages),
+                source_uri=rel_name, page_count=page_count,
             )
-            result = extractor.extract(asset_info, pages)
+            result = extractor.extract(asset_info, payload)
             mase2_record_extraction(
                 media_id,
                 extractor_name=result.extractor_name,

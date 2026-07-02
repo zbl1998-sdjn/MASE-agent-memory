@@ -11,8 +11,13 @@ for _p in (_ROOT / "src", _ROOT):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from mase.multimodal.document_loader import PageImage
+from mase.multimodal.document_loader import MediaPayload, PageImage
 from mase.multimodal.extractor import MediaAssetInfo
+
+
+def _pages(*page_images):
+    """接缝演化后的调用形状:pages 走 MediaPayload;断言不变。"""
+    return MediaPayload(pages=tuple(page_images))
 
 
 class FakeModelInterface:
@@ -45,7 +50,7 @@ def test_extract_sends_base64_images_sibling_field_and_parses_json():
     fake = FakeModelInterface([reply])
     extractor = VisionExtractor(fake)
     page_bytes = b"\x89PNGfake"
-    result = extractor.extract(_asset(), [PageImage(0, page_bytes, "image/png")])
+    result = extractor.extract(_asset(), _pages(PageImage(0, page_bytes, "image/png")))
 
     call = fake.calls[0]
     assert call["agent_type"] == "vision"
@@ -65,7 +70,7 @@ def test_malformed_json_degrades_to_full_text_with_warning():
     from mase.multimodal.vision_extractor import VisionExtractor
 
     fake = FakeModelInterface(["The image shows an invoice, not JSON at all."])
-    result = VisionExtractor(fake).extract(_asset(), [PageImage(0, b"img", "image/png")])
+    result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"img", "image/png")))
     assert "invoice" in result.full_text
     assert result.candidate_facts == ()
     assert any("non_json_response" in w for w in result.warnings)
@@ -83,7 +88,7 @@ def test_multipage_aggregates_text_and_facts_in_order():
     fake = FakeModelInterface(replies)
     result = VisionExtractor(fake).extract(
         _asset(pages=2),
-        [PageImage(0, b"p1", "image/png"), PageImage(1, b"p2", "image/png")],
+        _pages(PageImage(0, b"p1", "image/png"), PageImage(1, b"p2", "image/png")),
     )
     assert len(fake.calls) == 2  # 每页一次调用,7B VLM 单图更可靠
     assert "page one text" in result.full_text and "page two text" in result.full_text
@@ -96,7 +101,7 @@ def test_mode_passthrough_for_model_switch():
     from mase.multimodal.vision_extractor import VisionExtractor
 
     fake = FakeModelInterface([json.dumps({"full_text": "t", "facts": []})])
-    VisionExtractor(fake, mode="minicpm").extract(_asset(), [PageImage(0, b"i", "image/png")])
+    VisionExtractor(fake, mode="minicpm").extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
     assert fake.calls[0]["mode"] == "minicpm"
 
 

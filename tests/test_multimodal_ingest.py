@@ -26,7 +26,7 @@ class FakeExtractor:
     def supports(self, media_type: str) -> bool:
         return True
 
-    def extract(self, asset, pages) -> ExtractionResult:
+    def extract(self, asset, payload) -> ExtractionResult:
         self.extract_count += 1
         if self.boom_on and self.boom_on in str(asset.source_uri):
             raise RuntimeError("simulated model failure")

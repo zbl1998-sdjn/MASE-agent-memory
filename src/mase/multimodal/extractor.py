@@ -8,12 +8,13 @@
 from __future__ import annotations
 
 import json
+import re
 import threading
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
-from typing import Protocol
+from typing import Any, Protocol
 
-from .document_loader import PageImage
+from .document_loader import MediaPayload
 
 
 @dataclass(frozen=True)
@@ -48,6 +49,7 @@ class ExtractionResult:
     model_name: str
     extractor_version: str
     warnings: tuple[str, ...] = field(default_factory=tuple)
+    metadata: dict[str, Any] | None = None  # 抽取阶段元数据(如 ASR info),随 result_json 入库
 
     def to_json(self) -> str:
         return json.dumps(asdict(self), ensure_ascii=False)
@@ -61,7 +63,7 @@ class MediaExtractor(Protocol):
 
     def supports(self, media_type: str) -> bool: ...
 
-    def extract(self, asset: MediaAssetInfo, pages: list[PageImage]) -> ExtractionResult: ...
+    def extract(self, asset: MediaAssetInfo, payload: MediaPayload) -> ExtractionResult: ...
 
 
 _LOCK = threading.RLock()
@@ -84,3 +86,27 @@ def get_extractor_factory(name: str) -> Callable[[], MediaExtractor] | None:
 def extractor_names() -> list[str]:
     with _LOCK:
         return sorted(_FACTORIES)
+
+
+# ---------- 共享 LLM 回复解析助手(vision / audio 抽取器复用) ----------
+
+_JSON_BLOB_RE = re.compile(r"\{.*\}", re.DOTALL)
+
+
+def parse_json_blob(raw: str) -> dict[str, Any] | None:
+    """从模型回复中提取首个 JSON 对象;失败返回 None(调用方决定降级)。"""
+    match = _JSON_BLOB_RE.search(raw)
+    if match is None:
+        return None
+    try:
+        payload = json.loads(match.group(0))
+    except Exception:
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def coerce_confidence(value: Any) -> float:
+    try:
+        return min(1.0, max(0.0, float(value)))
+    except (TypeError, ValueError):
+        return 0.0
