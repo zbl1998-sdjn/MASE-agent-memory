@@ -720,6 +720,32 @@ def _create_legacy_schema(db_path: Path) -> None:
             )
         """)
 
+        # 3.12 治理层 P2(additive):检索运行与上下文包审计(每次召回/编译可回放)。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS retrieval_runs (
+                retrieval_id TEXT PRIMARY KEY,
+                trace_id TEXT NOT NULL,
+                query TEXT NOT NULL,
+                plan_json TEXT NOT NULL,
+                candidates_json TEXT NOT NULL,
+                selected_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS context_packs (
+                context_pack_id TEXT PRIMARY KEY,
+                trace_id TEXT NOT NULL,
+                question_hash TEXT NOT NULL,
+                fact_ids_json TEXT NOT NULL,
+                evidence_ids_json TEXT NOT NULL,
+                conflicts_json TEXT,
+                unknowns_json TEXT,
+                token_count INTEGER NOT NULL,
+                created_at TEXT NOT NULL
+            )
+        """)
+
         # 3.11 治理层 P1(additive):人工 review 与安全脱敏动作留痕。
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS review_actions (
