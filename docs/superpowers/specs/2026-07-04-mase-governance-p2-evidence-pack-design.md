@@ -1,6 +1,6 @@
 # MASE 治理 P2 设计:白盒召回 + Evidence Pack Compiler
 
-- 状态:已批准(用户 2026-07-04"把p2的spec出来,然后开始建成吧")
+- 状态:已实现并验收(2026-07-04;门禁全绿 + 真实库 CLI 验收 PASS,证据 `E:/MASE-runs/p2_acceptance/20260703T235444Z/`;归一化补折叠 `-`/`_`,验收实录)
 - 日期:2026-07-04
 - 上游纲领:`MASE_whitebox_memory_governance_plan.md` §4.5(白盒召回/可解释打分)/§4.6(Evidence Pack/注入等级)/§5.1(retrieval_runs、context_packs)/§8.3(P2 交付与验收)
 - 前置:P0/P1 已验收(facts 治理层有 active/quarantined/conflicts_with/review 全套语义)

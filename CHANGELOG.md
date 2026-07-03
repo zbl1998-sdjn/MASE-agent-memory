@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.11.0] — 2026-07-04 — 治理层 P2:白盒召回与 Evidence Pack
+
+### Added
+- **确定性白盒召回 `governance/retrieval.py`(总纲 §4.5 机械子集)**:keywords 归一化变体(casefold/去空白/去 `,$¥€-_`,变体全量进 plan_json 可见)对 facts 做 substring 匹配;每候选按 §4.5.3 **权重原值**逐项打分(11 分项 breakdown + 中文 why_selected;tag_match 等缺失信号如实记 0);rejected 不参与召回,superseded/expired 带 staleness 罚供历史/冲突展示
+- **Evidence Pack Compiler `governance/evidence_pack.py`(总纲 §4.6)**:Verified(仅 active+已定位 span,编译时机械复验含 SQL 脏数据演练)/Conflicts(conflicts_with 双方并列+warning,C3)/Unknowns(零命中关键词显性化)/Do-Not-Assume(命中的 quarantined,C5)/Answer Rules;markdown 渲染按 §4.6.2 模板
+- **检索审计可回放**:每次编译落 `retrieval_runs`(plan/candidates/selected 全 JSON)+ `context_packs`(additive 两表,§5.1 原样),trace_id 贯穿;CLI 的 PLAN/CANDIDATES 段直接从审计行回放
+- 门面 `mase2_compile_evidence_pack`(dict+markdown,不触碰 mase2_search_memory 既有行为)+ **recall inspector CLI** `scripts/inspect_recall.py`(--keywords/--question/--entity/--top-k/--db)
+- **P2 验收(verdict=PASS)**:`E:/MASE-runs/p2_acceptance/20260703T235444Z/`(真实 P1 库跑 CLI,§8.3 三条逐条判定);验收中发现并修复真实盲区——连字符关键词 vs 下划线化 key 不命中 → 归一化折叠 `-`/`_` 并回归钉;测试 800 → 821(+21)
+
+### 已知边界(如实)
+- executor/chat 注入路径未切换(P3 与 Claim Verifier 一起收敛);Query Classifier/同义词词典/embedding discovery/C1/C4 注入等级不在 v1(spec §7)
+
 ## [0.10.0] — 2026-07-04 — 治理层 P1:准入门控、冲突治理与 review 通道
 
 ### Added
