@@ -47,6 +47,26 @@ def test_parses_pipe_line_facts():
     assert warnings == [] and model == "fake-llm"
 
 
+def test_markdown_table_style_reply_parsed():
+    """模型常输出 markdown 表格(行首尾 |、表头行、分隔行)——xfund 实测形态。"""
+    from mase.multimodal.text_facts import extract_facts_from_text
+
+    reply = "\n".join([
+        "| category | key | value | evidence |",
+        "| --- | --- | --- | --- |",
+        "| general_facts | opening_date | 2019年8月9日 | 开业日期2019年8月9日 |",
+        "| finance_budget | account_no | 2568598457456854 | 账号2568598457456854 |",
+    ])
+    facts, warnings, _ = extract_facts_from_text(
+        FakeModelInterface([reply]), agent_type="doc_facts", system_prompt="S", text="t",
+    )
+    assert [(f.key, f.value) for f in facts] == [
+        ("opening_date", "2019年8月9日"),
+        ("account_no", "2568598457456854"),
+    ]
+    assert warnings == []
+
+
 def test_json_reply_still_accepted_for_compat():
     """模型若仍输出旧 JSON 契约,兼容解析(迁移期零破坏)。"""
     from mase.multimodal.text_facts import extract_facts_from_text

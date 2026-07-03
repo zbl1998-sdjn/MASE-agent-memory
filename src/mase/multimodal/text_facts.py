@@ -52,11 +52,17 @@ def parse_fact_lines(raw: str) -> list[CandidateFact] | None:
 
     facts: list[CandidateFact] = []
     for line in text.splitlines():
-        parts = [part.strip() for part in line.split("|")]
+        # 容忍 markdown 表格形态(xfund 实测):去掉行首尾管道产生的空列
+        parts = [part.strip() for part in line.strip().strip("|").split("|")]
         if len(parts) < 4:
             continue
         category, key, value = parts[0], parts[1], parts[2]
         evidence = " | ".join(parts[3:]).strip()
+        # 跳过表头行与分隔行
+        if (category, key, value) == ("category", "key", "value"):
+            continue
+        if set(category + key + value) <= set("-: "):
+            continue
         if not key or not value or " " in key.replace("_", ""):
             continue
         if category not in _VALID_CATEGORIES_HINT:
