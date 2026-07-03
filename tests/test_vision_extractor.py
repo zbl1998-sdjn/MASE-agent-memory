@@ -149,5 +149,5 @@ def test_agents_configured_in_config_json():
     assert vision["modes"]["minicpm"]["model_name"] == "minicpm-v4.5"
     doc_facts = config["models"]["doc_facts"]
     assert doc_facts["provider"] == "ollama"
-    assert doc_facts["model_name"] == "qwen2.5:7b"
+    assert doc_facts["model_name"] == "deepseek-r1:7b"
     assert doc_facts["temperature"] == 0.0
