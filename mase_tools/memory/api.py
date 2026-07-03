@@ -118,6 +118,29 @@ def mase2_upsert_fact(
             message += f" (governance_dual_write_failed: {type(exc).__name__}: {exc})"
     return message
 
+def mase2_compile_evidence_pack(
+    question: str,
+    keywords: list[str],
+    *,
+    entity_id: str | None = None,
+    top_k: int = 8,
+) -> dict[str, Any]:
+    """编译治理层 Evidence Pack(P2):dict 含五节内容 + markdown 渲染。
+
+    面向新读路径的接缝;不触碰 mase2_search_memory 既有行为。检索与编译
+    审计自动落 retrieval_runs / context_packs,可回放。
+    """
+    from mase.governance.evidence_pack import (  # noqa: PLC0415
+        compile_evidence_pack,
+        render_markdown,
+    )
+
+    pack = compile_evidence_pack(question, keywords, entity_id=entity_id, top_k=top_k)
+    result = pack.to_dict()
+    result["markdown"] = render_markdown(pack)
+    return result
+
+
 def mase2_search_memory(keywords: list[str], limit: int = 5) -> list[dict[str, Any]]:
     """Facts-first unified recall: entity_state current facts first, then BM25 event-log.
 
