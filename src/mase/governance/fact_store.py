@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import uuid
 from contextlib import closing
 from dataclasses import replace
 from pathlib import Path
@@ -16,6 +17,14 @@ from typing import Any
 
 from mase_tools.memory.db_core import get_connection
 
+from .admission_gate import (
+    QUARANTINE,
+    REJECT,
+    GateDecision,
+    apply_ttl_policy,
+    check_structurable,
+    scan_sensitive,
+)
 from .evidence_binder import EXCERPT_MAX_CHARS, build_span
 from .fact_contract import (
     ClaimType,
@@ -78,9 +87,46 @@ def propose_fact(
     source_full_text: str,
     db_path: str | Path | None = None,
 ) -> FactContract:
-    """提交候选事实;返回落库后的最终契约(status 由状态机决定,不信任入参)。"""
+    """提交候选事实;返回落库后的最终契约(status 由状态机决定,不信任入参)。
+
+    P1 起写入前过准入门控(spec §5 全序):G2 结构 → G3 敏感 → G5 TTL →
+    G1 证据定位 → G4 冲突。secret 命中即脱敏,原值不落任何列。
+    """
     if contract.claim_type not in ClaimType.ALL:
         raise ValueError(f"未知 claim_type: {contract.claim_type!r}")
+
+    # G5:tool_state 自动 TTL(先于落库,valid_to 随行入库)。
+    contract = apply_ttl_policy(contract)
+
+    forced_status: str | None = None
+    gate_note: GateDecision | None = None
+
+    # G2:不可结构化 → quarantined。
+    g2 = check_structurable(contract)
+    if g2.action == QUARANTINE:
+        forced_status, gate_note = FactStatus.QUARANTINED, g2
+
+    # G3:secret → rejected + 脱敏(优先级最高,覆盖 G2 判定);PII → personal + 隔离。
+    g3 = scan_sensitive(contract.object_value, evidence_text)
+    if g3.action == REJECT:
+        redacted = f"[REDACTED:{g3.pattern}]"
+        contract = replace(contract, object_value=redacted, sensitivity="secret")
+        evidence_text = redacted  # 原引文含凭据,同样不落库
+        forced_status, gate_note = FactStatus.REJECTED, g3
+    elif g3.action == QUARANTINE:
+        contract = replace(contract, sensitivity="personal")
+        if forced_status is None:
+            forced_status, gate_note = FactStatus.QUARANTINED, g3
+
+    if gate_note is not None:
+        basis = dict(contract.confidence_basis or {})
+        basis["gate"] = {
+            "gate": gate_note.gate,
+            "action": gate_note.action,
+            "reason": gate_note.reason,
+            **({"pattern": gate_note.pattern} if gate_note.pattern else {}),
+        }
+        contract = replace(contract, confidence_basis=basis)
 
     span = build_span(
         evidence_text,
@@ -107,6 +153,10 @@ def propose_fact(
         target_status = FactStatus.QUARANTINED
     else:
         target_status = FactStatus.ACTIVE
+
+    # 门控终态优先:rejected/quarantined 覆盖 binder 的判定(不会放宽,只会收紧)。
+    if forced_status is not None:
+        target_status = forced_status
 
     now = utc_now()
     scope = _scope_of(contract.to_row()["qualifiers_json"])
@@ -139,7 +189,27 @@ def propose_fact(
             "INSERT INTO fact_evidence (fact_id, evidence_id, role) VALUES (?, ?, 'supports')",
             (final.fact_id, span.evidence_id),
         )
+        if target_status == FactStatus.REJECTED and gate_note is not None:
+            _record_review_action(
+                cursor,
+                fact_id=final.fact_id,
+                reviewer="system:gate",
+                action="security_redact",
+                reason=gate_note.reason,
+            )
     return final
+
+
+def _record_review_action(
+    cursor: Any, *, fact_id: str, reviewer: str, action: str, reason: str | None
+) -> None:
+    cursor.execute(
+        """
+        INSERT INTO review_actions (review_id, fact_id, reviewer, action, reason, created_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (f"rev_{uuid.uuid4().hex}", fact_id, reviewer, action, reason, utc_now()),
+    )
 
 
 def _find_duplicate(
