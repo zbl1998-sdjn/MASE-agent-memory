@@ -1,6 +1,6 @@
 # MASE 治理 P1 设计:Admission Gate + Conflict Resolver + TTL/Review
 
-- 状态:已批准(用户 2026-07-04"出完spec直接开工")
+- 状态:已实现并验收(2026-07-04;门禁全套绿 + 真实 ingest 回归 PASS,证据 `E:/MASE-runs/p0_acceptance/20260703T195734Z/`)
 - 日期:2026-07-04
 - 上游纲领:`MASE_whitebox_memory_governance_plan.md` §4.3(G0-G7)/§4.4(冲突)/§4.1.3(状态机)/§5.1(review_actions)/§8.2(P1 交付与验收)
 - 前置:P0 已验收(FactContract + EvidenceSpan + fact_store,`E:/MASE-runs/p0_acceptance/20260703T193123Z/`)

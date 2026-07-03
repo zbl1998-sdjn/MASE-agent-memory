@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.10.0] — 2026-07-04 — 治理层 P1:准入门控、冲突治理与 review 通道
+
+### Added
+- **Fact Admission Gate(总纲 §4.3 机械可执行子集)**:propose_fact 写入前全序 G2→G3→G5→G1→G4,无旁路
+  - `admission_gate.py` 纯函数:G2 可结构化(三元非空);G3 敏感检测(**secret/token/私钥正则 → rejected 且值脱敏 `[REDACTED:*]` 落库,原值不落任何列**,review_actions 记 `security_redact`;PII 手机号/身份证/邮箱 → quarantined + sensitivity=personal);G5 tool_state 默认 TTL 7 天;G0/G7 策略位默认放行(如实标注,不假装实现)
+  - 非 active 终态在 `confidence_basis_json.gate` 留痕(gate/action/reason/pattern)——失败可解释
+- **Conflict Resolver(trust 阶梯,总纲 §4.4.2 默认优先级机械化)**:同键不同值才算冲突;新 trust ≥ 旧 → supersede + 版本链 + **旧 fact valid_to 闭合到新 observed_at**;新 trust < 旧 → **不静默覆盖**,新事实 quarantined + `conflicts_with` 显性边
+- **TTL 执行**:`expire_due_facts()` 批量迁移 + list_facts/get_fact 惰性过期写回(active 且 valid_to 已过 → expired)
+- **人工 review 通道**:`approve_fact`(仅限有已定位 span 的 quarantined——不变式人工也不豁免;裁决冲突时对手自动 superseded)/`reject_fact`/`list_review_queue`(带证据与冲突上下文);动作全部留痕 `review_actions` 表(additive)
+- **P1 验收**:门禁全套绿;真实 ingest 过全套新门控回归 PASS(`E:/MASE-runs/p0_acceptance/20260703T195734Z/`,48.7s,2 facts active);测试 766 → 800(+34)
+
 ## [0.9.0] — 2026-07-04 — 治理层 P0:Fact Contract 与机械证据绑定
 
 ### Added
