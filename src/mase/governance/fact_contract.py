@@ -9,9 +9,15 @@ import json
 import uuid
 from collections.abc import Mapping
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from typing import Any
 
 SCHEMA_VERSION = "fact_contract.v1"
+
+
+def utc_now() -> str:
+    """治理层统一时间戳格式(UTC,秒级,Z 后缀)。"""
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 class FactStatus:
