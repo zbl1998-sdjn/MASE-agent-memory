@@ -622,7 +622,7 @@
     },
     "doc_facts": {
       "provider": "ollama",
-      "model_name": "deepseek-r1:7b",
+      "model_name": "qwen2.5:14b",
       "ollama_options": {
         "num_ctx": 8192
       },
