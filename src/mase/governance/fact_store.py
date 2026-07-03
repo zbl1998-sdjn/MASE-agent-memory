@@ -25,6 +25,7 @@ from .admission_gate import (
     check_structurable,
     scan_sensitive,
 )
+from .conflict import QUARANTINE_NEW, resolve_conflict
 from .evidence_binder import EXCERPT_MAX_CHARS, build_span
 from .fact_contract import (
     ClaimType,
@@ -168,19 +169,41 @@ def propose_fact(
         if existing is not None:
             return FactContract.from_row(existing)
 
+        conflict_old_ids: list[str] = []
         if target_status == FactStatus.ACTIVE:
-            for old_id in _same_key_active_ids(cursor, contract, scope):
-                cursor.execute(
-                    "UPDATE facts SET status = ?, updated_at = ? WHERE fact_id = ?",
-                    (FactStatus.SUPERSEDED, now, old_id),
-                )
-                cursor.execute(
-                    """
-                    INSERT OR IGNORE INTO fact_edges (from_fact_id, to_fact_id, edge_type, created_at)
-                    VALUES (?, ?, 'supersedes', ?)
-                    """,
-                    (contract.fact_id, old_id, now),
-                )
+            same_key = _same_key_active_rows(cursor, contract, scope)
+            # G4:值不同才是冲突;新 trust 更低 → 不覆盖,显性化(spec §2 覆盖规则)。
+            conflict_old_ids = [
+                str(row["fact_id"])
+                for row in same_key
+                if row["object"] != contract.object_value
+                and resolve_conflict(trust_level, _max_trust(cursor, str(row["fact_id"])))
+                == QUARANTINE_NEW
+            ]
+            if conflict_old_ids:
+                target_status = FactStatus.QUARANTINED
+                basis = dict(contract.confidence_basis or {})
+                basis["gate"] = {
+                    "gate": "G4",
+                    "action": "quarantine",
+                    "reason": "与更高信任的 active 事实冲突,待人工裁决",
+                    "conflicts_with": conflict_old_ids,
+                }
+                contract = replace(contract, confidence_basis=basis)
+            else:
+                for row in same_key:
+                    old_id = str(row["fact_id"])
+                    cursor.execute(
+                        "UPDATE facts SET status = ?, updated_at = ?, valid_to = ? WHERE fact_id = ?",
+                        (FactStatus.SUPERSEDED, now, contract.observed_at, old_id),
+                    )
+                    cursor.execute(
+                        """
+                        INSERT OR IGNORE INTO fact_edges (from_fact_id, to_fact_id, edge_type, created_at)
+                        VALUES (?, ?, 'supersedes', ?)
+                        """,
+                        (contract.fact_id, old_id, now),
+                    )
 
         final = replace(contract, status=target_status, created_at=now, updated_at=now)
         cursor.execute(_FACT_INSERT, final.to_row())
@@ -189,6 +212,14 @@ def propose_fact(
             "INSERT INTO fact_evidence (fact_id, evidence_id, role) VALUES (?, ?, 'supports')",
             (final.fact_id, span.evidence_id),
         )
+        for old_id in conflict_old_ids:
+            cursor.execute(
+                """
+                INSERT OR IGNORE INTO fact_edges (from_fact_id, to_fact_id, edge_type, created_at)
+                VALUES (?, ?, 'conflicts_with', ?)
+                """,
+                (final.fact_id, old_id, now),
+            )
         if target_status == FactStatus.REJECTED and gate_note is not None:
             _record_review_action(
                 cursor,
@@ -241,23 +272,32 @@ def _find_duplicate(
     return None
 
 
-def _same_key_active_ids(
+def _same_key_active_rows(
     cursor: Any, contract: FactContract, scope: str | None
-) -> list[str]:
-    """同 (subject, predicate, scope, tenant, workspace) 的现存 active 事实。"""
+) -> list[Any]:
+    """同 (subject, predicate, scope, tenant, workspace) 的现存 active 事实行。"""
     rows = cursor.execute(
         """
-        SELECT fact_id, qualifiers_json FROM facts
+        SELECT fact_id, object, qualifiers_json FROM facts
         WHERE subject = ? AND predicate = ? AND tenant_id = ? AND workspace_id = ?
           AND status = 'active'
         """,
         (contract.subject, contract.predicate, contract.tenant_id, contract.workspace_id),
     ).fetchall()
-    return [
-        str(row["fact_id"])
-        for row in rows
-        if _scope_of(row["qualifiers_json"]) == scope
-    ]
+    return [row for row in rows if _scope_of(row["qualifiers_json"]) == scope]
+
+
+def _max_trust(cursor: Any, fact_id: str) -> int:
+    """事实的证据最高信任等级(无证据视为 E0)。"""
+    row = cursor.execute(
+        """
+        SELECT MAX(es.trust_level) AS t FROM evidence_spans es
+        JOIN fact_evidence fe ON fe.evidence_id = es.evidence_id
+        WHERE fe.fact_id = ?
+        """,
+        (fact_id,),
+    ).fetchone()
+    return int(row["t"]) if row is not None and row["t"] is not None else 0
 
 
 def retract_fact(fact_id: str, reason: str, *, db_path: str | Path | None = None) -> bool:
