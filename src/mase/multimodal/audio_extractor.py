@@ -18,19 +18,21 @@ from .document_loader import MediaPayload
 from .extractor import ExtractionResult, MediaAssetInfo
 from .text_facts import extract_facts_from_text
 
-AUDIO_EXTRACTOR_VERSION = "1"
+AUDIO_EXTRACTOR_VERSION = "2"
 TRANSCRIPT_CHUNK_CHARS = 6000  # 超过则按 segment 行边界分块抽取(spec §5)
 
 SPEECH_FACTS_SYSTEM = """你是会议纪要事实抽取器。输入是带 [HH:MM:SS] 时间戳的会议/语音转写稿。
-请输出严格的 JSON(不要 markdown 代码围栏),形状:
-{"facts": [{"category": "<user_preferences|people_relations|project_status|finance_budget|location_events|general_facts 之一>",
-            "key": "<snake_case 唯一键>", "value": "<事实当前值>",
-            "confidence": <0到1的数字>,
-            "evidence": "<引用转写稿中支撑该事实的原文行,必须带 [HH:MM:SS] 前缀>"}]}
-规则:
+每找到一条事实,就输出一行,格式(用竖线分隔的四段):
+category | key | value | evidence
+
+- category 取以下之一:user_preferences、people_relations、project_status、finance_budget、location_events、general_facts
+- key 用 snake_case 唯一键;value 是事实当前值
+- evidence 必须逐字引用转写稿的整行(含 [HH:MM:SS] 时间戳前缀)
+- 除了事实行,不要输出任何其他文字;没有事实就只输出一行:无事实
+
+抽取规则:
 - 只提取转写稿中明确说出的决策、待办、承诺、预算、时间安排等事实,不要推测;
-- evidence 必须逐字引用转写稿的整行(含时间戳前缀);
-- 没有可提取的事实就返回 {"facts": []}。"""
+- value 逐字取自原文,不改写格式。"""
 
 
 class AudioExtractor:

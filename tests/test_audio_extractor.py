@@ -58,7 +58,7 @@ def test_extract_transcript_is_full_text_and_facts_carry_timestamps(tmp_path):
     result = extractor.extract(_asset(), _payload(tmp_path))
 
     assert result.full_text == "[00:00:00] 会议开始\n[00:01:01] 预算四千二百欧元获批"
-    assert result.extractor_name == "audio" and result.extractor_version == "1"
+    assert result.extractor_name == "audio" and result.extractor_version == "2"
     assert result.candidate_facts[0].evidence.startswith("[00:01:01]")
     assert result.metadata["asr"]["language"] == "zh"
     assert fake_llm.calls[0]["agent_type"] == "speech_facts"
@@ -112,7 +112,7 @@ def test_malformed_llm_reply_degrades_to_transcript_only(tmp_path):
     result = extractor.extract(_asset(), _payload(tmp_path))
     assert result.full_text == "[00:00:00] 内容"  # 转写稿完整保留
     assert result.candidate_facts == ()
-    assert any("non_json_response" in w for w in result.warnings)
+    assert any("unparseable_response" in w for w in result.warnings)
 
 
 def test_supports_only_audio(tmp_path):

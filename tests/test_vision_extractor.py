@@ -73,7 +73,7 @@ def test_two_stage_transcribe_then_extract_facts():
 
     assert result.full_text == "Invoice #001 total 4200 EUR"
     assert result.candidate_facts[0].key == "invoice_total"
-    assert result.extractor_name == "vision" and result.extractor_version == "3"
+    assert result.extractor_name == "vision" and result.extractor_version == "4"
     # 两段归因:VLM + 事实 LLM
     assert "fake-vlm" in result.model_name and "fake-llm" in result.model_name
     assert result.warnings == ()
@@ -108,7 +108,7 @@ def test_malformed_facts_reply_degrades_to_transcript_only():
     result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"img", "image/png")))
     assert "invoice" in result.full_text
     assert result.candidate_facts == ()
-    assert any("non_json_response" in w for w in result.warnings)
+    assert any("unparseable_response" in w for w in result.warnings)
 
 
 def test_mode_passthrough_for_model_switch():
