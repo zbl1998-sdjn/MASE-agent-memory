@@ -11,6 +11,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from mase.governance import fact_store as governance_store
+from mase.governance.fact_contract import ClaimType, FactContract, TrustLevel, new_fact_id, utc_now
 from mase_tools.media.asset_store import store_bytes
 from mase_tools.memory import tri_vault
 from mase_tools.memory.api import (
@@ -60,6 +62,9 @@ class IngestReport:
     infra_errors: tuple[dict[str, Any], ...]
     extractions: int
     facts_written: int
+    # 治理层双写(P0):覆盖计数与 best-effort 失败留痕;不影响主链路成败判定。
+    facts_governed: int = 0
+    governance_warnings: tuple[dict[str, Any], ...] = ()
 
 
 def ingest_folder(
@@ -87,6 +92,8 @@ def ingest_folder(
     infra_errors: list[dict[str, Any]] = []
     extractions = 0
     facts_written = 0
+    facts_governed = 0
+    governance_warnings: list[dict[str, Any]] = []
 
     for file_path in sorted(p for p in folder.rglob("*") if p.is_file()):
         rel_name = file_path.relative_to(folder).as_posix()
@@ -130,7 +137,7 @@ def ingest_folder(
                 source_uri=rel_name, page_count=page_count,
             )
             result = selected.extract(asset_info, payload)
-            mase2_record_extraction(
+            extraction_id = mase2_record_extraction(
                 media_id,
                 extractor_name=result.extractor_name,
                 model_name=result.model_name,
@@ -156,6 +163,25 @@ def ingest_folder(
                 )
                 facts_written += 1
                 _mirror_fact_write(fact, sha256=sha256, media_id=media_id)
+                # 治理层双写(best-effort,失败留痕不打断摄取):
+                # facts 是可证明真源,entity_state 保持读路径兼容投影。
+                try:
+                    _govern_fact(
+                        fact,
+                        effective_key=effective_key,
+                        sha256=sha256,
+                        source_uri=rel_name,
+                        extraction_id=extraction_id,
+                        full_text=result.full_text,
+                        model_name=result.model_name,
+                    )
+                    facts_governed += 1
+                except Exception as exc:
+                    governance_warnings.append({
+                        "file": rel_name,
+                        "key": effective_key,
+                        "error": f"{type(exc).__name__}: {exc}",
+                    })
             processed.append(rel_name)
         except Exception as exc:
             infra_errors.append({"file": rel_name, "error": f"{type(exc).__name__}: {exc}"})
@@ -166,6 +192,48 @@ def ingest_folder(
         infra_errors=tuple(infra_errors),
         extractions=extractions,
         facts_written=facts_written,
+        facts_governed=facts_governed,
+        governance_warnings=tuple(governance_warnings),
+    )
+
+
+def _govern_fact(
+    fact: Any,
+    *,
+    effective_key: str,
+    sha256: str,
+    source_uri: str,
+    extraction_id: int,
+    full_text: str,
+    model_name: str,
+) -> None:
+    """把一条抽取事实提交治理层:E4 文档声明,证据须在抽取全文中机械定位。
+
+    confidence 沿用抽取器自报值(未标定,basis 里如实标注);状态由
+    fact_store 状态机决定——定位失败自动 quarantined,不在此处兜底。
+    """
+    governance_store.propose_fact(
+        FactContract(
+            fact_id=new_fact_id(),
+            entity_id=f"media:{sha256[:12]}",
+            claim_type=ClaimType.DOCUMENT_CLAIM,
+            subject=fact.category,
+            predicate=effective_key,
+            object_value=fact.value,
+            confidence=fact.confidence,
+            observed_at=utc_now(),
+            qualifiers={"scope": source_uri},
+            confidence_basis={
+                "method": "mechanical_span_bind",
+                "model": model_name,
+                "calibrated": False,
+            },
+        ),
+        fact.evidence,
+        source_type="media_extraction",
+        source_id=str(extraction_id),
+        trust_level=TrustLevel.E4,
+        source_full_text=full_text,
     )
 
 

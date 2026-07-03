@@ -52,8 +52,19 @@ def mase2_upsert_fact(
     source_log_id: int | None = None,
     source_media_id: int | None = None,
     scope_filters: dict[str, Any] | None = None,
+    evidence_text: str | None = None,
+    evidence_source_type: str | None = None,
+    evidence_source_id: str | None = None,
+    evidence_trust_level: int | None = None,
+    evidence_full_text: str | None = None,
 ) -> str:
-    """写入提取出的实体状态 (Entity Fact)"""
+    """写入提取出的实体状态 (Entity Fact)。
+
+    evidence_* 五个可选参数给齐时,额外双写治理层 facts(P0):evidence_text
+    须能在 evidence_full_text 中机械定位,否则 quarantined。旧调用方(不传
+    evidence)行为零变化;治理层失败不阻塞 entity_state 写入,失败信息附在
+    返回消息里留痕。
+    """
     upsert_entity_fact(
         category,
         key,
@@ -63,7 +74,49 @@ def mase2_upsert_fact(
         source_media_id=source_media_id,
         **dict(scope_filters or {}),
     )
-    return f"Success: Fact {category}.{key} updated to {value}"
+    message = f"Success: Fact {category}.{key} updated to {value}"
+    if None not in (
+        evidence_text, evidence_source_type, evidence_source_id,
+        evidence_trust_level, evidence_full_text,
+    ):
+        try:
+            from mase.governance.fact_contract import (  # noqa: PLC0415
+                ClaimType,
+                FactContract,
+                new_fact_id,
+                utc_now,
+            )
+            from mase.governance.fact_store import propose_fact  # noqa: PLC0415
+
+            filters = dict(scope_filters or {})
+            propose_fact(
+                FactContract(
+                    fact_id=new_fact_id(),
+                    entity_id="user:default",
+                    claim_type=ClaimType.PROJECT_FACT,
+                    subject=category,
+                    predicate=key,
+                    object_value=value,
+                    # 门面路径无自报置信度,取 1.0 并如实标注未标定。
+                    confidence=1.0,
+                    observed_at=utc_now(),
+                    confidence_basis={
+                        "method": "mechanical_span_bind",
+                        "producer": "mase2_upsert_fact",
+                        "calibrated": False,
+                    },
+                    tenant_id=str(filters.get("tenant_id") or ""),
+                    workspace_id=str(filters.get("workspace_id") or ""),
+                ),
+                str(evidence_text),
+                source_type=str(evidence_source_type),
+                source_id=str(evidence_source_id),
+                trust_level=int(evidence_trust_level or 0),
+                source_full_text=str(evidence_full_text),
+            )
+        except Exception as exc:  # noqa: BLE001 — 治理层 best-effort,失败留痕不阻塞
+            message += f" (governance_dual_write_failed: {type(exc).__name__}: {exc})"
+    return message
 
 def mase2_search_memory(keywords: list[str], limit: int = 5) -> list[dict[str, Any]]:
     """Facts-first unified recall: entity_state current facts first, then BM25 event-log.
