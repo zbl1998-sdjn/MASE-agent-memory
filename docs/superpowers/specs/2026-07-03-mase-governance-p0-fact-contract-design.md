@@ -1,6 +1,6 @@
 # MASE 治理 P0 设计:Fact Contract v1 + EvidenceSpan v1
 
-- 状态:草案(待用户审阅)
+- 状态:已实现并验收(2026-07-04;真模型验收 PASS,证据 `E:/MASE-runs/p0_acceptance/20260703T193123Z/`)
 - 日期:2026-07-03
 - 上游纲领:`MASE_whitebox_memory_governance_plan.md` §4.1/§4.2/§8.1(最小路径第 1 件)
 - 哲学判据:对照总纲 §14 七条(减少无证据写入/可解释/确定性测试/可撤回回放/失败留痕)

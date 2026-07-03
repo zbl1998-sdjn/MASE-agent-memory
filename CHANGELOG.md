@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.9.0] — 2026-07-04 — 治理层 P0:Fact Contract 与机械证据绑定
+
+### Added
+- **FactContract v1 治理层(白盒治理总纲 P0,最小路径第 1 件)**:每条长期事实成为可证明对象
+  - 新子包 `src/mase/governance/`:`fact_contract`(FactStatus/TrustLevel E0-E5/ClaimType + frozen 数据对象,`schema_version=fact_contract.v1`)、`evidence_binder`(机械证据定位:精确 substring → 空白归一化容错映射回原文偏移,不做字符级模糊)、`fact_store`(唯一写入口 + 状态机)
+  - schema(additive):`facts`/`evidence_spans`/`fact_evidence`/`fact_edges` 四表;读路径零触碰
+  - **不变式(测试钉死 + 真数据复验)**:任何 API 路径都无法产生"active 且无已定位证据"的事实——定位失败/inference 一律 quarantined(证据留痕供 review);同键新事实自动 supersede + fact_edges 版本链可回放;retract 理由留痕
+  - 双写接线:多模态 ingest 每条事实 propose(E4/document_claim,entity=`media:<sha12>`,best-effort 失败进 `governance_warnings` 不打断摄取);`mase2_upsert_fact` 增可选 evidence_* 五参数(给齐才双写,旧签名零破坏)
+  - `scripts/export_fact_sheets.py`:每 entity 一份 markdown 账本(Active/Superseded/Quarantined 三节,竖线转义,front-matter 带 schema 版本)
+- **P0 验收证据(真模型,verdict=PASS)**:`E:/MASE-runs/p0_acceptance/20260703T193123Z/evidence.{json,md}`
+  - qwen2.5vl:7b + qwen2.5:14b 真实 ingest 49.7s:2 extractions / 2 facts 全部 active、治理覆盖率 2/2、不变式复验(quote_hash 重算)通过、fact sheet 2 份人工可读检查通过
+- 测试 725 → 766(+41:契约/定位/状态机/双写/导出);`src/mase/governance` 纳入 mypy 严格门
+
 ## [0.8.0] — 2026-07-03 — 多模态抽取优化轮(P1-P6 + 选型)
 
 ### Changed
