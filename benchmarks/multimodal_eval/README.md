@@ -44,6 +44,18 @@ python -X utf8 benchmarks/multimodal_eval/run_eval.py --split dev --limit 5
 - `provenance_ok_rate`:事实→media_extraction→media_asset→资产字节 机械链检
 - `char_similarity_mean`:音频转写 vs 参考转写的归一化字符相似度(SequenceMatcher;**非严格 WER/CER**,只用于纵向自比)
 
+## 正式基线(holdout,单次全量)
+
+- **v1.1 基线(2026-07-03)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260703T084941Z/`
+  (`sample_ids_sha256=09bc7a2886b7b32e…` 与 manifest 一致,`manifest_mismatch=[]`,212 例单次跑完)
+  - 配置:vision=qwen2.5vl:7b,doc_facts=qwen2.5:14b,speech_facts=qwen2.5:7b,whisper=large-v3;
+    `MASE_OLLAMA_KEEP_ALIVE=0` + `CUDA_VISIBLE_DEVICES=1`
+  - overall:fulltext_anchor 0.9325 / **fact_anchor 0.6271** / recall 0.8842 /
+    **halluc_ok 1.0** / provenance_ok 1.0 / char_similarity 0.8895;infra_errors 3(1.4%,
+    1 瞬时 CUDA error + 2 Ollama 图像加载 400,环境层非模型质量)
+  - by lane:sroie fact 0.65 / synthetic fact 0.8226 / xfund_zh fact 0.53 / librispeech char_sim 0.9054
+  - 后续任何改动的成绩都与此基线纵向对比;halluc_ok 仅 synthetic 负例 lane 计分。
+
 ## 版本修订
 
 - **v1.1(2026-07-03,holdout 从未运行过,重冻结合规)**:XFUND 适配器加标注卫生规则——

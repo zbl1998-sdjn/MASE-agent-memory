@@ -12,6 +12,7 @@
   - P6 **管道行事实契约替代 JSON**(7B 对中英混排密集表单 JSON 生成 7/10 崩溃;行格式更稳更白盒;兼容旧 JSON)+ markdown 表格容忍 + 表单填写项指引
   - **doc_facts 定型 qwen2.5:14b**(三方 A/B:qwen7b 中文表单 0.18 指令跟随墙;deepseek-r1:7b 0.56;14b 0.68 同速)
 - 长跑稳定性:内存高压环境用 `MASE_OLLAMA_KEEP_ALIVE=0` + `CUDA_VISIBLE_DEVICES=1`(实证止住任务被杀)
+- **holdout 正式基线落章(212 例单次全量,反过拟合口径)**:fulltext 0.9325 / **fact 0.6271** / recall 0.8842 / **halluc_ok 1.0** / provenance 1.0 / char_sim 0.8895;infra 3(环境层);证据 `E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260703T084941Z/`,详见 `benchmarks/multimodal_eval/README.md` 正式基线节
 
 ### Added
 - 白盒记忆治理总纲落库:`MASE_whitebox_memory_governance_plan.md`(v0.1,后续改进的参考基线)
