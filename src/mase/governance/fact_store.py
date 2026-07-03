@@ -335,9 +335,17 @@ def retract_fact(fact_id: str, reason: str, *, db_path: str | Path | None = None
 def get_fact(
     fact_id: str, *, with_evidence: bool = True, db_path: str | Path | None = None
 ) -> dict[str, Any] | None:
-    """取事实详情;with_evidence 时附全部证据行(含 role)。"""
-    with closing(get_connection(db_path)) as conn:
+    """取事实详情;with_evidence 时附全部证据行(含 role)。
+
+    惰性 TTL:读到 active 且 valid_to 已过 → 先写回 expired 再返回(spec §2)。
+    """
+    with closing(get_connection(db_path)) as conn, conn:
         cursor = conn.cursor()
+        cursor.execute(
+            "UPDATE facts SET status = ?, updated_at = ? "
+            "WHERE fact_id = ? AND status = 'active' AND valid_to IS NOT NULL AND valid_to < ?",
+            (FactStatus.EXPIRED, utc_now(), fact_id, utc_now()),
+        )
         row = cursor.execute("SELECT * FROM facts WHERE fact_id = ?", (fact_id,)).fetchone()
         if row is None:
             return None
@@ -364,7 +372,7 @@ def list_facts(
     status: str | None = None,
     db_path: str | Path | None = None,
 ) -> list[dict[str, Any]]:
-    """列事实(可按 entity/status 过滤),新→旧排序。"""
+    """列事实(可按 entity/status 过滤),新→旧排序;惰性迁移到期 active(spec §2)。"""
     clauses: list[str] = []
     params: list[Any] = []
     if entity_id is not None:
@@ -374,7 +382,12 @@ def list_facts(
         clauses.append("status = ?")
         params.append(status)
     where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
-    with closing(get_connection(db_path)) as conn:
+    with closing(get_connection(db_path)) as conn, conn:
+        conn.execute(
+            "UPDATE facts SET status = ?, updated_at = ? "
+            "WHERE status = 'active' AND valid_to IS NOT NULL AND valid_to < ?",
+            (FactStatus.EXPIRED, utc_now(), utc_now()),
+        )
         rows = conn.execute(
             f"SELECT * FROM facts {where} ORDER BY updated_at DESC, fact_id",  # noqa: S608 — 子句白名单拼接,值全走参数
             params,
@@ -416,3 +429,129 @@ def supersession_chain(fact_id: str, *, db_path: str | Path | None = None) -> li
             ).fetchone()
             current = str(edge["to_fact_id"]) if edge is not None else None
     return chain
+
+
+def expire_due_facts(*, now: str | None = None, db_path: str | Path | None = None) -> int:
+    """把 valid_to 已过的 active 事实批量迁移为 expired;返回迁移条数。"""
+    stamp = now or utc_now()
+    with closing(get_connection(db_path)) as conn, conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "UPDATE facts SET status = ?, updated_at = ? "
+            "WHERE status = 'active' AND valid_to IS NOT NULL AND valid_to < ?",
+            (FactStatus.EXPIRED, stamp, stamp),
+        )
+        return int(cursor.rowcount)
+
+
+def approve_fact(
+    fact_id: str, *, reviewer: str, reason: str | None = None, db_path: str | Path | None = None
+) -> tuple[bool, str]:
+    """人工放行隔离事实(总纲状态机 quarantined --human_approve--> active)。
+
+    不变式不豁免:必须存在已定位 span 才允许 active。若该事实带 conflicts_with
+    边(人工裁决其为正确值),同键对手 active 一并 superseded 并闭合 valid_to。
+    """
+    now = utc_now()
+    with closing(get_connection(db_path)) as conn, conn:
+        cursor = conn.cursor()
+        row = cursor.execute(
+            "SELECT status, observed_at FROM facts WHERE fact_id = ?", (fact_id,)
+        ).fetchone()
+        if row is None:
+            return False, f"fact {fact_id} 不存在"
+        if row["status"] != FactStatus.QUARANTINED:
+            return False, f"仅 quarantined 可 approve(当前 {row['status']})"
+        located = cursor.execute(
+            """
+            SELECT COUNT(*) AS n FROM evidence_spans es
+            JOIN fact_evidence fe ON fe.evidence_id = es.evidence_id
+            WHERE fe.fact_id = ? AND es.span_start IS NOT NULL
+            """,
+            (fact_id,),
+        ).fetchone()
+        if int(located["n"]) == 0:
+            return False, "无已定位证据,不变式禁止 active;请补充可定位证据后重新提案"
+        # 人工裁决冲突:对手 active 退位,版本链与时效闭合与 G4 supersede 同语义。
+        opponents = cursor.execute(
+            "SELECT to_fact_id FROM fact_edges WHERE from_fact_id = ? AND edge_type = 'conflicts_with'",
+            (fact_id,),
+        ).fetchall()
+        for opponent in opponents:
+            cursor.execute(
+                "UPDATE facts SET status = ?, updated_at = ?, valid_to = ? "
+                "WHERE fact_id = ? AND status = 'active'",
+                (FactStatus.SUPERSEDED, now, row["observed_at"], opponent["to_fact_id"]),
+            )
+            cursor.execute(
+                """
+                INSERT OR IGNORE INTO fact_edges (from_fact_id, to_fact_id, edge_type, created_at)
+                VALUES (?, ?, 'supersedes', ?)
+                """,
+                (fact_id, opponent["to_fact_id"], now),
+            )
+        cursor.execute(
+            "UPDATE facts SET status = ?, updated_at = ? WHERE fact_id = ?",
+            (FactStatus.ACTIVE, now, fact_id),
+        )
+        _record_review_action(
+            cursor, fact_id=fact_id, reviewer=reviewer, action="approve", reason=reason
+        )
+    return True, "approved"
+
+
+def reject_fact(
+    fact_id: str, *, reviewer: str, reason: str | None = None, db_path: str | Path | None = None
+) -> tuple[bool, str]:
+    """人工拒绝隔离事实(quarantined --显式拒绝--> rejected),动作留痕。"""
+    with closing(get_connection(db_path)) as conn, conn:
+        cursor = conn.cursor()
+        row = cursor.execute("SELECT status FROM facts WHERE fact_id = ?", (fact_id,)).fetchone()
+        if row is None:
+            return False, f"fact {fact_id} 不存在"
+        if row["status"] != FactStatus.QUARANTINED:
+            return False, f"仅 quarantined 可 reject(当前 {row['status']})"
+        cursor.execute(
+            "UPDATE facts SET status = ?, updated_at = ? WHERE fact_id = ?",
+            (FactStatus.REJECTED, utc_now(), fact_id),
+        )
+        _record_review_action(
+            cursor, fact_id=fact_id, reviewer=reviewer, action="reject", reason=reason
+        )
+    return True, "rejected"
+
+
+def list_review_queue(*, db_path: str | Path | None = None) -> list[dict[str, Any]]:
+    """review 队列:全部 quarantined 事实 + 证据 + 冲突对手摘要(供人工裁决)。"""
+    with closing(get_connection(db_path)) as conn:
+        cursor = conn.cursor()
+        queue: list[dict[str, Any]] = []
+        for row in cursor.execute(
+            "SELECT * FROM facts WHERE status = 'quarantined' ORDER BY updated_at DESC, fact_id"
+        ).fetchall():
+            item = _row_to_dict(row)
+            item["evidence"] = [
+                _row_to_dict(r)
+                for r in cursor.execute(
+                    """
+                    SELECT es.*, fe.role FROM evidence_spans es
+                    JOIN fact_evidence fe ON fe.evidence_id = es.evidence_id
+                    WHERE fe.fact_id = ?
+                    ORDER BY es.created_at, es.evidence_id
+                    """,
+                    (item["fact_id"],),
+                )
+            ]
+            item["conflicts"] = [
+                {"fact_id": r["fact_id"], "object": r["object"], "status": r["status"]}
+                for r in cursor.execute(
+                    """
+                    SELECT f.fact_id, f.object, f.status FROM fact_edges e
+                    JOIN facts f ON f.fact_id = e.to_fact_id
+                    WHERE e.from_fact_id = ? AND e.edge_type = 'conflicts_with'
+                    """,
+                    (item["fact_id"],),
+                )
+            ]
+            queue.append(item)
+    return queue
