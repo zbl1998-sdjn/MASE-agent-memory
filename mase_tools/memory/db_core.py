@@ -720,6 +720,21 @@ def _create_legacy_schema(db_path: Path) -> None:
             )
         """)
 
+        # 3.11 治理层 P1(additive):人工 review 与安全脱敏动作留痕。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS review_actions (
+                review_id TEXT PRIMARY KEY,
+                fact_id TEXT NOT NULL,
+                reviewer TEXT NOT NULL,
+                action TEXT NOT NULL,
+                reason TEXT,
+                created_at TEXT NOT NULL
+            )
+        """)
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_review_actions_fact ON review_actions(fact_id, created_at)"
+        )
+
         # 4. 建立触发器：当 memory_log 有新记录时，自动同步到 FTS 检索表
         # 注意: fts5 中的 rowid 不能显式指定 content_rowid 的列名去 insert，而是可以直接用 rowid
         cursor.execute("""
