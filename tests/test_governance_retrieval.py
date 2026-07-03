@@ -98,6 +98,17 @@ def test_whitespace_variant(tmp_path, monkeypatch):
     assert candidates and candidates[0].fact.fact_id == po.fact_id
 
 
+def test_hyphen_underscore_folding(tmp_path, monkeypatch):
+    # 真实盲区回归钉(P2 验收发现):key 规范化把 - 转 _,
+    # 连字符形关键词必须命中下划线形 predicate。
+    _isolate_db(tmp_path, monkeypatch)
+    fact = _propose("invoice_total_acme_inv_2026_001", "4200 EUR", "预算 800 元")
+    from mase.governance.retrieval import retrieve_facts
+
+    _, candidates = retrieve_facts(["ACME-INV-2026-001"])
+    assert candidates and candidates[0].fact.fact_id == fact.fact_id
+
+
 def test_entity_filter(tmp_path, monkeypatch):
     _seed(tmp_path, monkeypatch)
     from mase.governance.retrieval import retrieve_facts

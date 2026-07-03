@@ -34,14 +34,15 @@ WEIGHTS: dict[str, float] = {
     "sensitivity_penalty": 0.20,
 }
 
-_CURRENCY_CHARS = "$¥€,"
+# 千分位/货币符 + 连字符/下划线(事实 key 规范化会把 - 转 _,匹配侧折叠两者)。
+_STRIP_CHARS = "$¥€,-_"
 _SENSITIVE_LEVELS = {"personal", "confidential", "secret"}
 
 
 def _norm(text: str) -> str:
-    """归一化(变体白盒可列举):casefold + 去空白 + 去千分位逗号 + 去货币符。"""
+    """归一化(变体白盒可列举):casefold + 去空白 + 去 [,$¥€-_]。"""
     lowered = text.casefold()
-    return "".join(ch for ch in lowered if not ch.isspace() and ch not in _CURRENCY_CHARS)
+    return "".join(ch for ch in lowered if not ch.isspace() and ch not in _STRIP_CHARS)
 
 
 @dataclass(frozen=True)
@@ -64,7 +65,7 @@ class RetrievalPlan:
                 "filters": self.filters,
                 "classifier": self.classifier,
                 "weights": self.weights,
-                "normalization": "casefold + strip whitespace + strip [,$¥€]",
+                "normalization": "casefold + strip whitespace + strip [,$¥€-_]",
             },
             ensure_ascii=False,
             sort_keys=True,
