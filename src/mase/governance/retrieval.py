@@ -80,6 +80,7 @@ class ScoredCandidate:
     breakdown: dict[str, float]
     why_selected: list[str]
     has_located_span: bool
+    matched_keywords: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -216,6 +217,7 @@ def _score(
         breakdown=breakdown,
         why_selected=why,
         has_located_span=located_trust > 0,
+        matched_keywords=tuple(dict.fromkeys(keyword for keyword, _ in hits)),
     )
 
 
