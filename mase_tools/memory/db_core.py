@@ -656,6 +656,70 @@ def _create_legacy_schema(db_path: Path) -> None:
             "CREATE INDEX IF NOT EXISTS idx_media_extraction_media ON media_extraction(media_id, created_at DESC)"
         )
 
+        # 3.10 治理层 P0(additive):FactContract 四表。facts 是治理层新真源,
+        # entity_state 保持读路径兼容投影(双写,见 src/mase/governance/)。
+        # 状态机与"无证据不可 active"不变式在 fact_store 强制,库层只存。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS facts (
+                fact_id TEXT PRIMARY KEY,
+                entity_id TEXT NOT NULL,
+                claim_type TEXT NOT NULL,
+                subject TEXT NOT NULL,
+                predicate TEXT NOT NULL,
+                object TEXT NOT NULL,
+                qualifiers_json TEXT,
+                status TEXT NOT NULL,
+                confidence REAL NOT NULL,
+                confidence_basis_json TEXT,
+                valid_from TEXT,
+                valid_to TEXT,
+                observed_at TEXT NOT NULL,
+                visibility TEXT NOT NULL DEFAULT 'private',
+                sensitivity TEXT NOT NULL DEFAULT 'normal',
+                schema_version TEXT NOT NULL DEFAULT 'fact_contract.v1',
+                tenant_id TEXT NOT NULL DEFAULT '',
+                workspace_id TEXT NOT NULL DEFAULT '',
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+        """)
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_facts_entity ON facts(entity_id, status, updated_at DESC)"
+        )
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_facts_subject_pred ON facts(subject, predicate, status)"
+        )
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS evidence_spans (
+                evidence_id TEXT PRIMARY KEY,
+                source_type TEXT NOT NULL,
+                source_id TEXT NOT NULL,
+                span_start INTEGER,
+                span_end INTEGER,
+                quote_hash TEXT NOT NULL,
+                quote_excerpt TEXT,
+                trust_level INTEGER NOT NULL,
+                created_at TEXT NOT NULL
+            )
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS fact_evidence (
+                fact_id TEXT NOT NULL,
+                evidence_id TEXT NOT NULL,
+                role TEXT NOT NULL DEFAULT 'supports',
+                PRIMARY KEY (fact_id, evidence_id)
+            )
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS fact_edges (
+                from_fact_id TEXT NOT NULL,
+                to_fact_id TEXT NOT NULL,
+                edge_type TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                PRIMARY KEY (from_fact_id, to_fact_id, edge_type)
+            )
+        """)
+
         # 4. 建立触发器：当 memory_log 有新记录时，自动同步到 FTS 检索表
         # 注意: fts5 中的 rowid 不能显式指定 content_rowid 的列名去 insert，而是可以直接用 rowid
         cursor.execute("""

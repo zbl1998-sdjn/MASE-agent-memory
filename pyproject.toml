@@ -172,7 +172,7 @@ ignore = [
 # -------- Mypy：渐进类型检查，先覆盖稳定门面 --------
 [tool.mypy]
 python_version = "3.10"
-files = ["executor.py", "planner_agent.py", "router.py", "model_interface.py", "protocol.py", "src/mase/multimodal"]
+files = ["executor.py", "planner_agent.py", "router.py", "model_interface.py", "protocol.py", "src/mase/multimodal", "src/mase/governance"]
 check_untyped_defs = true
 warn_unused_ignores = true
 warn_redundant_casts = true
