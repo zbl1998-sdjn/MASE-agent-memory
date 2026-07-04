@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.13.0] — 2026-07-04 — 治理层 P4-P7 + 企业生产化 Phase 0/1 本地闭环
+
+### Added
+- **Review UI/API(P4)**:`/v1/memory/governance/review-queue`、`/facts`、approve/reject/retract/edit/merge、shadow-diff 接口;`FactsPage` 增加 Review Inbox、编辑、合并、导出与审计动作。
+- **Document Claim Memory(P5)**:`document_claims.py` 支持文档 claim sheet、证据定位评估和 stale 标记。
+- **Service hardening primitives(P6)**:`GovernanceWriteQueue`、幂等键、限流、trace event、SQLite backup/restore、namespace key。
+- **Governance eval suite(P7)**:`eval_suite.py` 与 `scripts/run_governance_eval.py` 输出 sample/prompt/code hash、lane 汇总和 failure gallery。
+- **企业生产化 Phase 0/1 本地实现**:`contracts/`、`core/FactStateMachine`、`storage.interfaces`、architecture/docstring audits、ADR、`GovernedFactWriteFacade` notetaker dual-write、shadow-read diff、enterprise mode Evidence Pack 默认注入、L2 deterministic semantic claim verifier。
+
+### Verification
+- `python -m pytest -m "not integration and not slow" -q` → 844 passed, 2 warnings。
+- `python -m ruff check .`、`python -m mypy`、`python scripts/audit_architecture_imports.py --strict`、`python scripts/audit_public_api_docstrings.py --strict` 全部通过。
+- `npm --prefix frontend test -- src/api.test.ts` → 26 passed;`npm --prefix frontend run build` 通过。
+- `python scripts/run_governance_eval.py --out-dir "$env:TEMP\mase-governance-eval-smoke"` → `release_gate=passed pass_rate=1.000`。
+
+### Known boundaries
+- 本轮完成的是本地 SQLite/前端/治理闭环与企业 Phase 0/1 能力;PostgreSQL/Alembic、OIDC/SAML/SCIM、真实 queue/worker、OpenTelemetry collector、SaaS 多租户生产部署仍为后续外部基础设施任务。
+- 仓库仍没有 `scripts/quality_gate.py`;本轮以项目现有真实 lint/test/build/audit/eval 命令作为手动门禁证据，不能据此宣称完整生产接受。
+
 ## [0.12.0] — 2026-07-04 — 治理层 P3:Answer Claim Verifier 与低幻觉闭环
 
 ### Added

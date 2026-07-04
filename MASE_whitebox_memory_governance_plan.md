@@ -1575,3 +1575,31 @@ Auditable fact-governance engine for AI agents
 MASE 的扩建方向应当始终围绕一句话：
 
 > **Memory is not what the model recalls. Memory is what the system can prove, govern, and safely inject.**
+
+---
+
+## 15. 2026-07-04 本地实施状态
+
+状态：P0-P7 的本地 SQLite/前端/API/评测闭环已完成并有门禁证据；外部生产基础设施不在本计划已完成声明内。
+
+已完成：
+
+- **P4 Review UI 与用户控制**：新增治理 review queue/facts/shadow-diff API，支持 approve/reject/retract/edit/merge；`FactsPage` 可处理 quarantined facts、编辑、合并和导出，人工动作写入 audit log。
+- **P5 Document Claim Memory**：新增 document claim sheet、证据定位评估、document replaced 后 stale/expired 标记。
+- **P6 服务端硬化原语**：新增单 worker 写队列、幂等键、固定窗口限流、namespace key、本地 trace event、SQLite backup/restore。
+- **P7 评测与公开证据升级**：新增 governance eval suite 与 CLI 报告，保存 sample hash、prompt hash、code hash、lane 汇总和 failure gallery。
+
+本地验收证据：
+
+- `python -m pytest -m "not integration and not slow" -q` → 844 passed, 2 warnings。
+- `python -m ruff check .` → All checks passed。
+- `python -m mypy` → Success: no issues found in 31 source files。
+- `python scripts/audit_architecture_imports.py --strict` → ARCHITECTURE_IMPORT_AUDIT_OK。
+- `python scripts/audit_public_api_docstrings.py --strict` → PUBLIC_API_DOCSTRING_COVERAGE=1.000。
+- `npm --prefix frontend test -- src/api.test.ts` → 26 passed。
+- `npm --prefix frontend run build` → built successfully。
+- `python scripts/run_governance_eval.py --out-dir "$env:TEMP\mase-governance-eval-smoke"` → release_gate=passed pass_rate=1.000。
+
+仍需另行验收：
+
+- 真实多租户生产部署、高并发压测、外部 observability collector、生产级 RBAC/SSO、正式 release gate 脚本仍未安装；这些不能从本地 SQLite 闭环推导为生产 ready。
