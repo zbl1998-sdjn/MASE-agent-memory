@@ -117,6 +117,20 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
             for agent_type in ("router", "notetaker", "planner", "executor")
         }
 
+    @staticmethod
+    def _evidence_pack_sheet(*, user_question: str, keywords: list[str]) -> str | None:
+        """编译治理层 Evidence Pack 作为 executor 事实表;失败返回 None(调用方回退)。
+
+        best-effort:治理层是增量真源,任何异常不得影响既有问答主链。
+        """
+        try:
+            from .governance import evidence_pack as _ep
+
+            pack = _ep.compile_evidence_pack(user_question, keywords or [user_question])
+            return _ep.render_markdown(pack)
+        except Exception:
+            return None
+
     def run_with_trace(
         self,
         user_question: str,
@@ -226,6 +240,13 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
                     search_results=search_results,
                     memory_heat=memory_heat,
                 )
+                # 治理层注入(P3,opt-in):executor 面对 Evidence Pack 而非记忆
+                # 仓库(总纲 §4.7.1)。默认关闭,长记忆基准链路不走此分支。
+                if str(os.environ.get("MASE_EVIDENCE_PACK_INJECTION") or "").strip() in {"1", "true", "yes"}:
+                    packed = self._evidence_pack_sheet(user_question=user_question, keywords=keywords)
+                    if packed is not None:
+                        fact_sheet = packed
+                        notetaker_mode = "evidence_pack"
             bus.publish(
                 Topics.NOTETAKER_FACT_SHEET_DONE,
                 {"mode": notetaker_mode, "fact_sheet_chars": len(fact_sheet)},
