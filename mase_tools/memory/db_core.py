@@ -746,6 +746,22 @@ def _create_legacy_schema(db_path: Path) -> None:
             )
         """)
 
+        # 3.13 治理层 P3(additive):答案审计(§4.7.3 审计日志必须保存)。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS answer_audits (
+                audit_id TEXT PRIMARY KEY,
+                trace_id TEXT NOT NULL,
+                answer_hash TEXT NOT NULL,
+                spans_json TEXT NOT NULL,
+                violations_json TEXT NOT NULL,
+                verdict TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+        """)
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_answer_audits_trace ON answer_audits(trace_id, created_at)"
+        )
+
         # 3.11 治理层 P1(additive):人工 review 与安全脱敏动作留痕。
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS review_actions (

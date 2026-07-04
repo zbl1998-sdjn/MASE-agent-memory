@@ -21,7 +21,7 @@
 | Unsupported 检出 | 句含候选集中 quarantined 事实值 → UNSUPPORTED_MEMORY_CLAIM(violation) | 隔离区未审核,答案不得当事实引用 |
 | Conflict 检出 | 句含 pack.conflicts 任一侧值:答案**同时呈现双方值**或含"冲突"字样 → CONFLICTING(合规,显式报告);只含单侧 → violation(单边采信) | §4.7.1"report the conflict instead of choosing silently" |
 | 其余句子 | UNTAGGED(不判);无一命中记忆值的答案 verdict=pass | 只审计记忆声明,不管一般内容(如实边界) |
-| verdict | 无 violation → `pass`;有 → `revise`;violation 句数 > 总句数 50% 或(Verified 为空且有 violation)→ `refuse` | 机械阈值,常量可调 |
+| verdict | 无 violation → `pass`;有 violation 且 Verified 非空 → `revise`(标注修订);有 violation 且 Verified 为空 → `refuse` | 实现期修订(gold set 驱动):比例阈值会把"部分违规但有支撑"的答案误拒,refuse 收敛为零支撑场景 |
 | revise | **标注式**:violation 句后插入 `〔MASE治理:<原因,fact_id>〕`;不改写原值、不二次生成 | 白盒:修订=可见警示,改写留人/上层模型 |
 | refuse | 固定拒答文案 + pack.unknowns 列表("证据不足,以下未知:…") | §8.4 验收"证据不足时输出 unknown 而非编造" |
 | 审计 | 新表 `answer_audits`(additive):audit_id/trace_id/answer_hash/spans_json/violations_json/verdict/created_at | §4.7.3"审计日志必须保存";总纲 §5.1 无此表,按同风格补 |

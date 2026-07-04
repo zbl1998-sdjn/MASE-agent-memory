@@ -141,6 +141,35 @@ def mase2_compile_evidence_pack(
     return result
 
 
+def mase2_verify_answer(
+    question: str,
+    keywords: list[str],
+    answer: str,
+    *,
+    entity_id: str | None = None,
+    top_k: int = 8,
+) -> dict[str, Any]:
+    """答案反幻觉核对(P3):编译 Evidence Pack → 逐句核对 → 标注修订/拒答。
+
+    返回 dict:verdict(pass|revise|refuse)/spans/violations/revised_text/
+    trace_id/audit_id。审计自动落 answer_audits,与 pack 同 trace 可回放。
+    """
+    from mase.governance.claim_verifier import revise_answer, verify_answer  # noqa: PLC0415
+    from mase.governance.evidence_pack import compile_evidence_pack  # noqa: PLC0415
+
+    pack = compile_evidence_pack(question, keywords, entity_id=entity_id, top_k=top_k)
+    audit = verify_answer(answer, pack)
+    return {
+        "verdict": audit.verdict,
+        "spans": list(audit.spans),
+        "violations": list(audit.violations),
+        "revised_text": revise_answer(audit),
+        "trace_id": audit.trace_id,
+        "audit_id": audit.audit_id,
+        "unknowns": list(audit.unknowns),
+    }
+
+
 def mase2_search_memory(keywords: list[str], limit: int = 5) -> list[dict[str, Any]]:
     """Facts-first unified recall: entity_state current facts first, then BM25 event-log.
 
