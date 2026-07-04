@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.14.0] — 2026-07-04 — 多模态抽取优化轮二:补抽 + 多行合并 + infra 重试
+
+### Changed
+- **holdout 正式基线刷新(212 例单次全量,反过拟合口径,manifest 零漂移)**:**fact_anchor 0.6271 → 0.7199(+9.3pp)**,halluc_ok **1.0 保持**,recall 0.8891,溯源 1.0,infra 3 → 2;分 lane:sroie 0.65 → **0.8063**、synthetic 0.8226 → 0.8387、xfund_zh 0.53 → 0.545(dev 提升未完全泛化,无回退);证据 `E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260704T032902Z/`
+- **补抽轮(completeness pass)**:dev 逐例取证实锤 92% 的 fact miss 是"底稿已有但单次生成没枚举到"——首轮抽完把已抽行喂回模型只要"尚未覆盖"的新事实((key,value) 去重合并,`completeness_pass_added: N` 留痕;负例页不补抽防诱导幻觉);文档面启用,音频不动
+- **多行值合并指引(抽取器 v4 → v5)**:收据/表单公司名与地址跨行排版被截成单行值(dev 第二大失败形态)→ DOC_FACTS_SYSTEM 增加相邻行合并规则;提示词进幂等键,版本随之 bump
+- **瞬时 infra 重试 `transient_retry.py`**:GPU 高压下 ollama 偶发 CUDA error/5xx 整例白丢 → 管线内对瞬时错误等 3s 重试一次(KEEP_ALIVE=0 下重调即重载模型),`transient_infra_retry` warning 留痕;业务错误不重试,评测 runner 单次口径不变;本次 holdout 实救 5 次调用
+- 测试 849 → 855(+6);取证方法:eval run 的 `work/*/memory.db` 对照 cases.json 锚串,仅用 dev 逐例(holdout 逐例禁看)
+
 ## [0.13.0] — 2026-07-04 — 治理层 P4-P7 + 企业生产化 Phase 0/1 本地闭环
 
 ### Added

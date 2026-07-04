@@ -46,7 +46,14 @@ python -X utf8 benchmarks/multimodal_eval/run_eval.py --split dev --limit 5
 
 ## 正式基线(holdout,单次全量)
 
-- **v1.1 基线(2026-07-03)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260703T084941Z/`
+- **当前基线(2026-07-04,优化轮二收口)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260704T032902Z/`
+  (`sample_ids_sha256=09bc7a2886b7b32e…` 与 manifest 一致,`manifest_mismatch=[]`,212 例单次跑完)
+  - 改动:补抽轮(completeness pass)+ 多行值合并指引(抽取器 v5)+ 瞬时 infra 重试(实救 5 次调用)
+  - overall:fulltext_anchor 0.9325 / **fact_anchor 0.7199(前基线 0.6271,+9.3pp)** / recall 0.8891 /
+    **halluc_ok 1.0(保持)** / provenance_ok 1.0 / char_similarity 0.8895;infra_errors 2(0.9%)
+  - by lane:sroie fact **0.8063**(前 0.65)/ synthetic **0.8387**(前 0.8226)/
+    xfund_zh **0.545**(前 0.53;dev 提升未完全泛化,无回退)/ librispeech char_sim 0.9054
+- **v1.1 首基线(2026-07-03,历史)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260703T084941Z/`
   (`sample_ids_sha256=09bc7a2886b7b32e…` 与 manifest 一致,`manifest_mismatch=[]`,212 例单次跑完)
   - 配置:vision=qwen2.5vl:7b,doc_facts=qwen2.5:14b,speech_facts=qwen2.5:7b,whisper=large-v3;
     `MASE_OLLAMA_KEEP_ALIVE=0` + `CUDA_VISIBLE_DEVICES=1`

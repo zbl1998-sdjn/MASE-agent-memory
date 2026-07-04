@@ -12,7 +12,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
-![Tests](https://img.shields.io/badge/tests-834%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-855%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
 ![LongMemEval](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
@@ -80,7 +80,7 @@ candidate claim
 python -m mase.multimodal ingest ./docs --mode minicpm   # or default qwen2.5vl:7b
 ```
 
-A local VLM/ASR model transcribes images, PDFs, and audio faithfully; a text LLM then extracts facts from that transcript, each with an evidence span located in the transcript and a provenance chain back to the original file bytes (`media_extraction` → `media_asset` → sha256). Official holdout evaluation (212 real+synthetic cases, single run): **fact_anchor_rate 0.627**, **halluc_ok_rate 1.0**. See `benchmarks/multimodal_eval/README.md`.
+A local VLM/ASR model transcribes images, PDFs, and audio faithfully; a text LLM then extracts facts from that transcript, each with an evidence span located in the transcript and a provenance chain back to the original file bytes (`media_extraction` → `media_asset` → sha256). Official holdout evaluation (212 real+synthetic cases, single run, 2026-07-04): **fact_anchor_rate 0.72**, **halluc_ok_rate 1.0**. See `benchmarks/multimodal_eval/README.md`.
 
 ## Evidence
 
