@@ -1,6 +1,6 @@
 # MASE 治理 P3 设计:Answer Claim Verifier + 低幻觉闭环
 
-- 状态:已批准(用户 2026-07-04"继续吧,完成后再打tag"+"直接把计划做完")
+- 状态:已实现并验收(2026-07-04;门禁全绿 + 真实库四类答案验收 PASS,证据 `E:/MASE-runs/p3_acceptance/20260704T001521Z/`;verdict 规则实现期修订见 §2)
 - 日期:2026-07-04
 - 上游纲领:`MASE_whitebox_memory_governance_plan.md` §4.7(Answer Contract)/§8.4(P3 交付与验收);最小路径第 5 件(§13)
 - 前置:P0-P2 已验收(facts/门控/冲突/EvidencePack/审计回放)

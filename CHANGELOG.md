@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.12.0] — 2026-07-04 — 治理层 P3:Answer Claim Verifier 与低幻觉闭环
+
+### Added
+- **Answer Claim Verifier `governance/claim_verifier.py`(总纲 §4.7 机械子集)**:答案逐句映射 Evidence Pack——命中 verified 值 → SUPPORTED_BY_MEMORY(带 fact/evidence id);冲突对非 active 侧值 → CONFLICTING(未显式报告冲突即 violation,"报告"=含"冲突"字样或双方值齐);过时候选值且句中无同键现行值 → STALE;隔离候选值 → UNSUPPORTED_MEMORY_CLAIM;其余 UNTAGGED 如实不判。候选集从 retrieval_runs 审计行回放(审计表=真源)
+- **verdict 与闭环出口**:pass / revise(标注式:violation 句后插〔MASE治理:原因,fact_id〕,不改写不二次生成)/ refuse(零 verified 支撑仍现记忆违规 → 拒答文案 + unknowns 显性输出,**不编造**);审计强制落 `answer_audits` 表(additive),trace 链回 context_packs
+- 门面 `mase2_verify_answer`(编译→核对→修订一步式);**opt-in 注入切换** `MASE_EVIDENCE_PACK_INJECTION=1`(executor 面对 Evidence Pack 而非记忆仓库;默认关,特征测试钉死默认行为逐字节不变,治理异常回退)
+- **P3 验收(verdict=PASS)**:`E:/MASE-runs/p3_acceptance/20260704T001521Z/`(真实库注入 E1 冲突值 → quarantined+conflicts_with;四类答案 supported/单边冲突/显式报告/一般句判定全对);gold set 10 项确定性测试(§8.4 三条逐条覆盖);测试 821 → 834(+13)
+- **治理最小路径(总纲 §13)五件全部完成**:①FactContract ②AdmissionGate ③Conflict+valid_time ④EvidencePack ⑤ClaimVerifier
+
 ## [0.11.0] — 2026-07-04 — 治理层 P2:白盒召回与 Evidence Pack
 
 ### Added
