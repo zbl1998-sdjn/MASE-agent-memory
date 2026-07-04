@@ -17,8 +17,9 @@ from .document_loader import MediaPayload
 from .extractor import ExtractionResult, MediaAssetInfo
 from .image_message import build_image_message
 from .text_facts import extract_facts_from_text
+from .transient_retry import call_with_transient_retry
 
-VISION_EXTRACTOR_VERSION = "4"
+VISION_EXTRACTOR_VERSION = "5"  # v5: 多行值合并指引 + 补抽轮
 
 VISION_TRANSCRIBE_SYSTEM = """你是文档转写器。请逐字忠实转写图片中全部可读文本:
 - 保留数字、单位、编号、日期的原始写法;
@@ -42,6 +43,7 @@ category | key | value | evidence
 - 登记表/申请表/简历类表单的填写项同样是事实:姓名、出生年月、学历、专业、工作单位、
   职位、联系方式、账号、证照编号、机关名称等,逐项抽取;
 - value 必须逐字取自原文,严禁改写格式(原文 12/28/2017 就写 12/28/2017,不得改成 2017-12-28);
+- 名称与地址等要素常跨多行排版:主体/商家名称须合并相邻行取完整名称(含字号、品牌前缀与公司后缀);地址须把门牌、街道、区镇、邮编、城市各行合并为一个完整值;
 - 表单勾选项(√/☑ 选中,□ 未选)只抽取被选中的值;
 - 同类要素属于多个单据/实体时,key 加实体标识区分(如 order_total_po8015),绝不复用同一个 key;
 - 只抽取转写稿中明确出现的内容,严禁推测或补全;
@@ -68,6 +70,7 @@ class VisionExtractor:
     def extract(self, asset: MediaAssetInfo, payload: MediaPayload) -> ExtractionResult:
         pages = payload.pages
         text_parts: list[str] = []
+        retry_warnings: list[str] = []
         vlm_model = "unknown"
         agent_config = self.model_interface.get_effective_agent_config("vision", mode=self.mode)
         provider = str(agent_config.get("provider") or "ollama")
@@ -79,12 +82,17 @@ class VisionExtractor:
                 f" 第 {page.index + 1}/{asset.page_count} 页。请按系统提示转写。"
             )
             message = build_image_message(provider, prompt, page)
-            response = self.model_interface.chat(
-                "vision",
-                messages=[message],
-                mode=self.mode,
-                override_system_prompt=VISION_TRANSCRIBE_SYSTEM,
-            )
+
+            def _transcribe(msg: dict[str, Any] = message) -> dict[str, Any]:
+                reply: dict[str, Any] = self.model_interface.chat(
+                    "vision",
+                    messages=[msg],
+                    mode=self.mode,
+                    override_system_prompt=VISION_TRANSCRIBE_SYSTEM,
+                )
+                return reply
+
+            response = call_with_transient_retry(_transcribe, warnings=retry_warnings)
             vlm_model = str(response.get("model") or vlm_model)
             page_text = str((response.get("message") or {}).get("content") or "").strip()
             if page.index > 0:
@@ -109,5 +117,5 @@ class VisionExtractor:
             extractor_name=self.name,
             model_name=f"{vlm_model}+{llm_model}",
             extractor_version=self.version,
-            warnings=tuple(warnings),
+            warnings=tuple(retry_warnings + warnings),
         )

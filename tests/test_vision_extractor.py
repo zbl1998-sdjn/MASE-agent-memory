@@ -73,7 +73,7 @@ def test_two_stage_transcribe_then_extract_facts():
 
     assert result.full_text == "Invoice #001 total 4200 EUR"
     assert result.candidate_facts[0].key == "invoice_total"
-    assert result.extractor_name == "vision" and result.extractor_version == "4"
+    assert result.extractor_name == "vision" and result.extractor_version == "5"
     # 两段归因:VLM + 事实 LLM
     assert "fake-vlm" in result.model_name and "fake-llm" in result.model_name
     assert result.warnings == ()
@@ -151,3 +151,12 @@ def test_agents_configured_in_config_json():
     assert doc_facts["provider"] == "ollama"
     assert doc_facts["model_name"] == "qwen2.5:14b"
     assert doc_facts["temperature"] == 0.0
+
+
+def test_doc_facts_prompt_has_multiline_merge_guidance():
+    # dev 取证第二大失败形态:公司名/地址跨行排版被截成单行值。
+    from mase.multimodal.vision_extractor import DOC_FACTS_SYSTEM, VISION_EXTRACTOR_VERSION
+
+    assert "跨多行" in DOC_FACTS_SYSTEM or "相邻行" in DOC_FACTS_SYSTEM
+    assert "合并" in DOC_FACTS_SYSTEM
+    assert VISION_EXTRACTOR_VERSION == "5"  # 提示词变更必须 bump(幂等键语义)

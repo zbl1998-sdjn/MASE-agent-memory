@@ -15,6 +15,7 @@ from __future__ import annotations
 from typing import Any
 
 from .extractor import CandidateFact, coerce_confidence, parse_json_blob
+from .transient_retry import call_with_transient_retry
 
 TEXT_FACTS_CHUNK_CHARS = 6000  # 超过则按行边界分块(不劈行)
 
@@ -125,10 +126,13 @@ def extract_facts_from_text(
 
     def _call(content: str) -> list[CandidateFact] | None:
         nonlocal llm_model
-        response = model_interface.chat(
-            agent_type,
-            messages=[{"role": "user", "content": content}],
-            override_system_prompt=system_prompt,
+        response = call_with_transient_retry(
+            lambda: model_interface.chat(
+                agent_type,
+                messages=[{"role": "user", "content": content}],
+                override_system_prompt=system_prompt,
+            ),
+            warnings=warnings,
         )
         llm_model = str(response.get("model") or llm_model)
         raw = str((response.get("message") or {}).get("content") or "")
