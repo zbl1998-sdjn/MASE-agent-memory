@@ -85,6 +85,45 @@ class FactUpsertRequest(BaseModel):
     visibility: str | None = None
 
 
+class GovernanceReviewActionRequest(BaseModel):
+    """治理事实人工动作请求；reviewer 缺省时使用鉴权 actor_id。"""
+
+    reviewer: str | None = None
+    reason: str | None = None
+    tenant_id: str | None = None
+    workspace_id: str | None = None
+    visibility: str | None = None
+
+
+class GovernanceFactEditRequest(BaseModel):
+    """治理事实修订请求；新事实必须重新绑定可定位证据。"""
+
+    object_value: str
+    evidence_text: str
+    source_full_text: str
+    reviewer: str | None = None
+    reason: str | None = None
+    subject: str | None = None
+    predicate: str | None = None
+    source_type: str | None = None
+    source_id: str | None = None
+    trust_level: int = 5
+    tenant_id: str | None = None
+    workspace_id: str | None = None
+    visibility: str | None = None
+
+
+class GovernanceFactMergeRequest(BaseModel):
+    """治理事实归并请求；source fact 会撤回,target fact 保持为真源。"""
+
+    target_fact_id: str
+    reviewer: str | None = None
+    reason: str | None = None
+    tenant_id: str | None = None
+    workspace_id: str | None = None
+    visibility: str | None = None
+
+
 class SessionStateRequest(BaseModel):
     """短期/会话状态写入请求，适合保存当前工作台上下文。"""
 

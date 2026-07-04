@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from integrations.openai_compat.auth_dependencies import require_write_access
 from integrations.openai_compat.responses import (
@@ -20,6 +20,9 @@ from integrations.openai_compat.runtime import memory_service
 from integrations.openai_compat.schemas import (
     ConsolidateRequest,
     FactUpsertRequest,
+    GovernanceFactEditRequest,
+    GovernanceFactMergeRequest,
+    GovernanceReviewActionRequest,
     MemoryCorrectionRequest,
     MemoryEventRequest,
     MemoryRecallRequest,
@@ -29,6 +32,19 @@ from integrations.openai_compat.schemas import (
 )
 from mase.audit_log import append_audit_event
 from mase.auth_policy import AuthContext, default_auth_context
+from mase.governance.fact_store import (
+    approve_fact,
+    edit_fact,
+    get_fact,
+    list_review_queue,
+    merge_facts,
+    reject_fact,
+    retract_fact,
+)
+from mase.governance.fact_store import (
+    list_facts as list_governance_facts,
+)
+from mase.governance.write_facade import GovernedFactWriteFacade
 from mase_tools.memory.db_core import PROFILE_TEMPLATES
 
 router = APIRouter()
@@ -59,6 +75,28 @@ def _audit_success(
         scope=scope,
         metadata=metadata,
     )
+
+
+def _governance_scope_args(scope: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "tenant_id": scope.get("tenant_id"),
+        "workspace_id": scope.get("workspace_id"),
+        "visibility": scope.get("visibility"),
+    }
+
+
+def _reviewer(req: Any, auth: AuthContext) -> str:
+    return str(getattr(req, "reviewer", None) or auth.actor_id)
+
+
+def _ensure_governance_fact_in_scope(fact_id: str, scope: dict[str, Any]) -> dict[str, Any]:
+    fact = get_fact(fact_id)
+    if fact is None:
+        raise HTTPException(status_code=404, detail=f"fact_not_found:{fact_id}")
+    for key, expected in scope.items():
+        if expected is not None and fact.get(key) != expected:
+            raise HTTPException(status_code=404, detail=f"fact_not_found_in_scope:{fact_id}")
+    return fact
 
 
 @router.post("/v1/memory/recall")
@@ -249,6 +287,200 @@ def memory_fact_forget(
         metadata={"deleted_count": result.get("deleted_count")},
     )
     return response_object("mase.memory.forget_fact", result, {"scope": scope})
+
+
+@router.get("/v1/memory/governance/review-queue")
+def memory_governance_review_queue(
+    tenant_id: str | None = None,
+    workspace_id: str | None = None,
+    visibility: str | None = None,
+) -> dict[str, Any]:
+    """列出治理层待人工裁决事实，带证据与冲突上下文。"""
+    scope = scope_from_query(tenant_id, workspace_id, visibility)
+    rows = list_review_queue(**_governance_scope_args(scope))
+    return response_object(
+        "mase.memory.governance.review_queue",
+        rows,
+        {"scope": scope, "result_count": len(rows)},
+    )
+
+
+@router.get("/v1/memory/governance/facts")
+def memory_governance_facts(
+    entity_id: str | None = None,
+    status: str | None = None,
+    tenant_id: str | None = None,
+    workspace_id: str | None = None,
+    visibility: str | None = None,
+) -> dict[str, Any]:
+    """列出治理层 FactContract 行；这是旧 entity_state CRUD 之外的可证明事实视图。"""
+    scope = scope_from_query(tenant_id, workspace_id, visibility)
+    rows = list_governance_facts(
+        entity_id=entity_id,
+        status=status,
+        **_governance_scope_args(scope),
+    )
+    return response_object(
+        "mase.memory.governance.facts",
+        rows,
+        {"scope": scope, "result_count": len(rows)},
+    )
+
+
+@router.get("/v1/memory/governance/shadow-diff")
+def memory_governance_shadow_diff(
+    category: str | None = None,
+    entity_key: str | None = None,
+    tenant_id: str | None = None,
+    workspace_id: str | None = None,
+    visibility: str | None = None,
+) -> dict[str, Any]:
+    """Compare legacy entity_state with governed fact rows during dual-write cutover."""
+    scope = scope_from_query(tenant_id, workspace_id, visibility)
+    report = GovernedFactWriteFacade().shadow_read_diff(
+        category=category,
+        key=entity_key,
+        scope_filters=scope,
+    )
+    return response_object(
+        "mase.memory.governance.shadow_diff",
+        report,
+        {"scope": scope},
+    )
+
+
+@router.post("/v1/memory/governance/facts/{fact_id}/approve")
+def memory_governance_fact_approve(
+    fact_id: str,
+    req: GovernanceReviewActionRequest,
+    auth: AuthContext = Depends(require_write_access),
+) -> dict[str, Any]:
+    scope = scope_from_request(req)
+    _ensure_governance_fact_in_scope(fact_id, scope)
+    ok, message = approve_fact(fact_id, reviewer=_reviewer(req, auth), reason=req.reason)
+    if not ok:
+        raise HTTPException(status_code=400, detail=message)
+    _audit_success(
+        auth,
+        action="memory.governance_fact.approve",
+        resource_type="governance_fact",
+        resource_id=fact_id,
+        scope=scope,
+        metadata={"reason": req.reason},
+    )
+    return response_object("mase.memory.governance.fact_action", {"fact_id": fact_id, "action": "approve", "message": message})
+
+
+@router.post("/v1/memory/governance/facts/{fact_id}/reject")
+def memory_governance_fact_reject(
+    fact_id: str,
+    req: GovernanceReviewActionRequest,
+    auth: AuthContext = Depends(require_write_access),
+) -> dict[str, Any]:
+    scope = scope_from_request(req)
+    _ensure_governance_fact_in_scope(fact_id, scope)
+    ok, message = reject_fact(fact_id, reviewer=_reviewer(req, auth), reason=req.reason)
+    if not ok:
+        raise HTTPException(status_code=400, detail=message)
+    _audit_success(
+        auth,
+        action="memory.governance_fact.reject",
+        resource_type="governance_fact",
+        resource_id=fact_id,
+        scope=scope,
+        metadata={"reason": req.reason},
+    )
+    return response_object("mase.memory.governance.fact_action", {"fact_id": fact_id, "action": "reject", "message": message})
+
+
+@router.post("/v1/memory/governance/facts/{fact_id}/retract")
+def memory_governance_fact_retract(
+    fact_id: str,
+    req: GovernanceReviewActionRequest,
+    auth: AuthContext = Depends(require_write_access),
+) -> dict[str, Any]:
+    scope = scope_from_request(req)
+    _ensure_governance_fact_in_scope(fact_id, scope)
+    ok = retract_fact(fact_id, req.reason or "manual retract", reviewer=_reviewer(req, auth))
+    if not ok:
+        raise HTTPException(status_code=404, detail=f"fact_not_found:{fact_id}")
+    _audit_success(
+        auth,
+        action="memory.governance_fact.retract",
+        resource_type="governance_fact",
+        resource_id=fact_id,
+        scope=scope,
+        metadata={"reason": req.reason},
+    )
+    return response_object("mase.memory.governance.fact_action", {"fact_id": fact_id, "action": "retract"})
+
+
+@router.post("/v1/memory/governance/facts/{fact_id}/edit")
+def memory_governance_fact_edit(
+    fact_id: str,
+    req: GovernanceFactEditRequest,
+    auth: AuthContext = Depends(require_write_access),
+) -> dict[str, Any]:
+    scope = scope_from_request(req)
+    _ensure_governance_fact_in_scope(fact_id, scope)
+    ok, message, new_fact = edit_fact(
+        fact_id,
+        reviewer=_reviewer(req, auth),
+        reason=req.reason,
+        subject=req.subject,
+        predicate=req.predicate,
+        object_value=req.object_value,
+        evidence_text=req.evidence_text,
+        source_full_text=req.source_full_text,
+        source_type=req.source_type,
+        source_id=req.source_id,
+        trust_level=req.trust_level,
+    )
+    if not ok:
+        raise HTTPException(status_code=400, detail=message)
+    _audit_success(
+        auth,
+        action="memory.governance_fact.edit",
+        resource_type="governance_fact",
+        resource_id=fact_id,
+        scope=scope,
+        metadata={"new_fact_id": (new_fact or {}).get("fact_id"), "reason": req.reason},
+    )
+    return response_object(
+        "mase.memory.governance.fact_action",
+        {"fact_id": fact_id, "action": "edit", "message": message, "new_fact": new_fact},
+    )
+
+
+@router.post("/v1/memory/governance/facts/{fact_id}/merge")
+def memory_governance_fact_merge(
+    fact_id: str,
+    req: GovernanceFactMergeRequest,
+    auth: AuthContext = Depends(require_write_access),
+) -> dict[str, Any]:
+    scope = scope_from_request(req)
+    _ensure_governance_fact_in_scope(fact_id, scope)
+    _ensure_governance_fact_in_scope(req.target_fact_id, scope)
+    ok, message = merge_facts(
+        fact_id,
+        req.target_fact_id,
+        reviewer=_reviewer(req, auth),
+        reason=req.reason,
+    )
+    if not ok:
+        raise HTTPException(status_code=400, detail=message)
+    _audit_success(
+        auth,
+        action="memory.governance_fact.merge",
+        resource_type="governance_fact",
+        resource_id=fact_id,
+        scope=scope,
+        metadata={"target_fact_id": req.target_fact_id, "reason": req.reason},
+    )
+    return response_object(
+        "mase.memory.governance.fact_action",
+        {"fact_id": fact_id, "action": "merge", "target_fact_id": req.target_fact_id, "message": message},
+    )
 
 
 @router.get("/v1/memory/session-state/{session_id}")

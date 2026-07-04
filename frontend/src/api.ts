@@ -282,6 +282,45 @@ export const api = {
     }),
   facts: (scope: Scope, category?: string) =>
     request<MaseResponse<JsonRecord[]>>(withQuery("/v1/memory/facts", { ...compactScope(scope), category })),
+  governanceReviewQueue: (scope: Scope) =>
+    request<MaseResponse<JsonRecord[]>>(withQuery("/v1/memory/governance/review-queue", compactScope(scope))),
+  governanceFacts: (scope: Scope, status?: string, entityId?: string) =>
+    request<MaseResponse<JsonRecord[]>>(
+      withQuery("/v1/memory/governance/facts", { ...compactScope(scope), status, entity_id: entityId })
+    ),
+  governanceShadowDiff: (scope: Scope, category?: string, entityKey?: string) =>
+    request<MaseResponse<JsonRecord>>(
+      withQuery("/v1/memory/governance/shadow-diff", {
+        ...compactScope(scope),
+        category,
+        entity_key: entityKey
+      })
+    ),
+  approveGovernanceFact: (factId: string, body: JsonRecord, scope: Scope) =>
+    request<MaseResponse<JsonRecord>>(`/v1/memory/governance/facts/${encodeURIComponent(factId)}/approve`, {
+      method: "POST",
+      body: JSON.stringify(scopedBody(body, scope))
+    }),
+  rejectGovernanceFact: (factId: string, body: JsonRecord, scope: Scope) =>
+    request<MaseResponse<JsonRecord>>(`/v1/memory/governance/facts/${encodeURIComponent(factId)}/reject`, {
+      method: "POST",
+      body: JSON.stringify(scopedBody(body, scope))
+    }),
+  retractGovernanceFact: (factId: string, body: JsonRecord, scope: Scope) =>
+    request<MaseResponse<JsonRecord>>(`/v1/memory/governance/facts/${encodeURIComponent(factId)}/retract`, {
+      method: "POST",
+      body: JSON.stringify(scopedBody(body, scope))
+    }),
+  editGovernanceFact: (factId: string, body: JsonRecord, scope: Scope) =>
+    request<MaseResponse<JsonRecord>>(`/v1/memory/governance/facts/${encodeURIComponent(factId)}/edit`, {
+      method: "POST",
+      body: JSON.stringify(scopedBody(body, scope))
+    }),
+  mergeGovernanceFact: (factId: string, body: JsonRecord, scope: Scope) =>
+    request<MaseResponse<JsonRecord>>(`/v1/memory/governance/facts/${encodeURIComponent(factId)}/merge`, {
+      method: "POST",
+      body: JSON.stringify(scopedBody(body, scope))
+    }),
   upsertFact: (body: JsonRecord, scope: Scope) =>
     request<MaseResponse<JsonRecord>>("/v1/memory/facts", {
       method: "POST",

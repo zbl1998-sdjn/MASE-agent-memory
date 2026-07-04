@@ -387,6 +387,58 @@ describe("api.runTrace", () => {
     });
   });
 
+  it("requests governance review surfaces with scoped filters", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({ object: "mase.memory.governance", data: {} })
+    } as Response);
+
+    await api.governanceReviewQueue({ tenant_id: "tenant-a", workspace_id: "ws-a", visibility: "shared" });
+    await api.governanceFacts({ tenant_id: "tenant-a" }, "quarantined", "project:1");
+    await api.governanceShadowDiff({ tenant_id: "tenant-a" }, "project_status", "owner");
+
+    expect(String(fetchSpy.mock.calls[0]?.[0])).toContain("/v1/memory/governance/review-queue?");
+    expect(String(fetchSpy.mock.calls[0]?.[0])).toContain("workspace_id=ws-a");
+    expect(String(fetchSpy.mock.calls[0]?.[0])).toContain("visibility=shared");
+    expect(String(fetchSpy.mock.calls[1]?.[0])).toContain("/v1/memory/governance/facts?");
+    expect(String(fetchSpy.mock.calls[1]?.[0])).toContain("status=quarantined");
+    expect(String(fetchSpy.mock.calls[1]?.[0])).toContain("entity_id=project%3A1");
+    expect(String(fetchSpy.mock.calls[2]?.[0])).toContain("/v1/memory/governance/shadow-diff?");
+    expect(String(fetchSpy.mock.calls[2]?.[0])).toContain("category=project_status");
+    expect(String(fetchSpy.mock.calls[2]?.[0])).toContain("entity_key=owner");
+  });
+
+  it("posts governance review actions with scope in the body", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => ({ object: "mase.memory.governance.fact_action", data: {} })
+    } as Response);
+
+    await api.approveGovernanceFact("fact/a b", { reason: "ok" }, { tenant_id: "tenant-a" });
+    await api.rejectGovernanceFact("fact/a b", { reason: "bad" }, { tenant_id: "tenant-a" });
+    await api.retractGovernanceFact("fact/a b", { reason: "remove" }, { tenant_id: "tenant-a" });
+    await api.editGovernanceFact(
+      "fact/a b",
+      { object_value: "Alice", evidence_text: "owner Alice", source_full_text: "owner Alice" },
+      { tenant_id: "tenant-a" }
+    );
+    await api.mergeGovernanceFact("fact/a b", { target_fact_id: "fact-target" }, { tenant_id: "tenant-a" });
+
+    expect(String(fetchSpy.mock.calls[0]?.[0])).toContain("/v1/memory/governance/facts/fact%2Fa%20b/approve");
+    expect(JSON.parse(String((fetchSpy.mock.calls[0]?.[1] as RequestInit).body))).toEqual({
+      reason: "ok",
+      tenant_id: "tenant-a"
+    });
+    expect(String(fetchSpy.mock.calls[1]?.[0])).toContain("/reject");
+    expect(String(fetchSpy.mock.calls[2]?.[0])).toContain("/retract");
+    expect(String(fetchSpy.mock.calls[3]?.[0])).toContain("/edit");
+    expect(String(fetchSpy.mock.calls[4]?.[0])).toContain("/merge");
+    expect(JSON.parse(String((fetchSpy.mock.calls[4]?.[1] as RequestInit).body))).toEqual({
+      target_fact_id: "fact-target",
+      tenant_id: "tenant-a"
+    });
+  });
+
   it("manages repair cases through scoped lifecycle APIs", async () => {
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue({
       ok: true,

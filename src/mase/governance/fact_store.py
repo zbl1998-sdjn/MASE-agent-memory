@@ -33,6 +33,7 @@ from .fact_contract import (
     FactContract,
     FactStatus,
     new_evidence_id,
+    new_fact_id,
     utc_now,
 )
 
@@ -300,7 +301,13 @@ def _max_trust(cursor: Any, fact_id: str) -> int:
     return int(row["t"]) if row is not None and row["t"] is not None else 0
 
 
-def retract_fact(fact_id: str, reason: str, *, db_path: str | Path | None = None) -> bool:
+def retract_fact(
+    fact_id: str,
+    reason: str,
+    *,
+    reviewer: str | None = None,
+    db_path: str | Path | None = None,
+) -> bool:
     """撤回事实(任意现状 → retracted);理由与时间留痕在 confidence_basis_json。"""
     now = utc_now()
     with closing(get_connection(db_path)) as conn, conn:
@@ -329,7 +336,149 @@ def retract_fact(fact_id: str, reason: str, *, db_path: str | Path | None = None
                 fact_id,
             ),
         )
+        if reviewer:
+            _record_review_action(
+                cursor,
+                fact_id=fact_id,
+                reviewer=reviewer,
+                action="retract",
+                reason=reason,
+            )
     return True
+
+
+def edit_fact(
+    fact_id: str,
+    *,
+    reviewer: str,
+    evidence_text: str,
+    source_full_text: str,
+    reason: str | None = None,
+    subject: str | None = None,
+    predicate: str | None = None,
+    object_value: str | None = None,
+    source_type: str | None = None,
+    source_id: str | None = None,
+    trust_level: int = 5,
+    db_path: str | Path | None = None,
+) -> tuple[bool, str, dict[str, Any] | None]:
+    """人工修订事实:新提案保留证据定位,旧 fact 撤回留痕。
+
+    edit 不原地覆盖 facts 行,避免破坏版本/审计链。调用方必须给出用于修订值的
+    evidence_text/source_full_text;若新证据无法定位,新 fact 仍会按状态机隔离。
+    """
+    current = get_fact(fact_id, db_path=db_path)
+    if current is None:
+        return False, f"fact {fact_id} 不存在", None
+    old = FactContract.from_row(current)
+    basis = dict(old.confidence_basis or {})
+    basis["edited_from"] = fact_id
+    basis["edited_by"] = reviewer
+    if reason:
+        basis["edit_reason"] = reason
+    evidence = current.get("evidence") or []
+    first_evidence = evidence[0] if evidence else {}
+    replacement = FactContract(
+        fact_id=new_fact_id(),
+        entity_id=old.entity_id,
+        claim_type=old.claim_type,
+        subject=subject or old.subject,
+        predicate=predicate or old.predicate,
+        object_value=object_value or old.object_value,
+        confidence=old.confidence,
+        observed_at=utc_now(),
+        qualifiers=old.qualifiers,
+        confidence_basis=basis,
+        valid_from=old.valid_from,
+        valid_to=old.valid_to,
+        visibility=old.visibility,
+        sensitivity=old.sensitivity,
+        tenant_id=old.tenant_id,
+        workspace_id=old.workspace_id,
+    )
+    proposed = propose_fact(
+        replacement,
+        evidence_text,
+        source_type=source_type or str(first_evidence.get("source_type") or "manual_entry"),
+        source_id=source_id or str(first_evidence.get("source_id") or fact_id),
+        trust_level=trust_level,
+        source_full_text=source_full_text,
+        db_path=db_path,
+    )
+    if proposed.fact_id != fact_id:
+        retract_fact(
+            fact_id,
+            reason or f"edited into {proposed.fact_id}",
+            reviewer=reviewer,
+            db_path=db_path,
+        )
+    return True, "edited", get_fact(proposed.fact_id, db_path=db_path)
+
+
+def merge_facts(
+    source_fact_id: str,
+    target_fact_id: str,
+    *,
+    reviewer: str,
+    reason: str | None = None,
+    db_path: str | Path | None = None,
+) -> tuple[bool, str]:
+    """人工归并重复事实:source 撤回,target 保持为合并后真源。"""
+    if source_fact_id == target_fact_id:
+        return False, "source 与 target 不能相同"
+    now = utc_now()
+    with closing(get_connection(db_path)) as conn, conn:
+        cursor = conn.cursor()
+        source = cursor.execute(
+            "SELECT confidence_basis_json FROM facts WHERE fact_id = ?", (source_fact_id,)
+        ).fetchone()
+        target = cursor.execute(
+            "SELECT 1 FROM facts WHERE fact_id = ?", (target_fact_id,)
+        ).fetchone()
+        if source is None:
+            return False, f"source fact {source_fact_id} 不存在"
+        if target is None:
+            return False, f"target fact {target_fact_id} 不存在"
+        basis: dict[str, Any] = {}
+        if source["confidence_basis_json"]:
+            try:
+                loaded = json.loads(source["confidence_basis_json"])
+                if isinstance(loaded, dict):
+                    basis = loaded
+            except json.JSONDecodeError:
+                pass
+        basis["merged_into"] = target_fact_id
+        basis["merge_reason"] = reason
+        basis["merged_at"] = now
+        cursor.execute(
+            """
+            UPDATE facts
+            SET status = ?, updated_at = ?, valid_to = COALESCE(valid_to, ?), confidence_basis_json = ?
+            WHERE fact_id = ?
+            """,
+            (
+                FactStatus.RETRACTED,
+                now,
+                now,
+                json.dumps(basis, ensure_ascii=False, sort_keys=True),
+                source_fact_id,
+            ),
+        )
+        cursor.execute(
+            """
+            INSERT OR IGNORE INTO fact_edges (from_fact_id, to_fact_id, edge_type, created_at)
+            VALUES (?, ?, 'merged_into', ?)
+            """,
+            (source_fact_id, target_fact_id, now),
+        )
+        _record_review_action(
+            cursor,
+            fact_id=source_fact_id,
+            reviewer=reviewer,
+            action="merge",
+            reason=reason or f"merged into {target_fact_id}",
+        )
+    return True, "merged"
 
 
 def get_fact(
@@ -370,6 +519,9 @@ def list_facts(
     *,
     entity_id: str | None = None,
     status: str | None = None,
+    tenant_id: str | None = None,
+    workspace_id: str | None = None,
+    visibility: str | None = None,
     db_path: str | Path | None = None,
 ) -> list[dict[str, Any]]:
     """列事实(可按 entity/status 过滤),新→旧排序;惰性迁移到期 active(spec §2)。"""
@@ -381,6 +533,15 @@ def list_facts(
     if status is not None:
         clauses.append("status = ?")
         params.append(status)
+    if tenant_id is not None:
+        clauses.append("tenant_id = ?")
+        params.append(tenant_id)
+    if workspace_id is not None:
+        clauses.append("workspace_id = ?")
+        params.append(workspace_id)
+    if visibility is not None:
+        clauses.append("visibility = ?")
+        params.append(visibility)
     where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
     with closing(get_connection(db_path)) as conn, conn:
         conn.execute(
@@ -521,13 +682,32 @@ def reject_fact(
     return True, "rejected"
 
 
-def list_review_queue(*, db_path: str | Path | None = None) -> list[dict[str, Any]]:
+def list_review_queue(
+    *,
+    tenant_id: str | None = None,
+    workspace_id: str | None = None,
+    visibility: str | None = None,
+    db_path: str | Path | None = None,
+) -> list[dict[str, Any]]:
     """review 队列:全部 quarantined 事实 + 证据 + 冲突对手摘要(供人工裁决)。"""
+    clauses = ["status = 'quarantined'"]
+    params: list[Any] = []
+    if tenant_id is not None:
+        clauses.append("tenant_id = ?")
+        params.append(tenant_id)
+    if workspace_id is not None:
+        clauses.append("workspace_id = ?")
+        params.append(workspace_id)
+    if visibility is not None:
+        clauses.append("visibility = ?")
+        params.append(visibility)
+    where = " AND ".join(clauses)
     with closing(get_connection(db_path)) as conn:
         cursor = conn.cursor()
         queue: list[dict[str, Any]] = []
         for row in cursor.execute(
-            "SELECT * FROM facts WHERE status = 'quarantined' ORDER BY updated_at DESC, fact_id"
+            f"SELECT * FROM facts WHERE {where} ORDER BY updated_at DESC, fact_id",  # noqa: S608 - clauses are fixed
+            params,
         ).fetchall():
             item = _row_to_dict(row)
             item["evidence"] = [

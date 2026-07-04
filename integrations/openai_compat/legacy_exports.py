@@ -44,6 +44,30 @@ from integrations.openai_compat.memory_routes import (
     memory_facts as memory_facts,
 )
 from integrations.openai_compat.memory_routes import (
+    memory_governance_fact_approve as memory_governance_fact_approve,
+)
+from integrations.openai_compat.memory_routes import (
+    memory_governance_fact_edit as memory_governance_fact_edit,
+)
+from integrations.openai_compat.memory_routes import (
+    memory_governance_fact_merge as memory_governance_fact_merge,
+)
+from integrations.openai_compat.memory_routes import (
+    memory_governance_fact_reject as memory_governance_fact_reject,
+)
+from integrations.openai_compat.memory_routes import (
+    memory_governance_fact_retract as memory_governance_fact_retract,
+)
+from integrations.openai_compat.memory_routes import (
+    memory_governance_facts as memory_governance_facts,
+)
+from integrations.openai_compat.memory_routes import (
+    memory_governance_review_queue as memory_governance_review_queue,
+)
+from integrations.openai_compat.memory_routes import (
+    memory_governance_shadow_diff as memory_governance_shadow_diff,
+)
+from integrations.openai_compat.memory_routes import (
     memory_procedure_register as memory_procedure_register,
 )
 from integrations.openai_compat.memory_routes import (
@@ -127,6 +151,15 @@ from integrations.openai_compat.schemas import (
     GoldenTestsRequest as GoldenTestsRequest,
 )
 from integrations.openai_compat.schemas import (
+    GovernanceFactEditRequest as GovernanceFactEditRequest,
+)
+from integrations.openai_compat.schemas import (
+    GovernanceFactMergeRequest as GovernanceFactMergeRequest,
+)
+from integrations.openai_compat.schemas import (
+    GovernanceReviewActionRequest as GovernanceReviewActionRequest,
+)
+from integrations.openai_compat.schemas import (
     MemoryCorrectionRequest as MemoryCorrectionRequest,
 )
 from integrations.openai_compat.schemas import (
@@ -177,6 +210,9 @@ __all__ = [
     "ConsolidateRequest",
     "FactUpsertRequest",
     "GoldenTestsRequest",
+    "GovernanceFactEditRequest",
+    "GovernanceFactMergeRequest",
+    "GovernanceReviewActionRequest",
     "MemoryCorrectionRequest",
     "MemoryEventRequest",
     "MemoryRecallRequest",
@@ -199,6 +235,14 @@ __all__ = [
     "memory_fact_history",
     "memory_fact_upsert",
     "memory_facts",
+    "memory_governance_fact_approve",
+    "memory_governance_fact_edit",
+    "memory_governance_fact_merge",
+    "memory_governance_fact_reject",
+    "memory_governance_fact_retract",
+    "memory_governance_facts",
+    "memory_governance_review_queue",
+    "memory_governance_shadow_diff",
     "memory_procedure_register",
     "memory_procedures",
     "memory_recall",
