@@ -56,7 +56,7 @@ def test_two_stage_transcribe_then_extract_facts():
 
     fake = FakeModelInterface(
         transcripts=["Invoice #001 total 4200 EUR"],
-        facts_replies=[_facts_reply()],
+        facts_replies=[_facts_reply(), "无事实"],  # 第二条:补抽轮(completeness pass)无新增
     )
     page_bytes = b"\x89PNGfake"
     result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, page_bytes, "image/png")))

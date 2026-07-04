@@ -99,6 +99,8 @@ class VisionExtractor:
             agent_type="doc_facts",
             system_prompt=DOC_FACTS_SYSTEM,
             text=full_text,
+            # dev 取证:漏抽 92% 是"底稿已有但单次生成没枚举到"——文档面开补抽。
+            completeness_pass=True,
         )
 
         return ExtractionResult(

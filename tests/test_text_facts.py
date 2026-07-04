@@ -131,3 +131,68 @@ def test_chunks_long_text_at_line_boundaries():
     for call in fake.calls:
         for line in call["messages"][0]["content"].splitlines():
             assert line.startswith("line-")
+
+
+def test_completeness_pass_merges_new_facts():
+    # 补抽第二遍:改变输入(附已抽行),只合并未覆盖的新事实。
+    from mase.multimodal.text_facts import extract_facts_from_text
+
+    first = "finance_budget | total | 15.00 | TOTAL 15.00"
+    second = "\n".join([
+        "general_facts | company | RESTORAN HASSAN | RESTORAN HASSAN",
+        "finance_budget | total | 15.00 | TOTAL 15.00",  # 重复项应去重
+    ])
+    fake = FakeModelInterface([first, second])
+    facts, warnings, _ = extract_facts_from_text(
+        fake, agent_type="doc_facts", system_prompt="S", text="RECEIPT",
+        completeness_pass=True,
+    )
+    assert [(f.key, f.value) for f in facts] == [("total", "15.00"), ("company", "RESTORAN HASSAN")]
+    assert any(w.startswith("completeness_pass_added: 1") for w in warnings)
+    # 第二遍输入必须包含首轮已抽行(改变输入)与原文
+    second_input = fake.calls[1]["messages"][0]["content"]
+    assert "RECEIPT" in second_input and "total | 15.00" in second_input
+
+
+def test_completeness_pass_no_addition_is_silent():
+    from mase.multimodal.text_facts import extract_facts_from_text
+
+    fake = FakeModelInterface(["finance_budget | total | 15.00 | T", "无事实"])
+    facts, warnings, _ = extract_facts_from_text(
+        fake, agent_type="doc_facts", system_prompt="S", text="R",
+        completeness_pass=True,
+    )
+    assert len(facts) == 1
+    assert not any("completeness_pass" in w for w in warnings)
+
+
+def test_completeness_pass_malformed_reply_keeps_first_pass():
+    from mase.multimodal.text_facts import extract_facts_from_text
+
+    fake = FakeModelInterface(["finance_budget | total | 15.00 | T", "prose garbage"])
+    facts, warnings, _ = extract_facts_from_text(
+        fake, agent_type="doc_facts", system_prompt="S", text="R",
+        completeness_pass=True,
+    )
+    assert [f.key for f in facts] == ["total"]
+    assert "completeness_pass_unparseable" in warnings
+
+
+def test_completeness_pass_skipped_when_first_pass_empty():
+    # 首轮无事实(装饰页)不补抽:避免对负例页诱导幻觉。
+    from mase.multimodal.text_facts import extract_facts_from_text
+
+    fake = FakeModelInterface(["无事实"])
+    facts, warnings, _ = extract_facts_from_text(
+        fake, agent_type="doc_facts", system_prompt="S", text="装饰页",
+        completeness_pass=True,
+    )
+    assert facts == [] and len(fake.calls) == 1
+
+
+def test_completeness_pass_off_by_default():
+    from mase.multimodal.text_facts import extract_facts_from_text
+
+    fake = FakeModelInterface(["finance_budget | total | 15.00 | T"])
+    extract_facts_from_text(fake, agent_type="doc_facts", system_prompt="S", text="R")
+    assert len(fake.calls) == 1

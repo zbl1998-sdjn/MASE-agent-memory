@@ -102,12 +102,19 @@ def extract_facts_from_text(
     system_prompt: str,
     text: str,
     chunk_chars: int | None = None,
+    completeness_pass: bool = False,
 ) -> tuple[list[CandidateFact], list[str], str]:
     """对底稿全文逐块调用文本 LLM 抽事实;返回 (facts, warnings, llm_model)。
 
     畸形回复降级为该块无事实 + warning,绝不抛穿(底稿已入库可召回,
     事实缺失可重跑,这是两段式的容错红利)。chunk_chars=None 时取模块
     默认(调用方可传自己的常量,如音频侧的 TRANSCRIPT_CHUNK_CHARS)。
+
+    completeness_pass=True 时对每个非空首轮结果补抽一遍:把已抽行喂回
+    模型只要"尚未覆盖"的新事实(dev 取证:漏抽 92% 发生在底稿已有但
+    单次生成没枚举到;附已抽行=改变输入,符合 temp=0 重跑纪律)。首轮
+    无事实(装饰页/负例)不补抽,避免诱导幻觉;补抽结果同 (key,value)
+    去重后并入,失败只记 warning 不影响首轮结果。
     """
     facts: list[CandidateFact] = []
     warnings: list[str] = []
@@ -115,6 +122,17 @@ def extract_facts_from_text(
     chunks = chunk_lines(text, chunk_chars if chunk_chars is not None else TEXT_FACTS_CHUNK_CHARS)
     if len(chunks) > 1:
         warnings.append(f"chunked: {len(chunks)} parts")
+
+    def _call(content: str) -> list[CandidateFact] | None:
+        nonlocal llm_model
+        response = model_interface.chat(
+            agent_type,
+            messages=[{"role": "user", "content": content}],
+            override_system_prompt=system_prompt,
+        )
+        llm_model = str(response.get("model") or llm_model)
+        raw = str((response.get("message") or {}).get("content") or "")
+        return parse_fact_lines(raw)
 
     for chunk_text in chunks:
         parsed: list[CandidateFact] | None = None
@@ -125,14 +143,7 @@ def extract_facts_from_text(
                 + "\n\n(你上一次的输出无法解析。请严格按每行一条"
                   " `category | key | value | evidence` 的格式输出;没有事实就只输出 `无事实`。)"
             )
-            response = model_interface.chat(
-                agent_type,
-                messages=[{"role": "user", "content": content}],
-                override_system_prompt=system_prompt,
-            )
-            llm_model = str(response.get("model") or llm_model)
-            raw = str((response.get("message") or {}).get("content") or "")
-            parsed = parse_fact_lines(raw)
+            parsed = _call(content)
             if parsed is not None:
                 if attempt == 2:
                     warnings.append("unparseable_response(recovered_on_retry)")
@@ -140,5 +151,24 @@ def extract_facts_from_text(
         if parsed is None:
             warnings.append("unparseable_response")
             continue
+        if completeness_pass and parsed:
+            extracted_lines = "\n".join(
+                f"{f.category} | {f.key} | {f.value} | {f.evidence}" for f in parsed
+            )
+            followup = _call(
+                chunk_text
+                + "\n\n(以下事实已抽取完毕。请再次通读上面的转写稿,"
+                  "只输出其中**尚未覆盖**的新事实行,同样每行"
+                  " `category | key | value | evidence`;确认没有遗漏就只输出 `无事实`。)\n"
+                + extracted_lines
+            )
+            if followup is None:
+                warnings.append("completeness_pass_unparseable")
+            elif followup:
+                seen = {(f.key, f.value) for f in parsed}
+                added = [f for f in followup if (f.key, f.value) not in seen]
+                if added:
+                    warnings.append(f"completeness_pass_added: {len(added)}")
+                    parsed = parsed + added
         facts.extend(parsed)
     return facts, warnings, llm_model
