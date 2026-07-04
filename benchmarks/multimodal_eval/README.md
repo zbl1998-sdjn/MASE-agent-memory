@@ -46,7 +46,15 @@ python -X utf8 benchmarks/multimodal_eval/run_eval.py --split dev --limit 5
 
 ## 正式基线(holdout,单次全量)
 
-- **当前基线(2026-07-04,优化轮二收口)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260704T032902Z/`
+- **当前基线(2026-07-05,优化轮三收口)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260704T123334Z/`
+  (`sample_ids_sha256=09bc7a2886b7b32e…` 与 manifest 一致,`manifest_mismatch=[]`,212 例单次跑完)
+  - 改动:① 确定性 KV 行解析并集(抽取器 v6)+ ② XFUND-train 诊断集(治 dev 过拟合的方法论)+ ③ **doc_facts 换 qwen3:14b**(二轮 A/B 主力,think 关闭)
+  - overall:fulltext_anchor 0.9325 / **fact_anchor 0.8505(前基线 0.7199,+13.1pp)** / recall 0.8939 /
+    **halluc_ok 1.0(保持)** / provenance_ok 1.0 / char_similarity 0.8822;infra_errors 2(0.9%,两张老问题图 400)
+  - by lane:sroie fact **0.9281**(前 0.8063)/ xfund_zh **0.735**(前 0.545,qwen3 中文表单大幅补齐)/
+    synthetic 0.8226(持平,已饱和)/ librispeech char_sim 0.8955
+  - **口径说明**:本次为绕开音频 GPU 争用死锁用 `MASE_WHISPER_DEVICE=cpu`(int8),librispeech char_sim 从 0.9054 微降到 0.8955 纯是 int8-CPU vs float16-GPU 所致,音频路径本轮未改、fact_anchor 不受影响。
+- **优化轮二基线(2026-07-04,历史)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260704T032902Z/`
   (`sample_ids_sha256=09bc7a2886b7b32e…` 与 manifest 一致,`manifest_mismatch=[]`,212 例单次跑完)
   - 改动:补抽轮(completeness pass)+ 多行值合并指引(抽取器 v5)+ 瞬时 infra 重试(实救 5 次调用)
   - overall:fulltext_anchor 0.9325 / **fact_anchor 0.7199(前基线 0.6271,+9.3pp)** / recall 0.8891 /

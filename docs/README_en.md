@@ -80,7 +80,7 @@ candidate claim
 python -m mase.multimodal ingest ./docs --mode minicpm   # or default qwen2.5vl:7b
 ```
 
-A local VLM/ASR model transcribes images, PDFs, and audio faithfully; a text LLM then extracts facts from that transcript, each with an evidence span located in the transcript and a provenance chain back to the original file bytes (`media_extraction` → `media_asset` → sha256). Official holdout evaluation (212 real+synthetic cases, single run, 2026-07-04): **fact_anchor_rate 0.72**, **halluc_ok_rate 1.0**. See `benchmarks/multimodal_eval/README.md`.
+A local VLM/ASR model transcribes images, PDFs, and audio faithfully; a text LLM then extracts facts from that transcript, each with an evidence span located in the transcript and a provenance chain back to the original file bytes (`media_extraction` → `media_asset` → sha256). Official holdout evaluation (212 real+synthetic cases, single run, 2026-07-05): **fact_anchor_rate 0.85**, **halluc_ok_rate 1.0**. See `benchmarks/multimodal_eval/README.md`.
 
 ## Evidence
 

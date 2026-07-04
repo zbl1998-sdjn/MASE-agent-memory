@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.15.0] — 2026-07-05 — 多模态抽取优化轮三:KV 并集 + 诊断集 + qwen3:14b
+
+### Changed
+- **holdout 正式基线刷新(212 例单次全量,反过拟合口径,manifest 零漂移)**:**fact_anchor 0.7199 → 0.8505(+13.1pp)**,halluc_ok **1.0 保持**,recall 0.8939,溯源 1.0,infra 2;分 lane:sroie 0.8063→**0.9281**、xfund_zh 0.545→**0.735**、synthetic 0.8226(持平/饱和);证据 `E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260704T123334Z/`
+- **③ doc_facts 换 qwen3:14b(二轮 A/B 主力)**:同尺寸(9.28GB,零运行代价)、`extra_body.think=false` 关思考;A/B 双线完胜——XFUND-train 诊断集 0.6267→0.7733(+14.7pp)、dev sroie 0.7625→0.9375(+17.5pp),零 `<think>` 泄漏
+- **① 确定性 KV 行解析并集(抽取器 v5→v6)**:半结构化 `键:值` 行纯代码解析(半/全角冒号、value 取首冒号后全部保尾部锚串、URL scheme 与纯数字键护栏),值逐字来自底稿(治理 evidence 定位天然通过),装饰页无冒号结构零产出保 halluc_ok;`union_kv_facts` 归一化双向子串去重不删 LLM 事实;dev sroie 0.7375→0.7625
+
+### Added
+- **② XFUND-train 中文表单诊断集(治 dev 过拟合)**:从官方 XFUND v1.0 release 下载 zh.train(149 docs,与冻结评测 zh.val 零重叠)→ 复用标注卫生规则抽 30 docs/150 facts(`benchmarks/multimodal_eval/{build_xfund_diag,run_xfund_diag}.py`);揭示 dev 10 例(0.80)严重过拟合、holdout(0.545)偏低,诊断集给出稳定中间估计 0.6267,为 ③ 模型 A/B 提供非过拟合验证面
+
+### 口径说明
+- 本轮 holdout 为绕开音频 lane 的 whisper/GPU 争用死锁用 `MASE_WHISPER_DEVICE=cpu`(int8);librispeech char_sim 0.9054→0.8955 纯 int8-CPU vs float16-GPU 所致,音频路径未改、fact_anchor 不受影响
+- 测试 855 → 865(+10 KV);取证方法:eval run 的 `work/*/memory.db` 对照 cases.json 锚串,仅用 dev/诊断集逐例(holdout 逐例禁看)
+
 ## [0.14.0] — 2026-07-04 — 多模态抽取优化轮二:补抽 + 多行合并 + infra 重试
 
 ### Changed

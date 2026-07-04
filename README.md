@@ -138,7 +138,7 @@ python mase_cli.py ingest ./docs
 
 - Engine-agnostic: works with any Ollama-served vision/ASR model; provider-aware image serialization also supports OpenAI/Anthropic-style multimodal messages.
 - Every extracted fact resolves back to `media_extraction` (full transcript) → `media_asset` (sha256) → the original file bytes — a complete provenance chain, not a summary.
-- Evaluated on `benchmarks/multimodal_eval/` — 266 cases across synthetic, SROIE (real receipts, MIT), XFUND-zh (real Chinese forms, CC BY-NC-SA), and LibriSpeech (real speech, CC BY); official holdout (212 cases, single run, 2026-07-04): **fact_anchor_rate 0.72**, **halluc_ok_rate 1.0**, provenance 1.0. See `benchmarks/multimodal_eval/README.md`.
+- Evaluated on `benchmarks/multimodal_eval/` — 266 cases across synthetic, SROIE (real receipts, MIT), XFUND-zh (real Chinese forms, CC BY-NC-SA), and LibriSpeech (real speech, CC BY); official holdout (212 cases, single run, 2026-07-05): **fact_anchor_rate 0.85**, **halluc_ok_rate 1.0**, provenance 1.0. See `benchmarks/multimodal_eval/README.md`.
 
 ## Evidence
 
