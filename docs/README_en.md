@@ -12,10 +12,12 @@
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
-![Tests](https://img.shields.io/badge/tests-640%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-834%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
 ![LongMemEval](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
+![Governance](https://img.shields.io/badge/governance-Fact%20Contract%20%E2%86%92%20Claim%20Verifier-8A2BE2)
+![Multimodal](https://img.shields.io/badge/multimodal-image%20%7C%20pdf%20%7C%20audio-informational)
 
 <a href="../README.md"><b>中文</b></a> | <b>English</b>
 
@@ -50,6 +52,35 @@ MASE's primary narrative is the memory system, not a runtime feature list.
 - **Markdown / tri-vault** for human-readable auditability and portability
 - **Entity Fact Sheet** for fact replacement over fact accumulation
 - **Runtime Flow**: Router → Notetaker → Planner → Action → Executor
+- **Governance layer** (`src/mase/governance/`): Fact Contract + mechanically-verified Evidence Spans, an Admission Gate that rejects secrets/PII/malformed claims, a trust-ladder Conflict Resolver, an Evidence Pack Compiler, and an Answer Claim Verifier — see [Memory Governance Layer](#memory-governance-layer).
+- **Multimodal ingestion** (`src/mase/multimodal/`): images, PDFs, and audio become governed facts with a byte-level provenance chain — see [Multimodal Ingestion](#multimodal-ingestion).
+
+## Memory Governance Layer
+
+Every long-lived fact is a provable object, not an opaque row:
+
+```text
+candidate claim
+  -> Admission Gate (structurable? secret/PII? TTL?)
+  -> Evidence Binder (mechanical substring location in the source text)
+  -> Conflict Resolver (trust ladder — low-trust never silently overwrites high-trust)
+  -> active | quarantined | rejected   (never "active" without a located evidence span)
+```
+
+- A fact cannot become `active` through any code path without a mechanically-located evidence span (`sha256` over the matched source text) — enforced by tests, not just documented.
+- Secrets/API keys/private keys are rejected and redacted before storage; PII is quarantined for review.
+- Same-key updates use a trust ladder instead of "last write wins"; conflicting facts get an explicit `conflicts_with` edge instead of one silently disappearing.
+- Recall compiles into a structured **Evidence Pack** (`scripts/inspect_recall.py`) — Verified Facts with `why_selected` and a score breakdown, Conflicts, Unknowns, Do-Not-Assume — fully logged and replayable.
+- A generated answer is checked sentence-by-sentence against the pack; unsupported/stale/one-sided-conflict claims are flagged inline or the answer is refused with an explicit "unknown" list instead of fabricating.
+- Injecting the Evidence Pack into the executor prompt is opt-in (`MASE_EVIDENCE_PACK_INJECTION=1`, off by default).
+
+## Multimodal Ingestion
+
+```bash
+python -m mase.multimodal ingest ./docs --mode minicpm   # or default qwen2.5vl:7b
+```
+
+A local VLM/ASR model transcribes images, PDFs, and audio faithfully; a text LLM then extracts facts from that transcript, each with an evidence span located in the transcript and a provenance chain back to the original file bytes (`media_extraction` → `media_asset` → sha256). Official holdout evaluation (212 real+synthetic cases, single run): **fact_anchor_rate 0.627**, **halluc_ok_rate 1.0**. See `benchmarks/multimodal_eval/README.md`.
 
 ## Evidence
 
@@ -107,11 +138,16 @@ It is not a terminal solution for generic semantic retrieval, especially in thes
 - synonym- and paraphrase-heavy semantic generalization
 - large-scale document-level semantic recall
 - high-concurrency server runtime (the current main path still favors CLI / benchmark / single-process use)
+- the governance layer's claim mapping is substring-based (verbatim quotes), not semantic paraphrase detection
+- Evidence Pack injection into the executor is opt-in and off by default; conversational notetaker facts are not yet dual-written into the governance tables (multimodal ingestion and the upsert facade are)
 
 
 ## Roadmap
 
-- Whitebox semantic retrieval
+- ✅ Governance layer: Fact Contract, Admission Gate, Conflict Resolver, Evidence Pack, Claim Verifier (done)
+- ✅ Multimodal ingestion for images/PDF/audio with provenance (done)
+- Whitebox semantic retrieval (synonym/embedding-assisted candidate discovery)
+- Memory Review UI over the quarantine queue
 - Stronger async / server-grade runtime
 - More benchmark triangulation
 - More integrations

@@ -9,12 +9,14 @@
 [![CI](https://github.com/zbl1998-sdjn/MASE-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/zbl1998-sdjn/MASE-agent-memory/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
-![Tests](https://img.shields.io/badge/tests-640%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-834%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![Crash-safe](https://img.shields.io/badge/storage-crash--safe-success)
 ![LV-Eval](https://img.shields.io/badge/LV--Eval--256k-88.71%25-red)
 ![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
 ![LongMemEval-S](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
+![Governance](https://img.shields.io/badge/governance-Fact%20Contract%20%E2%86%92%20Claim%20Verifier-8A2BE2)
+![Multimodal](https://img.shields.io/badge/multimodal-image%20%7C%20pdf%20%7C%20audio-informational)
 
 <b>中文</b> | <a href="docs/README_en.md">English</a>
 
@@ -40,6 +42,10 @@ MASE splits agent memory into two controllable layers:
 | **Event Log** | Append-only conversational and operational history for recall, replay, and audit. |
 | **Entity Fact Sheet** | Current structured facts where newer facts can override stale or conflicting ones. |
 | **Markdown / tri-vault** | Human-readable memory externalization for review, migration, and debugging. |
+
+On top of these two layers sits a **governance layer** (`src/mase/governance/`) that turns every long-lived fact into a provable object instead of an opaque row: a structured **Fact Contract** with mechanically-verified evidence spans, an **Admission Gate** that blocks secrets/PII/malformed claims before they ever reach `active`, a trust-ladder **Conflict Resolver** that refuses to silently overwrite higher-trust facts, an **Evidence Pack Compiler** that turns retrieval into an explainable, replayable context bundle, and an **Answer Claim Verifier** that checks a generated answer sentence-by-sentence against that pack and flags — rather than hides — unsupported or conflicting claims. See [Memory Governance Layer](#memory-governance-layer) below.
+
+Enterprise documents, images, and audio are supported through a **"read once, remember text" multimodal pipeline** (`src/mase/multimodal/`): a local vision/ASR model transcribes faithfully, a text LLM extracts facts from that transcript, and every fact keeps a byte-level provenance chain back to the original file. See [Multimodal Ingestion](#multimodal-ingestion) below.
 
 The goal is not to replace semantic search everywhere. The goal is to make long-lived agent memory **observable and correctable**.
 
@@ -74,6 +80,13 @@ Router -> Notetaker -> Planner -> Action -> Executor
         |
         v
 Bounded recall context for the LLM
+
+Multimodal file (image / PDF / audio)
+        |
+        v
+Vision/ASR transcript -> Fact extractor -> Governance layer -> Evidence Pack -> Claim Verifier
+                                                |
+                                    facts / evidence_spans / fact_edges / review_actions
 ```
 
 Core ideas:
@@ -82,7 +95,50 @@ Core ideas:
 - **Entity Fact Sheet** for update-aware memory instead of endless fact accumulation.
 - **Markdown / tri-vault** for readable memory artifacts.
 - **Hybrid recall** for combining keyword signals, structured facts, and LLM-assisted filtering.
+- **Governance layer** for provable facts: Fact Contract, Admission Gate, Conflict Resolver, Evidence Pack, Claim Verifier (all additive tables, zero changes to the legacy read path).
+- **Multimodal ingestion** for images/PDF/audio with byte-level provenance chains, engine-agnostic (local Ollama VLM/ASR today).
 - **Compatibility surfaces** for LangChain, LlamaIndex, MCP, and OpenAI-compatible endpoints.
+
+## Memory Governance Layer
+
+Most memory systems let anything become a "fact." MASE's governance layer (`src/mase/governance/`, additive on top of `facts` / `evidence_spans` / `fact_edges` / `review_actions` tables) makes that mechanically hard to do wrong:
+
+```text
+candidate claim
+  -> Admission Gate (G2 structurable / G3 secret&PII / G5 TTL)
+  -> Evidence Binder (mechanical substring location in the source text)
+  -> Conflict Resolver (trust-ladder: lower-trust claims never silently overwrite higher-trust active facts)
+  -> active | quarantined | rejected  (never "active" without a located evidence span — enforced, not advisory)
+```
+
+- **Fact Contract + Evidence Span**: every fact carries `subject/predicate/object`, a trust level (E0–E5), and a span that must resolve back into the source text's exact characters (`sha256` over the matched substring). A fact with no located evidence cannot become `active` through any code path — this is tested, not just documented.
+- **Admission Gate**: secrets/API keys/private keys are rejected and redacted before they ever touch storage; PII is quarantined for human review; malformed claims never reach `active`.
+- **Conflict Resolver**: same-key updates use a trust ladder, not "last write wins" — a low-trust inference can never silently overwrite a user's direct statement; conflicting facts are linked with an explicit `conflicts_with` edge instead of one disappearing.
+- **Evidence Pack Compiler** (`scripts/inspect_recall.py`): recall is compiled into a structured, explainable bundle — Verified Facts (with `why_selected` and a full score breakdown), Conflicts, Unknowns, and Do-Not-Assume — instead of raw text chunks. Every retrieval and every compiled pack is logged and replayable.
+- **Answer Claim Verifier**: a generated answer is checked sentence-by-sentence against the Evidence Pack. Sentences that repeat a stale, quarantined, or one-sided-conflicting claim are flagged inline (`revise`) or the whole answer is refused with an explicit "unknown" list instead of fabricating (`refuse`).
+- Injecting the Evidence Pack into the executor prompt is opt-in (`MASE_EVIDENCE_PACK_INJECTION=1`); it is off by default so existing benchmark behavior is unchanged until you turn it on.
+
+Design docs and acceptance evidence: `docs/superpowers/specs/2026-07-0[3-4]-mase-governance-p*.md`, `E:/MASE-runs/p{0,1,2,3}_acceptance/`.
+
+## Multimodal Ingestion
+
+Images, PDFs, and audio become governed, traceable facts through a "read once, remember text" pipeline (`src/mase/multimodal/`):
+
+```text
+file -> security jail + content-addressed asset store (sha256)
+     -> local VLM / ASR transcription (faithful transcript, not fact extraction)
+     -> text LLM fact extraction (pipe-delimited contract: category | key | value | evidence)
+     -> governed fact (Evidence Span located in the transcript, provenance chain to the original bytes)
+```
+
+```bash
+python -m mase.multimodal ingest ./docs --mode minicpm   # or default qwen2.5vl:7b
+python mase_cli.py ingest ./docs
+```
+
+- Engine-agnostic: works with any Ollama-served vision/ASR model; provider-aware image serialization also supports OpenAI/Anthropic-style multimodal messages.
+- Every extracted fact resolves back to `media_extraction` (full transcript) → `media_asset` (sha256) → the original file bytes — a complete provenance chain, not a summary.
+- Evaluated on `benchmarks/multimodal_eval/` — 266 cases across synthetic, SROIE (real receipts, MIT), XFUND-zh (real Chinese forms, CC BY-NC-SA), and LibriSpeech (real speech, CC BY); official holdout (212 cases, single run): **fact_anchor_rate 0.627**, **halluc_ok_rate 1.0**, provenance 1.0. See `benchmarks/multimodal_eval/README.md`.
 
 ## Evidence
 
@@ -227,15 +283,21 @@ Known boundaries:
 - strong synonym and semantic-generalization recall still needs more work;
 - large document-level semantic retrieval is not the primary path yet;
 - high-concurrency server-grade deployment requires more runtime hardening;
-- benchmark claims should be read with the documented lane definitions.
+- benchmark claims should be read with the documented lane definitions;
+- the governance layer's claim mapping is substring-based ("verbatim-quote" claims), not semantic — paraphrased or reworded answer claims are not yet detected;
+- Evidence Pack injection into the executor prompt is opt-in and off by default; the legacy fact-sheet path is still what benchmarks and the default runtime use;
+- governance facts are wired from multimodal ingestion and the `mase2_upsert_fact` facade; conversational notetaker facts are not yet dual-written into the governance tables.
 
 ## Roadmap
 
-- White-box semantic retrieval with write-time tags, read-time expansion, FTS, and LLM filtering.
+- ✅ Governance layer: Fact Contract, Admission Gate, Conflict Resolver, Evidence Pack, Claim Verifier (P0–P3, done).
+- ✅ Multimodal ingestion for images/PDF/audio with byte-level provenance (S0–S2, done).
+- White-box semantic retrieval: still keyword/substring-based; synonym expansion and embedding-assisted candidate discovery remain future work.
+- Memory Review UI: human-facing approve/reject/edit/merge over the quarantine queue (governance data model is in place; UI is not built yet).
+- Document-level claim memory for large files (page/line-mapped facts beyond current span offsets).
 - More server-grade async/runtime hardening.
 - Broader benchmark triangulation.
 - More integrations across LangChain, LlamaIndex, MCP, OpenAI-compatible APIs, and agent SaaS platforms.
-- Memory review workflows before long-term fact/procedure writes.
 
 ## Architecture boundaries
 
