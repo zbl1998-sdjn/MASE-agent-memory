@@ -1,0 +1,1748 @@
+{
+ "dataset": "xfund_diag_train",
+ "split": "diagnostic",
+ "note": "XFUND zh.train,与冻结评测 zh.val 零重叠;仅诊断,不入正式成绩",
+ "seed": 20260704,
+ "cases": [
+  {
+   "case_id": "xfunddiag-zh_train_35",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_35.jpg",
+   "sha256": "5520571946a4e5b8e454b6f8319c68519513376ae5b2c869bcf5c30167f975db",
+   "anchors_fulltext": [
+    "周群飞",
+    "企业会计准则",
+    "2018年5月4日",
+    "2018年5月4日",
+    "周群飞"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "姓名",
+     "value_anchors": [
+      "周群飞"
+     ]
+    },
+    {
+     "key_hint": "适用会计规定",
+     "value_anchors": [
+      "企业会计准则"
+     ]
+    },
+    {
+     "key_hint": "受理日期:",
+     "value_anchors": [
+      "2018年5月4日"
+     ]
+    },
+    {
+     "key_hint": "核准日期:",
+     "value_anchors": [
+      "2018年5月4日"
+     ]
+    },
+    {
+     "key_hint": "纳税人名称",
+     "value_anchors": [
+      "周群飞"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「姓名」的内容是什么?",
+     "answer_anchors": [
+      "周群飞"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_100",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_100.jpg",
+   "sha256": "a1cc4c4507ff554aa57dec82d91653df0aeb0e7f1bd31c966589c983c2700f89",
+   "anchors_fulltext": [
+    "朱建霞",
+    "中国电子科技集团有限公司",
+    "无审查通过",
+    "同意",
+    "同意"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "姓名",
+     "value_anchors": [
+      "朱建霞"
+     ]
+    },
+    {
+     "key_hint": "所在单位",
+     "value_anchors": [
+      "中国电子科技集团有限公司"
+     ]
+    },
+    {
+     "key_hint": "考生历史上有无问题审查意见如何:",
+     "value_anchors": [
+      "无审查通过"
+     ]
+    },
+    {
+     "key_hint": "考生所在单位政审意见:",
+     "value_anchors": [
+      "同意"
+     ]
+    },
+    {
+     "key_hint": "招生单位政审意见:",
+     "value_anchors": [
+      "同意"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「姓名」的内容是什么?",
+     "answer_anchors": [
+      "朱建霞"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_29",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_29.jpg",
+   "sha256": "0f11d6873cdec7df305f6f1f00bf2ceac60714bfedb2b98f3dfd74186393d2d4",
+   "anchors_fulltext": [
+    "艾华",
+    "50",
+    "陕西明德集中供热有限责任公司二期新建脱硫系统制作安装",
+    "第13.3.8条",
+    "工艺管道设备"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "监理工程师:",
+     "value_anchors": [
+      "艾华"
+     ]
+    },
+    {
+     "key_hint": "DN≤100mm每（m）",
+     "value_anchors": [
+      "50"
+     ]
+    },
+    {
+     "key_hint": "工程名称",
+     "value_anchors": [
+      "陕西明德集中供热有限责任公司二期新建脱硫系统制作安装"
+     ]
+    },
+    {
+     "key_hint": "主控项目",
+     "value_anchors": [
+      "第13.3.8条"
+     ]
+    },
+    {
+     "key_hint": "主控项目",
+     "value_anchors": [
+      "工艺管道设备"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「监理工程师:」的内容是什么?",
+     "answer_anchors": [
+      "艾华"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_138",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_138.jpg",
+   "sha256": "6d588531be11938f05d6ad531ef71e46eab50d72b3e8af18d0f40c9a50e0fa0b",
+   "anchors_fulltext": [
+    "中级会计师",
+    "2018/6",
+    "大唐鸡西电厂",
+    "正常",
+    "财经学校"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "所获职称或职业资格名称及专业",
+     "value_anchors": [
+      "中级会计师"
+     ]
+    },
+    {
+     "key_hint": "结束时间",
+     "value_anchors": [
+      "2018/6"
+     ]
+    },
+    {
+     "key_hint": "工作单位",
+     "value_anchors": [
+      "大唐鸡西电厂"
+     ]
+    },
+    {
+     "key_hint": "社保缴交情况",
+     "value_anchors": [
+      "正常"
+     ]
+    },
+    {
+     "key_hint": "毕业院校",
+     "value_anchors": [
+      "财经学校"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「所获职称或职业资格名称及专业」的内容是什么?",
+     "answer_anchors": [
+      "中级会计师"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_39",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_39.jpg",
+   "sha256": "215b1f793fc9d6fbe8192635defdf5ff95745bbab6cbecafd122e96805ce34a9",
+   "anchors_fulltext": [
+    "金安区第三中学",
+    "经审查此报名予以通过",
+    "金安区天鹿睿园",
+    "985年8月5日",
+    "数学老师"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "单位：",
+     "value_anchors": [
+      "金安区第三中学"
+     ]
+    },
+    {
+     "key_hint": "区教育局",
+     "value_anchors": [
+      "经审查此报名予以通过"
+     ]
+    },
+    {
+     "key_hint": "住宅：",
+     "value_anchors": [
+      "金安区天鹿睿园"
+     ]
+    },
+    {
+     "key_hint": "出生年月",
+     "value_anchors": [
+      "985年8月5日"
+     ]
+    },
+    {
+     "key_hint": "兼报岗位：",
+     "value_anchors": [
+      "数学老师"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「单位：」的内容是什么?",
+     "answer_anchors": [
+      "金安区第三中学"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_59",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_59.jpg",
+   "sha256": "f02fa576cb07f5aa94eddadb20da23550baa8513cfd169c38bb57309e3f4de54",
+   "anchors_fulltext": [
+    "河北省邢台市隆尧县尹村镇西尹村384号",
+    "美国",
+    "隆尧县第一中学",
+    "2003.2.12",
+    "1564"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "当前地址/CurrentAddress:",
+     "value_anchors": [
+      "河北省邢台市隆尧县尹村镇西尹村384号"
+     ]
+    },
+    {
+     "key_hint": "国籍/Nationality:",
+     "value_anchors": [
+      "美国"
+     ]
+    },
+    {
+     "key_hint": "学校/School:",
+     "value_anchors": [
+      "隆尧县第一中学"
+     ]
+    },
+    {
+     "key_hint": "出生日期/Dateofbirth:",
+     "value_anchors": [
+      "2003.2.12"
+     ]
+    },
+    {
+     "key_hint": "护照号码/Passport#:",
+     "value_anchors": [
+      "1564"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「当前地址/CurrentAddress:(includingzipcode)」的内容是什么?",
+     "answer_anchors": [
+      "河北省邢台市隆尧县尹村镇西尹村384号"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_42",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_42.jpg",
+   "sha256": "80caf628d8266f263158245b2bc4889e3f502b05c8070a20ac9fbd19b6ba75f6",
+   "anchors_fulltext": [
+    "24000",
+    "北街",
+    "晋城",
+    "是口否",
+    "王罗阳"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "请填写您的总收入、假期工资(扣除前)即使",
+     "value_anchors": [
+      "24000"
+     ]
+    },
+    {
+     "key_hint": "雇主地址(街道或邮政编码)",
+     "value_anchors": [
+      "北街"
+     ]
+    },
+    {
+     "key_hint": "城市",
+     "value_anchors": [
+      "晋城"
+     ]
+    },
+    {
+     "key_hint": "上周您是否没能获得工作?",
+     "value_anchors": [
+      "是口否"
+     ]
+    },
+    {
+     "key_hint": "雇主姓名:",
+     "value_anchors": [
+      "王罗阳"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「请填写您的总收入、假期工资(扣除前),即使您尚未获得支付款项:」的内容是什么?",
+     "answer_anchors": [
+      "24000"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_76",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_76.jpg",
+   "sha256": "9a818c39b9529b5848f89b45b6450cd02b69f14c3f29d3b5632889545b51677e",
+   "anchors_fulltext": [
+    "症疾药盒□长效驱蚊霜",
+    "435227198301218671",
+    "2019年5月12日",
+    "1□发热2□急性疾症3□严重心、肝肾慢性病",
+    "4□有过敏史尤其对鸡蛋过敏者"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "申请预防接种|预防措施项目",
+     "value_anchors": [
+      "症疾药盒□长效驱蚊霜"
+     ]
+    },
+    {
+     "key_hint": "身份证号码",
+     "value_anchors": [
+      "435227198301218671"
+     ]
+    },
+    {
+     "key_hint": "日期：",
+     "value_anchors": [
+      "2019年5月12日"
+     ]
+    },
+    {
+     "key_hint": "黄热病疫苗及其它疫苗预防接种禁忌症和慎用",
+     "value_anchors": [
+      "1□发热2□急性疾症3□严重心、肝肾慢性病"
+     ]
+    },
+    {
+     "key_hint": "黄热病疫苗及其它疫苗预防接种禁忌症和慎用",
+     "value_anchors": [
+      "4□有过敏史尤其对鸡蛋过敏者"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「申请预防接种|预防措施项目」的内容是什么?",
+     "answer_anchors": [
+      "症疾药盒□长效驱蚊霜"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_58",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_58.jpg",
+   "sha256": "289a436d78c52a13fabf8ce29f98653d0122404a11772af71c069b1ea5c5e532",
+   "anchors_fulltext": [
+    "吴石岩",
+    "200652468",
+    "512468595",
+    "父母工作工资",
+    "85895"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "姓名",
+     "value_anchors": [
+      "吴石岩"
+     ]
+    },
+    {
+     "key_hint": "学号",
+     "value_anchors": [
+      "200652468"
+     ]
+    },
+    {
+     "key_hint": "qq号",
+     "value_anchors": [
+      "512468595"
+     ]
+    },
+    {
+     "key_hint": "家庭主要",
+     "value_anchors": [
+      "父母工作工资"
+     ]
+    },
+    {
+     "key_hint": "手机号码",
+     "value_anchors": [
+      "85895"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「姓名」的内容是什么?",
+     "answer_anchors": [
+      "吴石岩"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_50",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_50.jpg",
+   "sha256": "fc1eddb11f8c2ac986c5e20663fb7b73a9cab309f78d6067be7265e0419900ab",
+   "anchors_fulltext": [
+    "18798246790",
+    "2018",
+    "河北省保定市徐水县正村乡高各庄村办事处",
+    "高各庄村办事处",
+    "071500"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "联系电话",
+     "value_anchors": [
+      "18798246790"
+     ]
+    },
+    {
+     "key_hint": "年级:",
+     "value_anchors": [
+      "2018"
+     ]
+    },
+    {
+     "key_hint": "详细通讯地址",
+     "value_anchors": [
+      "河北省保定市徐水县正村乡高各庄村办事处"
+     ]
+    },
+    {
+     "key_hint": "单位名称:",
+     "value_anchors": [
+      "高各庄村办事处"
+     ]
+    },
+    {
+     "key_hint": "邮政编码",
+     "value_anchors": [
+      "071500"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「联系电话」的内容是什么?",
+     "answer_anchors": [
+      "18798246790"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_13",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_13.jpg",
+   "sha256": "98f76717edd58a15ca733c534bac1c26988b893a2175bf927bf0c286c3900bf9",
+   "anchors_fulltext": [
+    "2002.9-",
+    "18600016707",
+    "学生",
+    "郭文华",
+    "大学本科"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "时间",
+     "value_anchors": [
+      "2002.9-"
+     ]
+    },
+    {
+     "key_hint": "联系电话",
+     "value_anchors": [
+      "18600016707"
+     ]
+    },
+    {
+     "key_hint": "职务",
+     "value_anchors": [
+      "学生"
+     ]
+    },
+    {
+     "key_hint": "姓名",
+     "value_anchors": [
+      "郭文华"
+     ]
+    },
+    {
+     "key_hint": "最高学历",
+     "value_anchors": [
+      "大学本科"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「时间」的内容是什么?",
+     "answer_anchors": [
+      "2002.9-"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_131",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_131.jpg",
+   "sha256": "4aa58982f32aa888694d3a109ea6548e9f1740d49b29fe0e9a622c83cf44580a",
+   "anchors_fulltext": [
+    "13525460254",
+    "王晨",
+    "合资()",
+    "15245021540",
+    "13652502420"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "办公电话",
+     "value_anchors": [
+      "13525460254"
+     ]
+    },
+    {
+     "key_hint": "贸易负责人姓名",
+     "value_anchors": [
+      "王晨"
+     ]
+    },
+    {
+     "key_hint": "企业性质",
+     "value_anchors": [
+      "合资()"
+     ]
+    },
+    {
+     "key_hint": "办公电话",
+     "value_anchors": [
+      "15245021540"
+     ]
+    },
+    {
+     "key_hint": "手机",
+     "value_anchors": [
+      "13652502420"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「办公电话」的内容是什么?",
+     "answer_anchors": [
+      "13525460254"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_86",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_86.jpg",
+   "sha256": "fe97baae42b82184916307941d530bc193231711e3ff7439497b6bbf2fee78c6",
+   "anchors_fulltext": [
+    "屠刚康",
+    "标记",
+    "种植、食用、饲用、",
+    "货车",
+    "农业"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "联系人",
+     "value_anchors": [
+      "屠刚康"
+     ]
+    },
+    {
+     "key_hint": "功能特性",
+     "value_anchors": [
+      "标记"
+     ]
+    },
+    {
+     "key_hint": "用途",
+     "value_anchors": [
+      "种植、食用、饲用、"
+     ]
+    },
+    {
+     "key_hint": "运输工具",
+     "value_anchors": [
+      "货车"
+     ]
+    },
+    {
+     "key_hint": "主要经营活动",
+     "value_anchors": [
+      "农业"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「联系人」的内容是什么?",
+     "answer_anchors": [
+      "屠刚康"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_37",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_37.jpg",
+   "sha256": "9ae3b9eebe03f97d1964753736bfc681c9f79ec1e166f5530746f26b2537b448",
+   "anchors_fulltext": [
+    "策划",
+    "合作沟通",
+    "任重",
+    "武强",
+    "宣传时间满一个月"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "任务",
+     "value_anchors": [
+      "策划"
+     ]
+    },
+    {
+     "key_hint": "任务",
+     "value_anchors": [
+      "合作沟通"
+     ]
+    },
+    {
+     "key_hint": "姓名",
+     "value_anchors": [
+      "任重"
+     ]
+    },
+    {
+     "key_hint": "姓名",
+     "value_anchors": [
+      "武强"
+     ]
+    },
+    {
+     "key_hint": "达标要求",
+     "value_anchors": [
+      "宣传时间满一个月"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「任务」的内容是什么?",
+     "answer_anchors": [
+      "策划"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_60",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_60.jpg",
+   "sha256": "19185442bc18ebd592dcd8bd1d830d15adc2d4b6e5ae94f343cbbfcf2747727a",
+   "anchors_fulltext": [
+    "张立芳",
+    "基本（√）",
+    "1210-00516427",
+    "中国银行清苑支行",
+    "专用（）"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "存款人法定代表人(单位负责人)或授权领取",
+     "value_anchors": [
+      "张立芳"
+     ]
+    },
+    {
+     "key_hint": "开户许可证种类",
+     "value_anchors": [
+      "基本（√）"
+     ]
+    },
+    {
+     "key_hint": "开户许可证编号",
+     "value_anchors": [
+      "1210-00516427"
+     ]
+    },
+    {
+     "key_hint": "开户银行名称",
+     "value_anchors": [
+      "中国银行清苑支行"
+     ]
+    },
+    {
+     "key_hint": "开户许可证种类",
+     "value_anchors": [
+      "专用（）"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「存款人法定代表人(单位负责人)或授权领取人签章:」的内容是什么?",
+     "answer_anchors": [
+      "张立芳"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_139",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_139.jpg",
+   "sha256": "6a6fe2561d0fc2ea5c5e2d164d8cf56f57d987bc19ef1f58510e8913b71ff222",
+   "anchors_fulltext": [
+    "乔婕",
+    "明朔贸易公司",
+    "中铁物流集团",
+    "A.生产企业□",
+    "18295772356"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "*姓名",
+     "value_anchors": [
+      "乔婕"
+     ]
+    },
+    {
+     "key_hint": "*名称",
+     "value_anchors": [
+      "明朔贸易公司"
+     ]
+    },
+    {
+     "key_hint": "*名称",
+     "value_anchors": [
+      "中铁物流集团"
+     ]
+    },
+    {
+     "key_hint": "客户类型",
+     "value_anchors": [
+      "A.生产企业□"
+     ]
+    },
+    {
+     "key_hint": "联系电话",
+     "value_anchors": [
+      "18295772356"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「*姓名」的内容是什么?",
+     "answer_anchors": [
+      "乔婕"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_17",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_17.jpg",
+   "sha256": "e8ab347d64352d0d224d830ba8c917eb555d11ba6ac3debe1ae595be4a66aaf1",
+   "anchors_fulltext": [
+    "西安中拓建材有限公司",
+    "1596359356205",
+    "任浩",
+    "西安中拓建材有限公司",
+    "622752385662255158"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "单位名称",
+     "value_anchors": [
+      "西安中拓建材有限公司"
+     ]
+    },
+    {
+     "key_hint": "单位公积金账号",
+     "value_anchors": [
+      "1596359356205"
+     ]
+    },
+    {
+     "key_hint": "中心经办人(签字):",
+     "value_anchors": [
+      "任浩"
+     ]
+    },
+    {
+     "key_hint": "付款账户名称:",
+     "value_anchors": [
+      "西安中拓建材有限公司"
+     ]
+    },
+    {
+     "key_hint": "付款账户账号:",
+     "value_anchors": [
+      "622752385662255158"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「单位名称」的内容是什么?",
+     "answer_anchors": [
+      "西安中拓建材有限公司"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_107",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_107.jpg",
+   "sha256": "e0163de3d075f77e3752b22177d97d36c880e74de1c78fac259990f118bd9e5d",
+   "anchors_fulltext": [
+    "2018年3月至今",
+    "2035年10月20日",
+    "汉族",
+    "1997年5月18日",
+    "北京市丰台区卢沟桥中学"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "何年何月至何年何月",
+     "value_anchors": [
+      "2018年3月至今"
+     ]
+    },
+    {
+     "key_hint": "存档起止时间:",
+     "value_anchors": [
+      "2035年10月20日"
+     ]
+    },
+    {
+     "key_hint": "民族",
+     "value_anchors": [
+      "汉族"
+     ]
+    },
+    {
+     "key_hint": "出生日期",
+     "value_anchors": [
+      "1997年5月18日"
+     ]
+    },
+    {
+     "key_hint": "何学校或何工作单位",
+     "value_anchors": [
+      "北京市丰台区卢沟桥中学"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「何年何月至何年何月」的内容是什么?",
+     "answer_anchors": [
+      "2018年3月至今"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_93",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_93.jpg",
+   "sha256": "ccdd3ac92f1959341db16f67443fb14f775669e00cd742b85a37cfbb7c0d8a5e",
+   "anchors_fulltext": [
+    "医学英语、人文医学",
+    "博士研究生",
+    "300",
+    "36",
+    "12"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "研究方向",
+     "value_anchors": [
+      "医学英语、人文医学"
+     ]
+    },
+    {
+     "key_hint": "最终学历",
+     "value_anchors": [
+      "博士研究生"
+     ]
+    },
+    {
+     "key_hint": "学生人数",
+     "value_anchors": [
+      "300"
+     ]
+    },
+    {
+     "key_hint": "学生人数",
+     "value_anchors": [
+      "36"
+     ]
+    },
+    {
+     "key_hint": "周学时",
+     "value_anchors": [
+      "12"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「研究方向」的内容是什么?",
+     "answer_anchors": [
+      "医学英语、人文医学"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_65",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_65.jpg",
+   "sha256": "f8ed739ae65934726679e98e816a9559d02a7b6af09a1a20434e95b003677d95",
+   "anchors_fulltext": [
+    "中国",
+    "否No",
+    "陕西省.汉中市.留坝县",
+    "否No",
+    "否No"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "国籍Nationality",
+     "value_anchors": [
+      "中国"
+     ]
+    },
+    {
+     "key_hint": "2、过去14天内是否有新冠肺炎流行区域旅",
+     "value_anchors": [
+      "否No"
+     ]
+    },
+    {
+     "key_hint": "详细住址Address",
+     "value_anchors": [
+      "陕西省.汉中市.留坝县"
+     ]
+    },
+    {
+     "key_hint": "1、身体是否有不适症状?Doyouhav",
+     "value_anchors": [
+      "否No"
+     ]
+    },
+    {
+     "key_hint": "3、过去14天内是否与确诊患者或疑似人员",
+     "value_anchors": [
+      "否No"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「国籍Nationality」的内容是什么?",
+     "answer_anchors": [
+      "中国"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_122",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_122.jpg",
+   "sha256": "58f54db7b145de8cbb1a5046bc4f401c850c992f59c634a9ced36a7a4364abcc",
+   "anchors_fulltext": [
+    "712000",
+    "2013.11.29",
+    "37",
+    "钓台110kV输变电工程",
+    "029-33267724"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "邮政编码",
+     "value_anchors": [
+      "712000"
+     ]
+    },
+    {
+     "key_hint": "时间",
+     "value_anchors": [
+      "2013.11.29"
+     ]
+    },
+    {
+     "key_hint": "实际环保投资",
+     "value_anchors": [
+      "37"
+     ]
+    },
+    {
+     "key_hint": "项目名称",
+     "value_anchors": [
+      "钓台110kV输变电工程"
+     ]
+    },
+    {
+     "key_hint": "电话",
+     "value_anchors": [
+      "029-33267724"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「邮政编码」的内容是什么?",
+     "answer_anchors": [
+      "712000"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_123",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_123.jpg",
+   "sha256": "025e4b9399210270f4a064cfe9d8893460fabdb4356ae91aa3e2ef193e291fa9",
+   "anchors_fulltext": [
+    "开朗",
+    "道德",
+    "88",
+    "建筑",
+    "群众"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "个人性格",
+     "value_anchors": [
+      "开朗"
+     ]
+    },
+    {
+     "key_hint": "课程",
+     "value_anchors": [
+      "道德"
+     ]
+    },
+    {
+     "key_hint": "分数",
+     "value_anchors": [
+      "88"
+     ]
+    },
+    {
+     "key_hint": "课程",
+     "value_anchors": [
+      "建筑"
+     ]
+    },
+    {
+     "key_hint": "政治面貌",
+     "value_anchors": [
+      "群众"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「个人性格」的内容是什么?",
+     "answer_anchors": [
+      "开朗"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_63",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_63.jpg",
+   "sha256": "9eb277024d8c9c40cd509b22be66ef5c0c863d297a51cd5516ad272a34826229",
+   "anchors_fulltext": [
+    "3101011972061769",
+    "91310101703340001B",
+    "13710224055",
+    "5000万人民币",
+    "021-63375251"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "身份证",
+     "value_anchors": [
+      "3101011972061769"
+     ]
+    },
+    {
+     "key_hint": "纳税人识别号",
+     "value_anchors": [
+      "91310101703340001B"
+     ]
+    },
+    {
+     "key_hint": "联系电话",
+     "value_anchors": [
+      "13710224055"
+     ]
+    },
+    {
+     "key_hint": "注册资本",
+     "value_anchors": [
+      "5000万人民币"
+     ]
+    },
+    {
+     "key_hint": "电话",
+     "value_anchors": [
+      "021-63375251"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「身份证」的内容是什么?",
+     "answer_anchors": [
+      "3101011972061769"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_90",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_90.jpg",
+   "sha256": "ba00a7f310f5d1461984f2e79eac9453ec7a5a1e7238db5b0b697a0aa95a91eb",
+   "anchors_fulltext": [
+    "互换后的号牌号码",
+    "丢失",
+    "丢失",
+    "侯彦涛",
+    "062450"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "□互换号牌号码",
+     "value_anchors": [
+      "互换后的号牌号码"
+     ]
+    },
+    {
+     "key_hint": "□补领",
+     "value_anchors": [
+      "丢失"
+     ]
+    },
+    {
+     "key_hint": "口补领",
+     "value_anchors": [
+      "丢失"
+     ]
+    },
+    {
+     "key_hint": "机动车所有人(代理人)签字:",
+     "value_anchors": [
+      "侯彦涛"
+     ]
+    },
+    {
+     "key_hint": "邮政编码",
+     "value_anchors": [
+      "062450"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「□互换号牌号码」的内容是什么?",
+     "answer_anchors": [
+      "互换后的号牌号码"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_43",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_43.jpg",
+   "sha256": "af8a84e2baa74f03e5d6197b469ca0797ff2eeaa6c8700a2adf594833df61ffa",
+   "anchors_fulltext": [
+    "共同申请人3",
+    "郜高玺",
+    "652327197811173193",
+    "共同申请人2",
+    "已婚"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "称谓",
+     "value_anchors": [
+      "共同申请人3"
+     ]
+    },
+    {
+     "key_hint": "姓名",
+     "value_anchors": [
+      "郜高玺"
+     ]
+    },
+    {
+     "key_hint": "身份证号码",
+     "value_anchors": [
+      "652327197811173193"
+     ]
+    },
+    {
+     "key_hint": "称谓",
+     "value_anchors": [
+      "共同申请人2"
+     ]
+    },
+    {
+     "key_hint": "婚姻",
+     "value_anchors": [
+      "已婚"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「称谓」的内容是什么?",
+     "answer_anchors": [
+      "共同申请人3"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_5",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_5.jpg",
+   "sha256": "6417c138d1b445117961790529f8a224004715bc2de384082df47b4b3a830813",
+   "anchors_fulltext": [
+    "2010.9-2013.6",
+    "成都七中",
+    "四川省阿坝市(县)阿坝乡(街)185村(号)",
+    "母子",
+    "1995/1/13"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "何年何月至何年何月",
+     "value_anchors": [
+      "2010.9-2013.6"
+     ]
+    },
+    {
+     "key_hint": "在何单位工作或学习",
+     "value_anchors": [
+      "成都七中"
+     ]
+    },
+    {
+     "key_hint": "现户口所在地",
+     "value_anchors": [
+      "四川省阿坝市(县)阿坝乡(街)185村(号)"
+     ]
+    },
+    {
+     "key_hint": "与本人关系",
+     "value_anchors": [
+      "母子"
+     ]
+    },
+    {
+     "key_hint": "出生日期",
+     "value_anchors": [
+      "1995/1/13"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「何年何月至何年何月」的内容是什么?",
+     "answer_anchors": [
+      "2010.9-2013.6"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_99",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_99.jpg",
+   "sha256": "fad5b3d7e2d77adc753b086480804ec6bca3007b96fd6223a1abbbc9a561c537",
+   "anchors_fulltext": [
+    "1.未孕√",
+    "3.已生育",
+    "15548956960",
+    "2.男初女再",
+    "北京市潘弓村第一大街656号"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "妊娠情况",
+     "value_anchors": [
+      "1.未孕√"
+     ]
+    },
+    {
+     "key_hint": "妊娠情况",
+     "value_anchors": [
+      "3.已生育"
+     ]
+    },
+    {
+     "key_hint": "联系电话",
+     "value_anchors": [
+      "15548956960"
+     ]
+    },
+    {
+     "key_hint": "婚姻",
+     "value_anchors": [
+      "2.男初女再"
+     ]
+    },
+    {
+     "key_hint": "现居住地",
+     "value_anchors": [
+      "北京市潘弓村第一大街656号"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「妊娠情况」的内容是什么?",
+     "answer_anchors": [
+      "1.未孕√"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_45",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_45.jpg",
+   "sha256": "2ab84d782e85962583bd2128ae0004595e75d7920dce83c151a7492bfea72eef",
+   "anchors_fulltext": [
+    "2010.9—2014.6",
+    "上海师大附中",
+    "张桂华",
+    "理科",
+    "柜面业务岗(√)"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "起止时间",
+     "value_anchors": [
+      "2010.9—2014.6"
+     ]
+    },
+    {
+     "key_hint": "毕业院校",
+     "value_anchors": [
+      "上海师大附中"
+     ]
+    },
+    {
+     "key_hint": "姓名",
+     "value_anchors": [
+      "张桂华"
+     ]
+    },
+    {
+     "key_hint": "专业",
+     "value_anchors": [
+      "理科"
+     ]
+    },
+    {
+     "key_hint": "应聘岗位(打√)",
+     "value_anchors": [
+      "柜面业务岗(√)"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「起止时间」的内容是什么?",
+     "answer_anchors": [
+      "2010.9—2014.6"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_89",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_89.jpg",
+   "sha256": "44e6ae46624aca613e5f7e6576ba3d6f73d3f150c7ef8cf8e64120754de5ac1c",
+   "anchors_fulltext": [
+    "No□Yes",
+    "No□Yes",
+    "No□Yes",
+    "□No□Yes",
+    "曹县第二中学"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "产褥期链球菌感染Puerperalstr",
+     "value_anchors": [
+      "No□Yes"
+     ]
+    },
+    {
+     "key_hint": "病毒性肝炎Viralhepatitis",
+     "value_anchors": [
+      "No□Yes"
+     ]
+    },
+    {
+     "key_hint": "猩红热Scarletfever",
+     "value_anchors": [
+      "No□Yes"
+     ]
+    },
+    {
+     "key_hint": "毒物瘾Toxicomania",
+     "value_anchors": [
+      "□No□Yes"
+     ]
+    },
+    {
+     "key_hint": "公司/学校名称(InChina)Name",
+     "value_anchors": [
+      "曹县第二中学"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「产褥期链球菌感染Puerperalstreptococcusinfection」的内容是什么?",
+     "answer_anchors": [
+      "No□Yes"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  },
+  {
+   "case_id": "xfunddiag-zh_train_119",
+   "lane": "xfund_zh",
+   "modality": "image",
+   "difficulty": 2,
+   "language": "zh",
+   "file": "E:\\MASE-runs\\datasets\\external\\xfund-zh\\train_images\\zh_train_119.jpg",
+   "sha256": "9e484ab6a4d37e2c552ab81e9208abb1110da2dde096675930eea5d3a92bbc0e",
+   "anchors_fulltext": [
+    "鄂碧白",
+    "(签章)萧嘉昌",
+    "1986.3.16",
+    "云南省昆明市嵩明县",
+    "农业"
+   ],
+   "expected_facts": [
+    {
+     "key_hint": "申领人签名:",
+     "value_anchors": [
+      "鄂碧白"
+     ]
+    },
+    {
+     "key_hint": "审核人:",
+     "value_anchors": [
+      "(签章)萧嘉昌"
+     ]
+    },
+    {
+     "key_hint": "出生日期",
+     "value_anchors": [
+      "1986.3.16"
+     ]
+    },
+    {
+     "key_hint": "户口所在地",
+     "value_anchors": [
+      "云南省昆明市嵩明县"
+     ]
+    },
+    {
+     "key_hint": "户口性质",
+     "value_anchors": [
+      "农业"
+     ]
+    }
+   ],
+   "qa": [
+    {
+     "q": "表单里「申领人签名:」的内容是什么?",
+     "answer_anchors": [
+      "鄂碧白"
+     ]
+    }
+   ],
+   "negative": false,
+   "split": "diagnostic"
+  }
+ ]
+}
