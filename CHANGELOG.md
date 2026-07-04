@@ -14,6 +14,7 @@
 - `python -m ruff check .`、`python -m mypy`、`python scripts/audit_architecture_imports.py --strict`、`python scripts/audit_public_api_docstrings.py --strict` 全部通过。
 - `npm --prefix frontend test -- src/api.test.ts` → 26 passed;`npm --prefix frontend run build` 通过。
 - `python scripts/run_governance_eval.py --out-dir "$env:TEMP\mase-governance-eval-smoke"` → `release_gate=passed pass_rate=1.000`。
+- **P4 Review UI 前端联调验收(真实 sidecar + 真浏览器,verdict=PASS)**:`E:/MASE-runs/p4_acceptance/20260704T021901Z/evidence.md` — Playwright 驱动"事实中心"Review Inbox 完成 approve/reject/edit/merge 四动作(总纲 §8.5 三条逐条判定:UI 可完成动作 ✓ / review_actions 审计 4 行全留痕 ✓ / rejected+retracted 事实治理召回零泄漏 ✓);edit 走"新提案+旧撤回"版本链,merge 记 `merged_into` 边。
 
 ### Known boundaries
 - 本轮完成的是本地 SQLite/前端/治理闭环与企业 Phase 0/1 能力;PostgreSQL/Alembic、OIDC/SAML/SCIM、真实 queue/worker、OpenTelemetry collector、SaaS 多租户生产部署仍为后续外部基础设施任务。
