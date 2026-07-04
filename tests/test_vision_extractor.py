@@ -149,8 +149,10 @@ def test_agents_configured_in_config_json():
     assert vision["modes"]["minicpm"]["model_name"] == "minicpm-v4.5"
     doc_facts = config["models"]["doc_facts"]
     assert doc_facts["provider"] == "ollama"
-    assert doc_facts["model_name"] == "qwen2.5:14b"
+    assert doc_facts["model_name"] == "qwen3:14b"  # 二轮 A/B 定型:xfund +14.7pp / sroie +17.5pp
     assert doc_facts["temperature"] == 0.0
+    # qwen3 默认开 thinking;关闭以保管道行事实契约纯净、避免推理 token 拖慢
+    assert doc_facts["extra_body"]["think"] is False
 
 
 def test_doc_facts_prompt_has_multiline_merge_guidance():
