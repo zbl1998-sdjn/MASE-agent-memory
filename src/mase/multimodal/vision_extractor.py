@@ -16,10 +16,11 @@ from typing import Any
 from .document_loader import MediaPayload
 from .extractor import ExtractionResult, MediaAssetInfo
 from .image_message import build_image_message
+from .kv_extract import parse_kv_lines, union_kv_facts
 from .text_facts import extract_facts_from_text
 from .transient_retry import call_with_transient_retry
 
-VISION_EXTRACTOR_VERSION = "5"  # v5: 多行值合并指引 + 补抽轮
+VISION_EXTRACTOR_VERSION = "6"  # v6: 确定性 KV 行解析与 LLM 抽取取并集
 
 VISION_TRANSCRIBE_SYSTEM = """你是文档转写器。请逐字忠实转写图片中全部可读文本:
 - 保留数字、单位、编号、日期的原始写法;
@@ -110,6 +111,11 @@ class VisionExtractor:
             # dev 取证:漏抽 92% 是"底稿已有但单次生成没枚举到"——文档面开补抽。
             completeness_pass=True,
         )
+
+        # 确定性兜底:半结构化 键:值 行解析,与 LLM 结果取并集(补单次枚举遗漏)。
+        # 规则值逐字来自底稿;装饰页无冒号结构 → 零产出,不影响 halluc_ok。
+        kv_facts = parse_kv_lines(full_text)
+        facts = union_kv_facts(facts, kv_facts)
 
         return ExtractionResult(
             full_text=full_text,
