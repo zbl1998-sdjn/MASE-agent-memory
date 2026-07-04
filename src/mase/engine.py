@@ -118,6 +118,21 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         }
 
     @staticmethod
+    def _evidence_pack_injection_enabled() -> bool:
+        """Return whether governed Evidence Pack should replace legacy fact sheets."""
+        explicit = str(os.environ.get("MASE_EVIDENCE_PACK_INJECTION") or "").strip().lower()
+        if explicit in {"1", "true", "yes", "on"}:
+            return True
+        if explicit in {"0", "false", "no", "off"}:
+            return False
+        return str(os.environ.get("MASE_ENTERPRISE_MODE") or "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "on",
+        }
+
+    @staticmethod
     def _evidence_pack_sheet(*, user_question: str, keywords: list[str]) -> str | None:
         """编译治理层 Evidence Pack 作为 executor 事实表;失败返回 None(调用方回退)。
 
@@ -242,7 +257,7 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
                 )
                 # 治理层注入(P3,opt-in):executor 面对 Evidence Pack 而非记忆
                 # 仓库(总纲 §4.7.1)。默认关闭,长记忆基准链路不走此分支。
-                if str(os.environ.get("MASE_EVIDENCE_PACK_INJECTION") or "").strip() in {"1", "true", "yes"}:
+                if self._evidence_pack_injection_enabled():
                     packed = self._evidence_pack_sheet(user_question=user_question, keywords=keywords)
                     if packed is not None:
                         fact_sheet = packed

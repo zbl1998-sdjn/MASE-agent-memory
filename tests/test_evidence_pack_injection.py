@@ -124,6 +124,26 @@ def test_opt_in_replaces_fact_sheet_with_pack(tmp_path, monkeypatch):
     assert "800 元" in sheet and "## Answer Rules" in sheet
 
 
+def test_enterprise_mode_defaults_to_evidence_pack(tmp_path, monkeypatch):
+    _patch_engine(monkeypatch)
+    _seed_fact(tmp_path, monkeypatch)
+    monkeypatch.delenv("MASE_EVIDENCE_PACK_INJECTION", raising=False)
+    monkeypatch.setenv("MASE_ENTERPRISE_MODE", "1")
+    log: list[dict[str, Any]] = []
+    engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
+    assert log[0]["fact_sheet"].startswith("# Memory Evidence Pack")
+
+
+def test_explicit_injection_off_overrides_enterprise_mode(tmp_path, monkeypatch):
+    _patch_engine(monkeypatch)
+    _seed_fact(tmp_path, monkeypatch)
+    monkeypatch.setenv("MASE_ENTERPRISE_MODE", "1")
+    monkeypatch.setenv("MASE_EVIDENCE_PACK_INJECTION", "0")
+    log: list[dict[str, Any]] = []
+    engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
+    assert log[0]["fact_sheet"] == "legacy_fact_sheet"
+
+
 def test_opt_in_falls_back_on_governance_error(tmp_path, monkeypatch):
     _patch_engine(monkeypatch)
     _seed_fact(tmp_path, monkeypatch)

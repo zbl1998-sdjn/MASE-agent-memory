@@ -75,10 +75,11 @@ def mase2_upsert_fact(
         **dict(scope_filters or {}),
     )
     message = f"Success: Fact {category}.{key} updated to {value}"
-    if None not in (
+    has_full_evidence = None not in (
         evidence_text, evidence_source_type, evidence_source_id,
         evidence_trust_level, evidence_full_text,
-    ):
+    )
+    if has_full_evidence:
         try:
             from mase.governance.fact_contract import (  # noqa: PLC0415
                 ClaimType,
@@ -115,6 +116,37 @@ def mase2_upsert_fact(
                 source_full_text=str(evidence_full_text),
             )
         except Exception as exc:  # noqa: BLE001 — 治理层 best-effort,失败留痕不阻塞
+            message += f" (governance_dual_write_failed: {type(exc).__name__}: {exc})"
+    else:
+        try:
+            from mase.governance.write_facade import (  # noqa: PLC0415
+                GovernedFactWriteFacade,
+                governance_dual_write_enabled,
+            )
+
+            if governance_dual_write_enabled():
+                governed = GovernedFactWriteFacade().record_notetaker_fact(
+                    category,
+                    key,
+                    value,
+                    reason=reason,
+                    source_log_id=source_log_id,
+                    source_media_id=source_media_id,
+                    scope_filters=scope_filters,
+                    evidence_text=evidence_text,
+                    evidence_source_type=evidence_source_type,
+                    evidence_source_id=evidence_source_id,
+                    evidence_trust_level=evidence_trust_level,
+                    evidence_full_text=evidence_full_text,
+                )
+                if governed.governance_error:
+                    message += f" (governance_candidate={governed.candidate_id}, failed={governed.governance_error})"
+                else:
+                    message += (
+                        f" (governance_candidate={governed.candidate_id}, "
+                        f"fact_id={governed.fact_id}, status={governed.fact_status})"
+                    )
+        except Exception as exc:  # noqa: BLE001 — 企业双写不能破坏 legacy 写入
             message += f" (governance_dual_write_failed: {type(exc).__name__}: {exc})"
     return message
 

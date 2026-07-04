@@ -2,9 +2,28 @@
 
 ## Stable Core
 
-- `src/mase/`
+- `src/mase/contracts/`: pure data contracts and compatibility-safe schemas.
+- `src/mase/core/`: lifecycle/state-machine primitives with no API/UI/storage implementation dependency.
+- `src/mase/governance/`: fact admission, evidence, retrieval compilation, review, evaluation, and verification.
+- `src/mase/storage/interfaces.py`: storage protocols only; implementation packages must stay behind this interface.
+- Remaining `src/mase/` modules are stable runtime surface unless explicitly listed as compatibility or experimental.
 - `benchmarks/runner.py`
 - tracked benchmark claim manifests
+
+## Enterprise Dependency Rule
+
+`contracts <- core <- governance <- retrieval/runtime <- api/workers/integrations/cli`.
+
+Boundary gates:
+
+- `contracts` must not import governance, storage implementations, FastAPI, or UI/API layers.
+- `core` must not import FastAPI, CLI, concrete databases, or model providers.
+- `governance` may depend on contracts/core/storage interfaces, but must not import API/CLI/integration layers.
+- Boundary layers may orchestrate governance, but must not update governed fact status directly.
+
+Run `python scripts/audit_architecture_imports.py --strict` and
+`python scripts/audit_public_api_docstrings.py --strict` after changing stable
+contracts, core, governance, or storage interfaces.
 
 ## Compatibility Surface
 

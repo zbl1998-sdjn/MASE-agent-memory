@@ -57,6 +57,7 @@ class RetrievalPlan:
     weights: dict[str, float]
 
     def to_json(self) -> str:
+        """Serialize the deterministic retrieval plan for replay/audit storage."""
         return json.dumps(
             {
                 "trace_id": self.trace_id,
@@ -84,6 +85,7 @@ class ScoredCandidate:
     matched_keywords: tuple[str, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
+        """Return the candidate score explanation as a stable dictionary."""
         return {
             "fact_id": self.fact.fact_id,
             "status": self.fact.status,

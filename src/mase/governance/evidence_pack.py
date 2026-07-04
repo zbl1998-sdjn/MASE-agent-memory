@@ -43,6 +43,7 @@ class EvidencePack:
     created_at: str
 
     def to_dict(self) -> dict[str, Any]:
+        """Return a JSON-serializable representation for API and audit payloads."""
         return {
             "pack_id": self.pack_id,
             "trace_id": self.trace_id,
