@@ -1,6 +1,6 @@
 # MASE 时漂压力基准(Staleness Pressure Benchmark)设计
 
-- 状态:设计草案(2026-07-07;待治理式巩固 v1 之后或并行实施)
+- 状态:v1 已实现(2026-07-07:`benchmarks/staleness_pressure/`,120 例基线 run `staleness_pressure_20260706T192626Z`——治理侧全指标 1.0/泄漏 0.0,退化侧 stale_leak 1.0;实现修订:①判分对象从"答案"改为证据包本身(仅记忆层 lane 无需 LLM,端到端 lane 留 v2);②规模走结构变体(链长/信任对)而非统计样本——确定性系统下同构重复无信息;③dev/holdout 切分对纯机械基准无过拟合面,v1 不切,发现调参面时再引入)
 - 日期:2026-07-07
 - 上游:governance eval suite(P7,`src/mase/governance/eval_suite.py` 已有
   deterministic / anti_poisoning / stale_conflict lane 雏形);`docs/BENCHMARK_ANTI_OVERFIT.md`
