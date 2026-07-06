@@ -25,13 +25,22 @@ class _FakeInfo:
     duration = 63.2
 
 
-def _install_fake_faster_whisper(monkeypatch, *, fail_on_device: str | None = None, created: list | None = None):
+def _install_fake_faster_whisper(
+    monkeypatch,
+    *,
+    fail_on_device: str | None = None,
+    fail_on_compute: str | None = None,
+    created: list | None = None,
+):
     module = types.ModuleType("faster_whisper")
 
     class WhisperModel:
         def __init__(self, model_name, device="cpu", compute_type="default"):
             if fail_on_device and device == fail_on_device:
                 raise RuntimeError("CUDA driver not found (simulated)")
+            if fail_on_compute and compute_type == fail_on_compute:
+                raise ValueError("Requested float16 compute type, but the target device "
+                                 "or backend do not support efficient float16 computation. (simulated)")
             self.args = (model_name, device, compute_type)
             if created is not None:
                 created.append(self.args)
@@ -97,6 +106,21 @@ def test_transcribe_cuda_failure_falls_back_to_cpu(tmp_path, monkeypatch):
     wav.write_bytes(b"RIFF")
     _, info = audio_transcriber.transcribe(
         AudioTrack(wav, "audio/wav"), model_name="large-v3", device="cuda", compute_type="float16",
+    )
+    assert info["device_fallback"] is True
+    assert created[-1] == ("large-v3", "cpu", "int8")
+
+
+def test_transcribe_cpu_float16_falls_back_to_int8(tmp_path, monkeypatch):
+    """CPU 不支持 float16 时回退 int8(dev 实录 2026-07-06:只设 device=cpu 全 lane infra)。"""
+    created: list = []
+    _install_fake_faster_whisper(monkeypatch, fail_on_compute="float16", created=created)
+    from mase.multimodal import audio_transcriber
+    audio_transcriber._MODEL_CACHE.clear()
+    wav = tmp_path / "a.wav"
+    wav.write_bytes(b"RIFF")
+    _, info = audio_transcriber.transcribe(
+        AudioTrack(wav, "audio/wav"), model_name="large-v3", device="cpu", compute_type="float16",
     )
     assert info["device_fallback"] is True
     assert created[-1] == ("large-v3", "cpu", "int8")

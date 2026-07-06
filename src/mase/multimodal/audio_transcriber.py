@@ -78,7 +78,7 @@ def format_transcript(segments: list[TranscriptSegment]) -> str:
 
 
 def _load_model(model_name: str, device: str, compute_type: str) -> tuple[Any, str, str, bool]:
-    """建模并缓存;cuda 失败回退 cpu+int8。返回 (model, 实际device, 实际compute, 是否回退)。"""
+    """建模并缓存;环境性建模失败回退 cpu+int8。返回 (model, 实际device, 实际compute, 是否回退)。"""
     _register_nvidia_dll_dirs()
     try:
         from faster_whisper import WhisperModel
@@ -95,13 +95,13 @@ def _load_model(model_name: str, device: str, compute_type: str) -> tuple[Any, s
         model = WhisperModel(model_name, device=device, compute_type=compute_type)
         entry = (model, device, compute_type, False)
     except Exception:
-        if device == "cuda":
-            # CUDA DLL/驱动缺失是 Windows 常见坑;回退 CPU int8 保证批次能跑,
-            # info.device_fallback 让验收证据如实反映降级。
-            model = WhisperModel(model_name, device="cpu", compute_type="int8")
-            entry = (model, "cpu", "int8", True)
-        else:
+        if (device, compute_type) == ("cpu", "int8"):
             raise
+        # 环境性建模失败——CUDA DLL/驱动缺失(Windows 常见坑),或 CPU 不支持
+        # float16 权重计算(dev 实录 2026-07-06 音频 lane 全 infra)——统一回退
+        # cpu+int8 保证批次能跑,info.device_fallback 让验收证据如实反映降级。
+        model = WhisperModel(model_name, device="cpu", compute_type="int8")
+        entry = (model, "cpu", "int8", True)
     _MODEL_CACHE[key] = entry
     return entry
 
