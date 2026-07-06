@@ -181,6 +181,47 @@ def test_forget_fact_retracts_with_forget_audit_trail(tmp_path, monkeypatch):
     assert forget_fact("fact_missing", "no such") is False
 
 
+def test_summary_is_excluded_from_evidence_pack_sections(tmp_path, monkeypatch):
+    """派生摘要是审计/导出物,不是应答材料:值内嵌全部旧值,进 Verified 即幻觉面。"""
+    _isolate_db(tmp_path, monkeypatch)
+    from mase.governance.consolidation import consolidate_chain
+    from mase.governance.evidence_pack import compile_evidence_pack
+
+    _seed_chain()
+    outcome = consolidate_chain(_ENTITY, "alice", "budget")
+    assert outcome["status"] == "active"
+    pack = compile_evidence_pack("当前预算?", ["budget"])
+    claims = [str(v["claim"]) for v in pack.verified]
+    assert any(_VALUES[-1] in c for c in claims)  # 现行值在
+    for stale in _VALUES[:-1]:
+        assert not any(stale in c for c in claims), f"旧值 {stale} 泄漏进 Verified"
+    assert all(outcome["summary_fact_id"] not in s for s in pack.do_not_assume)
+
+
+def test_export_folds_consolidated_members_and_retract_restores(tmp_path, monkeypatch):
+    """导出折叠:被 active 摘要覆盖的 superseded 行折叠为注记;retract 摘要即还原。"""
+    _isolate_db(tmp_path, monkeypatch)
+    from mase.governance.consolidation import consolidate_chain
+    from mase.governance.fact_store import retract_fact
+    from scripts.export_fact_sheets import export_fact_sheets
+
+    ids = _seed_chain()
+    outcome = consolidate_chain(_ENTITY, "alice", "budget")
+    out_dir = tmp_path / "sheets"
+    (sheet_path,) = export_fact_sheets(out_dir=out_dir)
+    sheet = sheet_path.read_text(encoding="utf-8")
+    assert "已折叠 4 行历史版本到摘要" in sheet
+    for member_id in ids[:-1]:
+        assert member_id[:17] not in sheet  # 成员行不再逐行出现
+
+    retract_fact(outcome["summary_fact_id"], "undo", reviewer="tester")
+    (sheet_path,) = export_fact_sheets(out_dir=out_dir)
+    sheet = sheet_path.read_text(encoding="utf-8")
+    assert "已折叠" not in sheet
+    for member_id in ids[:-1]:
+        assert member_id[:17] in sheet  # 还原逐行展示
+
+
 def test_pii_values_never_form_consolidatable_chains(tmp_path, monkeypatch):
     """PII 在准入层(G3)即被隔离,supersession 链根本形成不了——
     分层防御:巩固层的输入面天然无 PII,派生摘要不可能携带隔离值。"""

@@ -60,6 +60,24 @@ def _evidence_cell(evidence: list[dict[str, Any]]) -> str:
     return _cell("; ".join(parts) if parts else "(无)")
 
 
+def _consolidated_members(entity_id: str, *, db_path: str | Path | None) -> dict[str, str]:
+    """member fact_id → active 摘要 fact_id;只认 active 摘要,retract 后自动还原展开。"""
+    from contextlib import closing  # noqa: PLC0415
+
+    from mase_tools.memory.db_core import get_connection  # noqa: PLC0415
+
+    with closing(get_connection(db_path)) as conn:
+        rows = conn.execute(
+            """
+            SELECT e.from_fact_id AS summary_id, e.to_fact_id AS member_id
+            FROM fact_edges e JOIN facts f ON f.fact_id = e.from_fact_id
+            WHERE e.edge_type = 'consolidates' AND f.status = 'active' AND f.entity_id = ?
+            """,
+            (entity_id,),
+        ).fetchall()
+    return {str(row["member_id"]): str(row["summary_id"]) for row in rows}
+
+
 def _render_sheet(entity_id: str, facts: list[dict[str, Any]], *, db_path: str | Path | None) -> str:
     lines = [
         "---",
@@ -75,12 +93,30 @@ def _render_sheet(entity_id: str, facts: list[dict[str, Any]], *, db_path: str |
     for fact in facts:
         by_status.setdefault(str(fact["status"]), []).append(fact)
 
+    folded_by = _consolidated_members(entity_id, db_path=db_path)
     for status in SECTION_ORDER:
         rows = by_status.get(status, [])
+        folded: dict[str, int] = {}
+        if status == "superseded" and folded_by:
+            kept = []
+            for fact in rows:
+                summary_id = folded_by.get(str(fact["fact_id"]))
+                if summary_id is None:
+                    kept.append(fact)
+                else:
+                    folded[summary_id] = folded.get(summary_id, 0) + 1
+            rows = kept
         lines.append(f"## {status.capitalize()}")
         lines.append("")
+        for summary_id, count in sorted(folded.items()):
+            lines.append(
+                f"> 已折叠 {count} 行历史版本到摘要 {_cell(summary_id[:17])}"
+                "(derived_summary;retract 摘要即还原展开)"
+            )
+        if folded:
+            lines.append("")
         if not rows:
-            lines.append("(无)")
+            lines.append("(无)" if not folded else "(其余无)")
             lines.append("")
             continue
         lines.append("| fact_id | claim | evidence | observed_at |")

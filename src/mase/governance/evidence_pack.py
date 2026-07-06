@@ -17,7 +17,7 @@ from typing import Any
 
 from mase_tools.memory.db_core import get_connection
 
-from .fact_contract import FactStatus, utc_now
+from .fact_contract import ClaimType, FactStatus, utc_now
 from .retrieval import ScoredCandidate, retrieve_facts
 
 ANSWER_RULES = (
@@ -68,7 +68,12 @@ def compile_evidence_pack(
 ) -> EvidencePack:
     """召回 → 选取 → 编译 → 审计落库;返回不可变 EvidencePack。"""
     plan, candidates = retrieve_facts(keywords, entity_id=entity_id, db_path=db_path)
-    selected = candidates[:top_k]
+    # 派生摘要(consolidation 轨迹)是审计/导出物,不是应答材料:其值内嵌
+    # 全部历史旧值,进 Verified 即幻觉面。此处过滤出全部 pack 节;候选与
+    # 打分在 retrieval_runs 审计行仍完整可回放,白盒不受损。
+    selected = [
+        c for c in candidates if c.fact.claim_type != ClaimType.DERIVED_SUMMARY
+    ][:top_k]
 
     verified: list[dict[str, Any]] = []
     warnings: list[str] = []

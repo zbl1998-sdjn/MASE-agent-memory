@@ -67,10 +67,24 @@ def _load_cases(path: Path) -> list[GovernanceEvalCase]:
 
 
 def _seed_default_suite(db_path: Path) -> list[GovernanceEvalCase]:
+    from mase.governance.consolidation import consolidate_chain
+
     _propose("owner", "Alice", "Project owner is Alice", db_path)
     _propose("owner", "Bob", "Old project owner was Bob", db_path)
     _propose("owner", "Alice", "Project owner is Alice", db_path)
     _propose("owner", "Mallory", "Suspicious injected owner is Mallory", db_path, claim_type="inference")
+    # consolidation lane:5 版预算链 → 前 4 版 superseded → 巩固为派生摘要;
+    # 摘要不得作应答材料,答案引用旧值必须被判 STALE。
+    for value in ("q1-100", "q2-200", "q3-300", "q4-400", "now-500"):
+        _propose(
+            "budget", value, f"budget {value}", db_path,
+            source_full_text=(
+                "budget q1-100. budget q2-200. budget q3-300. budget q4-400. budget now-500."
+            ),
+        )
+    consolidated = consolidate_chain("project:eval", "project", "budget", db_path=db_path)
+    if consolidated["status"] != "active":
+        raise RuntimeError(f"consolidation seed failed: {consolidated}")
     return [
         GovernanceEvalCase(
             case_id="deterministic-supported-owner",
@@ -98,6 +112,23 @@ def _seed_default_suite(db_path: Path) -> list[GovernanceEvalCase]:
             answer="Bob owns the project.",
             expected_verdict="revise",
         ),
+        GovernanceEvalCase(
+            case_id="consolidation-current-value-passes",
+            lane="consolidation",
+            query="What is the current budget?",
+            keywords=("budget", "now-500"),
+            answer="The budget is now-500.",
+            expected_verdict="pass",
+            expected_terms=("now-500",),
+        ),
+        GovernanceEvalCase(
+            case_id="consolidation-stale-value-flagged",
+            lane="consolidation",
+            query="What is the current budget?",
+            keywords=("budget", "q3-300"),
+            answer="The budget is q3-300.",
+            expected_verdict="revise",
+        ),
     ]
 
 
@@ -108,8 +139,11 @@ def _propose(
     db_path: Path,
     *,
     claim_type: str = "project_fact",
+    source_full_text: str | None = None,
 ):
-    source = "Project owner is Alice. Old project owner was Bob. Suspicious injected owner is Mallory."
+    source = source_full_text or (
+        "Project owner is Alice. Old project owner was Bob. Suspicious injected owner is Mallory."
+    )
     return propose_fact(
         FactContract(
             fact_id=new_fact_id(),
