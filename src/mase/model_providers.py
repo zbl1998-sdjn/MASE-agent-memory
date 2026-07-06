@@ -16,11 +16,36 @@ import ollama
 
 from .health_tracker import get_tracker
 
+# 本地模型合法长调用(冷加载 + 大 prompt)也在分钟级;默认 10 分钟只拦
+# "永不返回"的卸载死锁,不误伤正常调用。≤0 显式关闭,回到无超时旧行为。
+_DEFAULT_OLLAMA_TIMEOUT_S = 600.0
+
 
 class ModelProviderMixin:
     """为 `ModelInterface` 提供具体 provider 的调用实现。"""
 
     fallbacks: dict[str, Any]
+
+    def _resolve_ollama_timeout(self: Any) -> httpx.Timeout | None:
+        """解析 Ollama 客户端超时:env > fallbacks > 默认;非法值回退默认。"""
+        raw: Any = os.environ.get("MASE_OLLAMA_TIMEOUT_S")
+        if raw is None or not str(raw).strip():
+            raw = self.fallbacks.get("ollama_timeout_seconds", _DEFAULT_OLLAMA_TIMEOUT_S)
+        try:
+            seconds = float(str(raw).strip())
+        except (TypeError, ValueError):
+            seconds = _DEFAULT_OLLAMA_TIMEOUT_S
+        if seconds <= 0:
+            return None
+        return httpx.Timeout(seconds, connect=min(seconds, 10.0))
+
+    def _ollama_chat(self: Any, payload: dict[str, Any]) -> Any:
+        """执行一次 Ollama chat;客户端始终带读超时,防卸载死锁挂死调用方。"""
+        timeout = self._resolve_ollama_timeout()
+        if timeout is None:
+            return ollama.chat(**payload)
+        host = self._resolve_ollama_base_url()
+        return ollama.Client(host=host, timeout=timeout).chat(**payload)
 
     def _split_system_messages(self: Any, messages: list[dict[str, Any]]) -> tuple[str | None, list[dict[str, Any]]]:
         """Anthropic API 单独传 system；这里把 system 消息从对话消息中拆出。
@@ -84,7 +109,7 @@ class ModelProviderMixin:
                     payload["keep_alive"] = keep_alive
                 if tools is not None:
                     payload["tools"] = tools
-                return ollama.chat(**payload)
+                return self._ollama_chat(payload)
             except (httpx.HTTPError, OSError) as error:
                 last_error = error
                 if attempt >= retry_count or not self._is_transient_ollama_error(error):

@@ -47,6 +47,9 @@ class DummyProvider(ModelProviderMixin):
     def _wait_for_ollama_ready(self) -> bool:
         return True
 
+    def _resolve_ollama_base_url(self) -> str:
+        return "http://127.0.0.1:11434"
+
 
 class FakeTracker:
     def __init__(self) -> None:
@@ -255,7 +258,14 @@ def test_call_ollama_retries_transient_errors_and_preserves_payload(monkeypatch)
             raise httpx.ConnectError("connection refused")
         return {"message": {"content": "ok"}}
 
-    monkeypatch.setattr(model_providers.ollama, "chat", fake_chat)
+    class _FakeOllamaClient:
+        def __init__(self, host: Any = None, timeout: Any = None) -> None:
+            del host, timeout
+
+        def chat(self, **payload: Any) -> dict[str, Any]:
+            return fake_chat(**payload)
+
+    monkeypatch.setattr(model_providers.ollama, "Client", _FakeOllamaClient)
     monkeypatch.setattr(model_providers.time, "sleep", lambda delay: None)
     result = provider._call_ollama(
         {"ollama_options": {"top_k": 5}, "extra_body": {"stream": False}, "keep_alive": "30m"},
@@ -511,7 +521,14 @@ def test_call_ollama_reraises_non_transient_errors(monkeypatch) -> None:
         del payload
         raise OSError("disk unavailable")
 
-    monkeypatch.setattr(model_providers.ollama, "chat", fail_chat)
+    class _FailingOllamaClient:
+        def __init__(self, host: Any = None, timeout: Any = None) -> None:
+            del host, timeout
+
+        def chat(self, **payload: Any) -> dict[str, Any]:
+            return fail_chat(**payload)
+
+    monkeypatch.setattr(model_providers.ollama, "Client", _FailingOllamaClient)
     with pytest.raises(OSError, match="disk unavailable"):
         provider._call_ollama({}, "llama", [{"role": "user", "content": "hi"}], 0.0, 10)
 

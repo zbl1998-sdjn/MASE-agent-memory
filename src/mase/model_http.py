@@ -22,6 +22,13 @@ class ModelHTTPMixin:
 
     def _is_transient_ollama_error(self, error: Exception) -> bool:
         """识别 Ollama 常见瞬时连接错误，支持中英文 Windows 错误消息。"""
+        # 连接超时 = 服务重启窗口，等健康探测后重试通常自愈；读/写/池超时几乎
+        # 总是模型卸载死锁（实录 2026-07-06：qwen3:14b 卡 "Stopping..."），重试
+        # 只会再烧一个完整超时窗，直接失败让上层记 infra 并继续跑批。
+        if isinstance(error, httpx.ConnectTimeout):
+            return True
+        if isinstance(error, httpx.TimeoutException):
+            return False
         message = str(error)
         markers = [
             "ConnectionError",
