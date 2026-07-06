@@ -720,6 +720,19 @@ def _create_legacy_schema(db_path: Path) -> None:
             )
         """)
 
+        # 治理层语义发现(additive):事实向量缓存;content_hash 变更即重算,
+        # 只服务 opt-in 的候选发现(MASE_SEMANTIC_DISCOVERY=1),读路径零依赖。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS fact_embeddings (
+                fact_id TEXT NOT NULL,
+                model TEXT NOT NULL,
+                content_hash TEXT NOT NULL,
+                vector_json TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                PRIMARY KEY (fact_id, model)
+            )
+        """)
+
         # 3.12 治理层 P2(additive):检索运行与上下文包审计(每次召回/编译可回放)。
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS retrieval_runs (

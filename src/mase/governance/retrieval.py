@@ -1,23 +1,35 @@
 """白盒确定性召回(总纲 §4.5 的机械可执行子集)。
 
-无 embedding、无语义分类器:keywords 经可列举的归一化变体(casefold/去空白/
-去千分位/去货币符)对 facts 做 substring 匹配;每个候选按 §4.5.3 权重原值
-逐项打分,breakdown 与 why_selected 全量可见。缺失信号(tag_match 等)
-如实记 0,不虚构。rejected 事实不参与召回;superseded/expired 可作候选
+默认无 embedding、无语义分类器:keywords 经可列举的归一化变体(casefold/
+去空白/去千分位/去货币符)对 facts 做 substring 匹配;每个候选按 §4.5.3
+权重原值逐项打分,breakdown 与 why_selected 全量可见。缺失信号(tag_match
+等)如实记 0,不虚构。rejected 事实不参与召回;superseded/expired 可作候选
 (带 staleness 罚),供冲突/历史展示,但由编译器决定去向。
+
+`MASE_SEMANTIC_DISCOVERY=1`(默认关)时附加白盒语义候选发现:embedding 只补
+关键词漏网的事实,机械分量保持 0、相似度/模型/阈值全量进 plan 与 breakdown
+(见 semantic_discovery.py);Verified 门槛不因此放宽。
 """
 from __future__ import annotations
 
 import json
 import uuid
 from contextlib import closing
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any
 
 from mase_tools.memory.db_core import get_connection
 
 from .fact_contract import FactContract, FactStatus, utc_now
+from .semantic_discovery import (
+    DEFAULT_THRESHOLD,
+    DEFAULT_TOP_N,
+    SEMANTIC_WEIGHT,
+    discover,
+    embed_model_name,
+    semantic_enabled,
+)
 
 # §4.5.3 权重原值;tag_match v1 恒 0(词典未建,如实缺席)。
 WEIGHTS: dict[str, float] = {
@@ -128,6 +140,50 @@ def retrieve_facts(
             if not hits:
                 continue
             candidates.append(_score(cursor, fact, hits, entity_id=entity_id, now=now))
+
+        # 语义候选发现(opt-in;默认关时本函数行为与 plan 逐字节不变)。
+        # 只补关键词漏网的事实:breakdown 的机械匹配分量保持 0,附加
+        # semantic_similarity 分量与模型名,why_selected 如实写"语义发现"。
+        if semantic_enabled():
+            semantic_meta = {
+                "model": embed_model_name(),
+                "top_n": DEFAULT_TOP_N,
+                "threshold": DEFAULT_THRESHOLD,
+                "weight": SEMANTIC_WEIGHT,
+            }
+            plan = replace(
+                plan,
+                classifier="semantic_discovery.v1",
+                filters={**plan.filters, "semantic": semantic_meta},
+            )
+            matched_ids = {c.fact.fact_id for c in candidates}
+            for fact_id, similarity in discover(
+                list(cleaned),
+                entity_id=entity_id,
+                exclude_fact_ids=matched_ids,
+                db_path=db_path,
+            ):
+                row = cursor.execute(
+                    "SELECT * FROM facts WHERE fact_id = ?", (fact_id,)
+                ).fetchone()
+                if row is None:
+                    continue
+                base = _score(
+                    cursor, FactContract.from_row(row), [], entity_id=entity_id, now=now
+                )
+                candidates.append(replace(
+                    base,
+                    score=base.score + SEMANTIC_WEIGHT * similarity,
+                    breakdown={**base.breakdown, "semantic_similarity": similarity},
+                    why_selected=[
+                        f"语义发现:与查询相似度 {similarity}"
+                        f"(模型 {semantic_meta['model']},无关键词命中)",
+                        *base.why_selected,
+                    ],
+                    # 发现即视为覆盖全部查询关键词(unknowns 口径),
+                    # 机械匹配分量仍为 0,不虚构关键词命中。
+                    matched_keywords=tuple(cleaned),
+                ))
     candidates.sort(key=lambda c: (-c.score, c.fact.fact_id))
     return plan, candidates
 
