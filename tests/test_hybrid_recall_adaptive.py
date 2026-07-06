@@ -44,3 +44,41 @@ def test_default_components_shape_is_stable(monkeypatch) -> None:
     monkeypatch.delenv("MASE_HYBRID_RECALL_ADAPTIVE", raising=False)
     out = HybridReranker().rerank("what did we discuss yesterday?", _candidates(), query_time=_NOW)
     assert set(out[0]["hybrid_components"].keys()) == {"dense", "bm25", "temporal", "weights"}
+
+
+def test_adaptive_temporal_cue_switches_profile_and_ranking(monkeypatch) -> None:
+    """时间线索查询:γ 提档让"新而 dense 低"的候选翻盘,选档留审计痕。"""
+    monkeypatch.setenv("MASE_HYBRID_RECALL_ADAPTIVE", "1")
+    monkeypatch.delenv("MASE_HYBRID_RECALL_WEIGHTS", raising=False)
+    out = HybridReranker().rerank("what did we discuss yesterday?", _candidates(), query_time=_NOW)
+    components = out[0]["hybrid_components"]
+    assert components["profile"] == "temporal"
+    assert components["weights"] == {"alpha": 0.35, "beta": 0.25, "gamma": 0.40}
+    assert out[0]["id"] == "new"  # 默认权重下 old(dense 0.9)在前,temporal 档翻盘
+
+
+def test_adaptive_plain_query_keeps_default_weights(monkeypatch) -> None:
+    monkeypatch.setenv("MASE_HYBRID_RECALL_ADAPTIVE", "1")
+    monkeypatch.delenv("MASE_HYBRID_RECALL_WEIGHTS", raising=False)
+    out = HybridReranker().rerank("budget meeting", _candidates(), query_time=_NOW)
+    components = out[0]["hybrid_components"]
+    assert components["profile"] == "default"
+    assert components["weights"] == {"alpha": 0.5, "beta": 0.3, "gamma": 0.2}
+
+
+def test_adaptive_yields_to_explicit_constructor_weights(monkeypatch) -> None:
+    monkeypatch.setenv("MASE_HYBRID_RECALL_ADAPTIVE", "1")
+    out = HybridReranker(alpha=0.7, beta=0.2, gamma=0.1).rerank(
+        "what did we discuss yesterday?", _candidates(), query_time=_NOW)
+    components = out[0]["hybrid_components"]
+    assert components["profile"] == "pinned"
+    assert components["weights"] == {"alpha": 0.7, "beta": 0.2, "gamma": 0.1}
+
+
+def test_adaptive_yields_to_env_weights(monkeypatch) -> None:
+    monkeypatch.setenv("MASE_HYBRID_RECALL_ADAPTIVE", "1")
+    monkeypatch.setenv("MASE_HYBRID_RECALL_WEIGHTS", "0.6,0.3,0.1")
+    out = HybridReranker().rerank("what did we discuss yesterday?", _candidates(), query_time=_NOW)
+    components = out[0]["hybrid_components"]
+    assert components["profile"] == "pinned"
+    assert components["weights"] == {"alpha": 0.6, "beta": 0.3, "gamma": 0.1}

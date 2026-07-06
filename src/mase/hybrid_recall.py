@@ -8,6 +8,12 @@
 
 默认权重：α=0.5, β=0.3, γ=0.2。可通过环境变量覆盖：
 ``MASE_HYBRID_RECALL_WEIGHTS="0.5,0.3,0.2"``.
+
+查询自适应（opt-in）：``MASE_HYBRID_RECALL_ADAPTIVE=1`` 时，检出时间线索的查询
+切换到 temporal 档 (0.35, 0.25, 0.40)；显式构造参数或 WEIGHTS 环境变量视为人工
+锁定，自适应让位。选档结果写进每个候选的 ``hybrid_components["profile"]``，
+审计可回放。默认关——LongMemEval 官方 run 逐题归因 temporal-reasoning 65.4%
+是最大失败源（46/99），但档位常数待 temporal slice A/B 校准后才考虑默认开。
 """
 from __future__ import annotations
 
@@ -204,6 +210,15 @@ def _load_weights() -> tuple[float, float, float]:
     return 0.5, 0.3, 0.2
 
 
+# 时间线索查询的自适应档位：γ 提到首位权重级别但 dense 仍保留区分度。
+# 常数为起点值，待 LongMemEval temporal slice A/B 校准；默认不启用。
+_TEMPORAL_PROFILE = (0.35, 0.25, 0.40)
+
+
+def _adaptive_enabled() -> bool:
+    return os.environ.get("MASE_HYBRID_RECALL_ADAPTIVE", "").strip() == "1"
+
+
 class HybridReranker:
     """BM25 + dense + 时间感知的重排器。
 
@@ -221,6 +236,12 @@ class HybridReranker:
         self.alpha = a if alpha is None else alpha
         self.beta = b if beta is None else beta
         self.gamma = g if gamma is None else gamma
+        # 显式构造参数或 WEIGHTS 环境变量 = 人工锁定权重，自适应让位。
+        self._weights_pinned = (
+            alpha is not None or beta is not None or gamma is not None
+            or bool(os.environ.get("MASE_HYBRID_RECALL_WEIGHTS"))
+        )
+        self._adaptive = _adaptive_enabled()
 
     def rerank(
         self,
@@ -256,21 +277,36 @@ class HybridReranker:
         # temporal 原始分已经约束在 [0, 1]。
         temporal_norm = [max(0.0, min(1.0, t)) for t in temporal_raw]
 
+        # 查询自适应选档：仅 opt-in 且权重未被人工锁定时生效；默认路径逐字节不变。
+        alpha, beta, gamma = self.alpha, self.beta, self.gamma
+        profile: str | None = None
+        if self._adaptive:
+            if self._weights_pinned:
+                profile = "pinned"
+            elif cue_kind is not None:
+                alpha, beta, gamma = _TEMPORAL_PROFILE
+                profile = "temporal"
+            else:
+                profile = "default"
+
         out: list[dict] = []
         for i, cand in enumerate(candidates):
             final = (
-                self.alpha * dense_norm[i]
-                + self.beta * bm25_norm[i]
-                + self.gamma * temporal_norm[i]
+                alpha * dense_norm[i]
+                + beta * bm25_norm[i]
+                + gamma * temporal_norm[i]
             )
             new_cand = dict(cand)
             new_cand["hybrid_score"] = final
-            new_cand["hybrid_components"] = {
+            components: dict[str, Any] = {
                 "dense": dense_norm[i],
                 "bm25": bm25_norm[i],
                 "temporal": temporal_norm[i],
-                "weights": {"alpha": self.alpha, "beta": self.beta, "gamma": self.gamma},
+                "weights": {"alpha": alpha, "beta": beta, "gamma": gamma},
             }
+            if profile is not None:
+                components["profile"] = profile
+            new_cand["hybrid_components"] = components
             out.append(new_cand)
 
         # 调用方通常直接截断 top-K，因此这里返回时已经按最终分降序排序。
