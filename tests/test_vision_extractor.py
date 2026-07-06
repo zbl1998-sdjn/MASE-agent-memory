@@ -55,7 +55,7 @@ def test_two_stage_transcribe_then_extract_facts():
     from mase.multimodal.vision_extractor import VisionExtractor
 
     fake = FakeModelInterface(
-        transcripts=["Invoice #001 total 4200 EUR"],
+        transcripts=["Invoice #001 total 4200 EUR", "无缺失"],  # 第二条:补看轮无缺失
         facts_replies=[_facts_reply(), "无事实"],  # 第二条:补抽轮(completeness pass)无新增
     )
     page_bytes = b"\x89PNGfake"
@@ -66,24 +66,67 @@ def test_two_stage_transcribe_then_extract_facts():
     assert stage1["agent_type"] == "vision"
     assert stage1["messages"][0]["images"] == [base64.b64encode(page_bytes).decode("ascii")]
     assert "转写" in stage1["override_system_prompt"]
+    # 第 1.5 段:补看轮再看同一张图,提示含首轮转写稿
+    stage15 = fake.calls[1]
+    assert stage15["agent_type"] == "vision"
+    assert "缺失" in stage15["override_system_prompt"]
     # 第二段:文本 LLM 从全文抽事实,输入含转写稿
-    stage2 = fake.calls[1]
+    stage2 = fake.calls[2]
     assert stage2["agent_type"] == "doc_facts"
     assert "Invoice #001" in stage2["messages"][0]["content"]
 
     assert result.full_text == "Invoice #001 total 4200 EUR"
     assert result.candidate_facts[0].key == "invoice_total"
-    assert result.extractor_name == "vision" and result.extractor_version == "6"
+    assert result.extractor_name == "vision" and result.extractor_version == "7"
     # 两段归因:VLM + 事实 LLM
     assert "fake-vlm" in result.model_name and "fake-llm" in result.model_name
     assert result.warnings == ()
+
+
+def test_vision_supplement_appends_only_missing_lines():
+    from mase.multimodal.vision_extractor import VisionExtractor
+
+    fake = FakeModelInterface(
+        # 补看轮回了一行已有的 + 一行新的 → 只追加新行
+        transcripts=["姓名:张三\n口是 口否", "姓名:张三\n审核人:(签章)李四"],
+        facts_replies=[json.dumps({"facts": []}), "无事实"],
+    )
+    result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
+    assert "--- 补充转写 ---" in result.full_text
+    assert "审核人:(签章)李四" in result.full_text
+    assert result.full_text.count("姓名:张三") == 1  # 已有行不重复
+    assert any("vision_supplement_added: 1" in w for w in result.warnings)
+
+
+def test_vision_supplement_skipped_when_first_pass_empty():
+    from mase.multimodal.vision_extractor import VisionExtractor
+
+    # 首轮无文字(空白页)→ 不补看,防诱导幻觉
+    fake = FakeModelInterface(transcripts=[""], facts_replies=["无事实"])
+    result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
+    vision_calls = [c for c in fake.calls if c["agent_type"] == "vision"]
+    assert len(vision_calls) == 1
+    assert "--- 补充转写 ---" not in result.full_text
+
+
+def test_vision_supplement_dropped_when_suspiciously_long():
+    from mase.multimodal.vision_extractor import VisionExtractor
+
+    huge = "\n".join(f"幻觉行{i}" for i in range(200))
+    fake = FakeModelInterface(
+        transcripts=["短短一行真实文字但足够长以触发护栏对比" * 2, huge],
+        facts_replies=[json.dumps({"facts": []})],
+    )
+    result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
+    assert "幻觉行1" not in result.full_text
+    assert any("vision_supplement_dropped" in w for w in result.warnings)
 
 
 def test_multipage_transcripts_aggregate_before_single_fact_pass():
     from mase.multimodal.vision_extractor import VisionExtractor
 
     fake = FakeModelInterface(
-        transcripts=["page one text", "page two text"],
+        transcripts=["page one text", "无缺失", "page two text", "无缺失"],
         facts_replies=[json.dumps({"facts": []})],
     )
     result = VisionExtractor(fake).extract(
@@ -92,7 +135,7 @@ def test_multipage_transcripts_aggregate_before_single_fact_pass():
     )
     vision_calls = [c for c in fake.calls if c["agent_type"] == "vision"]
     facts_calls = [c for c in fake.calls if c["agent_type"] == "doc_facts"]
-    assert len(vision_calls) == 2  # 每页一次转写
+    assert len(vision_calls) == 4  # 每页一次转写 + 一次补看
     assert len(facts_calls) == 1   # 全文聚合后一次抽取(短文本单块)
     assert "page one text" in result.full_text and "page two text" in result.full_text
     assert "--- page 2 ---" in result.full_text
@@ -104,7 +147,7 @@ def test_malformed_facts_reply_degrades_to_transcript_only():
     from mase.multimodal.vision_extractor import VisionExtractor
 
     # 两条坏回复:纠正性重试一次后仍失败 → 降级为仅转写稿
-    fake = FakeModelInterface(transcripts=["The invoice text"], facts_replies=["not json", "still bad"])
+    fake = FakeModelInterface(transcripts=["The invoice text", "无缺失"], facts_replies=["not json", "still bad"])
     result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"img", "image/png")))
     assert "invoice" in result.full_text
     assert result.candidate_facts == ()
@@ -114,7 +157,7 @@ def test_malformed_facts_reply_degrades_to_transcript_only():
 def test_mode_passthrough_for_model_switch():
     from mase.multimodal.vision_extractor import VisionExtractor
 
-    fake = FakeModelInterface(transcripts=["t"], facts_replies=[json.dumps({"facts": []})])
+    fake = FakeModelInterface(transcripts=["t", "无缺失"], facts_replies=[json.dumps({"facts": []})])
     VisionExtractor(fake, mode="minicpm").extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
     vision_call = [c for c in fake.calls if c["agent_type"] == "vision"][0]
     assert vision_call["mode"] == "minicpm"
@@ -131,7 +174,7 @@ def test_supports_matrix():
 def test_openai_provider_builds_content_blocks():
     from mase.multimodal.vision_extractor import VisionExtractor
 
-    fake = FakeModelInterface(transcripts=["t"], facts_replies=[json.dumps({"facts": []})])
+    fake = FakeModelInterface(transcripts=["t", "无缺失"], facts_replies=[json.dumps({"facts": []})])
     fake.provider = "openai"
     VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
     content = [c for c in fake.calls if c["agent_type"] == "vision"][0]["messages"][0]["content"]
@@ -161,4 +204,11 @@ def test_doc_facts_prompt_has_multiline_merge_guidance():
 
     assert "跨多行" in DOC_FACTS_SYSTEM or "相邻行" in DOC_FACTS_SYSTEM
     assert "合并" in DOC_FACTS_SYSTEM
-    assert VISION_EXTRACTOR_VERSION == "6"  # 提示词变更必须 bump(幂等键语义)
+    assert VISION_EXTRACTOR_VERSION == "7"  # 提示词变更必须 bump(幂等键语义)
+
+
+def test_doc_facts_prompt_keeps_option_groups_verbatim():
+    # 诊断集取证:选项组被清洗成单个选中项 → 锚串(整组枚举)丢失。
+    from mase.multimodal.vision_extractor import DOC_FACTS_SYSTEM
+
+    assert "选项" in DOC_FACTS_SYSTEM and "整组" in DOC_FACTS_SYSTEM

@@ -79,17 +79,58 @@ def test_evidence_is_full_line():
     assert fact.category == "general_facts"
 
 
+def test_multi_kv_segments_in_one_line():
+    # 表单常把多个 键:值 挤进一行(宽空格分隔);≥2 个有效冒号时逐段切分。
+    facts = _kv("单位：金安区第三中学 住宅：金安区天鹿睿园 手机：15141234567")
+    assert ("单位", "金安区第三中学") in facts
+    assert ("住宅", "金安区天鹿睿园") in facts
+    assert ("手机", "15141234567") in facts
+
+
+def test_multi_kv_first_segment_uses_line_prefix_as_key():
+    # 首段的键沿用 v6 语义(行首到首冒号),不丢 "INV" 前缀。
+    facts = _kv("INV NO: CS-SA-0075638 Date : 04/04/2017")
+    assert ("INV_NO", "CS-SA-0075638") in facts
+    assert ("Date", "04/04/2017") in facts
+
+
+def test_time_colon_inside_multi_kv_stays_in_value():
+    # 纯数字"键"的冒号(时间)不是分隔符,整段留在值里。
+    facts = _kv("营业时间: 10:30-22:00 电话: 55667788")
+    assert ("营业时间", "10:30-22:00") in facts
+    assert ("电话", "55667788") in facts
+
+
+def test_single_colon_line_keeps_v6_first_colon_behavior():
+    # 只有一个有效冒号时不启用多段切分,行为与 v6 逐字节一致。
+    facts = _kv("备注：含 10:30 的说明文字")
+    assert ("备注", "含 10:30 的说明文字") in facts
+
+
 def test_union_skips_values_already_in_llm_facts():
     from mase.multimodal.extractor import CandidateFact
     from mase.multimodal.kv_extract import union_kv_facts
 
-    llm = [CandidateFact("finance_budget", "total", "14.90", 0.8, "Total 14.90")]
+    llm = [CandidateFact("finance_budget", "total_line", "Total 14.90", 0.8, "Total 14.90")]
     kv = [
-        CandidateFact("general_facts", "total_line", "Total 14.90", 0.7, "Total 14.90"),  # 重复值
+        CandidateFact("general_facts", "total", "14.90", 0.7, "Total 14.90"),  # 已被覆盖的子串
         CandidateFact("general_facts", "gst_id", "001531760640", 0.7, "GST ID No: 001531760640"),  # 新值
     ]
     merged = union_kv_facts(llm, kv)
     values = {f.value for f in merged}
-    assert "14.90" in values and "001531760640" in values
-    # 重复值不重复存(14.90 已被 LLM 覆盖)
+    assert "Total 14.90" in values and "001531760640" in values
+    # 已被 LLM 值覆盖的子串不重复存
     assert sum(1 for f in merged if "14.90" in f.value) == 1
+
+
+def test_union_keeps_kv_superset_that_extends_llm_value():
+    # 诊断集真实反例:LLM 抽了地址中的机构短名,KV 完整地址值不能被当重复丢弃。
+    from mase.multimodal.extractor import CandidateFact
+    from mase.multimodal.kv_extract import union_kv_facts
+
+    llm = [CandidateFact("general_facts", "unit_name", "高各庄村办事处", 0.8, "ev")]
+    kv = [CandidateFact(
+        "general_facts", "详细通讯地址", "河北省保定市徐水县正村乡高各庄村办事处", 0.7, "ev2",
+    )]
+    merged = union_kv_facts(llm, kv)
+    assert any("河北省" in f.value for f in merged)  # 超集保留(携带前缀锚串)
