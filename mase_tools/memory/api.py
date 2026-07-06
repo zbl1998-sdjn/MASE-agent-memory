@@ -469,3 +469,39 @@ def mase2_record_extraction(
 def mase2_get_media_provenance(media_id: int) -> dict[str, Any]:
     """读取媒体溯源链:资产 + 抽取记录列表。"""
     return get_media_provenance(media_id)
+
+
+def mase2_consolidate_entity(
+    entity_id: str,
+    *,
+    min_chain: int = 4,
+    reviewer: str = "system:consolidation",
+) -> list[dict[str, Any]]:
+    """治理式巩固门面:压缩实体下全部达标版本链,返回逐键结果。
+
+    只给 superseded/expired 行生成"摘要视图"(成员一字节不改),摘要走
+    propose_fact 唯一写入口,可 retract 整体回退。
+    """
+    from mase.governance.consolidation import (  # noqa: PLC0415
+        consolidate_chain,
+        find_consolidation_candidates,
+    )
+
+    results: list[dict[str, Any]] = []
+    for candidate in find_consolidation_candidates(entity_id, min_chain=min_chain):
+        outcome = consolidate_chain(
+            entity_id,
+            candidate["subject"],
+            candidate["predicate"],
+            min_chain=min_chain,
+            reviewer=reviewer,
+        )
+        results.append({**candidate, **outcome})
+    return results
+
+
+def mase2_forget(fact_id: str, reason: str, *, reviewer: str = "user") -> bool:
+    """可审计的遗忘门面:撤回召回资格并留 forget 审计痕,不物理删除。"""
+    from mase.governance.consolidation import forget_fact  # noqa: PLC0415
+
+    return forget_fact(fact_id, reason, reviewer=reviewer)

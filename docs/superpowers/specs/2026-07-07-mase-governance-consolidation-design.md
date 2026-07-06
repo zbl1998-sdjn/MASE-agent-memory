@@ -1,6 +1,6 @@
 # MASE 治理式记忆巩固与遗忘(白盒压缩)设计
 
-- 状态:设计草案(2026-07-07;待多模态优化轮四收官后实施)
+- 状态:core v1 已实现(2026-07-07:`governance/consolidation.py` + `mase2_consolidate_entity`/`mase2_forget` 门面 + 7 项 gold set 测试;实现修订:摘要经 propose_fact 生成一条自定位 supports span(quote_hash 锁轨迹)+ 逐成员 `derived_from` 联结,比"零新 span"更符合唯一写入口不变式)。导出折叠视图、engine 后台任务、治理评测 lane 为后续切片
 - 日期:2026-07-07
 - 上游纲领:`MASE_whitebox_memory_governance_plan.md` 原则 2(证据先于摘要:摘要是派生物)、
   信任阶梯 E2(多来源一致的派生摘要,不能脱离原文证据);`NEXT_STEPS.md` §2.3(记忆压缩与摘要)

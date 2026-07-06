@@ -52,8 +52,9 @@ class ClaimType:
     DOCUMENT_CLAIM = "document_claim"
     TOOL_STATE = "tool_state"
     INFERENCE = "inference"
+    DERIVED_SUMMARY = "derived_summary"
     ALL = frozenset(
-        {PREFERENCE, PROFILE, PROJECT_FACT, DOCUMENT_CLAIM, TOOL_STATE, INFERENCE}
+        {PREFERENCE, PROFILE, PROJECT_FACT, DOCUMENT_CLAIM, TOOL_STATE, INFERENCE, DERIVED_SUMMARY}
     )
 
 
