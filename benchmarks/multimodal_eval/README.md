@@ -46,7 +46,15 @@ python -X utf8 benchmarks/multimodal_eval/run_eval.py --split dev --limit 5
 
 ## 正式基线(holdout,单次全量)
 
-- **当前基线(2026-07-05,优化轮三收口)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260704T123334Z/`
+- **当前基线(2026-07-06,优化轮四收口)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260706T171141Z/`
+  (`sample_ids_sha256=09bc7a2886b7b32e…` 与 manifest 一致,`manifest_mismatch=[]`,212 例单次跑完)
+  - 改动:① kv 一行多键切分 + 单向并集 + ② 版面结构确定性解析 `structure_facts.py`(表格行/问答行/宽空格对/序号选项组)+ ③ 视觉补看轮(抽取器 v7)+ 传输层加固(ollama 读超时、whisper cpu+int8 统一回退)
+  - overall:fulltext_anchor 0.9325 / **fact_anchor 0.8677(前基线 0.8505,+1.7pp)** / recall 0.8971 /
+    **halluc_ok 1.0(保持)** / provenance_ok 1.0 / char_similarity 0.8955(librispeech lane);**infra 0(历史首次)**
+  - by lane:sroie fact 0.9219(前 0.9281,80 例内 ±1 事实级波动)/ xfund_zh **0.775**(前 0.735)/
+    synthetic **0.8871**(前 0.8226)/ librispeech char_sim 0.8955(与轮三逐位一致,音频路径未动)
+  - 口径:音频 `MASE_WHISPER_DEVICE=cpu MASE_WHISPER_COMPUTE=int8`(与轮三一致);诊断集(XFUND-train)本轮 0.7733→0.88,偏中文表单,holdout 泛化幅度如上,如实并报。
+- **优化轮三基线(2026-07-05,历史)**:`E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260704T123334Z/`
   (`sample_ids_sha256=09bc7a2886b7b32e…` 与 manifest 一致,`manifest_mismatch=[]`,212 例单次跑完)
   - 改动:① 确定性 KV 行解析并集(抽取器 v6)+ ② XFUND-train 诊断集(治 dev 过拟合的方法论)+ ③ **doc_facts 换 qwen3:14b**(二轮 A/B 主力,think 关闭)
   - overall:fulltext_anchor 0.9325 / **fact_anchor 0.8505(前基线 0.7199,+13.1pp)** / recall 0.8939 /

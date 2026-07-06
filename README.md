@@ -9,7 +9,7 @@
 [![CI](https://github.com/zbl1998-sdjn/MASE-agent-memory/actions/workflows/ci.yml/badge.svg)](https://github.com/zbl1998-sdjn/MASE-agent-memory/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-green)
-![Tests](https://img.shields.io/badge/tests-865%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-908%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![Crash-safe](https://img.shields.io/badge/storage-crash--safe-success)
 ![LV-Eval](https://img.shields.io/badge/LV--Eval--256k-88.71%25-red)
@@ -138,7 +138,7 @@ python mase_cli.py ingest ./docs
 
 - Engine-agnostic: works with any Ollama-served vision/ASR model; provider-aware image serialization also supports OpenAI/Anthropic-style multimodal messages.
 - Every extracted fact resolves back to `media_extraction` (full transcript) → `media_asset` (sha256) → the original file bytes — a complete provenance chain, not a summary.
-- Evaluated on `benchmarks/multimodal_eval/` — 266 cases across synthetic, SROIE (real receipts, MIT), XFUND-zh (real Chinese forms, CC BY-NC-SA), and LibriSpeech (real speech, CC BY); official holdout (212 cases, single run, 2026-07-05): **fact_anchor_rate 0.85**, **halluc_ok_rate 1.0**, provenance 1.0. See `benchmarks/multimodal_eval/README.md`.
+- Evaluated on `benchmarks/multimodal_eval/` — 266 cases across synthetic, SROIE (real receipts, MIT), XFUND-zh (real Chinese forms, CC BY-NC-SA), and LibriSpeech (real speech, CC BY); official holdout (212 cases, single run, 2026-07-06): **fact_anchor_rate 0.8677**, **halluc_ok_rate 1.0**, provenance 1.0, zero infra errors. See `benchmarks/multimodal_eval/README.md`.
 
 ## Evidence
 

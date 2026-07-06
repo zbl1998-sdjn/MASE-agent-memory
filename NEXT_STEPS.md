@@ -1,9 +1,9 @@
 # MASE 下一步优化方向
 
 > 文档创建：2026-05-30
-> 最近核对：2026-07-06（对照 v0.15.0 实际代码与 CHANGELOG）
-> 当前版本：MASE v0.15.0
-> 当前最强成绩：LV-Eval EN 256k 88.71%（头条）/ 98.39%（历史峰值）；LongMemEval 80.2%（LLM-judge）；多模态 holdout fact_anchor 0.8505 / halluc_ok 1.0（212 例，v0.15.0）
+> 最近核对：2026-07-07（对照 v0.16.0 实际代码与 CHANGELOG）
+> 当前版本：MASE v0.16.0
+> 当前最强成绩：LV-Eval EN 256k 88.71%（头条）/ 98.39%（历史峰值）；LongMemEval 80.2%（LLM-judge）；多模态 holdout fact_anchor 0.8677 / halluc_ok 1.0 / 0 infra（212 例，v0.16.0）
 
 ---
 
@@ -15,7 +15,7 @@
 |---|---|
 | 1.1 图片记忆 | **已实现**（`src/mase/multimodal/` vision extractor，走"读一次、记文本"+ 字节级溯源；未做图片向量召回，与原设想路线不同） |
 | 1.2 视频记忆 | 未实现（仅支持 m4a 等音频容器，无视频帧管线） |
-| 1.3 表格记忆 | 部分实现（半结构化 `键:值` 行确定性解析 `kv_extract.py` v6；CSV/Excel 结构化表格未做） |
+| 1.3 表格记忆 | 部分实现（半结构化 `键:值` 行确定性解析 `kv_extract.py`（含一行多键）+ 版面结构解析 `structure_facts.py`（表格行/问答行/宽空格对/选项组，v0.16.0）；CSV/Excel 结构化表格未做） |
 | 1.4 文档记忆（PDF） | 部分实现（`document_loader.py` PDF 载入 + 事实抽取 + 补抽轮；树状目录索引/推理导航未做） |
 | 音频记忆（原文档未列） | **已实现**（whisper 转写 `audio_transcriber.py` + 事实抽取） |
 | 3.2 记忆隐私分级 | 部分实现（Admission Gate G3：secret 拒绝 + 脱敏落库、PII 隔离，v0.10.0；访问控制分级未做） |

@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.16.0] — 2026-07-07 — 多模态抽取优化轮四:版面结构 + 补看轮 + 一行多键;传输层加固
+
+### Changed
+- **holdout 正式基线刷新(212 例单次全量,反过拟合口径,manifest 零漂移)**:**fact_anchor 0.8505 → 0.8677(+1.7pp)**,halluc_ok **1.0 保持**,recall 0.8971,溯源 1.0,**infra 0(历史首次零 infra)**;分 lane:xfund_zh 0.735→**0.775**、synthetic 0.8226→**0.8871**、sroie 0.9281→0.9219(80 例内 ±1 事实级波动)、librispeech char_sim 0.8955(与轮三逐位一致,音频路径未动的确定性佐证;cpu+int8 口径同轮三);证据 `E:/MASE-runs/eval_runs/multimodal_eval_v1_holdout_20260706T171141Z/`
+- **② 版面结构确定性解析 `structure_facts.py`(抽取器 v6→v7)**:表格行打包/问答行配对/宽空格对/序号选项组四类无冒号版面模式纯代码解析,值取底稿原文切片(治理 evidence 定位天然通过);`union_superset_facts` 单向超集并集——候选值已被覆盖才丢弃,超集携带同行新信息必须保留;装饰页零产出保 halluc_ok
+- **① kv 一行多键切分(kv_extract 增强)**:一行含 ≥2 个有效 `键:值` 段逐段切分(标签 run 边界识别 + URL/纯数字键护栏);`union_kv_facts` 双向子串去重改为**单向**——诊断集逐例取证实锤:LLM 抽了地址中的机构短名,KV 行完整地址值因"包含短名"被误删
+- **③ 视觉补看轮(vision v7)**:首轮转写后再看一次图只输出缺失文字(行级去重并入底稿;超长复读护栏整批丢弃防幻觉;空白页不补防诱导);诊断取证:约半数漏抽是首轮转写整块丢失(密集勾选框组/多列表格/印章区)
+- **DOC_FACTS 契约**:表单勾选/选项组保留整组原文枚举(含序号与勾选符号),不再只留被选中项
+
+### Added
+- **XFUND-train 诊断集轮四取证**:0.7733 → **0.88**(+10.7pp,30 docs,0 infra);dev:sroie 0.9375→0.975、xfund_zh 0.80→0.92、synthetic 文档面 0.857、halluc_ok 1.0(诊断集偏中文表单,holdout 泛化幅度如上,如实并报)
+- **`scripts/quality_gate.py` 项目质量闸**:quick(ruff/mypy/架构/docstring/反过拟合审计/治理评测/快测,实测 ~19s)与 full(+前端三闸,~24s)两级 fail-fast,供人工验收与全局 Stop hook fail-closed 调用
+- **Ollama 客户端读超时(死锁实录驱动)**:qwen3:14b 卸载卡死(`Stopping...`)+ 模块级 `ollama.chat` 无超时 = 调用方永久挂起;现改带超时 `ollama.Client`(`MASE_OLLAMA_TIMEOUT_S` > fallbacks `ollama_timeout_seconds` > 默认 600s;≤0 显式关闭回旧行为),读/写/池超时按**非 transient** 快速失败(重试只会再烧一个超时窗),连接超时保持 transient 走服务重启自愈;真机验证:1s 预算冷加载 1.6s 触发单次失败
+- **whisper 环境性建模失败统一回退 cpu+int8**:dev 实录只设 `MASE_WHISPER_DEVICE=cpu` 时默认 float16 全 lane 崩;现除已是 cpu+int8 外一律回退,`device_fallback` 标记如实留痕
+- **治理式巩固/遗忘 + 时漂压力基准设计规范**(待实施):`docs/superpowers/specs/2026-07-07-mase-governance-consolidation-design.md`、`2026-07-07-mase-staleness-pressure-benchmark-design.md`
+- 测试 865 → **908**(+43:版面结构/多键切分/补看轮/超时语义/whisper 回退/质量闸/召回权重特征钉;`pytest --collect-only` 实收一致)
+
+### 口径说明
+- 音频路径本轮零改动;holdout 音频用 `MASE_WHISPER_DEVICE=cpu MASE_WHISPER_COMPUTE=int8`(与轮三同口径)
+- 取证方法:eval run 的 `work/*/memory.db` 对照 cases.json 锚串,仅用 dev/诊断集逐例(holdout 逐例禁看)
+
 ## [0.15.0] — 2026-07-05 — 多模态抽取优化轮三:KV 并集 + 诊断集 + qwen3:14b
 
 ### Changed
