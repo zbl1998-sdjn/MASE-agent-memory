@@ -449,3 +449,14 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 - **机制**:聚合题证据横跨多行,≤8 行抽取直接截肢;且"判断哪行相关"本身就是 7B 缺失的整合能力——拆任务在此是套娃,子任务不比原任务简单。
 - **总结**:五假设五否决(排序/提示/换档/兜底/任务形状),本地 qwen2.5:7b lane 的 LME 优化面正式宣告穷尽,62.60% substring 为该架构+模型的诚实产出(judge 口径预估 75-80%,待复评)。后续唯一在架构内的结构性方向是事件→事实投影(治理层接通长记忆路径),其价值独立于跑分。
 - 运行证据:`benchmark-longmemeval_s-haystack-20260708-015342-243937.json`。
+
+### LLM 抽取投影 POC 冒烟(2026-07-08)— 证明工程量真实且多层,未全量
+- **动机**:judge 复评定靶——knowledge-update 本地 53.8% vs 云端 88.5%(-34.7pp)是唯一结构性坍塌;temporal 65.4 本地=云端(任务难度非架构,不在射程)。
+- **管道验证通**:DeepSeek doc_facts 抽取 → 治理 facade 投影 → supersede → MASE_EVIDENCE_PACK_INJECTION 答题,全链跑通;合成对话抽取质量高(预算题直接抽现行值 8000)。
+- **冒烟暴露三层真实瓶颈**(5K 案例,GT 25:50):
+  1. **抽取漏抽**:doc_facts 契约为单据/表单写,长对话轮只抽"显著项",漏掉问题相关的 5K 成绩;换对话专用契约后修复(两个时间都抽到)。
+  2. **同义键不一致**:同一事实抽成 `running_5k_best_time` 与 `running_personal_best_time`,supersede 靠键匹配→不归并→双 active,现行值判定失效。
+  3. **召回对齐**:pack 召回是关键词匹配,抽取 key 与问题词未必对齐→Verified 空→弃答依旧。
+- **规模纠错**:每案例 user 轮中位 242(非估计的 ~50);限相关会话(oracle answer_session_ids)降到中位 12/案例、全 78 约 915 次调用——但这已是"检索完美"上限假设,非端到端。
+- **裁决**:停 POC。三层瓶颈(漏抽/键归并/召回对齐)各是独立工程,叠加起来是"写入时事实抽取子系统"级投入(mem0/Zep 一族的核心工作量),不是一个 flag 能提分的 POC。knowledge-update 的结构性解成立但昂贵;**是否投入是产品定位决策,不是技术可行性问题**——路已探明、成本已知,留给排期。
+- 证据:`E:/MASE-runs/eval_runs/poc_extract_projection_20260707T231540Z/`;抽取契约对比与三层瓶颈本会话取证。
