@@ -116,7 +116,7 @@
 - **Result**: NOT YET re-measured on EN (high risk of dropping below 95%).
 
 ### Diagnostic discovery — TWO-needle adversarial design
-- factrecall_zh plants TWO sentences: TRUE answer with typo ("贝多芬…物理**理**学") + DECOY with cleaner syntax ("贝克汉姆…现代天文之奠基者") + strong distractor ("诺贝尔物理学奖"). 
+- factrecall_zh plants TWO sentences: TRUE answer with typo ("贝多芬…物理**理**学") + DECOY with cleaner syntax ("贝克汉姆…现代天文之奠基者") + strong distractor ("诺贝尔物理学奖").
 - Tested with: BM25, fuzzy regex, **bge-m3 semantic embedding** (cos sim: distractor 0.64 > decoy 0.62 > true 0.42 — embedding RANKS TRUE LAST), candidate-list-injection prompt on qwen2.5:7b AND deepseek-r1:7b — ALL pick wrong. Conclusion: 7B local models cannot solve this case without overfitting. Closed-loop targets (95%/95%/92%) unreachable with current arch.
 
 ### iter5 — three-track approach (user-approved 2026-04-18 23:21)
@@ -238,7 +238,7 @@
 
 ### 2026-04-19 — Model autonomy decisions + LongBench-v2 MC mode + LME GLM-5 baseline
 
-**Inventoried .env cloud models**: deepseek-chat, glm-5, kimi-k2.5, qwen3.5-plus, minimax-m2  
+**Inventoried .env cloud models**: deepseek-chat, glm-5, kimi-k2.5, qwen3.5-plus, minimax-m2
 **Local cluster**: qwen2.5 (0.5/1.5/3/7b), deepseek-r1:7b (CoT), granite3.3:2b, lfm2.5-thinking:1.2b, bge-m3
 
 **Final task→model assignment** (autonomous, by characteristic):
@@ -413,3 +413,19 @@ External-audit risks resolved this session:
 7. **End-to-end clean-venv verification.** `python -m build --wheel` → fresh `.venv-pipcheck` → `pip install dist/*.whl` (+ runtime deps) → `pytest tests` returns **26 passed, 0 failed**. The wheel is GitHub-publish-ready as far as packaging is concerned; the remaining publish gate is the LongMemEval ≥ 85 % LLM-judge target (currently 80 % post-routing-fix).
 
 Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `shim-cleanup-rootdir`, `orchestrator-router-dedupe`.
+
+## 2026-07-07 — knowledge-update ledger 两次负结果(本地 LME 取证轮)
+
+背景:v0.16 首个全本地 LongMemEval-500 lane(qwen2.5:7b,substring)62.60%,knowledge-update 47.44% 为最弱题型。41 失败逐例归因:13 弃答(召回缺口)、其余为答旧值/增量不合成;离线复盘发现 update ledger 的"latest supported row"因词法强度过滤呈现伪最新(bikes 案 02/22 顶替 10/10)。
+
+### 尝试一(失败,已回滚)— 边界行按时间戳取、强度过滤只修剪旧端
+- **结果**:knowledge-update 子集 78 例 37→**21**(-20.5pp),19 例 PASS→FAIL。
+- **机制**:对话记忆里"时间最新的行"经常在回顾旧值("hoping to beat my best of 25:50"),且弱命中新行里的无关数字被 deterministic_answer 采纳($400,000→$350,000、220→2000)。
+- **教训**:**时间戳≠值的新旧**;词法强度≈主题绑定才是"值所在行"的可靠信号,原"强度过滤→取最新"是正确设计。未来任何更新语义改造必须绑定"含值行",时间只作同强度 tiebreaker。
+
+### 尝试二(持平,已回滚)— 仅加通用增量合成提示行
+- **结果**:37/78 持平(1 P→F / 1 F→P 对消)。提示行对 7B 惰性。
+
+### 结论
+- 两次封顶,停止在该 78 例子集上迭代(过拟合红线)。knowledge-update 的下一条有效线是**机制①召回缺口**(13 例弃答,evidence terms 未命中购买/变更句),单独取证后再动。
+- 运行证据:`E:/MASE-runs/results/benchmark-longmemeval_s-haystack-20260707-{132003-943200,180920-981436,181901-498437}.json`。
