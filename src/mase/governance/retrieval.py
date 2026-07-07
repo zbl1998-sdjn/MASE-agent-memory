@@ -23,12 +23,12 @@ from mase_tools.memory.db_core import get_connection
 
 from .fact_contract import FactContract, FactStatus, utc_now
 from .semantic_discovery import (
-    DEFAULT_THRESHOLD,
-    DEFAULT_TOP_N,
     SEMANTIC_WEIGHT,
     discover,
     embed_model_name,
     semantic_enabled,
+    semantic_threshold,
+    semantic_top_n,
 )
 
 # §4.5.3 权重原值;tag_match v1 恒 0(词典未建,如实缺席)。
@@ -147,8 +147,8 @@ def retrieve_facts(
         if semantic_enabled():
             semantic_meta = {
                 "model": embed_model_name(),
-                "top_n": DEFAULT_TOP_N,
-                "threshold": DEFAULT_THRESHOLD,
+                "top_n": semantic_top_n(),
+                "threshold": semantic_threshold(),
                 "weight": SEMANTIC_WEIGHT,
             }
             plan = replace(

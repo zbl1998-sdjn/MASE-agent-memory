@@ -33,8 +33,12 @@ from mase_tools.memory.db_core import get_connection
 from .fact_contract import utc_now
 
 DEFAULT_EMBED_MODEL = "bge-m3"
-DEFAULT_TOP_N = 5
-DEFAULT_THRESHOLD = 0.5
+# 2026-07-07 诊断面校准(benchmarks/semantic_recall,24 事实/16 改写/8 负例):
+# top_n=1 零代价消噪(目标过阈值时总是语义第一名);threshold 0.55 精确优先
+# (负例顶点 0.514,留 0.036 边距;0.5 档命中 0.94 但负例误发现 25%,
+# 高召回场景用 MASE_SEMANTIC_THRESHOLD=0.5 自选)。
+DEFAULT_TOP_N = 1
+DEFAULT_THRESHOLD = 0.55
 # 语义分量权重:低于任何强关键词命中(exact_entity 0.30/predicate 0.20),
 # 发现是补充信号,不与机械匹配争主导。常数待 NoLiMa/LME 侧 A/B 校准。
 SEMANTIC_WEIGHT = 0.15
@@ -48,6 +52,26 @@ def semantic_enabled() -> bool:
 
 def embed_model_name() -> str:
     return os.environ.get("MASE_EMBED_MODEL", "").strip() or DEFAULT_EMBED_MODEL
+
+
+def _env_float(name: str, default: float) -> float:
+    raw = os.environ.get(name, "").strip()
+    if not raw:
+        return default
+    try:
+        return float(raw)
+    except ValueError:
+        return default
+
+
+def semantic_threshold() -> float:
+    """相似度准入阈值(`MASE_SEMANTIC_THRESHOLD` 可覆盖,校准见诊断面)。"""
+    return _env_float("MASE_SEMANTIC_THRESHOLD", DEFAULT_THRESHOLD)
+
+
+def semantic_top_n() -> int:
+    """每查询语义候选上限(`MASE_SEMANTIC_TOP_N` 可覆盖)。"""
+    return max(1, int(_env_float("MASE_SEMANTIC_TOP_N", float(DEFAULT_TOP_N))))
 
 
 def _embed_base_url() -> str:
@@ -126,8 +150,8 @@ def discover(
     *,
     entity_id: str | None = None,
     exclude_fact_ids: set[str] | None = None,
-    top_n: int = DEFAULT_TOP_N,
-    threshold: float = DEFAULT_THRESHOLD,
+    top_n: int | None = None,
+    threshold: float | None = None,
     db_path: str | Path | None = None,
 ) -> list[tuple[str, float]]:
     """语义发现:返回 [(fact_id, similarity)],降序,≥threshold,至多 top_n。
@@ -138,6 +162,10 @@ def discover(
     query = " ".join(kw for kw in keywords if kw and kw.strip()).strip()
     if not query:
         return []
+    if top_n is None:
+        top_n = semantic_top_n()
+    if threshold is None:
+        threshold = semantic_threshold()
     model = embed_model_name()
     exclude = exclude_fact_ids or set()
     with closing(get_connection(db_path)) as conn, conn:
