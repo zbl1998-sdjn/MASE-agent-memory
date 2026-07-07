@@ -62,9 +62,15 @@ it's a lane no one else is currently driving in.
 - **Model class mismatch.** Paper baselines are frontier 70B+ / GPT-4o.
   Ours is `qwen2.5:7b` via Ollama. Comparing absolute % is not the point;
   comparing the *slope* and the *delta vs our own single-pass* is.
-- **ONLYDirect subset.** The harder NoLiMa-Hard split with multi-hop
-  reasoning is still 0 % for us at every length — we don't claim otherwise
-  (see `results/external/phase_a_summary.jsonl`, `nolima_hard*` rows).
+- **ONLYDirect subset.** The non-literal tiers stay 0 % for us at every
+  length — we don't claim otherwise. Re-confirmed 2026-07-07 on v0.16 code
+  with the same chunked protocol: needle_set (onehop/twohop) 0/116 at 16k
+  and 32k, needle_set_hard 0/20 at both lengths
+  (`E:/MASE-runs/results/external/nolima_chunked_*_v016_nonliteral/`);
+  April rows said the same (`results/external/phase_a_summary.jsonl`,
+  `nolima_hard*`). Keyword-only recall cannot bridge latent associations;
+  the opt-in semantic discovery lever (bge-m3) has no NoLiMa-side evidence
+  yet and any future run will be a separately labeled lane.
 - **Single seed, 56 items per length.** Same as the paper's needle set
   size; no cherry-picking across seeds.
 

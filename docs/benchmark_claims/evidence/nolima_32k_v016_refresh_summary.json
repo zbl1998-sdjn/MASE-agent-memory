@@ -53,7 +53,7 @@
   ],
   "tier_semantics_disclosure": {
     "onlydirect_is_literal_tier": "ONLYDirect questions share verbatim phrasing with the needle (e.g. needle 'Actually, {CHAR} lives next to {1}.' vs question 'Which character lives next to {1}?'); keyword retrieval is expected to excel here. This claim measures window-boundedness bypass, NOT latent associative reasoning.",
-    "non_literal_tiers": "NoLiMa's signature no-literal-match tiers (needle_set onehop/twohop, needle_set_hard) remain 0% for MASE's keyword-based recall at every tested length (2026-04-19 committed runs: nolima_hard 0/20 @8k, nolima_hard_reasoning 0/20 @16k, E:/MASE-runs/results/external/phase_a_summary.jsonl) — consistent with all vector-free keyword systems; disclosed in docs/NOLIMA_3WAY.md.",
+    "non_literal_tiers": "NoLiMa's signature no-literal-match tiers are 0% for MASE's keyword-based recall — re-confirmed on v0.16 code 2026-07-07 with the same chunked protocol: needle_set (onehop/twohop) 0/116 @32k and 0/116 @16k, needle_set_hard 0/20 @32k and 0/20 @16k (run dirs E:/MASE-runs/results/external/nolima_chunked_*_v016_nonliteral). April 2026 runs said the same (nolima_hard 0/20 @8k/@16k, phase_a_summary.jsonl). Consistent with all vector-free keyword systems; disclosed in docs/NOLIMA_3WAY.md.",
     "future_lever": "opt-in semantic candidate discovery (bge-m3) targets exactly this gap but has no NoLiMa-side evidence yet; any such run must be a separately labeled lane."
   },
   "notes": [

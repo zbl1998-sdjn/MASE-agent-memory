@@ -1,6 +1,21 @@
 {
   "benchmark": "LongMemEval-S",
   "claims": {
+    "local_v016_full_500_substring": {
+      "score_pct": 62.6,
+      "pass_count": 313,
+      "sample_count": 500,
+      "metric": "substring",
+      "config_profile": "local-only-longmemeval",
+      "run_date": "2026-07-07",
+      "note": "fully local qwen2.5:7b lane, substring floor (judge disabled); lane-local baseline, not executor-comparable with the cloud lanes",
+      "evidence": [
+        {
+          "path": "docs/benchmark_claims/evidence/longmemeval_local_v016_summary.json",
+          "status": "tracked"
+        }
+      ]
+    },
     "publishable_full_500_llm_judge": {
       "score_pct": 80.2,
       "pass_count": 401,

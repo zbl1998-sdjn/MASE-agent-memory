@@ -27,8 +27,9 @@ contribution of the architecture itself.
 > 另:NoLiMa **ONLYDirect**(字面直接档)32k 同日复测 MASE chunked **96.43%**(54/56)
 > vs 真裸基线 **0.0%**(0/56,任务 ≈36-40k qwen tokens 超出原生窗口,逐例截断记账)。
 > 档位如实:ONLYDirect 问句与针字面重叠,关键词检索的主场,证明的是窗口突破而非潜在
-> 联想;NoLiMa 反字面招牌档(onehop/twohop/Hard)关键词系统为 **0%**(2026-04 committed,
-> `nolima_hard*` 0/20 全长度),见 docs/NOLIMA_3WAY.md。4 月裸基线 1.79% 系当时 runner
+> 联想;NoLiMa 反字面招牌档(onehop/twohop/Hard)关键词系统为 **0%**——2026-07-07
+> v0.16 同协议复测 272 例全零(needle_set 0/116、hard 0/20,@16k 与 @32k 各一轮),
+> 与 2026-04 committed 一致,见 docs/NOLIMA_3WAY.md。4 月裸基线 1.79% 系当时 runner
 > 经 8k executor 截断的测量伪影,取证留痕于
 > docs/benchmark_claims/evidence/nolima_32k_v016_refresh_summary.json。
 
@@ -119,6 +120,7 @@ claim manifest evidence are available.
 
 | Configuration | n | Substring % | **LLM-judge %** | Δ pp |
 |---|---|---|---|---|
+| **local v0.16 lane**(qwen2.5:7b 全本地,multipass+HyDE+rerank,2026-07-07) | 500 | **62.6** | 待云端复评 | — |
 | GLM-5 baseline (no multipass, no verifier) | 500 | 70.4 | **72.4** | +2.0 |
 | iter1 (multipass)                          | 500 | 69.4 | **72.4** | +3.0 |
 | **best stable run** (multipass + length-aware) | 500 | 75.4 | **77.2** | +1.8 |

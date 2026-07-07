@@ -1,0 +1,55 @@
+{
+  "benchmark": "LongMemEval-S",
+  "run": "local_v016_full_500",
+  "run_date": "2026-07-07",
+  "sample_count": 500,
+  "code_version": "v0.16.0 (commit db26f5cf era)",
+  "configuration": "fully local qwen2.5:7b lane (MASE_LOCAL_ONLY=1, cloud blocked): scripts/run_lme_full.py preset - multipass + HyDE + rerank, local verifier, qtype routing on, qid routing disabled, LLM judge disabled; 60.6min wall on dual RTX 3090",
+  "dataset_provenance": {
+    "capture_status": "captured_by_runner",
+    "source": "kellyhongg/cleaned-longmemeval-s (local copy longmemeval_s_500.json)",
+    "config": "full_500",
+    "sample_selection": "full_500",
+    "sample_count": 500,
+    "sample_ids_sha256": "a4849b8afda6b6ed31ead4fc28d00784d2d5fef945be87642f5ce3ab710b21c4",
+    "sample_payload_sha256": "d4ce4cc4e56e94625bbcabbb32b2e9d6e4d042dcfc2481ad8996d496d56dd1a4"
+  },
+  "run_protocol": {
+    "anti_overfit_policy": "docs/BENCHMARK_ANTI_OVERFIT.md",
+    "sample_id_usage": "result_reporting_only",
+    "runtime_sample_identifier": "sha256_hash",
+    "id_routing_allowed": false,
+    "qid_bucket_routing_env": "0",
+    "post_hoc_retry_claimable": false,
+    "single_run": true
+  },
+  "anti_overfit": {
+    "publishable_headline": true,
+    "diagnostic_only": false,
+    "qid_bucket_routing": "disabled",
+    "uses_failed_slice_retry": false
+  },
+  "substring": {
+    "pass_count": 313,
+    "score_pct": 62.6
+  },
+  "by_question_type_substring": {
+    "single-session-preference": {"pass": 30, "total": 30, "pct": 100.0},
+    "single-session-user": {"pass": 49, "total": 70, "pct": 70.0},
+    "single-session-assistant": {"pass": 38, "total": 56, "pct": 67.86},
+    "multi-session": {"pass": 80, "total": 133, "pct": 60.15},
+    "temporal-reasoning": {"pass": 79, "total": 133, "pct": 59.4},
+    "knowledge-update": {"pass": 37, "total": 78, "pct": 47.44}
+  },
+  "lane_semantics": {
+    "substring_floor_only": "LLM-judge disabled by design in this local lane; substring is the never-wrong floor. The 2026-04 cloud lane showed judge upgrades of ~19pp on the same benchmark; a judge re-score of this run requires cloud calls and is pending.",
+    "cross_lane_comparison_caveat": "The 2026-04 published lanes ran a GLM-5 cloud executor; this lane runs qwen2.5:7b fully local with a 12k-char local fact-sheet cap. Numbers are lane-local baselines, not an executor-for-executor comparison. For reference: cloud published substring 61.0, cloud best-stable substring 75.4."
+  },
+  "evidence_paths": [
+    "E:/MASE-runs/results/benchmark-longmemeval_s-haystack-20260707-132003-943200.json"
+  ],
+  "notes": [
+    "First committed fully-local LongMemEval-S 500 baseline on v0.16: 62.60% substring floor, exceeding the 2026-04 cloud published substring lane (61.0) despite the 7B local executor.",
+    "knowledge-update (47.44%) is the weakest type in this lane; temporal-reasoning (59.4%) matches the known weakness from the cloud-lane forensics."
+  ]
+}

@@ -151,10 +151,11 @@ MASE has been evaluated across long-context and memory-oriented benchmarks:
 
 > NoLiMa 口径如实说明:ONLYDirect 是问句与针存在字面重叠的**直接档**,MASE 的关键词检索
 > 本就应当拿下,它证明的是"任务超出原生窗口时检索架构的价值",不是潜在联想推理;NoLiMa
-> 招牌的**反字面**档(onehop/twohop、NoLiMa-Hard)我们的关键词系统为 **0%**(全长度,
-> 2026-04 已 committed:`nolima_hard*` 0/20),与所有无向量检索系统一致——详见
-> `docs/NOLIMA_3WAY.md` 的完整诚实边界。语义候选发现(bge-m3,opt-in)是面向该档位的
-> 后续实验方向,尚无 NoLiMa 侧证据。
+> 招牌的**反字面**档(onehop/twohop、NoLiMa-Hard)我们的关键词系统为 **0%**——
+> 2026-07-07 用 v0.16 代码同协议复测 272 例全零(needle_set 0/116 @16k、@32k;
+> hard 0/20 @16k、@32k),与 2026-04 committed 结果一致,也与所有无向量检索系统一致
+> ——详见 `docs/NOLIMA_3WAY.md` 的完整诚实边界。语义候选发现(bge-m3,opt-in)是
+> 面向该档位的后续实验方向,尚无 NoLiMa 侧证据。
 | LongMemEval-S 500 | GLM-5 + kimi-k2.5 verifier | **61.0% official substring** / **80.2% LLM-judge** | **70.4% substring** / **72.4% LLM-judge** | **+7.8pp judge** |
 
 LongMemEval is reported with multiple lanes:
