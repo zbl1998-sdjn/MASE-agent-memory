@@ -429,3 +429,10 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 ### 结论
 - 两次封顶,停止在该 78 例子集上迭代(过拟合红线)。knowledge-update 的下一条有效线是**机制①召回缺口**(13 例弃答,evidence terms 未命中购买/变更句),单独取证后再动。
 - 运行证据:`E:/MASE-runs/results/benchmark-longmemeval_s-haystack-20260707-{132003-943200,180920-981436,181901-498437}.json`。
+
+### 尝试三(失败,已回滚)— fact sheet 头部反过早弃答规则
+- **背景**:弃答取证再反转——13 例"召回缺口"里 10 例证据行在场、8 例连 GT 值都在 snippet 里;全量口径错误弃答 73 例(+14.6pp 上限,temporal 36 例)。
+- **改动**:头部加一句通用"弃答前复核所有条目"规则(中英)。
+- **结果**:全量 500 A/B:总分 313→**302**(-2.2pp),弃答仅 88→82。规则几乎不减弃答,却拖垮其它回答(注意力稀释/诱导抓错行)。
+- **结论**:"证据在场仍弃答"是 7B 的整合能力边界,不是提示语可廉价修复;三次尝试封顶,本地 LME 62.60% 基线保持为诚实数字。剩余可行方向(未验证):更强本地模型档(qwen3:14b lane)、或治理层 Evidence Pack 注入路径(MASE_EVIDENCE_PACK_INJECTION)在 LME 上的 A/B——均为独立立项。
+- 运行证据:`benchmark-longmemeval_s-haystack-20260707-185211-249437.json`。
