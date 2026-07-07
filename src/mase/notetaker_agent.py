@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 from typing import Any
 
@@ -111,6 +112,9 @@ class NotetakerAgent:
 
     def __init__(self, model_interface: ModelInterface | None = None) -> None:
         self.model_interface = model_interface
+        # 事件→事实实时链接(投影切片②):记录最近一条 user 事件的 log id,
+        # 供本会话后续 upsert 自动绑定证据来源。
+        self._last_user_log_id: int | None = None
         # 工具名到真实记忆 API 的唯一注册表，避免模型返回的名字直接动态调用。
         self._tool_handlers: dict[str, Any] = {
             "mase2_write_interaction": mase2_write_interaction,
@@ -146,7 +150,20 @@ class NotetakerAgent:
         """执行单个已注册记忆工具，并在需要时做混合召回重排。"""
         if name not in self._tool_handlers:
             raise ValueError(f"未知工具: {name}")
+        if (
+            name == "mase2_upsert_fact"
+            and "source_log_id" not in arguments
+            and self._last_user_log_id is not None
+        ):
+            # 事件→事实实时链接:把最近一条 user 事件绑到事实上。值不逐字
+            # 出现在该事件原文时,治理层自动降为 INFERENCE(隔离,不产错误
+            # active)——错误绑定只会更保守,不会更激进。
+            arguments = {**arguments, "source_log_id": self._last_user_log_id}
         result = self._tool_handlers[name](**arguments)
+        if name == "mase2_write_interaction" and str(arguments.get("role") or "").lower() == "user":
+            id_match = re.search(r"ID (\d+)", str(result))
+            if id_match:
+                self._last_user_log_id = int(id_match.group(1))
         if name == "mase2_search_memory" and os.environ.get("MASE_HYBRID_RECALL", "0") == "1":
             try:
                 from .hybrid_recall import HybridReranker

@@ -1,6 +1,6 @@
 # MASE 事件→事实投影设计(治理层接通 event log)
 
-- 状态:切片① 实施中(2026-07-08)
+- 状态:切片①② 已实现并验收(2026-07-08 同日:①批量投影 `event_projection.py`+`mase2_project_events`,gold set 5 项;②notetaker 实时链接——handler 捕获最近 user 事件 log id 注入 upsert(工具 schema 零改动,显式传参不覆盖,错误绑定经治理层自动降级 INFERENCE 只会更保守),真实闭环验收:事件→active fact,span 逐字定位事件原文)。LLM 抽取 lane、模糊键归并、engine 自动投影为后续
 - 日期:2026-07-08
 - 上游:白盒治理总纲(facts/supersede/valid_time);企业 Phase 1 的
   `GovernedFactWriteFacade`(候选表 + source_log_id → 事件原文证据绑定,已存在);
