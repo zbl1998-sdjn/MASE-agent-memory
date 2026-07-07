@@ -505,3 +505,18 @@ def mase2_forget(fact_id: str, reason: str, *, reviewer: str = "user") -> bool:
     from mase.governance.consolidation import forget_fact  # noqa: PLC0415
 
     return forget_fact(fact_id, reason, reviewer=reviewer)
+
+
+def mase2_project_events(
+    *,
+    thread_id: str | None = None,
+    limit: int | None = None,
+) -> dict[str, Any]:
+    """事件→事实投影门面:把存量 user 事件确定性投影为治理 facts。
+
+    值逐字来自事件原文(span 定位天然通过),同键 supersede/门控/候选留痕
+    全部复用治理层既有机制;幂等可重跑。
+    """
+    from mase.governance.event_projection import project_events  # noqa: PLC0415
+
+    return project_events(thread_id=thread_id, limit=limit)
