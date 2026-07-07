@@ -37,7 +37,21 @@ python -X utf8 benchmarks/semantic_recall/run_semantic_recall.py
   (答非所问/上下文污染),与"宁缺毋滥"哲学一致;
 - 高召回场景(交互式助手、用户可容忍多给)自行设 `MASE_SEMANTIC_THRESHOLD=0.5`。
 
-延迟(热缓存):~0.73–0.77s/查询(含 1 次查询向量 embed);flag off 0.007s。
+延迟(热缓存):~0.71–0.77s/查询(含 1 次查询向量 embed);flag off 0.007s。
+
+## 弱语义线索带(同日追加,run `semantic_recall_20260707T005222Z`)
+
+"自适应调阈"被取证否决(负例恰是孤立低分,top1-top2 边际差无区分度)后,
+高召回改走**分层**:`[MASE_SEMANTIC_HINT_FLOOR(0.50), threshold)` 区间的
+active 普通事实进 Evidence Pack 的非应答"Weak Semantic Hints"节(供上层追问,
+verifier 不判,隔离/敏感事实不得经此泄出)。默认配置实测:
+
+| 指标 | 数值 | 含义 |
+|---|---|---|
+| paraphrase_hit(Verified) | 0.75 | 应答面,零噪声零误发现保持 |
+| hint_recovery | 0.1875(3/16) | 精确档漏检被线索带接住(咖啡/VPN/车位) |
+| **effective_coverage** | **0.9375** | 命中+线索的总覆盖,与 0.5 阈值档持平但应答面干净 |
+| negative_hint_rate | 0.25(2/8) | 负例出现线索的比例——代价是"多问一句",非错误注入 |
 
 ## 已知边界(诚实)
 

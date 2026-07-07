@@ -131,7 +131,7 @@ def _run_mode(
     os.environ["MASE_SEMANTIC_DISCOVERY"] = "1" if mode == "on" else "0"
     rows: list[dict[str, Any]] = []
     latencies: list[float] = []
-    hit = extra_noise = 0
+    hit = extra_noise = hint_recovered = 0
     for query, target in PARAPHRASE_QUERIES:
         started = time.perf_counter()
         pack = compile_evidence_pack(query, [query], db_path=db_path)
@@ -139,23 +139,32 @@ def _run_mode(
         verified_ids = {str(v["fact_id"]) for v in pack.verified}
         got = fact_ids[target] in verified_ids
         noise = bool(verified_ids - {fact_ids[target]})
+        in_hints = fact_ids[target] in {str(h["fact_id"]) for h in pack.semantic_hints}
         hit += got
         extra_noise += noise
+        hint_recovered += (not got) and in_hints  # 精确档漏检被弱线索带接住
         rows.append({"query": query, "kind": "paraphrase", "target": target,
-                     "hit": got, "noise": noise, "verified_count": len(verified_ids)})
-    false_positive = 0
+                     "hit": got, "noise": noise, "hint_recovered": (not got) and in_hints,
+                     "verified_count": len(verified_ids)})
+    false_positive = negative_hints = 0
     for query in NEGATIVE_QUERIES:
         started = time.perf_counter()
         pack = compile_evidence_pack(query, [query], db_path=db_path)
         latencies.append(time.perf_counter() - started)
         leaked = len(pack.verified) > 0
         false_positive += leaked
+        negative_hints += len(pack.semantic_hints) > 0
         rows.append({"query": query, "kind": "negative", "false_verified": leaked,
+                     "hints_shown": len(pack.semantic_hints),
                      "verified_count": len(pack.verified)})
+    total_para = len(PARAPHRASE_QUERIES)
     return {
-        "paraphrase_hit_rate": round(hit / len(PARAPHRASE_QUERIES), 4),
-        "extra_noise_rate": round(extra_noise / len(PARAPHRASE_QUERIES), 4),
+        "paraphrase_hit_rate": round(hit / total_para, 4),
+        "extra_noise_rate": round(extra_noise / total_para, 4),
         "negative_false_rate": round(false_positive / len(NEGATIVE_QUERIES), 4),
+        "hint_recovery_rate": round(hint_recovered / total_para, 4),
+        "effective_coverage": round((hit + hint_recovered) / total_para, 4),
+        "negative_hint_rate": round(negative_hints / len(NEGATIVE_QUERIES), 4),
         "mean_latency_s": round(sum(latencies) / len(latencies), 3),
         "max_latency_s": round(max(latencies), 3),
         "rows": rows,

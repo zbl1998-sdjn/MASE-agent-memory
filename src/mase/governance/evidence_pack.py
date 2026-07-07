@@ -41,6 +41,9 @@ class EvidencePack:
     warnings: tuple[str, ...]
     token_estimate: int
     created_at: str
+    # 弱语义线索(非应答):相似度落在 [hint_floor, threshold) 的 active 普通
+    # 事实,供上层追问;不参与 Verified/Conflicts,verifier 不判(UNTAGGED)。
+    semantic_hints: tuple[dict[str, Any], ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable representation for API and audit payloads."""
@@ -55,6 +58,7 @@ class EvidencePack:
             "warnings": list(self.warnings),
             "token_estimate": self.token_estimate,
             "created_at": self.created_at,
+            "semantic_hints": list(self.semantic_hints),
         }
 
 
@@ -116,6 +120,7 @@ def compile_evidence_pack(
                     do_not_assume.append(f"不得使用敏感内容:{fact.fact_id}(sensitivity=secret)")
 
         conflicts = _collect_conflicts(cursor, selected)
+        semantic_hints = _collect_semantic_hints(cursor, plan)
 
     covered = {kw for c in candidates for kw in c.matched_keywords}
     unknowns = tuple(
@@ -133,6 +138,7 @@ def compile_evidence_pack(
         warnings=tuple(warnings),
         token_estimate=0,
         created_at=utc_now(),
+        semantic_hints=semantic_hints,
     )
     pack = replace(pack, token_estimate=len(render_markdown(pack)) // 4)
     _persist_audit(pack, plan, candidates, db_path=db_path)
@@ -172,6 +178,13 @@ def render_markdown(pack: EvidencePack) -> str:
     lines += [f"- {u}" for u in pack.unknowns] or ["- None."]
     lines += ["", "## Do Not Assume"]
     lines += [f"- {d}" for d in pack.do_not_assume] or ["- None."]
+    if pack.semantic_hints:
+        # 条件节(同 Warnings 先例):无线索时渲染逐字节不变。
+        lines += ["", "## Weak Semantic Hints(非应答)"]
+        for hint in pack.semantic_hints:
+            lines.append(
+                f"- 可能相关(相似度 {hint['similarity']},不作应答依据,可向用户确认):{hint['claim']}"
+            )
     if pack.warnings:
         lines += ["", "## Warnings"]
         lines += [f"- {w}" for w in pack.warnings]
@@ -197,6 +210,28 @@ def _located_spans(cursor: Any, fact_id: str) -> list[Any]:
         """,
         (fact_id,),
     ).fetchall()
+
+
+def _collect_semantic_hints(cursor: Any, plan: Any) -> tuple[dict[str, Any], ...]:
+    """plan 上的弱语义线索 → 非应答线索节;仅 active+normal 事实可显露 claim。
+
+    隔离区/敏感事实即使落在线索带也绝不经此泄出(线索会显示 claim 原文)。
+    """
+    hint_refs = (plan.filters.get("semantic") or {}).get("hints") or []
+    hints: list[dict[str, Any]] = []
+    for ref in hint_refs:
+        row = cursor.execute(
+            "SELECT subject, predicate, object, status, sensitivity FROM facts WHERE fact_id = ?",
+            (str(ref["fact_id"]),),
+        ).fetchone()
+        if row is None or row["status"] != FactStatus.ACTIVE or row["sensitivity"] != "normal":
+            continue
+        hints.append({
+            "fact_id": str(ref["fact_id"]),
+            "claim": f"{row['subject']}.{row['predicate']} = {row['object']}",
+            "similarity": ref["similarity"],
+        })
+    return tuple(hints)
 
 
 def _collect_conflicts(cursor: Any, selected: list[ScoredCandidate]) -> list[dict[str, Any]]:

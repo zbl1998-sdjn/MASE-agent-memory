@@ -11,11 +11,13 @@ for _p in (_ROOT / "src", _ROOT):
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-# 语义空间:reimburse_limit 与查询"expense ceiling"同向,favorite_color 正交。
+# 语义空间:reimburse_limit 与查询"expense ceiling"同向(cos≈0.994),
+# lunch_spot 落弱线索带(cos≈0.518 ∈ [0.50, 0.55)),favorite_color 正交。
 _FAKE_VECTORS = {
     "alice.reimburse_limit = 500 CNY": [1.0, 0.0, 0.0],
     "alice.favorite_color = blue": [0.0, 1.0, 0.0],
     "alice.travel_note = fly quietly": [0.0, 0.0, 1.0],
+    "alice.lunch_spot = riverside cafe": [0.42, 0.9075, 0.0],
     "expense ceiling": [0.9, 0.1, 0.0],
 }
 
@@ -152,3 +154,56 @@ def test_pack_unknowns_not_contradictory_after_discovery(tmp_path, monkeypatch):
     pack = compile_evidence_pack("报销上限是多少?", ["expense ceiling"])
     assert any("500 CNY" in str(v["claim"]) for v in pack.verified)
     assert pack.unknowns == ()  # 已语义覆盖的关键词不再报"未知"
+
+
+def test_hint_band_lands_in_hints_section_not_candidates(tmp_path, monkeypatch):
+    """[floor, threshold) 带:只进非应答线索节 + plan 审计;带下不现身任何地方。"""
+    _isolate_db(tmp_path, monkeypatch)
+    monkeypatch.setenv("MASE_SEMANTIC_DISCOVERY", "1")
+    _fake_embedder(monkeypatch)
+    from mase.governance.evidence_pack import compile_evidence_pack, render_markdown
+    from mase.governance.retrieval import retrieve_facts
+
+    target = _seed("reimburse_limit", "500 CNY")
+    hint = _seed("lunch_spot", "riverside cafe")
+    _seed("travel_note", "fly quietly")  # cos≈0,带下,任何地方都不该出现
+
+    plan, candidates = retrieve_facts(["expense ceiling"])
+    assert [c.fact.fact_id for c in candidates] == [target.fact_id]  # 线索不是候选
+    hints_meta = plan.filters["semantic"]["hints"]
+    assert [h["fact_id"] for h in hints_meta] == [hint.fact_id]
+    assert 0.50 <= hints_meta[0]["similarity"] < 0.55
+
+    pack = compile_evidence_pack("报销上限是多少?", ["expense ceiling"])
+    assert [h["fact_id"] for h in pack.semantic_hints] == [hint.fact_id]
+    assert "riverside cafe" in pack.semantic_hints[0]["claim"]
+    assert all("riverside cafe" not in str(v["claim"]) for v in pack.verified)
+    text = render_markdown(pack)
+    assert "## Weak Semantic Hints(非应答)" in text
+    assert "不作应答依据" in text
+    assert "fly quietly" not in text
+
+
+def test_quarantined_or_sensitive_facts_never_surface_as_hints(tmp_path, monkeypatch):
+    _isolate_db(tmp_path, monkeypatch)
+    monkeypatch.setenv("MASE_SEMANTIC_DISCOVERY", "1")
+    _fake_embedder(monkeypatch)
+    from mase.governance.evidence_pack import compile_evidence_pack, render_markdown
+
+    _seed("reimburse_limit", "500 CNY")
+    quarantined = _seed("lunch_spot", "riverside cafe", claim_type="inference")
+    assert quarantined.status == "quarantined"
+    pack = compile_evidence_pack("报销上限是多少?", ["expense ceiling"])
+    assert pack.semantic_hints == ()  # 隔离事实不得经线索节泄出
+    assert "Weak Semantic Hints" not in render_markdown(pack)
+
+
+def test_default_off_pack_has_no_hint_traces(tmp_path, monkeypatch):
+    _isolate_db(tmp_path, monkeypatch)
+    from mase.governance.evidence_pack import compile_evidence_pack, render_markdown
+
+    _seed("reimburse_limit", "500 CNY")
+    pack = compile_evidence_pack("报销上限是多少?", ["reimburse_limit"])
+    assert pack.semantic_hints == ()
+    assert pack.to_dict()["semantic_hints"] == []
+    assert "Weak Semantic Hints" not in render_markdown(pack)

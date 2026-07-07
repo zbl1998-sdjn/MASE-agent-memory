@@ -23,10 +23,12 @@ from mase_tools.memory.db_core import get_connection
 
 from .fact_contract import FactContract, FactStatus, utc_now
 from .semantic_discovery import (
+    HINT_CAP,
     SEMANTIC_WEIGHT,
     discover,
     embed_model_name,
     semantic_enabled,
+    semantic_hint_floor,
     semantic_threshold,
     semantic_top_n,
 )
@@ -145,24 +147,40 @@ def retrieve_facts(
         # 只补关键词漏网的事实:breakdown 的机械匹配分量保持 0,附加
         # semantic_similarity 分量与模型名,why_selected 如实写"语义发现"。
         if semantic_enabled():
-            semantic_meta = {
+            threshold = semantic_threshold()
+            top_n = semantic_top_n()
+            hint_floor = min(semantic_hint_floor(), threshold)
+            semantic_meta: dict[str, Any] = {
                 "model": embed_model_name(),
-                "top_n": semantic_top_n(),
-                "threshold": semantic_threshold(),
+                "top_n": top_n,
+                "threshold": threshold,
                 "weight": SEMANTIC_WEIGHT,
+                "hint_floor": hint_floor,
+                "hint_cap": HINT_CAP,
             }
+            matched_ids = {c.fact.fact_id for c in candidates}
+            # 一次 discover 取全带([hint_floor, 1]),本地分带:≥threshold 进候选,
+            # [hint_floor, threshold) 是非应答弱线索(只挂 plan 审计,编译器渲染)。
+            discovered = discover(
+                list(cleaned),
+                entity_id=entity_id,
+                exclude_fact_ids=matched_ids,
+                threshold=hint_floor,
+                top_n=top_n + HINT_CAP,
+                db_path=db_path,
+            )
+            accepted = [(f, s) for f, s in discovered if s >= threshold][:top_n]
+            semantic_meta["hints"] = [
+                {"fact_id": f, "similarity": s}
+                for f, s in discovered
+                if s < threshold
+            ][:HINT_CAP]
             plan = replace(
                 plan,
                 classifier="semantic_discovery.v1",
                 filters={**plan.filters, "semantic": semantic_meta},
             )
-            matched_ids = {c.fact.fact_id for c in candidates}
-            for fact_id, similarity in discover(
-                list(cleaned),
-                entity_id=entity_id,
-                exclude_fact_ids=matched_ids,
-                db_path=db_path,
-            ):
+            for fact_id, similarity in accepted:
                 row = cursor.execute(
                     "SELECT * FROM facts WHERE fact_id = ?", (fact_id,)
                 ).fetchone()

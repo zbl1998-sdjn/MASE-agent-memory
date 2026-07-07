@@ -39,6 +39,10 @@ DEFAULT_EMBED_MODEL = "bge-m3"
 # 高召回场景用 MASE_SEMANTIC_THRESHOLD=0.5 自选)。
 DEFAULT_TOP_N = 1
 DEFAULT_THRESHOLD = 0.55
+# 弱语义线索带 [hint_floor, threshold):不作应答材料,进 Evidence Pack 的
+# 非应答线索节供上层追问(设计 2026-07-07-mase-semantic-hints-design.md)。
+DEFAULT_HINT_FLOOR = 0.50
+HINT_CAP = 3
 # 语义分量权重:低于任何强关键词命中(exact_entity 0.30/predicate 0.20),
 # 发现是补充信号,不与机械匹配争主导。常数待 NoLiMa/LME 侧 A/B 校准。
 SEMANTIC_WEIGHT = 0.15
@@ -72,6 +76,11 @@ def semantic_threshold() -> float:
 def semantic_top_n() -> int:
     """每查询语义候选上限(`MASE_SEMANTIC_TOP_N` 可覆盖)。"""
     return max(1, int(_env_float("MASE_SEMANTIC_TOP_N", float(DEFAULT_TOP_N))))
+
+
+def semantic_hint_floor() -> float:
+    """弱线索带下界(`MASE_SEMANTIC_HINT_FLOOR`);floor ≥ threshold 即关闭线索带。"""
+    return _env_float("MASE_SEMANTIC_HINT_FLOOR", DEFAULT_HINT_FLOOR)
 
 
 def _embed_base_url() -> str:
