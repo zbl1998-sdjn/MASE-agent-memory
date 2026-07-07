@@ -43,6 +43,21 @@ The following patterns are not allowed in publishable lanes:
 - result-file retry merges presented as first-pass system performance
 - tuning on a failed public slice and reporting the same slice as a clean holdout
 
+## Adversarial-Lane Feature Flags
+
+Some opt-in runtime features are known to be harmful on adversarial
+planted-needle lanes and must stay disabled there:
+
+- `MASE_SEMANTIC_DISCOVERY` (governance-layer semantic candidate discovery)
+  must remain unset/`0` for LV-Eval-style adversarial factrecall lanes.
+  Recorded evidence (`DECISIONS.md`, 2026-04-18 two-needle diagnostic):
+  bge-m3 cosine similarity ranked the TRUE planted answer LAST
+  (distractor 0.64 > decoy 0.62 > true 0.42) — embeddings prefer fluent
+  decoys over the intentionally-odd true needle, so semantic signals are a
+  net-negative on that adversarial surface. No config profile, runner, or
+  script may enable this flag by default; publishable adversarial runs must
+  not enable it at all.
+
 ## Diagnostics
 
 Diagnostic runs are useful for engineering, but they must be labelled honestly.

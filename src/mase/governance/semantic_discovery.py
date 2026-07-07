@@ -8,6 +8,13 @@ Verified 门槛(active + 已定位 span 仍是编译器唯一准入)。相似度
 事实向量缓存在 additive 表 fact_embeddings(content_hash 变更即重算);
 查询向量每次现算。Ollama /api/embed,默认 bge-m3(中文语料主场),
 `MASE_EMBED_MODEL` 可换,HTTP 全程带超时(继承传输层加固纪律)。
+
+历史教训(DECISIONS.md 2026-04-18 双针对抗诊断):在 LV-Eval 式对抗性植入
+场景,bge-m3 把正确答案排在最后(distractor 0.64 > decoy 0.62 > true 0.42)
+——embedding 偏爱通顺文本,而对抗针故意带错别字,语义信号在该面上是净负项。
+因此本开关**默认关**,且对抗性跑分 lane 永远不得开启(反过拟合政策
+docs/BENCHMARK_ANTI_OVERFIT.md "Adversarial-Lane Feature Flags" 节)。本模块
+的适用面是治理层结构化 facts 的同义改写补漏,与原文窗口检索是两回事。
 """
 from __future__ import annotations
 
