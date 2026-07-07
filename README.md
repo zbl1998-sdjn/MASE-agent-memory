@@ -13,7 +13,7 @@
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![Crash-safe](https://img.shields.io/badge/storage-crash--safe-success)
 ![LV-Eval](https://img.shields.io/badge/LV--Eval--256k-91.94%25-red)
-![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-96.43%25%20(naked%200%25)-red)
+![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--ONLYDirect--32k-96.43%25%20%7C%20hard%200%25-red)
 ![LongMemEval-S](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
 ![Governance](https://img.shields.io/badge/governance-Fact%20Contract%20%E2%86%92%20Claim%20Verifier-8A2BE2)
 ![Multimodal](https://img.shields.io/badge/multimodal-image%20%7C%20pdf%20%7C%20audio-informational)
@@ -147,7 +147,14 @@ MASE has been evaluated across long-context and memory-oriented benchmarks:
 | Benchmark | Model / Setting | MASE | Baseline | Delta |
 | --- | --- | --- | --- | --- |
 | LV-Eval EN 256k | qwen2.5:7b local | **91.94%** | **4.84%** | **+87pp** |
-| NoLiMa ONLYDirect 32k | qwen2.5:7b local, MASE chunked | **96.43%** | **0.0%** | **+96.4pp** |
+| NoLiMa **ONLYDirect** 32k(字面直接档) | qwen2.5:7b local, MASE chunked | **96.43%** | **0.0%** | **+96.4pp** |
+
+> NoLiMa 口径如实说明:ONLYDirect 是问句与针存在字面重叠的**直接档**,MASE 的关键词检索
+> 本就应当拿下,它证明的是"任务超出原生窗口时检索架构的价值",不是潜在联想推理;NoLiMa
+> 招牌的**反字面**档(onehop/twohop、NoLiMa-Hard)我们的关键词系统为 **0%**(全长度,
+> 2026-04 已 committed:`nolima_hard*` 0/20),与所有无向量检索系统一致——详见
+> `docs/NOLIMA_3WAY.md` 的完整诚实边界。语义候选发现(bge-m3,opt-in)是面向该档位的
+> 后续实验方向,尚无 NoLiMa 侧证据。
 | LongMemEval-S 500 | GLM-5 + kimi-k2.5 verifier | **61.0% official substring** / **80.2% LLM-judge** | **70.4% substring** / **72.4% LLM-judge** | **+7.8pp judge** |
 
 LongMemEval is reported with multiple lanes:
@@ -324,7 +331,7 @@ Issues and pull requests are welcome, especially for:
   title = {{MASE}: Memory-Augmented Session Engine — Schema-less SQLite memory for LLM agents},
   year = {2026},
   url = {https://github.com/zbl1998-sdjn/MASE-agent-memory},
-  note = {Lifts qwen2.5:7b from 0\% (naked, window-bound) to 96.43\% on NoLiMa-32k; 61.0\% official substring / 80.2\% LLM-judge on LongMemEval-S}
+  note = {Lifts qwen2.5:7b from 0\% (naked, window-bound) to 96.43\% on NoLiMa ONLYDirect-32k (literal tier; non-literal hard tier stays 0\%, disclosed); 61.0\% official substring / 80.2\% LLM-judge on LongMemEval-S}
 }
 ```
 

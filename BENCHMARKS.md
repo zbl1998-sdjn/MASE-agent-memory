@@ -24,10 +24,13 @@ contribution of the architecture itself.
 > v0.16 复测(scripts/run_lveval_en_iter5.py,60.9min,同协议同模型标签):五切片零回退,
 > 128k +6.0pp / 256k +3.2pp——4 月至今检索路径演进(fact sheet/notetaker/mode_selector)的红利。
 > 裸基线未重跑:256k 内容结构性超出 32k 原生窗口,该失败与模型 blob 版本无关。
-> 另:NoLiMa-32k 同日复测 MASE chunked **96.43%**(54/56)vs 真裸基线 **0.0%**(0/56,
-> 任务 ≈36-40k qwen tokens 超出原生窗口,逐例截断记账)——4 月的裸基线 1.79% 系当时
-> runner 经 8k executor 截断的测量伪影,已在 claim 证据中完整取证留痕
-> (docs/benchmark_claims/evidence/nolima_32k_v016_refresh_summary.json)。
+> 另:NoLiMa **ONLYDirect**(字面直接档)32k 同日复测 MASE chunked **96.43%**(54/56)
+> vs 真裸基线 **0.0%**(0/56,任务 ≈36-40k qwen tokens 超出原生窗口,逐例截断记账)。
+> 档位如实:ONLYDirect 问句与针字面重叠,关键词检索的主场,证明的是窗口突破而非潜在
+> 联想;NoLiMa 反字面招牌档(onehop/twohop/Hard)关键词系统为 **0%**(2026-04 committed,
+> `nolima_hard*` 0/20 全长度),见 docs/NOLIMA_3WAY.md。4 月裸基线 1.79% 系当时 runner
+> 经 8k executor 截断的测量伪影,取证留痕于
+> docs/benchmark_claims/evidence/nolima_32k_v016_refresh_summary.json。
 
 > Model-swap runs are tracked as future work until completed; pending GLM-5
 > numbers are intentionally excluded from the headline table.
