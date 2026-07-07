@@ -33,6 +33,20 @@
     "pass_count": 313,
     "score_pct": 62.6
   },
+  "llm_judge": {
+    "pass_count": 346,
+    "score_pct": 69.2,
+    "judge_model": "deepseek-chat (anthropic-compatible endpoint), conservative FAIL->PASS only, 33 upgrades, 0 judge-unavailable, 2026-07-08",
+    "judge_caveat": "different judge model than the April cloud lane (kimi-k2.5 chain); cross-lane judge deltas are not directly comparable",
+    "by_question_type": {
+      "single-session-preference": {"pass": 30, "total": 30, "pct": 100.0},
+      "single-session-user": {"pass": 57, "total": 70, "pct": 81.4},
+      "single-session-assistant": {"pass": 42, "total": 56, "pct": 75.0},
+      "multi-session": {"pass": 88, "total": 133, "pct": 66.2},
+      "temporal-reasoning": {"pass": 87, "total": 133, "pct": 65.4},
+      "knowledge-update": {"pass": 42, "total": 78, "pct": 53.8}
+    }
+  },
   "by_question_type_substring": {
     "single-session-preference": {"pass": 30, "total": 30, "pct": 100.0},
     "single-session-user": {"pass": 49, "total": 70, "pct": 70.0},
