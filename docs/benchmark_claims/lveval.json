@@ -2,11 +2,27 @@
   "benchmark": "LV-Eval EN",
   "claims": {
     "published_local_256k": {
+      "score_pct": 91.94,
+      "pass_count": 114,
+      "sample_count": 124,
+      "metric": "substring",
+      "config_profile": "published-local-default",
+      "run_date": "2026-07-07",
+      "evidence": [
+        {
+          "path": "docs/benchmark_claims/evidence/lveval_en_v016_refresh_summary.json",
+          "status": "tracked"
+        }
+      ]
+    },
+    "legacy_2026_04_local_256k": {
       "score_pct": 88.71,
       "pass_count": 110,
       "sample_count": 124,
       "metric": "substring",
       "config_profile": "published-local-default",
+      "publishable_headline": false,
+      "note": "2026-04-19 legacy run (v0.5-era code, older ollama blob); superseded by the 2026-07-07 v0.16 refresh",
       "evidence": [
         {
           "path": "docs/benchmark_claims/evidence/lveval_en_256k_summary.json",

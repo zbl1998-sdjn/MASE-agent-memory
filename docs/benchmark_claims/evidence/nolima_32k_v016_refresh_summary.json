@@ -1,0 +1,58 @@
+{
+  "benchmark": "NoLiMa ONLYDirect 32k",
+  "run": "v016_refresh",
+  "run_date": "2026-07-07",
+  "sample_count": 56,
+  "code_version": "v0.16.0 (commit 4438ddf7 era)",
+  "configuration": "qwen2.5:7b local (ollama blob 845dbda0ea48); chunked wrapper chunk_chars=900 overlap=120 top_k=8; depth 50; 2 haystacks; metric contains",
+  "dataset_provenance": {
+    "capture_status": "captured_by_runner",
+    "source": "NoLiMa external benchmark (needle_set_ONLYDirect, rand_shuffle haystacks)",
+    "config": "ONLYDirect 32k (32768 cl100k tokens)",
+    "sample_selection": "full_config",
+    "sample_count": 56,
+    "sample_ids_sha256": "not_applicable_generated_cases",
+    "sample_payload_sha256": "not_applicable_generated_cases"
+  },
+  "run_protocol": {
+    "anti_overfit_policy": "docs/BENCHMARK_ANTI_OVERFIT.md",
+    "sample_id_usage": "result_reporting_only",
+    "runtime_sample_identifier": "sha256_hash",
+    "id_routing_allowed": false,
+    "qid_bucket_routing_env": "0",
+    "post_hoc_retry_claimable": false,
+    "single_run": true
+  },
+  "anti_overfit": {
+    "publishable_headline": true,
+    "diagnostic_only": false,
+    "qid_bucket_routing": "disabled",
+    "uses_failed_slice_retry": false
+  },
+  "accuracy": {
+    "pass_count": 54,
+    "score_pct": 96.43,
+    "runner": "benchmarks/external-benchmarks/NoLiMa/run_mase_chunked.py (no candidate injection; chunk -> ingest -> retrieve -> answer; model never sees more than the retrieved chunks)"
+  },
+  "baseline": {
+    "pass_count": 0,
+    "sample_count": 56,
+    "score_pct": 0.0,
+    "configuration": "true naked full-context: official task_template with the whole haystack, ollama num_ctx=32768, no retrieval, no candidates (scripts/run_nolima_naked_baseline.py)",
+    "structural_note": "NoLiMa-32k is 32768 cl100k tokens ~= 36-40k qwen tokens, exceeding qwen2.5:7b's 32768 native window; every case carried a truncation flag (prompt_eval_count 16386), the depth-50 needle falls outside the evaluated window. Naked failure is structural, not incidental."
+  },
+  "integrity_forensics_2026_07_07": {
+    "april_naked_1_79pct": "measurement artifact of the pre-2026-04-28 runner: haystack passed through the MASE executor at num_ctx 8192, needle truncated away; directionally correct (naked fails) but mechanism harsher than a fair window",
+    "assisted_runner_since_2026_04_28": "commit 9611adf1 added haystack-wide candidate-entity extraction + evidence preamble to run_mase_official.py; runs through that path (e.g. 2026-07-07 56/56) are DIAGNOSTIC ONLY and must not be published as naked baselines",
+    "chunked_runner_vcs_gap": "run_mase_chunked.py lived outside version control (mtime 2026-05-02) until 2026-07-07; brought under git the same day. April 60.71% vs today's 96.43% delta attributed to v0.5->v0.16 retrieval evolution (benchmark_notetaker/fact_sheet/mode_selector diffs) plus possible May model-blob update; per-parameter protocol continuity was verified against the April run's recorded summary"
+  },
+  "evidence_paths": [
+    "E:/MASE-runs/results/external/nolima_chunked_ONLYDirect_32768_v016/nolima.summary.json",
+    "E:/MASE-runs/results/external/nolima_naked_32768_20260707T024451Z/naked.results.json",
+    "E:/MASE-runs/results/external/nolima_chunked_ONLYDirect_32768/nolima.summary.json"
+  ],
+  "notes": [
+    "Headline reading: the task exceeds the model's native window; naked 0.0%, MASE chunked 96.43% while never showing the model more than the retrieved chunks.",
+    "April legacy claim (34/56 = 60.71% vs naked 1.79%) retained in git history for provenance; superseded by this refresh."
+  ]
+}

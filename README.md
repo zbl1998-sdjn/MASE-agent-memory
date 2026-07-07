@@ -12,8 +12,8 @@
 ![Tests](https://img.shields.io/badge/tests-908%20passing-brightgreen)
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![Crash-safe](https://img.shields.io/badge/storage-crash--safe-success)
-![LV-Eval](https://img.shields.io/badge/LV--Eval--256k-88.71%25-red)
-![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-60.71%25%20(%2B58.9pp)-red)
+![LV-Eval](https://img.shields.io/badge/LV--Eval--256k-91.94%25-red)
+![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--32k-96.43%25%20(naked%200%25)-red)
 ![LongMemEval-S](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
 ![Governance](https://img.shields.io/badge/governance-Fact%20Contract%20%E2%86%92%20Claim%20Verifier-8A2BE2)
 ![Multimodal](https://img.shields.io/badge/multimodal-image%20%7C%20pdf%20%7C%20audio-informational)
@@ -146,8 +146,8 @@ MASE has been evaluated across long-context and memory-oriented benchmarks:
 
 | Benchmark | Model / Setting | MASE | Baseline | Delta |
 | --- | --- | --- | --- | --- |
-| LV-Eval EN 256k | qwen2.5:7b local | **88.71%** | **4.84%** | **+84pp** |
-| NoLiMa ONLYDirect 32k | qwen2.5:7b local, MASE chunked | **60.71%** | **1.79%** | **+58.9pp** |
+| LV-Eval EN 256k | qwen2.5:7b local | **91.94%** | **4.84%** | **+87pp** |
+| NoLiMa ONLYDirect 32k | qwen2.5:7b local, MASE chunked | **96.43%** | **0.0%** | **+96.4pp** |
 | LongMemEval-S 500 | GLM-5 + kimi-k2.5 verifier | **61.0% official substring** / **80.2% LLM-judge** | **70.4% substring** / **72.4% LLM-judge** | **+7.8pp judge** |
 
 LongMemEval is reported with multiple lanes:
@@ -183,7 +183,7 @@ Detailed benchmark notes live in `BENCHMARKS.md` and `docs/benchmark_claims/`.
 | LongMemEval substring(头条) | 61.0% (305/500) | 云端 GLM-5 + kimi 链路 |
 | LongMemEval LLM-judge(头条) | 80.2% (401/500) | judge 仅 FAIL→PASS |
 | NoLiMa ONLYDirect 4k / 8k | 100% (56/56) | 本地 qwen2.5:7b |
-| NoLiMa ONLYDirect 16k / 32k | 75.0% / 60.71% | 本地 qwen2.5:7b |
+| NoLiMa ONLYDirect 16k / 32k | 75.0%(2026-04)/ **96.43%**(2026-07 v0.16 复测) | 本地 qwen2.5:7b,MASE chunked |
 | LongBench-v2 short | 33.33% (10/30) | 7B 推理天花板,与 Llama3.1-8B 官方持平 |
 
 ### 当前代码带哈希复现(固化证据)
@@ -324,7 +324,7 @@ Issues and pull requests are welcome, especially for:
   title = {{MASE}: Memory-Augmented Session Engine — Schema-less SQLite memory for LLM agents},
   year = {2026},
   url = {https://github.com/zbl1998-sdjn/MASE-agent-memory},
-  note = {Lifts qwen2.5:7b from 1.79\% to 60.71\% on NoLiMa-32k; 61.0\% official substring / 80.2\% LLM-judge on LongMemEval-S}
+  note = {Lifts qwen2.5:7b from 0\% (naked, window-bound) to 96.43\% on NoLiMa-32k; 61.0\% official substring / 80.2\% LLM-judge on LongMemEval-S}
 }
 ```
 

@@ -2,11 +2,27 @@
   "benchmark": "NoLiMa ONLYDirect 32k",
   "claims": {
     "published_local_32k": {
+      "score_pct": 96.43,
+      "pass_count": 54,
+      "sample_count": 56,
+      "metric": "accuracy",
+      "config_profile": "published-local-default",
+      "run_date": "2026-07-07",
+      "evidence": [
+        {
+          "path": "docs/benchmark_claims/evidence/nolima_32k_v016_refresh_summary.json",
+          "status": "tracked"
+        }
+      ]
+    },
+    "legacy_2026_04_local_32k": {
       "score_pct": 60.71,
       "pass_count": 34,
       "sample_count": 56,
       "metric": "accuracy",
       "config_profile": "published-local-default",
+      "publishable_headline": false,
+      "note": "2026-04-19 legacy run (v0.5-era code); its 1.79% naked baseline was a truncation artifact of the pre-2026-04-28 runner — see integrity_forensics_2026_07_07 in the refresh evidence",
       "evidence": [
         {
           "path": "docs/benchmark_claims/evidence/nolima_32k_summary.json",

@@ -1,7 +1,7 @@
 # MASE V2 — Benchmark Results
 
 > **Status**: Living document. Numbers are auto-filled as new runs complete.
-> Last updated: 2026-04-19
+> Last updated: 2026-07-07(v0.16 全切片复测)
 
 ---
 
@@ -17,8 +17,17 @@ contribution of the architecture itself.
 
 | | LV-Eval EN 64k | LV-Eval EN 128k | LV-Eval EN 256k |
 |---|---|---|---|
-| **MASE + qwen2.5:7b (local)** | **91.49%** | **83.23%** | **88.71%** |
-| Bare qwen2.5:7b (no MASE) | 22.34% | 10.78% | 4.84% |
+| **MASE + qwen2.5:7b(2026-07-07 v0.16 复测)** | **94.15%** | **89.22%** | **91.94%** |
+| MASE + qwen2.5:7b(2026-04-19 首发) | 91.49% | 83.23% | 88.71% |
+| Bare qwen2.5:7b (no MASE, 2026-04-19) | 22.34% | 10.78% | 4.84% |
+
+> v0.16 复测(scripts/run_lveval_en_iter5.py,60.9min,同协议同模型标签):五切片零回退,
+> 128k +6.0pp / 256k +3.2pp——4 月至今检索路径演进(fact sheet/notetaker/mode_selector)的红利。
+> 裸基线未重跑:256k 内容结构性超出 32k 原生窗口,该失败与模型 blob 版本无关。
+> 另:NoLiMa-32k 同日复测 MASE chunked **96.43%**(54/56)vs 真裸基线 **0.0%**(0/56,
+> 任务 ≈36-40k qwen tokens 超出原生窗口,逐例截断记账)——4 月的裸基线 1.79% 系当时
+> runner 经 8k executor 截断的测量伪影,已在 claim 证据中完整取证留痕
+> (docs/benchmark_claims/evidence/nolima_32k_v016_refresh_summary.json)。
 
 > Model-swap runs are tracked as future work until completed; pending GLM-5
 > numbers are intentionally excluded from the headline table.
@@ -41,6 +50,18 @@ contribution of the architecture itself.
 | 256k | ~89% |
 
 ### 1.2 English (qwen2.5:7b + iter5 meta-prompt, multipass off)
+
+**2026-07-07 v0.16 复测(当前口径,60.9min 全切片)**
+
+| Slice | n | Pass | Pct |
+|---|---|---|---|
+| 16k | 170 | 165 | **97.06%** |
+| 32k | 172 | 162 | **94.19%** |
+| 64k | 188 | 177 | **94.15%** |
+| 128k | 167 | 149 | **89.22%** |
+| 256k | 124 | 114 | **91.94%** |
+
+**2026-04-19 首发(历史)**
 
 | Slice | n | Pass | Pct | Wall-clock |
 |---|---|---|---|---|

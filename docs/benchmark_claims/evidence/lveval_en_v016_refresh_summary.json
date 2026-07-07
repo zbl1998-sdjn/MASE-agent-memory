@@ -1,0 +1,62 @@
+{
+  "benchmark": "LV-Eval EN",
+  "run": "v016_refresh_full_en",
+  "run_date": "2026-07-07",
+  "sample_count": 124,
+  "code_version": "v0.16.0 (commit 4438ddf7 era)",
+  "configuration": "qwen2.5:7b local (ollama blob 845dbda0ea48); scripts/run_lveval_en_iter5.py; config.dual_gpu.json; multipass off; no qid-bucket routing",
+  "dataset_provenance": {
+    "capture_status": "captured_by_runner",
+    "source": "hf-default Infinigence/LVEval",
+    "config": "factrecall_en_256k (headline; all five EN slices run, see substring_by_slice)",
+    "sample_selection": "full_config",
+    "sample_count": 124,
+    "sample_ids_sha256": "be9fef61cb66e9476797205b45e3c252379b69aa7b257d7d65a0f33591330c64",
+    "sample_payload_sha256": "fc7cbf889cbb7e88573d8e60d69b79dcebb581574b4c48ded512d815a4560030"
+  },
+  "run_protocol": {
+    "anti_overfit_policy": "docs/BENCHMARK_ANTI_OVERFIT.md",
+    "sample_id_usage": "result_reporting_only",
+    "runtime_sample_identifier": "sha256_hash",
+    "id_routing_allowed": false,
+    "qid_bucket_routing_env": "0",
+    "post_hoc_retry_claimable": false,
+    "single_run": true
+  },
+  "anti_overfit": {
+    "publishable_headline": true,
+    "diagnostic_only": false,
+    "qid_bucket_routing": "disabled",
+    "uses_failed_slice_retry": false
+  },
+  "substring": {
+    "pass_count": 114,
+    "score_pct": 91.94
+  },
+  "substring_by_slice": {
+    "16k": {"pass_count": 165, "sample_count": 170, "score_pct": 97.06},
+    "32k": {"pass_count": 162, "sample_count": 172, "score_pct": 94.19},
+    "64k": {"pass_count": 177, "sample_count": 188, "score_pct": 94.15},
+    "128k": {"pass_count": 149, "sample_count": 167, "score_pct": 89.22},
+    "256k": {"pass_count": 114, "sample_count": 124, "score_pct": 91.94}
+  },
+  "april_published_comparison": {
+    "16k": 97.06, "32k": 93.02, "64k": 91.49, "128k": 83.23, "256k": 88.71,
+    "delta_note": "all slices flat-or-up; 128k +5.99pp, 256k +3.23pp (v0.5->v0.16 retrieval evolution)"
+  },
+  "baseline": {
+    "pass_count": 6,
+    "sample_count": 124,
+    "score_pct": 4.84,
+    "configuration": "bare qwen2.5:7b without MASE (2026-04-19 legacy run, older ollama blob)",
+    "staleness_note": "not re-run: 256k content structurally exceeds the 32k native window regardless of blob version; treated as structural, not blob-sensitive"
+  },
+  "evidence_paths": [
+    "E:/MASE-runs/results/benchmark-lveval-standard-20260707-115820-582790.json",
+    "scripts/_lveval_en_iter5_summary.json"
+  ],
+  "notes": [
+    "Refresh of the 2026-04-19 legacy claim on v0.16.0 code with the current model blob.",
+    "Wall clock 60.9 minutes for all five EN slices on dual RTX 3090."
+  ]
+}
