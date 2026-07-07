@@ -436,3 +436,9 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 - **结果**:全量 500 A/B:总分 313→**302**(-2.2pp),弃答仅 88→82。规则几乎不减弃答,却拖垮其它回答(注意力稀释/诱导抓错行)。
 - **结论**:"证据在场仍弃答"是 7B 的整合能力边界,不是提示语可廉价修复;三次尝试封顶,本地 LME 62.60% 基线保持为诚实数字。剩余可行方向(未验证):更强本地模型档(qwen3:14b lane)、或治理层 Evidence Pack 注入路径(MASE_EVIDENCE_PACK_INJECTION)在 LME 上的 A/B——均为独立立项。
 - 运行证据:`benchmark-longmemeval_s-haystack-20260707-185211-249437.json`。
+
+### 尝试四(失败)— qwen3:14b executor lane(2026-07-08)
+- **设计**:单变量换档——仅 grounded_long_memory(_english) 两 mode 换 qwen3:14b + think=false(seed/num_ctx/检索全不动),变体配置仅存 scratchpad 未入库。
+- **结果**:306/500 = **61.20%**(-1.4pp);**弃答 88→108、错误弃答 85→107 反增**;single-user 70.0→55.7(-14.3pp),assistant 67.9→75.0(+7.1),multi-session +0.7,其余持平/微降;耗时 +45%(76.7min);think 泄漏 0。
+- **结论**:"证据在场仍弃答"不是 7B 纯能力边界,而是**模型校准个性**——qwen3:14b 更保守、更爱弃答。换档假设否决,qwen2.5:7b lane 的 62.60% 保持为本地诚实基线。四假设四否决,本地 LME 优化线整体收口;剩余未试项均为云端花钱项(GLM-5 复测、judge 复评回收 12 例措辞差)。
+- 运行证据:`benchmark-longmemeval_s-haystack-20260708-002529-139436.json`。
