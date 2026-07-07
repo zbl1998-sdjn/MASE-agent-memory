@@ -83,6 +83,8 @@ data/**/*.jsonl
 !/benchmarks/external-benchmarks/NoLiMa/
 /benchmarks/external-benchmarks/NoLiMa/*
 !/benchmarks/external-benchmarks/NoLiMa/run_mase_official.py
+# 发布口径的 MASE chunked runner 必须可复现,纳入追踪(2026-07-07 取证后补)。
+!/benchmarks/external-benchmarks/NoLiMa/run_mase_chunked.py
 
 /run_artifacts/
 /proposals/
