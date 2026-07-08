@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.17.0] — 2026-07-08 — 治理层"写入时理解"闭环:事件→事实投影三切片 + hybrid 注入;白盒语义召回落地
+
+### Added
+- **事件→事实投影(三切片全交付)**:①存量 user 事件确定性 kv 批量投影(`governance/event_projection.py` + `mase2_project_events` 门面,source_log_id 证据绑定、supersede/门控/候选留痕全复用、双重幂等);②notetaker 运行时事件链接(handler 捕获最近 user 事件 log id 注入 upsert,schema 零改、显式不覆盖、误绑只降级为 INFERENCE);③**可插拔 LLM 对话抽取**(`project_events(extractor='llm')`,`governance/dialogue_facts.py` 对话契约、`dialogue_facts` agent 可配回落 `doc_facts`、值逐字红线不变、completeness_pass 补抽);真实闭环验收:DeepSeek 抽取 supersede 成链(27:12→active 25:50)、span 逐字定位事件原文、闲聊零产出、重跑幂等
+- **hybrid Evidence Pack 注入**(`MASE_EVIDENCE_PACK_INJECTION=hybrid`,普通+long_memory 双分支):pack(Verified 现行值 + Superseded History + 弱线索)前置、原文 fact sheet 保留兜底;空 pack 零注入(无治理事实场景与基线逐字节一致,特征测试钉死);`=1` 替换模式字节兼容。knowledge-update 78 例诊断 A/B(oracle 抽取假设,DeepSeek judge,同服务生命周期):**judge 53.8→74.4(+20.6pp)、substring 46.2→51.3、弃答 13→1**
+- **Superseded History 节(pack)**:verified 事实的 supersession 旧版本以显式"已被取代/现行值为 X/不得作为现行值"标注进 pack(每链≤3 总≤6),previous/原来类历史问题首次可答且零现行值混淆面;Verified 准入零改动
+- **白盒语义候选发现(discovery-only)**:bge-m3 本机嵌入 + `fact_embeddings` 缓存表;数据校准默认 `top_n=1/threshold=0.55`(诊断面命中 0.75/噪声 0/负例误发现 0);[0.50,0.55) 弱线索带进 pack 非应答节;`MASE_SEMANTIC_DISCOVERY` 默认关,**对抗性跑分 lane 永久禁用**(2026-04-18 bge-m3 对抗针排序倒置教训,已写入反过拟合政策与模块 docstring)
+- **语义键归并 `governance/key_merge.py`**(`MASE_KEY_MERGE`,默认关):同义抽取键(cosine≥0.75)归并到既有键,supersede 成链的前提;投影环已接入
+- **治理式巩固/遗忘**:supersession 链→E2 derived_summary(consolidates 边、成员字节一致校验)+ `mase2_forget` 可审计撤回;derived_summary 全 pack 节过滤(旧值轨迹不再进入应答面)
+- **staleness 压力基准**(`benchmarks/staleness_pressure`):update/conflict/ttl/unknown × 时距 × 治理/退化双 lane;基线:治理 stale_leak **0.0** 全 lane vs 退化 **1.0**
+- **HybridRecall 时间自适应权重**(近期性权重按查询时间意图自适应)
+- **LME 全本地 lane + judge lane claim**:qwen2.5:7b 端到端 substring **62.60%**(超 4 月云端发布 substring 61.0)、DeepSeek 保守复评 judge **69.2%**(题型表:temporal 65.4 与云端持平;knowledge-update 53.8 为结构性短板→本版 hybrid 线);claim 携带**跨 ollama 服务生命周期漂移 ±5pp caveat**(三方对照翻转例相同铁证;A/B 必须同服务生命周期)
+- **LV-Eval/NoLiMa v0.16 全量复测**:LV-Eval EN 五切片零回退(256k **91.94** +3.2pp、128k 89.22 +6.0pp);NoLiMa-32k 字面直接档 **96.43% vs 真裸基线 0.0%**(任务超 32768 原生窗,结构性;逐例截断记账),**档位语义披露**:反字面档(onehop/twohop/hard)关键词系统 0%,所有 NoLiMa 头条必须带档位限定;4 月裸基线 1.79% 定性为 8k 截断伪影,assisted runner 归 diagnostic-only 并收编 VCS
+- 测试 **908 → 964**
+
+### Fixed
+- **语义发现召回 superseded 旧链节点**(答旧值幻觉面 + 抢占 top_n 名额):候选池收紧为 active+quarantined(quarantined 保留其 do_not_assume 防幻觉面)
+- **pack Answer Rules 硬编码中文**:按问题语言切换(英文问题英文规则),中文路径字节不变
+- knowledge-update 增强线 **5 个否决假设全记录 DECISIONS**(时间序边界/增量提示/反弃答规则/qwen3:14b 换档/两段式抽答),LLM 抽取 POC 四轮 A/B 与 41 失败三分归因(executor 仅 15%;抽取漏 34%;GT 非逐字 37% 为逐字契约自觉代价)
+
+### 口径说明
+- knowledge-update +20.6pp 为 **oracle 抽取假设下的诊断面**(抽取范围=官方 answer_session_ids);端到端(全历史抽取)成本与数字另行验收,未验证前不作发布口径
+- 本地 LME 分数跨 ollama 服务生命周期漂移 ±5pp;同生命周期内 temp0+seed42 完全确定(30 例两两 100% 一致)
+
 ## [0.16.0] — 2026-07-07 — 多模态抽取优化轮四:版面结构 + 补看轮 + 一行多键;传输层加固
 
 ### Changed
