@@ -152,3 +152,16 @@ def test_top_k_limits_verified(tmp_path, monkeypatch):
         _propose(f"item_{i}", f"共有词 {i} 号", "预算 800 元")
     pack = _compile(keywords=["共有词"], top_k=2)
     assert len(pack.verified) <= 2
+
+
+def test_answer_rules_follow_question_language(tmp_path, monkeypatch):
+    """英文问题 → 英文 Answer Rules;中文问题保持中文规则(2026-07-08 POC 取证:
+    硬编码"使用中文"让 executor 用中文答英文题,判分与可用性双输)。"""
+    _isolate_db(tmp_path, monkeypatch)
+    from mase.governance.evidence_pack import compile_evidence_pack, render_markdown
+
+    en = render_markdown(compile_evidence_pack("What is my best 5K time?", ["best 5k time"]))
+    assert "Answer in English" in en
+    assert "使用中文" not in en
+    zh = render_markdown(compile_evidence_pack("我的报销上限是多少?", ["报销上限"]))
+    assert "使用中文" in zh

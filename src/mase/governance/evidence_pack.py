@@ -26,6 +26,14 @@ ANSWER_RULES = (
     "对无证据部分标注为建议或待确认。",
 )
 
+# 英文问题的规则集:硬编码中文规则会让 executor 用中文答英文题(2026-07-08
+# POC 取证,判分与可用性双输)。按 pack.question 语言切换。
+ANSWER_RULES_EN = (
+    "Answer in English.",
+    "Clearly separate facts, suggestions, and inferences.",
+    "Mark anything without evidence as a suggestion or to-be-confirmed.",
+)
+
 
 @dataclass(frozen=True)
 class EvidencePack:
@@ -189,7 +197,10 @@ def render_markdown(pack: EvidencePack) -> str:
         lines += ["", "## Warnings"]
         lines += [f"- {w}" for w in pack.warnings]
     lines += ["", "## Answer Rules"]
-    lines += [f"- {rule}" for rule in ANSWER_RULES]
+    from mase.topic_threads import detect_text_language
+
+    rules = ANSWER_RULES_EN if detect_text_language(pack.question) == "en" else ANSWER_RULES
+    lines += [f"- {rule}" for rule in rules]
     return "\n".join(lines) + "\n"
 
 
