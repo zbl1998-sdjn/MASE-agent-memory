@@ -260,6 +260,20 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
                     priority_ids=priority_ids,
                 )
                 notetaker_mode = "long_memory_full_haystack"
+                # hybrid 注入同样服务长记忆路径:pack(现行值/历史链)前置,
+                # 完整时间线事实表保留兜底;空 pack 零注入(无治理事实的案例
+                # 行为与基线逐字节一致)。replace 模式仍不进本分支(旧语义)。
+                if self._evidence_pack_injection_mode() == "hybrid":
+                    packed = self._evidence_pack_sheet(user_question=user_question, keywords=keywords)
+                    if packed is not None:
+                        pack_markdown, has_substance = packed
+                        if has_substance:
+                            fact_sheet = (
+                                pack_markdown
+                                + "\n\n---\n\n# Raw Memory Fact Sheet (fallback evidence)\n\n"
+                                + fact_sheet
+                            )
+                            notetaker_mode = "long_memory_hybrid_pack"
             else:
                 fact_sheet, notetaker_mode = self._build_fact_sheet_with_notetaker(
                     user_question=user_question,

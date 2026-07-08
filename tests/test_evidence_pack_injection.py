@@ -182,3 +182,40 @@ def test_hybrid_mode_with_empty_store_keeps_legacy_sheet_only(tmp_path, monkeypa
     log: list[dict[str, Any]] = []
     engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
     assert log[0]["fact_sheet"] == "legacy_fact_sheet"
+
+
+def test_hybrid_mode_reaches_long_memory_branch(tmp_path, monkeypatch):
+    """长记忆路径:hybrid 前置 pack 保留完整时间线事实表;replace 仍不进该分支。"""
+    _patch_engine(monkeypatch)
+    _seed_fact(tmp_path, monkeypatch)
+    monkeypatch.setattr(engine, "is_long_memory", lambda: True)
+    monkeypatch.setattr(engine, "build_long_memory_full_fact_sheet", lambda **kw: "long_memory_sheet")
+    monkeypatch.setenv("MASE_EVIDENCE_PACK_INJECTION", "hybrid")
+    log: list[dict[str, Any]] = []
+    engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
+    sheet = log[0]["fact_sheet"]
+    assert sheet.startswith("# Memory Evidence Pack")
+    assert "long_memory_sheet" in sheet
+
+
+def test_replace_mode_stays_out_of_long_memory_branch(tmp_path, monkeypatch):
+    _patch_engine(monkeypatch)
+    _seed_fact(tmp_path, monkeypatch)
+    monkeypatch.setattr(engine, "is_long_memory", lambda: True)
+    monkeypatch.setattr(engine, "build_long_memory_full_fact_sheet", lambda **kw: "long_memory_sheet")
+    monkeypatch.setenv("MASE_EVIDENCE_PACK_INJECTION", "1")
+    log: list[dict[str, Any]] = []
+    engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
+    assert log[0]["fact_sheet"] == "long_memory_sheet"  # 旧语义钉死
+
+
+def test_hybrid_long_memory_with_empty_store_is_baseline(tmp_path, monkeypatch):
+    _patch_engine(monkeypatch)
+    monkeypatch.delenv("MASE_MEMORY_DIR", raising=False)
+    monkeypatch.setenv("MASE_DB_PATH", str(tmp_path / "empty2.db"))
+    monkeypatch.setattr(engine, "is_long_memory", lambda: True)
+    monkeypatch.setattr(engine, "build_long_memory_full_fact_sheet", lambda **kw: "long_memory_sheet")
+    monkeypatch.setenv("MASE_EVIDENCE_PACK_INJECTION", "hybrid")
+    log: list[dict[str, Any]] = []
+    engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
+    assert log[0]["fact_sheet"] == "long_memory_sheet"  # 空库零注入=基线
