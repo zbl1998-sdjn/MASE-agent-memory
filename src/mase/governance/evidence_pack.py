@@ -52,6 +52,9 @@ class EvidencePack:
     # 弱语义线索(非应答):相似度落在 [hint_floor, threshold) 的 active 普通
     # 事实,供上层追问;不参与 Verified/Conflicts,verifier 不判(UNTAGGED)。
     semantic_hints: tuple[dict[str, Any], ...] = ()
+    # supersession 链历史(非现行):verified 事实的旧版本,显式标注被谁取代。
+    # 服务 previous/原来 类历史问题;每条带 current_value,绝不与现行值混淆。
+    superseded_history: tuple[dict[str, Any], ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-serializable representation for API and audit payloads."""
@@ -67,6 +70,7 @@ class EvidencePack:
             "token_estimate": self.token_estimate,
             "created_at": self.created_at,
             "semantic_hints": list(self.semantic_hints),
+            "superseded_history": list(self.superseded_history),
         }
 
 
@@ -129,6 +133,7 @@ def compile_evidence_pack(
 
         conflicts = _collect_conflicts(cursor, selected)
         semantic_hints = _collect_semantic_hints(cursor, plan)
+        superseded_history = _collect_superseded_history(verified, db_path=db_path)
 
     covered = {kw for c in candidates for kw in c.matched_keywords}
     unknowns = tuple(
@@ -147,10 +152,46 @@ def compile_evidence_pack(
         token_estimate=0,
         created_at=utc_now(),
         semantic_hints=semantic_hints,
+        superseded_history=superseded_history,
     )
     pack = replace(pack, token_estimate=len(render_markdown(pack)) // 4)
     _persist_audit(pack, plan, candidates, db_path=db_path)
     return pack
+
+
+_HISTORY_PER_CHAIN = 3
+_HISTORY_TOTAL_CAP = 6
+
+
+def _collect_superseded_history(
+    verified: list[dict[str, Any]], *, db_path: str | Path | None
+) -> tuple[dict[str, Any], ...]:
+    """收集 verified 事实的 supersession 旧版本(新→旧,双重截断防膨胀)。
+
+    只服务 previous/原来 类历史问题;每条带 current_value 显式标注被谁取代,
+    渲染层再加"不得作为现行值"守则,不产生与现行值混淆的幻觉面。
+    """
+    from .fact_store import supersession_chain
+
+    history: list[dict[str, Any]] = []
+    for entry in verified:
+        if len(history) >= _HISTORY_TOTAL_CAP:
+            break
+        chain = supersession_chain(str(entry["fact_id"]), db_path=db_path)
+        current_value = str(chain[0]["object"]) if chain else ""
+        older = [node for node in chain if node.get("status") == "superseded"]
+        for node in older[:_HISTORY_PER_CHAIN]:
+            history.append(
+                {
+                    "fact_id": str(node["fact_id"]),
+                    "claim": f"{node['subject']}.{node['predicate']} = {node['object']}",
+                    "observed_at": str(node.get("observed_at") or ""),
+                    "current_value": current_value,
+                }
+            )
+            if len(history) >= _HISTORY_TOTAL_CAP:
+                break
+    return tuple(history)
 
 
 def render_markdown(pack: EvidencePack) -> str:
@@ -186,6 +227,14 @@ def render_markdown(pack: EvidencePack) -> str:
     lines += [f"- {u}" for u in pack.unknowns] or ["- None."]
     lines += ["", "## Do Not Assume"]
     lines += [f"- {d}" for d in pack.do_not_assume] or ["- None."]
+    if pack.superseded_history:
+        # 条件节:supersession 旧版本,服务 previous/原来 类历史问题。
+        lines += ["", "## Superseded History(非现行)"]
+        for item in pack.superseded_history:
+            observed = f",observed {item['observed_at']}" if item.get("observed_at") else ""
+            lines.append(
+                f"- 历史值(已被取代{observed},现行值为 {item['current_value']},不得作为现行值):{item['claim']}"
+            )
     if pack.semantic_hints:
         # 条件节(同 Warnings 先例):无线索时渲染逐字节不变。
         lines += ["", "## Weak Semantic Hints(非应答)"]

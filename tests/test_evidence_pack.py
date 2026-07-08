@@ -165,3 +165,33 @@ def test_answer_rules_follow_question_language(tmp_path, monkeypatch):
     assert "使用中文" not in en
     zh = render_markdown(compile_evidence_pack("我的报销上限是多少?", ["报销上限"]))
     assert "使用中文" in zh
+
+
+def test_pack_renders_superseded_history_for_update_chains(tmp_path, monkeypatch):
+    """previous/原来类问题需要历史值:verified 仍只收现行 active(门槛不放宽),
+    但 supersession 链的旧值以显式 superseded 标注进历史节(2026-07-08 POC 取证:
+    knowledge-update 失败的 22% 是历史型问题,只给现行值注定答错)。"""
+    _, old, active, _ = _seed(tmp_path, monkeypatch)
+    pack = _compile("我原来的预算是多少?")
+    assert [v["fact_id"] for v in pack.verified] == [active.fact_id]  # 现行面不变
+    hist = list(pack.superseded_history)
+    assert any("500 元" in h["claim"] for h in hist)
+    assert all(h["current_value"] == "800 元" for h in hist if "500" in h["claim"])
+    text = render_markdown_for_test(pack)
+    assert "## Superseded History(非现行)" in text
+    assert "500 元" in text and "800 元" in text
+    assert "不得作为现行值" in text
+
+
+def test_pack_without_chains_has_no_history_section(tmp_path, monkeypatch):
+    _isolate_db(tmp_path, monkeypatch)
+    _propose("deadline", "7月15日", "截止日期 7月15日")
+    pack = _compile("截止日期?", keywords=["deadline"])
+    assert pack.superseded_history == ()
+    assert "Superseded History" not in render_markdown_for_test(pack)
+
+
+def render_markdown_for_test(pack):
+    from mase.governance.evidence_pack import render_markdown
+
+    return render_markdown(pack)
