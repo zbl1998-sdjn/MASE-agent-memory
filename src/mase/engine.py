@@ -118,31 +118,42 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         }
 
     @staticmethod
-    def _evidence_pack_injection_enabled() -> bool:
-        """Return whether governed Evidence Pack should replace legacy fact sheets."""
+    def _evidence_pack_injection_mode() -> str:
+        """注入模式:off / replace / hybrid。
+
+        =1/true → replace(替换,向后兼容);=hybrid → pack 前置 + 原文 fact
+        sheet 保留(行业消融实证:长对话逐字块优于纯抽取物,pack 给现行值与
+        历史链,原文兜底召回缺口);企业模式默认 replace;显式 0 覆盖一切。
+        """
         explicit = str(os.environ.get("MASE_EVIDENCE_PACK_INJECTION") or "").strip().lower()
+        if explicit == "hybrid":
+            return "hybrid"
         if explicit in {"1", "true", "yes", "on"}:
-            return True
+            return "replace"
         if explicit in {"0", "false", "no", "off"}:
-            return False
-        return str(os.environ.get("MASE_ENTERPRISE_MODE") or "").strip().lower() in {
-            "1",
-            "true",
-            "yes",
-            "on",
-        }
+            return "off"
+        enterprise = str(os.environ.get("MASE_ENTERPRISE_MODE") or "").strip().lower()
+        return "replace" if enterprise in {"1", "true", "yes", "on"} else "off"
 
     @staticmethod
-    def _evidence_pack_sheet(*, user_question: str, keywords: list[str]) -> str | None:
-        """编译治理层 Evidence Pack 作为 executor 事实表;失败返回 None(调用方回退)。
+    def _evidence_pack_injection_enabled() -> bool:
+        """Return whether governed Evidence Pack should replace legacy fact sheets."""
+        return MASESystem._evidence_pack_injection_mode() != "off"
 
-        best-effort:治理层是增量真源,任何异常不得影响既有问答主链。
+    @staticmethod
+    def _evidence_pack_sheet(*, user_question: str, keywords: list[str]) -> tuple[str, bool] | None:
+        """编译治理层 Evidence Pack;返回 (markdown, has_substance),失败 None。
+
+        has_substance = verified/历史链/弱线索任一非空;hybrid 模式据此决定
+        是否前置(空 pack 不注入,无治理库场景零回归)。best-effort:治理层
+        是增量真源,任何异常不得影响既有问答主链。
         """
         try:
             from .governance import evidence_pack as _ep
 
             pack = _ep.compile_evidence_pack(user_question, keywords or [user_question])
-            return _ep.render_markdown(pack)
+            has_substance = bool(pack.verified or pack.superseded_history or pack.semantic_hints)
+            return _ep.render_markdown(pack), has_substance
         except Exception:
             return None
 
@@ -257,11 +268,23 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
                 )
                 # 治理层注入(P3,opt-in):executor 面对 Evidence Pack 而非记忆
                 # 仓库(总纲 §4.7.1)。默认关闭,长记忆基准链路不走此分支。
-                if self._evidence_pack_injection_enabled():
+                injection_mode = self._evidence_pack_injection_mode()
+                if injection_mode != "off":
                     packed = self._evidence_pack_sheet(user_question=user_question, keywords=keywords)
                     if packed is not None:
-                        fact_sheet = packed
-                        notetaker_mode = "evidence_pack"
+                        pack_markdown, has_substance = packed
+                        if injection_mode == "replace":
+                            fact_sheet = pack_markdown
+                            notetaker_mode = "evidence_pack"
+                        elif has_substance:
+                            # hybrid:pack 前置给现行值/历史链,原文 fact sheet
+                            # 保留兜底;空 pack 不注入(无治理库路径零回归)。
+                            fact_sheet = (
+                                pack_markdown
+                                + "\n\n---\n\n# Raw Memory Fact Sheet (fallback evidence)\n\n"
+                                + fact_sheet
+                            )
+                            notetaker_mode = "evidence_pack_hybrid"
             bus.publish(
                 Topics.NOTETAKER_FACT_SHEET_DONE,
                 {"mode": notetaker_mode, "fact_sheet_chars": len(fact_sheet)},

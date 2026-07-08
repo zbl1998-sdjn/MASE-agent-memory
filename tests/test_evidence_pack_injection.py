@@ -156,3 +156,29 @@ def test_opt_in_falls_back_on_governance_error(tmp_path, monkeypatch):
     log: list[dict[str, Any]] = []
     engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
     assert log[0]["fact_sheet"] == "legacy_fact_sheet"  # best-effort 回退
+
+
+def test_hybrid_mode_prepends_pack_and_keeps_raw_sheet(tmp_path, monkeypatch):
+    """hybrid:pack 前置 + 原文 fact sheet 保留(2026-07-08 行业消融实证:长对话
+    逐字块优于纯抽取物;pack 给现行值/历史链,原文兜底召回缺口)。"""
+    _patch_engine(monkeypatch)
+    _seed_fact(tmp_path, monkeypatch)
+    monkeypatch.setenv("MASE_EVIDENCE_PACK_INJECTION", "hybrid")
+    log: list[dict[str, Any]] = []
+    engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
+    sheet = log[0]["fact_sheet"]
+    assert sheet.startswith("# Memory Evidence Pack")
+    assert "800 元" in sheet
+    assert "legacy_fact_sheet" in sheet  # 原文兜底仍在
+    assert sheet.index("# Memory Evidence Pack") < sheet.index("legacy_fact_sheet")
+
+
+def test_hybrid_mode_with_empty_store_keeps_legacy_sheet_only(tmp_path, monkeypatch):
+    """空治理库时 hybrid 不注入空 pack(422 例无库案例零回归保证)。"""
+    _patch_engine(monkeypatch)
+    monkeypatch.delenv("MASE_MEMORY_DIR", raising=False)
+    monkeypatch.setenv("MASE_DB_PATH", str(tmp_path / "empty.db"))
+    monkeypatch.setenv("MASE_EVIDENCE_PACK_INJECTION", "hybrid")
+    log: list[dict[str, Any]] = []
+    engine.MASESystem.run_with_trace(_system(log), "预算 800?", log=False)
+    assert log[0]["fact_sheet"] == "legacy_fact_sheet"
