@@ -165,8 +165,12 @@ def discover(
 ) -> list[tuple[str, float]]:
     """语义发现:返回 [(fact_id, similarity)],降序,≥threshold,至多 top_n。
 
-    候选池与关键词召回同一过滤(非 rejected、可选 entity 过滤),排除已被
-    关键词命中的事实(发现只补漏,不重复计分)。
+    候选池仅 **active + quarantined**(可选 entity 过滤),排除已被关键词命中
+    的事实(发现只补漏,不重复计分)。quarantined 保留:它进 pack 的
+    do_not_assume 节是防幻觉特性。superseded/retracted/rejected 不进池:
+    旧链节点若可被发现只会抢走 top_n 名额并构成答旧值幻觉面(2026-07-08
+    POC 取证:top_n=1 名额被 superseded 旧值占据,active 现行值落选 →
+    pack 空 → 弃答)。
     """
     query = " ".join(kw for kw in keywords if kw and kw.strip()).strip()
     if not query:
@@ -179,7 +183,7 @@ def discover(
     exclude = exclude_fact_ids or set()
     with closing(get_connection(db_path)) as conn, conn:
         cursor = conn.cursor()
-        sql = "SELECT fact_id, subject, predicate, object FROM facts WHERE status != 'rejected'"
+        sql = "SELECT fact_id, subject, predicate, object FROM facts WHERE status IN ('active', 'quarantined')"
         params: list[Any] = []
         if entity_id is not None:
             sql += " AND entity_id = ?"

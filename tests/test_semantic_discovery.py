@@ -13,12 +13,17 @@ for _p in (_ROOT / "src", _ROOT):
 
 # 语义空间:reimburse_limit 与查询"expense ceiling"同向(cos≈0.994),
 # lunch_spot 落弱线索带(cos≈0.518 ∈ [0.50, 0.55)),favorite_color 正交。
+# 5K supersede 链:superseded 旧值(纯 25:50)与查询更相似(1.0),active 新值
+# 稍低(0.97)——复刻 2026-07-08 POC 实况:旧链节点若可被发现会抢走 top_n 名额。
 _FAKE_VECTORS = {
     "alice.reimburse_limit = 500 CNY": [1.0, 0.0, 0.0],
     "alice.favorite_color = blue": [0.0, 1.0, 0.0],
     "alice.travel_note = fly quietly": [0.0, 0.0, 1.0],
     "alice.lunch_spot = riverside cafe": [0.42, 0.9075, 0.0],
     "expense ceiling": [0.9, 0.1, 0.0],
+    "alice.best_5k_time = 27:12": [0.98, 0.199, 0.0],
+    "alice.best_5k_time = 25:50": [0.97, 0.243, 0.0],
+    "best 5k run time": [1.0, 0.0, 0.0],
 }
 
 
@@ -196,6 +201,25 @@ def test_quarantined_or_sensitive_facts_never_surface_as_hints(tmp_path, monkeyp
     pack = compile_evidence_pack("报销上限是多少?", ["expense ceiling"])
     assert pack.semantic_hints == ()  # 隔离事实不得经线索节泄出
     assert "Weak Semantic Hints" not in render_markdown(pack)
+
+
+def test_superseded_chain_nodes_never_returned_by_discovery(tmp_path, monkeypatch):
+    """旧链节点(superseded)不得被语义发现召回——即便其相似度高于 active 链头。
+
+    2026-07-08 POC 实况:top_n=1 名额被 superseded 旧值抢走,active 现行值
+    落选 → pack Verified 空 → 弃答;且旧值可召回本身就是答旧值幻觉面。
+    """
+    _isolate_db(tmp_path, monkeypatch)
+    _fake_embedder(monkeypatch)
+    from mase.governance.semantic_discovery import discover
+
+    old = _seed("best_5k_time", "27:12")
+    new = _seed("best_5k_time", "25:50")
+    assert old.status == "active" or new.status == "active"
+    found = discover(["best 5k run time"], threshold=0.5, top_n=2)
+    found_ids = {fid for fid, _s in found}
+    assert new.fact_id in found_ids  # active 链头必须在
+    assert old.fact_id not in found_ids  # superseded 节点绝不返回
 
 
 def test_default_off_pack_has_no_hint_traces(tmp_path, monkeypatch):
