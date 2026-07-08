@@ -37,10 +37,25 @@
 | 门面 | `mase2_project_events(limit=None, thread_id=None)` → 计数报告 | scripts/CLI 可驱动;engine 后台任务不做(巩固线同款保守先例) |
 | 开关 | 门面显式调用即投影,无隐藏自动路径 | 显式优于隐式;运行时自动投影属切片② |
 
-## 4. 切片②(下一步,不在本次):运行时事件链接
+## 4. 切片②(已交付):运行时事件链接
 
 notetaker 编排层把"本轮 user 事件的 log_id"注入 upsert 调用(工具 schema 不变,
 handler 侧注入),活跃对话的事实即刻获得事件级溯源与 trust=verbatim 判定。
+
+## 4.5 切片③:LLM 抽取投影(产品化,2026-07-08 立项)
+
+POC 四轮 A/B 验证(knowledge-update judge 53.8→74.4、弃答 13→1,DECISIONS
+8ec27915/ea3ccd34)后,把抽取投影升格为产品能力:
+
+| 决策点 | 选定 | 依据 |
+|---|---|---|
+| 抽取器插拔 | `project_events(extractor='kv'\|'llm')`,默认 'kv'(现状字节不变) | 切片①骨架复用:幂等扫描/候选留痕/门控全不动 |
+| 对话契约 | POC 验证过的对话抽取系统提示落进 src(`governance/dialogue_facts.py`) | 四轮 A/B 打底;值逐字红线不动 |
+| 抽取模型 | `models.dialogue_facts` agent(config 可配;缺省回落 doc_facts) | doc_facts 先例;本地/云端由 config 决定 |
+| 键归并 | `MASE_KEY_MERGE=1` 时投影内做 canonical_key 对齐 | POC 实测:supersede 成链的前提 |
+| 调度 | 门面/CLI 显式驱动;engine 自动任务 defer | 切片①/巩固线同款保守先例 |
+| 写入延迟 | 写入路径零改动(事件先落库,投影事后批量) | 生产不可加同步秒级延迟 |
+| 验收 | 特征测试(fake extractor)+ 真实闭环小样本;LME 端到端为可选 | POC 已证增益,不重复烧 |
 
 ## 5. 验收(切片①,全确定性)
 

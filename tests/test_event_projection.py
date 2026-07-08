@@ -92,3 +92,72 @@ def test_facade_reports_counts(tmp_path, monkeypatch):
     report = mase2_project_events()
     assert report["facts_proposed"] == 1
     assert report["facts_by_status"].get("active") == 1
+
+
+def _mk_fact(key, value, evidence):
+    from mase.multimodal.extractor import CandidateFact
+
+    return CandidateFact(category="general_facts", key=key, value=value, confidence=0.9, evidence=evidence)
+
+
+def test_llm_extractor_requires_model_interface(tmp_path, monkeypatch):
+    _isolate_db(tmp_path, monkeypatch)
+    import pytest
+
+    with pytest.raises(ValueError, match="model_interface"):
+        _project(extractor="llm")
+    with pytest.raises(ValueError, match="unknown extractor"):
+        _project(extractor="magic")
+
+
+def test_llm_extractor_projects_dialogue_facts(tmp_path, monkeypatch):
+    """切片③:LLM 抽取器走同一 facade 通道(候选留痕/supersede/门控复用)。"""
+    _isolate_db(tmp_path, monkeypatch)
+
+    def _fake_extract(mi, content):
+        if "5K" in content:
+            return [_mk_fact("running_5k_best_time", "27:12", "personal best time in a charity 5K run with a time of 27:12")]
+        return []
+
+    monkeypatch.setattr("mase.governance.dialogue_facts.extract_dialogue_facts", _fake_extract)
+    _write_event("I set a personal best time in a charity 5K run with a time of 27:12.")
+    _write_event("今天天气不错。")
+    report = _project(extractor="llm", model_interface=object())
+    assert report["events_projected"] == 1
+    assert report["facts_by_status"].get("active") == 1
+    actives = _facts(status="active")
+    assert actives[0]["predicate"] == "running_5k_best_time"
+
+
+def test_kv_default_never_touches_llm_extractor(tmp_path, monkeypatch):
+    """默认路径零 LLM(切片①行为字节不变)。"""
+    _isolate_db(tmp_path, monkeypatch)
+
+    def _boom(*a, **k):
+        raise AssertionError("kv path must not call the llm extractor")
+
+    monkeypatch.setattr("mase.governance.dialogue_facts.extract_dialogue_facts", _boom)
+    _write_event("项目预算: 500 元")
+    report = _project()
+    assert report["facts_by_status"].get("active") == 1
+
+
+def test_key_merge_flag_chains_synonym_keys(tmp_path, monkeypatch):
+    """MASE_KEY_MERGE=1:同义键归并到既有键,supersede 成链。"""
+    _isolate_db(tmp_path, monkeypatch)
+    from mase.governance import event_projection
+
+    calls = iter([
+        [_mk_fact("running_5k_best_time", "27:12", "a time of 27:12")],
+        [_mk_fact("running_personal_best_time", "25:50", "best time of 25:50")],
+    ])
+    monkeypatch.setattr("mase.governance.dialogue_facts.extract_dialogue_facts", lambda mi, c: next(calls))
+    monkeypatch.setattr(event_projection, "canonical_key", lambda new, existing: "running_5k_best_time" if existing else new)
+    monkeypatch.setenv("MASE_KEY_MERGE", "1")
+    _write_event("first 5K: a time of 27:12")
+    _write_event("new best time of 25:50")
+    _project(extractor="llm", model_interface=object())
+    actives = [f for f in _facts(status="active") if f["predicate"] == "running_5k_best_time"]
+    superseded = [f for f in _facts(status="superseded") if f["predicate"] == "running_5k_best_time"]
+    assert len(actives) == 1 and actives[0]["object"] == "25:50"
+    assert len(superseded) == 1 and superseded[0]["object"] == "27:12"

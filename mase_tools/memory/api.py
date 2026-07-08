@@ -511,12 +511,22 @@ def mase2_project_events(
     *,
     thread_id: str | None = None,
     limit: int | None = None,
+    extractor: str = "kv",
 ) -> dict[str, Any]:
-    """事件→事实投影门面:把存量 user 事件确定性投影为治理 facts。
+    """事件→事实投影门面:把存量 user 事件投影为治理 facts。
 
-    值逐字来自事件原文(span 定位天然通过),同键 supersede/门控/候选留痕
-    全部复用治理层既有机制;幂等可重跑。
+    extractor='kv'(默认)确定性 ``键:值`` 抽取;extractor='llm'(切片③)
+    对话契约 LLM 抽取(dialogue_facts agent,值逐字红线不变)——LLM 调用有
+    成本与延迟,须显式选择。同键 supersede/门控/候选留痕全部复用治理层
+    既有机制;幂等可重跑。
     """
     from mase.governance.event_projection import project_events  # noqa: PLC0415
 
-    return project_events(thread_id=thread_id, limit=limit)
+    model_interface = None
+    if extractor == "llm":
+        from mase.model_interface import ModelInterface  # noqa: PLC0415
+
+        model_interface = ModelInterface()
+    return project_events(
+        thread_id=thread_id, limit=limit, extractor=extractor, model_interface=model_interface
+    )

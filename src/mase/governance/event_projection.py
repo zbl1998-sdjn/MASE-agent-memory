@@ -16,6 +16,7 @@ from typing import Any
 from mase.multimodal.kv_extract import parse_kv_lines
 from mase_tools.memory.db_core import get_connection
 
+from .key_merge import canonical_key, key_merge_enabled
 from .write_facade import GovernedFactWriteFacade, _ensure_candidate_schema
 
 
@@ -32,12 +33,23 @@ def project_events(
     thread_id: str | None = None,
     limit: int | None = None,
     db_path: str | Path | None = None,
+    extractor: str = "kv",
+    model_interface: Any = None,
 ) -> dict[str, Any]:
     """把存量 user 事件投影为治理 facts;返回逐项计数报告。
 
-    只扫描未投影过的事件(候选表 source_log_id 判定);闲聊(无 ``键:值``
-    结构)事件零产出并计入 events_no_facts,不留候选。
+    只扫描未投影过的事件(候选表 source_log_id 判定);无事实事件零产出并
+    计入 events_no_facts,不留候选。
+
+    extractor='kv'(默认,行为与切片①字节不变)确定性 ``键:值`` 抽取;
+    extractor='llm'(切片③)对话契约 LLM 抽取(dialogue_facts agent,值逐字
+    红线不变),须传 model_interface。``MASE_KEY_MERGE=1`` 时新 key 先经语义
+    归并对齐既有 key,保证 supersede 成链(POC 四轮 A/B 的前提)。
     """
+    if extractor not in {"kv", "llm"}:
+        raise ValueError(f"unknown extractor: {extractor!r}")
+    if extractor == "llm" and model_interface is None:
+        raise ValueError("extractor='llm' requires model_interface")
     with closing(get_connection(db_path)) as conn:
         done = _already_projected_log_ids(conn)
         sql = (
@@ -68,15 +80,26 @@ def project_events(
             events_skipped += 1
             continue
         content = str(row["content"] or "")
-        candidates = parse_kv_lines(content)
+        if extractor == "llm":
+            from .dialogue_facts import extract_dialogue_facts
+
+            candidates = extract_dialogue_facts(model_interface, content)
+        else:
+            candidates = parse_kv_lines(content)
         if not candidates:
             events_no_facts += 1
             continue
         events_projected += 1
         for fact in candidates:
+            fact_key = fact.key
+            if key_merge_enabled():
+                from .fact_store import list_facts
+
+                existing = [str(item["predicate"]) for item in list_facts(db_path=db_path)]
+                fact_key = canonical_key(fact_key, existing)
             outcome = facade.record_notetaker_fact(
                 fact.category,
-                fact.key,
+                fact_key,
                 fact.value,
                 reason="event_projection.v1",
                 source_log_id=log_id,
