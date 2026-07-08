@@ -8,7 +8,7 @@
       "metric": "llm_judge",
       "config_profile": "local-only-longmemeval",
       "run_date": "2026-07-08",
-      "note": "deepseek-chat judge, conservative FAIL->PASS only; judge model differs from the April cloud lane so judge deltas are not cross-comparable. Notable: temporal-reasoning 65.4 matches the cloud lane exactly; knowledge-update 53.8 vs cloud 88.5 is the local lane's structural gap",
+      "note": "deepseek-chat judge, conservative FAIL->PASS only; judge model differs from the April cloud lane so judge deltas are not cross-comparable. Notable: temporal-reasoning 65.4 matches the cloud lane exactly; knowledge-update 53.8 vs cloud 88.5 is the local lane's structural gap. Environment-sensitivity caveat (2026-07-08 forensics): local-lane scores drift ~+/-5pp across ollama service lifetimes (temp-0 seed-42 stable within one lifetime, not across restarts; three-way probe flipped the identical 3/30 cases on baseline code and HEAD alike) - cross-lifetime comparisons are not valid A/Bs",
       "evidence": [
         {
           "path": "docs/benchmark_claims/evidence/longmemeval_local_v016_summary.json",
