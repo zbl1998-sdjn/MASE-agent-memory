@@ -460,3 +460,10 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 - **规模纠错**:每案例 user 轮中位 242(非估计的 ~50);限相关会话(oracle answer_session_ids)降到中位 12/案例、全 78 约 915 次调用——但这已是"检索完美"上限假设,非端到端。
 - **裁决**:停 POC。三层瓶颈(漏抽/键归并/召回对齐)各是独立工程,叠加起来是"写入时事实抽取子系统"级投入(mem0/Zep 一族的核心工作量),不是一个 flag 能提分的 POC。knowledge-update 的结构性解成立但昂贵;**是否投入是产品定位决策,不是技术可行性问题**——路已探明、成本已知,留给排期。
 - 证据:`E:/MASE-runs/eval_runs/poc_extract_projection_20260707T231540Z/`;抽取契约对比与三层瓶颈本会话取证。
+
+### 抽取投影 POC 终局(2026-07-08)— 三轮迭代 judge 48.7→55.1 首超基线,但未达采纳线,不采纳
+- **三轮 A/B**(78 例,oracle answer_session_ids 检索假设,DeepSeek 抽取+judge):轮一 48.7(pack 规则硬编码中文致中文答英文题)→ 轮二 47.4(语言修复)→ 轮三 **55.1**(+Superseded History 节),基线 53.8,采纳线 61.8 未达。**弃答 13→0 全程保持**——注入路径把"证据在场仍弃答"清零,方向有效性最强证据。
+- **41 失败完整归因**(轮二面,全机械分类):executor 能力仅 6 例(15%,pack 给对基本能答);召回/top8 6 例;**DeepSeek 漏抽 14 例(34%,GT 逐字在 user 轮仍漏,补抽轮开启)**;assistant 轮设计跳过 2 例;**GT 非逐字存在 15 例(37%)——"值逐字"抗幻觉契约与 LME 归纳式标注的结构性冲突**(放松即开幻觉面,白盒设计的自觉代价)。
+- **判定**:换更强抽取模型乐观上限 +15-20pp 但已超 POC 预算;37% 结构性代价不由任何模型解决。POC 不采纳,**四个通用修复全部独立入库存活**:语义召回状态过滤(08a5d5c1,superseded 不可召回)、pack 规则语言切换(f753e5aa)、Superseded History 节(49402fae,历史型问题原理性解)、语义键归并 key_merge(b5a20e3e)。
+- **净值评估**:POC 作为 lane 失败,作为**取证工程大丰收**——三个 committed 治理层 bug/缺口全部由它暴露,knowledge-update 差距完成三分归因(抽取覆盖/逐字契约/工程),弃答机制被证明可由注入路径消除。后续若重启:先攻抽取覆盖(每轮多 pass 或更强模型)+ assistant 轮低 trust lane,并接受逐字契约的 37% 代价入 caveat。
+- 证据:`E:/MASE-runs/eval_runs/poc_extract_projection_20260708T000424Z/`(三轮 jsonl + scores + 78 案例库)。
