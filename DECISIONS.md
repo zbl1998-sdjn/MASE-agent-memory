@@ -467,3 +467,9 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 - **判定**:换更强抽取模型乐观上限 +15-20pp 但已超 POC 预算;37% 结构性代价不由任何模型解决。POC 不采纳,**四个通用修复全部独立入库存活**:语义召回状态过滤(08a5d5c1,superseded 不可召回)、pack 规则语言切换(f753e5aa)、Superseded History 节(49402fae,历史型问题原理性解)、语义键归并 key_merge(b5a20e3e)。
 - **净值评估**:POC 作为 lane 失败,作为**取证工程大丰收**——三个 committed 治理层 bug/缺口全部由它暴露,knowledge-update 差距完成三分归因(抽取覆盖/逐字契约/工程),弃答机制被证明可由注入路径消除。后续若重启:先攻抽取覆盖(每轮多 pass 或更强模型)+ assistant 轮低 trust lane,并接受逐字契约的 37% 代价入 caveat。
 - 证据:`E:/MASE-runs/eval_runs/poc_extract_projection_20260708T000424Z/`(三轮 jsonl + scores + 78 案例库)。
+
+### hybrid 采纳验证 + LME 本地 lane 环境漂移取证(2026-07-08)
+- **hybrid 突破**:knowledge-update 78 例(oracle 抽取假设)轮四 judge **74.4%**(基线 53.8,采纳线 61.8 达标),substring 51.3(基线 46.2),弃答 13→1。杠杆=pack(现行值+supersede 历史链)前置 + 原文逐字兜底(行业消融 arXiv 2601.00821 预测吻合)。hybrid 已入 engine(03df56f5/e046a0d4,普通+long_memory 双分支,空 pack 零注入,replace 旧语义钉死)。
+- **全量"回归"实为环境漂移**:hybrid flag 全量 57.2 vs 基线 62.6 引发取证——三方 30 例对照(HEAD 冷启动/HEAD 热+hybrid/基线代码 worktree)**翻转例完全相同**({5d3d2817,6b168ec8,c960da58}),同环境两两 100% 一致:代码零嫌疑、hybrid 零回归成立;漂移源=**ollama 服务生命周期**(7-07 晚 taskkill 重启为分界),temp0+seed42 跨周期不保序,500 例面 ≈ -5.4pp(multi-session 承担大头,knowledge-update 两周期 37/78 分毫未漂)。
+- **纪律修正**:①LME 本地 claim 补环境敏感度 caveat(跨 ollama 生命周期 ±5pp 漂移带);②跨周期分数不可直接比,A/B 必须同服务生命周期;③LME lane 欠 prompt_eval_count 记账(可观测债,backlog)。
+- 运行证据:`benchmark-longmemeval_s-haystack-20260708-{125451,133xxx,135011}-*.json` 三方对照与 POC 轮四 jsonl。
