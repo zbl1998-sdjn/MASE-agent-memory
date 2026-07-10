@@ -139,6 +139,7 @@ def test_model_instance_cached_per_settings(tmp_path, monkeypatch):
     assert len(created) == 1  # 批处理不重复建模
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="DLL 注册是 Windows-only 语义(c8efbce4 平台守卫显式跳过非 Windows)")
 def test_nvidia_dll_dirs_registered_when_present(tmp_path, monkeypatch):
     """pip 安装的 nvidia wheels 的 bin 目录需显式 add_dll_directory(Windows)。"""
     import site
