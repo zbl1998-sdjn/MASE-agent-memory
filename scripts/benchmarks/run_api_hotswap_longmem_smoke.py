@@ -175,7 +175,7 @@ def configure_cloud_reliability(config: dict) -> None:
         connect_timeout=6,
         read_timeout=28,
         fallback_models=[
-            deepseek_candidate("deepseek-reasoner"),
+            deepseek_candidate("deepseek-v4-pro"),
             minimax_candidate("MiniMax-M2.5"),
             glm_candidate("glm-5-turbo"),
         ],
@@ -189,7 +189,7 @@ def configure_cloud_reliability(config: dict) -> None:
                 connect_timeout=6,
                 read_timeout=28,
                 fallback_models=[
-                    deepseek_candidate("deepseek-reasoner"),
+                    deepseek_candidate("deepseek-v4-pro"),
                     minimax_candidate("MiniMax-M2.5"),
                     glm_candidate("glm-5-turbo"),
                 ],
@@ -203,7 +203,7 @@ def configure_cloud_reliability(config: dict) -> None:
                 read_timeout=18,
                 fallback_models=[
                     minimax_candidate("MiniMax-M2.5"),
-                    deepseek_candidate("deepseek-reasoner"),
+                    deepseek_candidate("deepseek-v4-pro"),
                 ],
             )
     for mode_name in ("hot_ops", "hot_summary", "english_summary"):
@@ -229,8 +229,8 @@ def configure_cloud_reliability(config: dict) -> None:
         read_timeout=45,
         fallback_models=[
             glm_candidate("glm-5-turbo"),
-            deepseek_candidate("deepseek-reasoner"),
             deepseek_candidate("deepseek-v4-pro"),
+            deepseek_candidate("deepseek-v4-flash"),
         ],
     )
     planner_modes = planner.setdefault("modes", {})
@@ -243,8 +243,8 @@ def configure_cloud_reliability(config: dict) -> None:
                 read_timeout=45 if mode_name in {"task_planning", "retrieval_verification"} else 28,
                 fallback_models=[
                     glm_candidate("glm-5-turbo"),
-                    deepseek_candidate("deepseek-reasoner"),
                     deepseek_candidate("deepseek-v4-pro"),
+                    deepseek_candidate("deepseek-v4-flash"),
                 ],
             )
 
@@ -310,8 +310,8 @@ def configure_cloud_reliability(config: dict) -> None:
                 read_timeout=55,
                 fallback_models=[
                     glm_candidate("glm-5-turbo"),
-                    deepseek_candidate("deepseek-reasoner"),
                     deepseek_candidate("deepseek-v4-pro"),
+                    deepseek_candidate("deepseek-v4-flash"),
                 ],
             )
 
