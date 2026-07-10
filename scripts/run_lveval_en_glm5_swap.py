@@ -30,8 +30,8 @@ glm5_mode = {
     'timeout_seconds': 180,
     'system_prompt': preserved_prompt,
     'fallback_models': [
-        # Cross-vendor fallback: deepseek-chat -> kimi -> ollama qwen2.5:7b (last-resort local)
-        {'provider': 'anthropic', 'model_name': 'deepseek-chat',
+        # Cross-vendor fallback: deepseek-v4-pro -> kimi -> ollama qwen2.5:7b (last-resort local)
+        {'provider': 'anthropic', 'model_name': 'deepseek-v4-pro',
          'base_url': 'https://api.deepseek.com/anthropic',
          'api_key_env': 'DEEPSEEK_API_KEY',
          'temperature': 0.0, 'max_tokens': 256, 'timeout_seconds': 180,

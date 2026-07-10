@@ -267,7 +267,7 @@
         "grounded_long_memory_cloud": {
           "extends": "grounded_answer",
           "provider": "anthropic",
-          "model_name": "deepseek-chat",
+          "model_name": "deepseek-v4-pro",
           "base_url": "https://api.deepseek.com/anthropic",
           "api_key_env": "DEEPSEEK_API_KEY",
           "temperature": 0.0,
@@ -300,7 +300,7 @@
         "grounded_long_memory_cloud_english": {
           "extends": "grounded_answer",
           "provider": "anthropic",
-          "model_name": "deepseek-chat",
+          "model_name": "deepseek-v4-pro",
           "base_url": "https://api.deepseek.com/anthropic",
           "api_key_env": "DEEPSEEK_API_KEY",
           "temperature": 0.0,

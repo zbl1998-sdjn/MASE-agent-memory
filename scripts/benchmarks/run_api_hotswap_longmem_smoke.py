@@ -162,7 +162,7 @@ def configure_cloud_reliability(config: dict) -> None:
         write_timeout=10,
         pool_timeout=6,
         fallback_models=[
-            deepseek_candidate("deepseek-chat"),
+            deepseek_candidate("deepseek-v4-flash"),
             minimax_candidate("MiniMax-M2.5"),
             glm_candidate("glm-5-turbo"),
         ],
@@ -217,7 +217,7 @@ def configure_cloud_reliability(config: dict) -> None:
                     minimax_candidate("MiniMax-M2.7"),
                     minimax_candidate("MiniMax-M2.5-highspeed"),
                     minimax_candidate("MiniMax-M2.5"),
-                    deepseek_candidate("deepseek-chat"),
+                    deepseek_candidate("deepseek-v4-flash"),
                 ],
             )
 
@@ -230,7 +230,7 @@ def configure_cloud_reliability(config: dict) -> None:
         fallback_models=[
             glm_candidate("glm-5-turbo"),
             deepseek_candidate("deepseek-reasoner"),
-            deepseek_candidate("deepseek-chat"),
+            deepseek_candidate("deepseek-v4-pro"),
         ],
     )
     planner_modes = planner.setdefault("modes", {})
@@ -244,7 +244,7 @@ def configure_cloud_reliability(config: dict) -> None:
                 fallback_models=[
                     glm_candidate("glm-5-turbo"),
                     deepseek_candidate("deepseek-reasoner"),
-                    deepseek_candidate("deepseek-chat"),
+                    deepseek_candidate("deepseek-v4-pro"),
                 ],
             )
 
@@ -257,7 +257,7 @@ def configure_cloud_reliability(config: dict) -> None:
         fallback_models=[
             kimi_candidate("kimi-k2"),
             glm_candidate("glm-5.1"),
-            deepseek_candidate("deepseek-chat"),
+            deepseek_candidate("deepseek-v4-pro"),
         ],
     )
     executor_modes = executor.setdefault("modes", {})
@@ -281,7 +281,7 @@ def configure_cloud_reliability(config: dict) -> None:
                     kimi_candidate("kimi-k2"),
                     kimi_candidate("kimi-k2-turbo-preview"),
                     glm_candidate("glm-5.1"),
-                    deepseek_candidate("deepseek-chat"),
+                    deepseek_candidate("deepseek-v4-pro"),
                 ],
             )
     for mode_name in (
@@ -311,7 +311,7 @@ def configure_cloud_reliability(config: dict) -> None:
                 fallback_models=[
                     glm_candidate("glm-5-turbo"),
                     deepseek_candidate("deepseek-reasoner"),
-                    deepseek_candidate("deepseek-chat"),
+                    deepseek_candidate("deepseek-v4-pro"),
                 ],
             )
 
@@ -341,7 +341,7 @@ def configure_notetaker(config: dict) -> None:
             "api_key_env": "DEEPSEEK_API_KEY",
             "auth_header": "x-api-key",
             "auth_scheme": "",
-            "model_name": "deepseek-chat",
+            "model_name": "deepseek-v4-flash",
             "max_tokens": 256,
             "temperature": 0.1,
         }
@@ -376,7 +376,7 @@ def configure_notetaker(config: dict) -> None:
         "api_key_env": "DEEPSEEK_API_KEY",
         "auth_header": "x-api-key",
         "auth_scheme": "",
-        "model_name": "deepseek-chat",
+        "model_name": "deepseek-v4-flash",
         "temperature": 0.1,
         "max_tokens": 256,
     }
@@ -387,7 +387,7 @@ def configure_notetaker(config: dict) -> None:
         "api_key_env": "DEEPSEEK_API_KEY",
         "auth_header": "x-api-key",
         "auth_scheme": "",
-        "model_name": "deepseek-chat",
+        "model_name": "deepseek-v4-flash",
         "temperature": 0.0,
         "max_tokens": 128,
     }
@@ -398,7 +398,7 @@ def configure_notetaker(config: dict) -> None:
         "api_key_env": "DEEPSEEK_API_KEY",
         "auth_header": "x-api-key",
         "auth_scheme": "",
-        "model_name": "deepseek-chat",
+        "model_name": "deepseek-v4-flash",
         "temperature": 0.0,
         "max_tokens": 224,
     }
@@ -409,7 +409,7 @@ def configure_notetaker(config: dict) -> None:
         "api_key_env": "DEEPSEEK_API_KEY",
         "auth_header": "x-api-key",
         "auth_scheme": "",
-        "model_name": "deepseek-chat",
+        "model_name": "deepseek-v4-flash",
         "temperature": 0.0,
         "max_tokens": 192,
     }
@@ -420,7 +420,7 @@ def configure_notetaker(config: dict) -> None:
         "api_key_env": "DEEPSEEK_API_KEY",
         "auth_header": "x-api-key",
         "auth_scheme": "",
-        "model_name": "deepseek-chat",
+        "model_name": "deepseek-v4-flash",
         "temperature": 0.0,
         "max_tokens": 128,
     }

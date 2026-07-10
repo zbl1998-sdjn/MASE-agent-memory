@@ -118,7 +118,7 @@ def main() -> None:
     try:
         config = load_config(resolve_config_path(BASE_DIR / "config.cloud.example.json"))
         for agent_type, model_name in (
-            ("router", "deepseek-chat"),
+            ("router", "deepseek-v4-flash"),
             ("notetaker", "glm-4-flash"),
             ("executor", "MiniMax-Text-01"),
         ):
