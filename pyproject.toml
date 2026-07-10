@@ -54,6 +54,7 @@ audio = [
 all = [
     "fastapi>=0.110,<1.0",
     "uvicorn>=0.27,<1.0",
+    "python-multipart>=0.0.9,<1.0",
     "mcp>=1.0,<2.0",
     "langchain>=0.1,<1.0",
     "langchain-core>=0.1,<1.0",
@@ -67,6 +68,7 @@ dev = [
     "pytest-xdist>=3.0,<4.0",
     "fastapi>=0.110,<1.0",
     "uvicorn>=0.27,<1.0",
+    "python-multipart>=0.0.9,<1.0",
     "numpy>=1.26,<3.0",
     "tiktoken>=0.7,<1.0",
     "ruff==0.15.10",
