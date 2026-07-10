@@ -68,9 +68,14 @@ it's a lane no one else is currently driving in.
   and 32k, needle_set_hard 0/20 at both lengths
   (`E:/MASE-runs/results/external/nolima_chunked_*_v016_nonliteral/`);
   April rows said the same (`results/external/phase_a_summary.jsonl`,
-  `nolima_hard*`). Keyword-only recall cannot bridge latent associations;
-  the opt-in semantic discovery lever (bge-m3) has no NoLiMa-side evidence
-  yet and any future run will be a separately labeled lane.
+  `nolima_hard*`). Keyword-only recall cannot bridge latent associations.
+  The opt-in bge-m3 semantic-discovery lever was built and A/B-tested on a
+  diagnostic slice 2026-07-11: **zero flips** (hard 0/10→0/10, onehop/twohop
+  0/58→0/58 at 16k). Measured root cause: the true needle scores 0.461
+  cosine vs 0.440 for a same-shaped wrong needle — bge-m3 does not encode
+  the world-knowledge hop these tiers test, so the signal has no usable
+  margin (DECISIONS.md 2026-07-11;
+  `E:/MASE-runs/results/external/nolima_event_semantic_diag_20260711/`).
 - **Single seed, 56 items per length.** Same as the paper's needle set
   size; no cherry-picking across seeds.
 

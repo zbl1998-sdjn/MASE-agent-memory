@@ -473,3 +473,25 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 - **全量"回归"实为环境漂移**:hybrid flag 全量 57.2 vs 基线 62.6 引发取证——三方 30 例对照(HEAD 冷启动/HEAD 热+hybrid/基线代码 worktree)**翻转例完全相同**({5d3d2817,6b168ec8,c960da58}),同环境两两 100% 一致:代码零嫌疑、hybrid 零回归成立;漂移源=**ollama 服务生命周期**(7-07 晚 taskkill 重启为分界),temp0+seed42 跨周期不保序,500 例面 ≈ -5.4pp(multi-session 承担大头,knowledge-update 两周期 37/78 分毫未漂)。
 - **纪律修正**:①LME 本地 claim 补环境敏感度 caveat(跨 ollama 生命周期 ±5pp 漂移带);②跨周期分数不可直接比,A/B 必须同服务生命周期;③LME lane 欠 prompt_eval_count 记账(可观测债,backlog)。
 - 运行证据:`benchmark-longmemeval_s-haystack-20260708-{125451,133xxx,135011}-*.json` 三方对照与 POC 轮四 jsonl。
+
+## 2026-07-11 — NoLiMa 事件路径语义召回(诊断规模 A/B,负结果)
+
+背景:NoLiMa 反字面档(onehop/twohop/hard)关键词系统 committed 0%(2026-07-07 复测 272 例全零);backlog 记录"语义发现(bge-m3)是该档位的候选杠杆,NoLiMa 侧零证据,做了必须单列 lane"。本轮把杠杆真做出来并测了。
+
+### 实现(已入库,8b7209de)
+- `MASE_EVENT_SEMANTIC_RECALL`(默认关,独立于治理层 `MASE_SEMANTIC_DISCOVERY`):`event_semantic_recall.discover_events()` 对 memory_log 行做 bge-m3 候选发现,**只追加、不重排、不占用词法槽位**(吸取 2026-04-18 对抗排序倒置教训);`memory_log_embeddings` 缓存表 additive;embedding 原语抽到共享 `embedding_client.py`(治理层 10/10 测试行为保持)。
+- 机制本身验证通过:单元 6 测试绿(含默认路径零 embed 钉死);真机冒烟(表层语义强相关场景,Kenji 滑冰例)needle 相似度 0.568 被正确发现。
+
+### 诊断规模 A/B(16k、rand_shuffle 单书、单深度档、metric=contains,本机 bge-m3,零云端)
+- `needle_set_hard`:off **0/10** → on **0/10**;`needle_set`(onehop/twohop):off **0/58** → on **0/58**。**零翻转**。
+- 机制排查:开关确认真跑(耗时 20s→55s、90s→4m38s);`n_hits` 全 68 例恒 8 = 阈值 0.55 下语义候选一次都没触发,不是没跑是没过线。
+
+### 根因(直接测相似度,非猜测)
+- `sim(问题, 真 needle)` = **0.4610**("been to Germany?" / "lives next to the European Central Bank");`sim(问题, 同结构错 needle)` = **0.4399**(另一人物/地标);无关文本 0.33-0.35。
+- 真假 needle 边距仅 **0.021**:bge-m3 能区分"needle 形状的句子"和无关文本,但**编码不了"欧洲央行→法兰克福→德国"这类世界知识跳跃**——而这正是该档位考的东西。降阈值到 0.40-0.45 只会把同结构错 needle 一起放进来,信噪比不可用。
+- 与 2026-04-18 LV-Eval 对抗双针教训同族:embedding 相似度在"需要常识推理桥接"的档位不是弱信号,是**无区分度信号**。
+
+### 判定
+- 代码作为基础设施保留(默认关、诊断 lane、反过拟合政策同 `MASE_SEMANTIC_DISCOVERY` 适用);**NoLiMa 反字面档 0% 用 bge-m3 候选发现救不动,该假设否决**。
+- 若重启此线,方向不是调参而是换编码:①世界知识更强的 embedding(需先用本诊断切片测真假 needle 边距再投入);②LLM-based 相关性判定(每 chunk 一次小模型调用,成本结构完全不同,独立立项)。
+- 运行证据:`E:/MASE-runs/results/external/nolima_event_semantic_diag_20260711/`(四个 run 的 results+summary);相似度测量本会话取证。
