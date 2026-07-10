@@ -20,19 +20,16 @@ from __future__ import annotations
 
 import hashlib
 import json
-import math
 import os
 from contextlib import closing
 from pathlib import Path
 from typing import Any
 
-import httpx
-
 from mase_tools.memory.db_core import get_connection
 
+from ..embedding_client import cosine_similarity, embed_model_name, embed_texts
 from .fact_contract import utc_now
 
-DEFAULT_EMBED_MODEL = "bge-m3"
 # 2026-07-07 诊断面校准(benchmarks/semantic_recall,24 事实/16 改写/8 负例):
 # top_n=1 零代价消噪(目标过阈值时总是语义第一名);threshold 0.55 精确优先
 # (负例顶点 0.514,留 0.036 边距;0.5 档命中 0.94 但负例误发现 25%,
@@ -46,16 +43,11 @@ HINT_CAP = 3
 # 语义分量权重:低于任何强关键词命中(exact_entity 0.30/predicate 0.20),
 # 发现是补充信号,不与机械匹配争主导。常数待 NoLiMa/LME 侧 A/B 校准。
 SEMANTIC_WEIGHT = 0.15
-_EMBED_TIMEOUT_S = 120.0
 
 
 def semantic_enabled() -> bool:
     """opt-in 开关;默认关,默认召回路径逐字节不变。"""
     return os.environ.get("MASE_SEMANTIC_DISCOVERY", "").strip() == "1"
-
-
-def embed_model_name() -> str:
-    return os.environ.get("MASE_EMBED_MODEL", "").strip() or DEFAULT_EMBED_MODEL
 
 
 def _env_float(name: str, default: float) -> float:
@@ -83,39 +75,12 @@ def semantic_hint_floor() -> float:
     return _env_float("MASE_SEMANTIC_HINT_FLOOR", DEFAULT_HINT_FLOOR)
 
 
-def _embed_base_url() -> str:
-    raw = str(os.environ.get("OLLAMA_HOST") or "http://127.0.0.1:11434").strip()
-    if not raw.startswith(("http://", "https://")):
-        raw = f"http://{raw}"
-    return raw.rstrip("/")
-
-
-def embed_texts(texts: list[str], *, model: str | None = None) -> list[list[float]]:
-    """批量取向量;失败原样抛(调用方决定降级),HTTP 带读超时防挂死。"""
-    if not texts:
-        return []
-    response = httpx.post(
-        f"{_embed_base_url()}/api/embed",
-        json={"model": model or embed_model_name(), "input": texts},
-        timeout=httpx.Timeout(_EMBED_TIMEOUT_S, connect=10.0),
-    )
-    response.raise_for_status()
-    embeddings = response.json().get("embeddings") or []
-    return [[float(x) for x in vector] for vector in embeddings]
-
-
 def _fact_content(row: Any) -> str:
     return f"{row['subject']}.{row['predicate']} = {row['object']}"
 
 
 def _content_hash(content: str) -> str:
     return hashlib.sha256(content.encode("utf-8")).hexdigest()
-
-
-def _cosine(a: list[float], b: list[float]) -> float:
-    dot = sum(x * y for x, y in zip(a, b, strict=False))  # 维度不齐按短边截断
-    norm = math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))
-    return dot / norm if norm > 1e-12 else 0.0
 
 
 def _ensure_fact_vectors(
@@ -194,7 +159,7 @@ def discover(
         vectors = _ensure_fact_vectors(cursor, rows, model=model)
     query_vector = embed_texts([query], model=model)[0]
     scored = [
-        (fid, round(_cosine(query_vector, vector), 4))
+        (fid, round(cosine_similarity(query_vector, vector), 4))
         for fid, vector in vectors.items()
     ]
     scored = [(fid, sim) for fid, sim in scored if sim >= threshold]

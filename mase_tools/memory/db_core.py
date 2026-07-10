@@ -733,6 +733,21 @@ def _create_legacy_schema(db_path: Path) -> None:
             )
         """)
 
+        # event-log 语义发现(additive):memory_log 行向量缓存,与 fact_embeddings
+        # 同构但键空间独立(facts 与 memory_log 是两张不同 schema 的表,不可共用
+        # 缓存)。只服务 opt-in 的 NoLiMa/事件路径候选发现(MASE_EVENT_SEMANTIC_RECALL=1),
+        # 读路径零依赖。见 src/mase/event_semantic_recall.py。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS memory_log_embeddings (
+                log_id TEXT NOT NULL,
+                model TEXT NOT NULL,
+                content_hash TEXT NOT NULL,
+                vector_json TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                PRIMARY KEY (log_id, model)
+            )
+        """)
+
         # 3.12 治理层 P2(additive):检索运行与上下文包审计(每次召回/编译可回放)。
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS retrieval_runs (
