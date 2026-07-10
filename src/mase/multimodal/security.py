@@ -18,6 +18,8 @@ ALLOWED_MEDIA_TYPES: dict[str, str] = {
     ".mp3": "audio/mpeg",
     ".m4a": "audio/mp4",
     ".flac": "audio/flac",
+    ".csv": "text/csv",
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 }
 
 DEFAULT_MAX_BYTES = 50 * 1024 * 1024   # 图像/文档单文件上限

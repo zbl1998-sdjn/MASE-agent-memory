@@ -33,21 +33,39 @@ class AudioTrack:
 
 
 @dataclass(frozen=True)
+class TabularSource:
+    """表格文件引用:与 AudioTrack 同模式,解析留给抽取器(懒依赖)。"""
+
+    path: Path
+    media_type: str
+
+
+TABULAR_MEDIA_TYPES = (
+    "text/csv",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+
+
+@dataclass(frozen=True)
 class MediaPayload:
-    """统一媒体载荷:视觉走 pages,音频走 audio;二选一填充。"""
+    """统一媒体载荷:视觉走 pages,音频走 audio,表格走 tabular;三选一填充。"""
 
     pages: tuple[PageImage, ...] = ()
     audio: AudioTrack | None = None
+    tabular: TabularSource | None = None
 
 
 def load_media(path: Path, media_type: str, *, pdf_dpi: int = 150) -> MediaPayload:
     """把已过安全检查的文件封装为 MediaPayload。
 
     音频刻意不在此解码:转写器(faster-whisper/PyAV)直接吃文件路径,
-    避免双重解码;时长等元数据由转写阶段回填到 result 元数据。
+    避免双重解码;时长等元数据由转写阶段回填到 result 元数据。表格同理:
+    openpyxl/csv 解析在 TabularExtractor 里做,loader 不背可选依赖。
     """
     if media_type.startswith("audio/"):
         return MediaPayload(audio=AudioTrack(path=Path(path), media_type=media_type))
+    if media_type in TABULAR_MEDIA_TYPES:
+        return MediaPayload(tabular=TabularSource(path=Path(path), media_type=media_type))
     return MediaPayload(pages=tuple(load_pages(path, media_type, pdf_dpi=pdf_dpi)))
 
 

@@ -42,15 +42,18 @@ _SUFFIX_BY_MEDIA_TYPE = {
     "audio/mpeg": "mp3",
     "audio/mp4": "m4a",
     "audio/flac": "flac",
+    "text/csv": "csv",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
 }
 
 
 def _default_extractors(mode: str | None, whisper_model: str | None) -> list[MediaExtractor]:
-    """默认抽取器组:视觉在前、音频在后;按 supports() 调度。懒导入避免无关依赖。"""
+    """默认抽取器组:视觉在前、音频、表格在后;按 supports() 调度。懒导入避免无关依赖。"""
     from .audio_extractor import AudioExtractor
+    from .tabular_extractor import TabularExtractor
     from .vision_extractor import VisionExtractor
 
-    return [VisionExtractor(mode=mode), AudioExtractor(whisper_model=whisper_model)]
+    return [VisionExtractor(mode=mode), AudioExtractor(whisper_model=whisper_model), TabularExtractor()]
 
 
 @dataclass(frozen=True)

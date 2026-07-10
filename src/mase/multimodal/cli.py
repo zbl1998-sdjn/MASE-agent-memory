@@ -21,7 +21,7 @@ def main(argv: list[str] | None = None) -> int:
     _ensure_utf8_stdout()
     parser = argparse.ArgumentParser(
         prog="mase ingest",
-        description="批量摄取本地文档/图像(png/jpg/webp/gif/pdf)为白盒记忆事实。",
+        description="批量摄取本地文档/图像/音频/表格(png/jpg/webp/gif/pdf/wav/mp3/m4a/flac/csv/xlsx)为白盒记忆事实。",
     )
     parser.add_argument("folder", help="待摄取的本地文件夹(默认同时作为路径 jail 根)")
     parser.add_argument("--mode", default=None, help="vision agent 模式,如 minicpm 切换 minicpm-v4.5")
