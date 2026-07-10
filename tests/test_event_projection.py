@@ -94,10 +94,10 @@ def test_facade_reports_counts(tmp_path, monkeypatch):
     assert report["facts_by_status"].get("active") == 1
 
 
-def _mk_fact(key, value, evidence):
+def _mk_fact(key, value, evidence, category="general_facts"):
     from mase.multimodal.extractor import CandidateFact
 
-    return CandidateFact(category="general_facts", key=key, value=value, confidence=0.9, evidence=evidence)
+    return CandidateFact(category=category, key=key, value=value, confidence=0.9, evidence=evidence)
 
 
 def test_llm_extractor_requires_model_interface(tmp_path, monkeypatch):
@@ -161,3 +161,74 @@ def test_key_merge_flag_chains_synonym_keys(tmp_path, monkeypatch):
     superseded = [f for f in _facts(status="superseded") if f["predicate"] == "running_5k_best_time"]
     assert len(actives) == 1 and actives[0]["object"] == "25:50"
     assert len(superseded) == 1 and superseded[0]["object"] == "27:12"
+
+
+def test_dialogue_rows_excluded_by_default(tmp_path, monkeypatch):
+    """runtime 打包行(role=assistant,User:/Assistant: 结构)默认不扫(行为钉死)。"""
+    _isolate_db(tmp_path, monkeypatch)
+    _write_event(
+        "User: 项目预算: 500 元\nAssistant: 好的,已记录。\nSummary: 记录预算",
+        role="assistant",
+    )
+    report = _project()
+    assert report["events_projected"] == 0
+    assert _facts() == []
+
+
+def test_dialogue_rows_project_user_segment_only(tmp_path, monkeypatch):
+    """include_dialogue_rows=True:runtime 打包行只投 User 段,assistant 段不投。
+
+    背景:engine runtime 的 notetaker.write 把整轮打包为一条 role=assistant
+    的行("User: ...\nAssistant: ..."),project_events 的 role='user' 过滤
+    扫不到——写入时抽取钩子(MASE_WRITE_TIME_EXTRACTION)真机闭环取证发现
+    engine 路径投影恒零产出。
+    """
+    _isolate_db(tmp_path, monkeypatch)
+    _write_event(
+        "User: 项目预算: 500 元\nAssistant: 顺带一提 负责人: 李四\nSummary: 预算",
+        role="assistant",
+    )
+    report = _project(include_dialogue_rows=True)
+    assert report["events_projected"] == 1
+    actives = _facts(status="active")
+    predicates = {f["predicate"] for f in actives}
+    assert "项目预算" in predicates  # User 段的事实投了
+    assert "负责人" not in predicates  # Assistant 段的键值不投(切片①边界)
+
+
+def test_dialogue_rows_pure_assistant_rows_still_excluded(tmp_path, monkeypatch):
+    """include_dialogue_rows=True 也不放行普通 assistant 行(无 User: 结构)。"""
+    _isolate_db(tmp_path, monkeypatch)
+    _write_event("汇总: 项目预算: 999 元", role="assistant")
+    report = _project(include_dialogue_rows=True)
+    assert report["events_projected"] == 0
+    assert _facts() == []
+
+
+def test_llm_category_drift_does_not_break_supersede_chain(tmp_path, monkeypatch):
+    """LLM 的 category 标签跨调用不稳定(真机取证 2026-07-11:同一预算两轮
+    分别标 finance_budget/project_status),category 参与事实身份会拆链——
+    既有同名 predicate 的 active 事实时沿用其 category,保证 supersede 成链。
+    """
+    _isolate_db(tmp_path, monkeypatch)
+
+    replies = iter([
+        [_mk_fact("project_phoenix_budget", "5000 元", "项目凤凰的预算是 5000 元", category="finance_budget")],
+        [_mk_fact("project_phoenix_budget", "8000 元", "预算改成 8000 元", category="project_status")],
+    ])
+
+    def _fake_extract(mi, content):
+        return next(replies)
+
+    monkeypatch.setattr("mase.governance.dialogue_facts.extract_dialogue_facts", _fake_extract)
+    _write_event("记一下:项目凤凰的预算是 5000 元")
+    _project(extractor="llm", model_interface=object())
+    _write_event("更正:项目凤凰的预算改成 8000 元了")
+    _project(extractor="llm", model_interface=object())
+
+    actives = [f for f in _facts(status="active") if f["predicate"] == "project_phoenix_budget"]
+    superseded = [f for f in _facts(status="superseded") if f["predicate"] == "project_phoenix_budget"]
+    assert len(actives) == 1 and actives[0]["object"] == "8000 元"
+    assert len(superseded) == 1 and superseded[0]["object"] == "5000 元"
+    # 链一致性:第二条沿用首条的 category,而非 LLM 漂移后的标签。
+    assert actives[0]["subject"] == superseded[0]["subject"] == "finance_budget"

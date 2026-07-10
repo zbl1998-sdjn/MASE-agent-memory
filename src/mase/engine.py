@@ -99,6 +99,44 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         self._gc_threads = [t for t in self._gc_threads if t.is_alive()]
         return joined
 
+    def _maybe_spawn_write_time_extraction(self, thread_id: str) -> None:
+        """写入时对话抽取(opt-in):后台把本会话 user 轮投影为治理 facts。
+
+        ``MASE_WRITE_TIME_EXTRACTION=1`` 时,在 notetaker 写入后异步触发
+        ``project_events(extractor='llm')``——hybrid 注入闭环的写入侧(POC
+        取证:oracle 抽取假设下 knowledge-update judge 53.8→74.4,缺的正是
+        写入时抽取)。幂等增量由 project_events 自带(只扫未投影事件),
+        每轮触发只处理新事件。默认关;``MASE_BENCHMARK_MODE=1`` 时跳过
+        (评测路径不被意外 LLM 抽取污染)。投影是派生路径,失败吞掉,
+        不反向破坏主问答链路;线程挂 _gc_threads 复用 drain 基建。
+        """
+        if os.environ.get("MASE_WRITE_TIME_EXTRACTION", "0").strip().lower() not in {"1", "true", "on", "yes"}:
+            return
+        if os.environ.get("MASE_BENCHMARK_MODE", "0").strip().lower() in {"1", "true", "on", "yes"}:
+            return
+
+        def _projection_worker() -> None:
+            try:
+                from mase.governance.event_projection import project_events
+
+                project_events(
+                    thread_id=thread_id,
+                    extractor="llm",
+                    model_interface=self.model_interface,
+                    # runtime 写入行是打包形态(role=assistant,"User: ..."),
+                    # 必须走 dialogue-rows 扫描,否则恒零产出(真机取证)。
+                    include_dialogue_rows=True,
+                )
+            except Exception:
+                # 治理 facts 是派生索引;主 memory_log 已提交,投影失败不能
+                # 反向破坏主写入(与 _gc_worker 同语义)。
+                pass
+
+        self._gc_threads = [t for t in self._gc_threads if t.is_alive()]
+        _t = threading.Thread(target=_projection_worker, daemon=True, name="mase-write-time-extraction")
+        _t.start()
+        self._gc_threads.append(_t)
+
     def reload(self) -> None:
         self.model_interface.reload()
         register_builtin_agents()
@@ -443,6 +481,8 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
                 _t = threading.Thread(target=_gc_worker, daemon=True, name="mase-gc-auto")
                 _t.start()
                 self._gc_threads.append(_t)
+            # 写入时对话抽取(opt-in,默认关):本会话 user 轮 → 治理 facts。
+            self._maybe_spawn_write_time_extraction(thread.thread_id)
             # 人类可读审计轨迹（SQLite + Markdown 双白盒）。runtime 默认开启；
             # benchmark 应设置 MASE_AUDIT_MARKDOWN=0 或 MASE_BENCHMARK_MODE=1，
             # 避免把评测样本写进面向用户的日志。

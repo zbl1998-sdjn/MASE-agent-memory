@@ -512,6 +512,7 @@ def mase2_project_events(
     thread_id: str | None = None,
     limit: int | None = None,
     extractor: str = "kv",
+    include_dialogue_rows: bool = False,
 ) -> dict[str, Any]:
     """事件→事实投影门面:把存量 user 事件投影为治理 facts。
 
@@ -528,5 +529,9 @@ def mase2_project_events(
 
         model_interface = ModelInterface()
     return project_events(
-        thread_id=thread_id, limit=limit, extractor=extractor, model_interface=model_interface
+        thread_id=thread_id,
+        limit=limit,
+        extractor=extractor,
+        model_interface=model_interface,
+        include_dialogue_rows=include_dialogue_rows,
     )
