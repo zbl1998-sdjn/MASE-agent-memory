@@ -26,6 +26,21 @@ _PREDICATE_ALIASES: dict[str, tuple[str, ...]] = {
     "status": ("status", "state", "当前状态", "状态"),
 }
 
+# 不确定语气护栏:句子只是说"该值未知/未定",不是在断言另一个值——判
+# CONTRADICTED 会把正常的"我不知道"式回答误杀成幻觉(2026-07-11 TDD 实锤:
+# "预算还没定下来" 被判 contradicted → refuse)。可枚举白盒词表,漏报由
+# UNKNOWN + review 兜底。
+_UNCERTAINTY_MARKERS: tuple[str, ...] = (
+    "还没", "尚未", "未定", "待定", "不确定", "不清楚", "不知道", "没有记录",
+    "not yet", "undecided", "unknown", "unclear", "tbd", "to be decided",
+    "not sure", "no record",
+)
+
+
+def _is_uncertain(sentence: str) -> bool:
+    lowered = sentence.lower()
+    return any(marker in lowered for marker in _UNCERTAINTY_MARKERS)
+
 
 @dataclass(frozen=True)
 class SemanticClaim:
@@ -60,7 +75,7 @@ def verify_semantic_claims(answer: str, pack: EvidencePack) -> dict[str, Any]:
                     "reason": "normalized object and predicate/value context matched evidence pack",
                 }
             )
-        elif predicate_claims and _has_foreign_value(normalized, predicate_claims):
+        elif predicate_claims and not _is_uncertain(sentence) and _has_foreign_value(normalized, predicate_claims):
             judgments.append(
                 {
                     "sentence_index": index,

@@ -8,12 +8,18 @@
 - 其余 → UNTAGGED(只审计记忆声明,不评一般内容)
 
 检出口径是"逐字引用型"记忆声明(归一化 substring,与召回同一套 _norm);
-语义改写型漏检是已声明边界(spec §7)。审计强制落 answer_audits 表。
+语义改写型漏检是已声明边界(spec §7)——除非开启 L2 语义层
+(``MASE_SEMANTIC_VERIFIER=1``,默认关):L1 UNTAGGED 的句子交
+semantic_claim_verifier(确定性同义表,不调 LLM)复查,SUPPORTED →
+SEMANTIC_SUPPORTED(非 violation),CONTRADICTED → SEMANTIC_CONTRADICTED
+(violation);只收紧不放宽,L1 已打标句子不被覆盖。审计强制落
+answer_audits 表。
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import uuid
 from contextlib import closing
@@ -32,6 +38,14 @@ CONFLICTING = "CONFLICTING"
 STALE = "STALE"
 UNSUPPORTED_MEMORY_CLAIM = "UNSUPPORTED_MEMORY_CLAIM"
 UNTAGGED = "UNTAGGED"
+# L2 语义层唯一增量 tag:supported 面被 L1 全覆盖(L2 的 supported 条件
+# "值逐字 in 句 + 谓词语境"是 L1 "值逐字 in 句"的严格子集),无独立面。
+SEMANTIC_CONTRADICTED = "SEMANTIC_CONTRADICTED"
+
+
+def _semantic_layer_enabled() -> bool:
+    """L2 opt-in 开关;默认关,默认审计行为逐字节不变。"""
+    return os.environ.get("MASE_SEMANTIC_VERIFIER", "").strip() == "1"
 
 
 @dataclass(frozen=True)
@@ -150,6 +164,25 @@ def verify_answer(
                 reason="逐字命中已验证事实值",
             )
         spans.append(span)
+
+    # L2 语义层(opt-in):只对 L1 UNTAGGED 的句子复查矛盾面,只收紧不放宽。
+    if _semantic_layer_enabled():
+        from .semantic_claim_verifier import verify_semantic_claims
+
+        l2 = verify_semantic_claims(answer, pack)
+        judgments_by_index = {j["sentence_index"]: j for j in l2["judgments"]}
+        for span in spans:
+            if span["tag"] != UNTAGGED:
+                continue  # L1 逐字口径优先,不覆盖
+            judgment = judgments_by_index.get(span["span_index"])
+            if judgment is not None and judgment["status"] == "contradicted":
+                span.update(
+                    tag=SEMANTIC_CONTRADICTED,
+                    fact_ids=list(judgment["fact_ids"]),
+                    violation=True,
+                    reason=f"L2 语义层:{judgment['reason']}",
+                )
+            # supported 面 L1 已全覆盖;unknown 保持 UNTAGGED(防误杀)
 
     violations = tuple(s for s in spans if s["violation"])
     if not violations:
