@@ -68,6 +68,9 @@ class IngestReport:
     # 治理层双写(P0):覆盖计数与 best-effort 失败留痕;不影响主链路成败判定。
     facts_governed: int = 0
     governance_warnings: tuple[dict[str, Any], ...] = ()
+    # G6 注入防御(文件级):转写全文命中注入句式的文件留痕;不阻断摄取
+    # (转写保真原则),事实级隔离由治理层 G6 门控独立执行。
+    injection_flags: tuple[dict[str, Any], ...] = ()
 
 
 def ingest_folder(
@@ -97,6 +100,7 @@ def ingest_folder(
     facts_written = 0
     facts_governed = 0
     governance_warnings: list[dict[str, Any]] = []
+    injection_flags: list[dict[str, Any]] = []
 
     for file_path in sorted(p for p in folder.rglob("*") if p.is_file()):
         rel_name = file_path.relative_to(folder).as_posix()
@@ -149,6 +153,10 @@ def ingest_folder(
                 result_json=result.to_json(),
             )
             extractions += 1
+            # G6 文件级注入检测:转写全文命中即留痕(模式集与治理层同源)。
+            injection_hit = _scan_full_text_injection(result.full_text)
+            if injection_hit is not None:
+                injection_flags.append({"file": rel_name, "pattern": injection_hit})
             mase2_write_interaction(
                 f"ingest::{sha256[:12]}", "system", result.full_text, source_media_id=media_id
             )
@@ -197,7 +205,16 @@ def ingest_folder(
         facts_written=facts_written,
         facts_governed=facts_governed,
         governance_warnings=tuple(governance_warnings),
+        injection_flags=tuple(injection_flags),
     )
+
+
+def _scan_full_text_injection(full_text: str) -> str | None:
+    """转写全文过治理层 G6 模式集;命中返回模式名,全净返回 None。"""
+    from mase.governance.admission_gate import scan_injection
+
+    decision = scan_injection(full_text)
+    return decision.pattern if decision.pattern else None
 
 
 def _govern_fact(

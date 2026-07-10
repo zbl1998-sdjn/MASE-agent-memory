@@ -23,6 +23,7 @@ from .admission_gate import (
     GateDecision,
     apply_ttl_policy,
     check_structurable,
+    scan_injection,
     scan_sensitive,
 )
 from .conflict import QUARANTINE_NEW, resolve_conflict
@@ -119,6 +120,12 @@ def propose_fact(
         contract = replace(contract, sensitivity="personal")
         if forced_status is None:
             forced_status, gate_note = FactStatus.QUARANTINED, g3
+
+    # G6:指令注入 → quarantine(不脱敏,原文供 review);不覆盖 G3 的 reject。
+    if forced_status != FactStatus.REJECTED:
+        g6 = scan_injection(contract.object_value, evidence_text)
+        if g6.action == QUARANTINE and forced_status is None:
+            forced_status, gate_note = FactStatus.QUARANTINED, g6
 
     if gate_note is not None:
         basis = dict(contract.confidence_basis or {})
