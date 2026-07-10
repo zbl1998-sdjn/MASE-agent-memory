@@ -77,7 +77,7 @@ def test_two_stage_transcribe_then_extract_facts():
 
     assert result.full_text == "Invoice #001 total 4200 EUR"
     assert result.candidate_facts[0].key == "invoice_total"
-    assert result.extractor_name == "vision" and result.extractor_version == "7"
+    assert result.extractor_name == "vision" and result.extractor_version == "8"
     # 两段归因:VLM + 事实 LLM
     assert "fake-vlm" in result.model_name and "fake-llm" in result.model_name
     assert result.warnings == ()
@@ -88,7 +88,7 @@ def test_vision_supplement_appends_only_missing_lines():
 
     fake = FakeModelInterface(
         # 补看轮回了一行已有的 + 一行新的 → 只追加新行
-        transcripts=["姓名:张三\n口是 口否", "姓名:张三\n审核人:(签章)李四"],
+        transcripts=["姓名:张三\n工号:20076A\n口是 口否", "姓名:张三\n审核人:(签章)李四"],
         facts_replies=[json.dumps({"facts": []}), "无事实"],
     )
     result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
@@ -101,11 +101,11 @@ def test_vision_supplement_appends_only_missing_lines():
 def test_vision_supplement_skipped_when_first_pass_empty():
     from mase.multimodal.vision_extractor import VisionExtractor
 
-    # 首轮无文字(空白页)→ 不补看,防诱导幻觉
-    fake = FakeModelInterface(transcripts=[""], facts_replies=["无事实"])
+    # 首轮无文字 → v8 先重转写一次确认;两轮都空(真空白页)→ 不补看,防诱导幻觉
+    fake = FakeModelInterface(transcripts=["", ""], facts_replies=["无事实"])
     result = VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
     vision_calls = [c for c in fake.calls if c["agent_type"] == "vision"]
-    assert len(vision_calls) == 1
+    assert len(vision_calls) == 2
     assert "--- 补充转写 ---" not in result.full_text
 
 
@@ -157,7 +157,9 @@ def test_malformed_facts_reply_degrades_to_transcript_only():
 def test_mode_passthrough_for_model_switch():
     from mase.multimodal.vision_extractor import VisionExtractor
 
-    fake = FakeModelInterface(transcripts=["t", "无缺失"], facts_replies=[json.dumps({"facts": []})])
+    fake = FakeModelInterface(
+        transcripts=["transcribed doc content total 4200 EUR ref 88", "无缺失"],
+        facts_replies=[json.dumps({"facts": []})])
     VisionExtractor(fake, mode="minicpm").extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
     vision_call = [c for c in fake.calls if c["agent_type"] == "vision"][0]
     assert vision_call["mode"] == "minicpm"
@@ -174,7 +176,9 @@ def test_supports_matrix():
 def test_openai_provider_builds_content_blocks():
     from mase.multimodal.vision_extractor import VisionExtractor
 
-    fake = FakeModelInterface(transcripts=["t", "无缺失"], facts_replies=[json.dumps({"facts": []})])
+    fake = FakeModelInterface(
+        transcripts=["transcribed doc content total 4200 EUR ref 88", "无缺失"],
+        facts_replies=[json.dumps({"facts": []})])
     fake.provider = "openai"
     VisionExtractor(fake).extract(_asset(), _pages(PageImage(0, b"i", "image/png")))
     content = [c for c in fake.calls if c["agent_type"] == "vision"][0]["messages"][0]["content"]
@@ -204,7 +208,7 @@ def test_doc_facts_prompt_has_multiline_merge_guidance():
 
     assert "跨多行" in DOC_FACTS_SYSTEM or "相邻行" in DOC_FACTS_SYSTEM
     assert "合并" in DOC_FACTS_SYSTEM
-    assert VISION_EXTRACTOR_VERSION == "7"  # 提示词变更必须 bump(幂等键语义)
+    assert VISION_EXTRACTOR_VERSION == "8"  # 提示词变更必须 bump(幂等键语义)
 
 
 def test_doc_facts_prompt_keeps_option_groups_verbatim():

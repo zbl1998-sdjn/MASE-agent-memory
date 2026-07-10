@@ -11,6 +11,7 @@ provider 出网仍受 MASE_ALLOW_CLOUD_MODELS 审批门控。
 """
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from .document_loader import MediaPayload
@@ -21,7 +22,25 @@ from .structure_facts import parse_structure_facts, union_superset_facts
 from .text_facts import extract_facts_from_text
 from .transient_retry import call_with_transient_retry
 
-VISION_EXTRACTOR_VERSION = "7"  # v7: 视觉补看轮 + 版面结构解析并集 + 选项组整组保留
+VISION_EXTRACTOR_VERSION = "8"  # v8: 近空首轮重转写恢复(v7: 补看轮 + 版面结构并集)
+
+# 近空判定:轮五诊断实录(zh_train_43)VLM 首轮只复述 prompt 页眉
+# ("Video:来源:….jpg第1/1页。")即整页正文零转写且零警告。判定特征
+# 不是"文本短"(一行小票也短)而是"剥离页眉成分后无实质残余":移除
+# 来源 uri、"来源/video"字样与"第x/y页"模式后,残余 < 10 字符才算近空。
+_NEAR_EMPTY_RESIDUAL_CHARS = 10
+_PAGE_PATTERN = re.compile(r"第\s*\d+\s*/\s*\d+\s*页")
+
+
+def _substantive_residual(page_text: str, source_uri: str | None) -> int:
+    """剥离 prompt 页眉成分后的实质字符数(近空判定依据)。"""
+    norm = "".join(ch for ch in page_text.casefold() if not ch.isspace())
+    norm = _PAGE_PATTERN.sub("", norm)
+    for fragment in (str(source_uri or "").casefold(), "来源", "video", "转写"):
+        if fragment:
+            norm = norm.replace("".join(fragment.split()), "")
+    norm = "".join(ch for ch in norm if ch.isalnum() or "一" <= ch <= "鿿")
+    return len(norm)
 
 VISION_TRANSCRIBE_SYSTEM = """你是文档转写器。请逐字忠实转写图片中全部可读文本:
 - 保留数字、单位、编号、日期的原始写法;
@@ -135,6 +154,25 @@ class VisionExtractor:
             response = call_with_transient_retry(_transcribe, warnings=retry_warnings)
             vlm_model = str(response.get("model") or vlm_model)
             page_text = str((response.get("message") or {}).get("content") or "").strip()
+
+            # 近空首轮(正文零转写/只复述页眉)→ 同 prompt 重转写一次
+            # (不用补缺失 prompt:对空底稿语义畸形且诱导编造)。真空白页
+            # 两轮都近空,零产出语义不变,但失败首次可见(warning 留痕)。
+            if _substantive_residual(page_text, asset.source_uri) < _NEAR_EMPTY_RESIDUAL_CHARS:
+                retry_response = call_with_transient_retry(_transcribe, warnings=retry_warnings)
+                retry_text = str((retry_response.get("message") or {}).get("content") or "").strip()
+                if _substantive_residual(retry_text, asset.source_uri) >= _NEAR_EMPTY_RESIDUAL_CHARS:
+                    retry_warnings.append(
+                        f"vision_retranscribe_recovered: page={page.index + 1} chars={len(retry_text)}"
+                    )
+                    page_text = retry_text
+                else:
+                    retry_warnings.append(
+                        f"vision_page_near_empty: page={page.index + 1} "
+                        f"first={len(page_text)} retry={len(retry_text)}"
+                    )
+                    if len(retry_text) > len(page_text):
+                        page_text = retry_text
 
             # 补看轮:首轮有文字才补(空白页不补,防诱导幻觉);只并入缺失行。
             if page_text:
