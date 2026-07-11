@@ -76,11 +76,18 @@ class BenchmarkNotetaker:
         limit: int,
         scope_filters: dict[str, Any] | None = None,
     ) -> list[dict[str, Any]]:
-        """查询当前实体事实，作为 facts-first 召回的第一层。"""
+        """查询当前实体事实，作为 facts-first 召回的第一层。
+
+        MASE_GOVERNED_READ_PATH(默认关,架构①续):开启后在 entity_state 结果
+        之后追加对 legacy 读路径不可见的 active 治理事实(与
+        write_facade.shadow_read_diff 的 governed_only 同一份定义)，按
+        entity_state 已有的 (category, entity_key) 去重，不重排、不替换现有
+        结果——沿用本仓补充召回一律 append-only 的先例。
+        """
         if not terms:
             return []
         scope = dict(scope_filters or {})
-        return search_entity_facts_by_keyword(
+        rows = search_entity_facts_by_keyword(
             terms,
             limit=limit,
             db_path=self.db_path,
@@ -88,6 +95,16 @@ class BenchmarkNotetaker:
             workspace_id=scope.get("workspace_id"),
             visibility=scope.get("visibility"),
         )
+        remaining = limit - len(rows)
+        if remaining > 0:
+            from .governance.write_facade import governed_only_supplement_rows
+
+            existing_keys = {(row.get("category"), row.get("entity_key")) for row in rows}
+            supplement = governed_only_supplement_rows(
+                terms, scope_filters=scope, limit=remaining, db_path=self.db_path
+            )
+            rows.extend(row for row in supplement if (row["category"], row["entity_key"]) not in existing_keys)
+        return rows
 
     def _extract_terms(self, keywords: list[str], full_query: str | None = None, query_variants: list[str] | None = None) -> list[str]:
         """从关键词、全文问题和查询变体中扩展可检索术语。"""

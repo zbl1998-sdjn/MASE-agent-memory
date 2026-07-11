@@ -42,6 +42,89 @@ def governance_dual_write_enabled() -> bool:
     return False
 
 
+def governed_read_path_enabled() -> bool:
+    """Return whether the legacy entity_state read path should supplement from facts.
+
+    2026-07-12 双真源读路径切换第一个真实切片:审计(shadow_read_diff)已经能
+    看见哪些 active 治理事实对 legacy 读路径不可见(governed_only)。这个开关
+    决定是否把同一批事实真的补进读路径——默认关,不影响任何 benchmark 现有
+    行为;只在显式开启时,由 benchmark_notetaker._search_entity_state 追加。
+    """
+    value = os.environ.get("MASE_GOVERNED_READ_PATH", "").strip().lower()
+    return value in {"1", "true", "yes", "on"}
+
+
+def governed_only_facts(
+    *,
+    category: str | None = None,
+    key: str | None = None,
+    scope_filters: dict[str, Any] | None = None,
+    db_path: str | Path | None = None,
+) -> list[dict[str, Any]]:
+    """Active governed facts with no entity_state counterpart.
+
+    Extracted out of ``shadow_read_diff``'s ``governed_only`` computation so the
+    opt-in read-path supplement (:func:`governed_read_path_enabled`) reuses the
+    exact same definition of "invisible to legacy reads" as the audit report,
+    instead of re-deriving it and risking drift between the two.
+    """
+    scope = {key_: value_ for key_, value_ in dict(scope_filters or {}).items() if value_ not in (None, "")}
+    with closing(get_connection(db_path)) as conn:
+        _ensure_candidate_schema(conn)
+        legacy = _legacy_rows(conn, category=category, key=key, scope=scope)
+        governed = _governed_rows(conn, category=category, key=key, scope=scope)
+    legacy_keys = {(row["category"], row["entity_key"]) for row in legacy}
+    return [
+        dict(row)
+        for row in governed
+        if row["status"] == "active" and (row["subject"], row["predicate"]) not in legacy_keys
+    ]
+
+
+def governed_only_supplement_rows(
+    terms: list[str],
+    *,
+    scope_filters: dict[str, Any] | None = None,
+    limit: int,
+    db_path: str | Path | None = None,
+) -> list[dict[str, Any]]:
+    """Keyword-filtered governed-only facts, shaped like entity_state search rows.
+
+    Opt-in via :func:`governed_read_path_enabled`; returns ``[]`` untouched when
+    the flag is off or there are no terms, so callers can call this
+    unconditionally without an extra branch.
+    """
+    if not governed_read_path_enabled() or not terms:
+        return []
+    rows = governed_only_facts(scope_filters=scope_filters, db_path=db_path)
+    if not rows:
+        return []
+    lowered_terms = [t.strip().lower() for t in terms if t.strip()]
+    matched = []
+    for row in rows:
+        haystack = f"{row['subject']} {row['predicate']} {row['object']}".lower()
+        if any(term in haystack for term in lowered_terms):
+            matched.append(row)
+    matched.sort(key=lambda row: str(row.get("updated_at") or ""), reverse=True)
+    results: list[dict[str, Any]] = []
+    for row in matched[:limit]:
+        results.append(
+            {
+                "id": None,
+                "category": row["subject"],
+                "entity_key": row["predicate"],
+                "entity_value": row["object"],
+                "updated_at": row.get("updated_at"),
+                "fact_id": row.get("fact_id"),
+                "_source": "governed_fact",
+                "content": f"[FACT] {row['subject']}.{row['predicate']}: {row['object']}",
+                "confidence": "high",
+                "retrieval_reason": "governed_only_fact",
+            }
+        )
+    return results
+
+
 class GovernedFactWriteFacade:
     """Bridge notetaker fact writes into governed fact candidates.
 
@@ -230,8 +313,8 @@ class GovernedFactWriteFacade:
                         "explain": "governed row exists but is not active",
                     }
                 )
-        # 反向对照:active 治理事实在 legacy 读路径缺席的清单。
-        legacy_keys = {(row["category"], row["entity_key"]) for row in legacy}
+        # 反向对照:active 治理事实在 legacy 读路径缺席的清单(与
+        # governed_only_facts 共用同一份"读路径不可见"定义,见该函数说明)。
         governed_only = [
             {
                 "category": row["subject"],
@@ -240,8 +323,7 @@ class GovernedFactWriteFacade:
                 "fact_id": row["fact_id"],
                 "explain": "active governed fact has no entity_state row (invisible to legacy read path)",
             }
-            for row in governed
-            if row["status"] == "active" and (row["subject"], row["predicate"]) not in legacy_keys
+            for row in governed_only_facts(category=category, key=key, scope_filters=scope_filters, db_path=db_path)
         ]
         return {
             "legacy_count": len(legacy),
