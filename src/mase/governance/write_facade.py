@@ -168,11 +168,17 @@ class GovernedFactWriteFacade:
         scope_filters: dict[str, Any] | None = None,
         db_path: str | Path | None = None,
     ) -> dict[str, Any]:
-        """Compare legacy entity_state rows with governance facts.
+        """Compare legacy entity_state rows with governance facts (both ways).
 
         The report is intentionally explanatory, not a hard cutover gate.  It
         helps Phase A/B dual-write users understand which legacy facts have no
         governed candidate or only quarantined evidence.
+
+        2026-07-12 双真源收敛切片:新增 governed→legacy 反向对照——facts 里
+        active 而 entity_state 无同 (category, key) 行的事实(例如
+        event_projection / 写入时抽取的产物)对 legacy 读路径不可见,列入
+        ``governed_only``;superseded/quarantined 等非 active 状态不参与
+        (它们本就不该出现在读路径)。原有报告键全部保留,向后兼容。
         """
         scope = {key_: value_ for key_, value_ in dict(scope_filters or {}).items() if value_ not in (None, "")}
         with closing(get_connection(db_path)) as conn:
@@ -224,12 +230,27 @@ class GovernedFactWriteFacade:
                         "explain": "governed row exists but is not active",
                     }
                 )
+        # 反向对照:active 治理事实在 legacy 读路径缺席的清单。
+        legacy_keys = {(row["category"], row["entity_key"]) for row in legacy}
+        governed_only = [
+            {
+                "category": row["subject"],
+                "entity_key": row["predicate"],
+                "governed_value": row["object"],
+                "fact_id": row["fact_id"],
+                "explain": "active governed fact has no entity_state row (invisible to legacy read path)",
+            }
+            for row in governed
+            if row["status"] == "active" and (row["subject"], row["predicate"]) not in legacy_keys
+        ]
         return {
             "legacy_count": len(legacy),
             "governed_count": len(governed),
             "candidate_count": len(candidates),
             "diff_count": len(diffs),
             "diffs": diffs,
+            "governed_only_count": len(governed_only),
+            "governed_only": governed_only,
         }
 
 
