@@ -547,3 +547,26 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 - **写入时抽取线纯本地推进成立,无需云端**:POC"漏抽 34%"的墙是当时契约/流程的产物(早期轮 doc_facts 单据契约),现管道(dialogue_facts 对话契约 + completeness_pass + qwen3:14b)已越过,且反超当时的云端参照面。
 - 注意口径:此为抽取覆盖率(写入侧),非端到端答题分;端到端还叠加召回对齐与 executor 面。POC DeepSeek 面为 2026-07-08 既存产物,非本轮重跑(当时其分数亦受早期契约影响,对照意义为"POC 当时的实际水平"而非 DeepSeek 模型上限)。
 - 证据:`scratchpad/extraction_coverage_ab_full.json`(本会话)+ 20 例快照(0.70 vs 0.65 同趋势);诊断口径非发布数字。
+
+## 2026-07-11 — LLM 相关性判定 POC(NoLiMa 反字面档):0/68 → 18/68 首个非零本地结果,归因闭合于 executor 档位
+
+背景:embedding 三连负结果关闭"换编码器"后,该档位唯一剩余方向。核心假设:把"长上下文潜在联想"拆成"逐 chunk 短判定",世界知识桥接交给推理型 LLM。
+
+### 阶段一:判定质量探针(6 组真假 needle 对 + 12 无关判定)
+- qwen2.5:0.5b 无判别力(全 yes);**1.5b/3b/7b 连真 needle 全拒**(不做 ECB→Frankfurt 桥接);qwen3:14b 无思考 2/6;**qwen3:14b + thinking:PAIR 6/6 + 无关 12/12 全拒(满分)**——世界知识桥接需要推理 token,方向天花板属于"推理型判定"。
+- 延时实测 3.8s/判定(含真实 900 字符书页 chunk)。
+
+### 阶段二:两级管道诊断跑分(bge-m3 top-30 粗排 → 14b thinking 精判 cap8 → 7b grounded 作答;16k,单书)
+- **onehop/twohop 58 例:18 PASS(31.0%);hard 10 例:0;合计 18/68 vs committed 基线 0/68**。粗排召回前置快测 recall@20=5/6(最差 rank 26,top-30 覆盖)。
+- 失败归因逐例分桶:主集 40 失败 = 判定命中但 executor 答 "Cannot answer" 26 例 + 答错名 2 例 + 判定全拒走词法回退未救回 12 例。
+
+### 归因快验(10 例 fail_judged 重跑,executor 换 qwen3:14b thinking)
+- **needle-in-sheet 10/10**——判定层在全部复验例上把真 needle 送进了 fact_sheet,检索层无罪;
+- **8/10 翻 PASS**(此前 7b 全弃答)——与 LME 弃答线三连负结果同族:7b 拿着证据不做最后一跳推理。
+- 外推(非实测):主集全管道换 14b executor 潜在 ≈ (18+26×0.8)/58 ≈ 67%;hard 档判定/作答两层对更远知识跳跃仍未破(0/10)。
+
+### 判定
+- **方向存活且瓶颈明确**:检索层方案成立(粗排+推理精判),剩余墙 = executor 档位(换 14b thinking 或更强)。
+- 成本如实:检索每例 ~2.2 分钟(30 次 thinking 判定),诊断工具级而非交互级;产品化需判定并行化/蒸馏/缓存,独立工程。
+- 全程诊断 lane 口径,不作发布头条;semantic-discovery 对抗性 lane 禁令不因此松动(本管道未用 embedding 相似度作应答依据,仅作粗排漏斗)。
+- 证据:`E:/MASE-runs/eval_runs/nolima_llm_judge_poc_20260711/`(results.json + 探针/POC 脚本 + 归因快验双日志)。
