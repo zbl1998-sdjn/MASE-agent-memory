@@ -762,6 +762,28 @@ def _create_legacy_schema(db_path: Path) -> None:
             )
         """)
 
+        # 后台任务持久队列(additive):写入时抽取/GC 等派生任务从裸 daemon
+        # 线程升级为落库任务——进程崩溃不丢任务(running 遗留行由
+        # recover_stale_running 复位),失败带重试上限,全程留痕可观测。
+        # 见 src/mase/background_jobs.py。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS pending_jobs (
+                job_id TEXT PRIMARY KEY,
+                job_type TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'pending',
+                attempts INTEGER NOT NULL DEFAULT 0,
+                max_attempts INTEGER NOT NULL DEFAULT 3,
+                last_error TEXT,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+        """)
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_pending_jobs_status "
+            "ON pending_jobs(status, created_at)"
+        )
+
         # 3.12 治理层 P2(additive):检索运行与上下文包审计(每次召回/编译可回放)。
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS retrieval_runs (

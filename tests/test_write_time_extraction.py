@@ -60,7 +60,9 @@ class TestSpawnGuards:
 
 
 class TestSpawnBehavior:
-    def test_enabled_projects_current_thread_with_llm_extractor(self, monkeypatch):
+    def test_enabled_projects_current_thread_with_llm_extractor(self, tmp_path, monkeypatch):
+        monkeypatch.delenv("MASE_MEMORY_DIR", raising=False)
+        monkeypatch.setenv("MASE_DB_PATH", str(tmp_path / "wte.db"))  # 队列落库,必须隔离
         monkeypatch.setenv("MASE_WRITE_TIME_EXTRACTION", "1")
         monkeypatch.delenv("MASE_BENCHMARK_MODE", raising=False)
         calls: list[dict] = []
@@ -81,7 +83,31 @@ class TestSpawnBehavior:
         # runtime 写入行是打包形态,不走 dialogue-rows 扫描则恒零产出。
         assert calls[0]["include_dialogue_rows"] is True
 
-    def test_projection_failure_does_not_break_main_path(self, monkeypatch):
+    def test_job_is_persisted_and_marked_done(self, tmp_path, monkeypatch):
+        """架构切片②:任务先落库(pending_jobs),消费后留 done 痕迹。"""
+        monkeypatch.delenv("MASE_MEMORY_DIR", raising=False)
+        monkeypatch.setenv("MASE_DB_PATH", str(tmp_path / "wte.db"))
+        monkeypatch.setenv("MASE_WRITE_TIME_EXTRACTION", "1")
+        monkeypatch.delenv("MASE_BENCHMARK_MODE", raising=False)
+        monkeypatch.setattr(
+            "mase.governance.event_projection.project_events",
+            lambda **kwargs: {"events_projected": 0},
+        )
+        system = _minimal_system()
+        system._maybe_spawn_write_time_extraction("t-persist")
+        system.join_background_tasks(timeout=5.0)
+
+        import sqlite3
+        conn = sqlite3.connect(str(tmp_path / "wte.db"))
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute("SELECT job_type, status FROM pending_jobs").fetchall()
+        assert len(rows) == 1
+        assert rows[0]["job_type"] == "write_time_extraction"
+        assert rows[0]["status"] == "done"
+
+    def test_projection_failure_does_not_break_main_path(self, tmp_path, monkeypatch):
+        monkeypatch.delenv("MASE_MEMORY_DIR", raising=False)
+        monkeypatch.setenv("MASE_DB_PATH", str(tmp_path / "wte.db"))  # 队列落库,必须隔离
         monkeypatch.setenv("MASE_WRITE_TIME_EXTRACTION", "1")
         monkeypatch.delenv("MASE_BENCHMARK_MODE", raising=False)
 

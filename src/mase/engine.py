@@ -70,6 +70,14 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         # 记录 MASE_GC_AUTO 产生的后台线程，CLI 退出或 FastAPI shutdown 时可显式
         # join，避免 daemon 线程在 LLM 请求中途被进程回收。
         self._gc_threads: list[threading.Thread] = []
+        # 上次进程崩溃遗留的 running 任务复位回 pending(纯 SQL,best-effort;
+        # 积压消费随下一次写入触发的 run_pending 顺带处理,不拖慢启动)。
+        try:
+            from mase.background_jobs import recover_stale_running
+
+            recover_stale_running()
+        except Exception:
+            pass
         # atexit 为 CLI、示例和集成默认提供安全 drain；超时限制避免慢模型让退出
         # 长时间卡住。
         atexit.register(self._atexit_drain)
@@ -115,21 +123,34 @@ class MASESystem(EngineNotetakerMixin, EngineExecutionMixin):
         if os.environ.get("MASE_BENCHMARK_MODE", "0").strip().lower() in {"1", "true", "on", "yes"}:
             return
 
+        # 任务先落库(pending_jobs,架构切片②):进程在消费前崩溃,任务下次
+        # 启动经 recover_stale_running + run_pending 仍可恢复,不再随线程蒸发。
+        try:
+            from mase.background_jobs import enqueue
+
+            enqueue("write_time_extraction", {"thread_id": thread_id})
+        except Exception:
+            # 入队失败不破坏主问答链路;此时无落库任务,本轮投影放弃。
+            return
+
         def _projection_worker() -> None:
             try:
+                from mase.background_jobs import run_pending
                 from mase.governance.event_projection import project_events
 
-                project_events(
-                    thread_id=thread_id,
-                    extractor="llm",
-                    model_interface=self.model_interface,
-                    # runtime 写入行是打包形态(role=assistant,"User: ..."),
-                    # 必须走 dialogue-rows 扫描,否则恒零产出(真机取证)。
-                    include_dialogue_rows=True,
-                )
+                run_pending({
+                    "write_time_extraction": lambda payload: project_events(
+                        thread_id=payload["thread_id"],
+                        extractor="llm",
+                        model_interface=self.model_interface,
+                        # runtime 写入行是打包形态(role=assistant,"User: ..."),
+                        # 必须走 dialogue-rows 扫描,否则恒零产出(真机取证)。
+                        include_dialogue_rows=True,
+                    ),
+                })
             except Exception:
                 # 治理 facts 是派生索引;主 memory_log 已提交,投影失败不能
-                # 反向破坏主写入(与 _gc_worker 同语义)。
+                # 反向破坏主写入(与 _gc_worker 同语义);失败已由队列留痕。
                 pass
 
         self._gc_threads = [t for t in self._gc_threads if t.is_alive()]
