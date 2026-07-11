@@ -570,3 +570,11 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 - 成本如实:检索每例 ~2.2 分钟(30 次 thinking 判定),诊断工具级而非交互级;产品化需判定并行化/蒸馏/缓存,独立工程。
 - 全程诊断 lane 口径,不作发布头条;semantic-discovery 对抗性 lane 禁令不因此松动(本管道未用 embedding 相似度作应答依据,仅作粗排漏斗)。
 - 证据:`E:/MASE-runs/eval_runs/nolima_llm_judge_poc_20260711/`(results.json + 探针/POC 脚本 + 归因快验双日志)。
+
+## 2026-07-12 — 架构切片③:多写者并发压测取证(SQLite WAL)——4 进程并发写零丢写零锁错
+
+- 场景:真 multiprocessing 4 写者(2×memory_log / 1×entity_state / 1×治理 propose_fact 多表事务)+ 1 读者持续 search,同一 DB。
+- 结果:150/写者轮与 500/写者轮(计 2000 写)均 **writer_locked_errors=0、other_errors=0、lost_writes 全 0**;读者 507 次零错误(WAL 读写不互斥验证);吞吐 ~310 写/s(重载轮 6.4s)。
+- 判定:现有 `WAL + busy_timeout=5000 + synchronous=NORMAL` 配置在进程级 4 并发写(含治理层多表事务)下无锁风暴无丢写;README Limitations 的"server-grade 并发待硬化"精确化为:**该量级已验证,更高并发/长事务/跨机文件系统未测**。
+- 取证脚本入库可复跑:`scripts/stress_multiwriter.py`。
+- 首轮"疑似丢写"(entity_state 0/150)复盘为**压测对账口径踩坑**:未知 category 被 upsert 护栏归一化 general_facts(设计行为),按 category 对账数错位置;已修为按 key 前缀对账并在脚本内注释留痕——产品无丢写。
