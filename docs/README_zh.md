@@ -18,11 +18,11 @@
 ![Governance](https://img.shields.io/badge/governance-Fact%20Contract%20%E2%86%92%20Claim%20Verifier-8A2BE2)
 ![Multimodal](https://img.shields.io/badge/multimodal-image%20%7C%20pdf%20%7C%20audio%20%7C%20csv%2Fxlsx-informational)
 
-<a href="docs/README_zh.md">中文</a> | <b>English</b>
+<b>中文</b> | <a href="../README.md">English</a>
 
-![MASE governance demo: correct a fact, watch the stale value get refused](docs/assets/mase_governance_demo.gif)
+![MASE 治理演示:更正一条事实,看过期旧值被当场拒绝](assets/mase_governance_demo.gif)
 
-<sub>Real output from `demo_governance.py` — no vector DB, no LLM. A corrected fact supersedes the old one; an answer that reuses the stale value is refused by the claim verifier.</sub>
+<sub>来自 `demo_governance.py` 的真实输出 —— 不用向量库,不用 LLM。更正后的事实 supersede 旧值;答案若复用过期旧值,会被答案审计器拒绝。</sub>
 
 </div>
 
@@ -146,26 +146,22 @@ python mase_cli.py ingest ./docs
 
 MASE has been evaluated across long-context and memory-oriented benchmarks:
 
-![MASE vs baseline on NoLiMa long-context](docs/assets/nolima_3way_lineplot.png)
+![MASE vs baseline on NoLiMa long-context](assets/nolima_3way_lineplot.png)
 
 | Benchmark | Model / Setting | MASE | Baseline | Delta |
 | --- | --- | --- | --- | --- |
 | LV-Eval EN 256k | qwen2.5:7b local | **91.94%** | **4.84%** | **+87pp** |
-| NoLiMa **ONLYDirect** 32k (literal tier) | qwen2.5:7b local, MASE chunked | **96.43%** | **0.0%** | **+96.4pp** |
+| NoLiMa **ONLYDirect** 32k(字面直接档) | qwen2.5:7b local, MASE chunked | **96.43%** | **0.0%** | **+96.4pp** |
 
-> Honest tier disclosure: ONLYDirect is the **literal tier** — the question and the
-> needle share overlapping words, so keyword retrieval is *supposed* to win it. It proves
-> the value of retrieval architecture when the task exceeds the native window, not latent
-> associative reasoning. On NoLiMa's signature **non-literal** tiers (onehop/twohop,
-> NoLiMa-Hard) our keyword system scores **0%** — re-confirmed 2026-07-07 on v0.16 code,
-> 272 cases all zero, consistent with the 2026-04 committed results and with every
-> non-vector retrieval system. Full honest boundary in `docs/NOLIMA_3WAY.md`.
-> Follow-ups are documented, not hyped: swapping in stronger embeddings was tested and
-> **closed** (four models incl. qwen3-embedding:8b, true/wrong-needle margin < 0.05 —
-> similarity spaces don't encode world-knowledge hops), while an LLM-relevance-judge
-> pipeline (reasoning-mode 14B judging chunks) lifted the non-literal tier 0/68 → 18/68
-> in a diagnostic lane, with the remaining bottleneck attributed to executor tier. See
-> `DECISIONS.md` (2026-07-11) for both write-ups.
+> NoLiMa 口径如实说明:ONLYDirect 是问句与针存在字面重叠的**直接档**,MASE 的关键词检索
+> 本就应当拿下,它证明的是"任务超出原生窗口时检索架构的价值",不是潜在联想推理;NoLiMa
+> 招牌的**反字面**档(onehop/twohop、NoLiMa-Hard)我们的关键词系统为 **0%**——
+> 2026-07-07 用 v0.16 代码同协议复测 272 例全零(needle_set 0/116 @16k、@32k;
+> hard 0/20 @16k、@32k),与 2026-04 committed 结果一致,也与所有无向量检索系统一致
+> ——详见 `docs/NOLIMA_3WAY.md` 的完整诚实边界。该档位的后续方向已取证而非空想:换更强
+> embedding 已测试并**关闭**(含 qwen3-embedding:8b,真假针边距 <0.05);LLM 相关性
+> 判定管道(推理型 14B 逐 chunk 精判)在诊断 lane 把反字面档从 0/68 提到 18/68,
+> 剩余瓶颈归因 executor 档位——两份记录见 `DECISIONS.md`(2026-07-11)。
 | LongMemEval-S 500 | GLM-5 + kimi-k2.5 verifier | **61.0% official substring** / **80.2% LLM-judge** | **70.4% substring** / **72.4% LLM-judge** | **+7.8pp judge** |
 
 LongMemEval is reported with multiple lanes:
@@ -177,16 +173,15 @@ LongMemEval is reported with multiple lanes:
 Detailed benchmark notes live in `BENCHMARKS.md` and `docs/benchmark_claims/`.
 
 
-## Best Observed Runs (historical peaks)
+## 历史最佳成绩 (Best Observed Runs)
 
-> This section summarizes a full artifact sweep (845 result files under `MASE_RUNS_DIR`),
-> recording the **best single run** per configuration. The Evidence table above uses
-> conservative representative values; this table is historical peaks. Reading rules at
-> the end. Archived artifacts and hash-backed reproduction live in `MASE-runs-reproduce/`.
+> 本节为全产物扫描汇总(`MASE_RUNS_DIR` 下 845 个结果文件),记录每个配置的**单次运行最高分**。
+> 头条表(上方 Evidence)取的是保守代表值;本表是历史峰值。口径见末尾「读法」。
+> 归档产物与带哈希复现见 `MASE-runs-reproduce/`(`best_runs/`、`BEST_SCORES.md`、`REPRODUCTION_SUMMARY.md`)。
 
-### LV-Eval factrecall — best single runs (local qwen2.5:7b)
+### LV-Eval factrecall — 单次最佳(本地 qwen2.5:7b)
 
-| Slice | EN best | ZH best |
+| 切片 | EN 最佳 | ZH 最佳 |
 |---|---|---|
 | 16k | 99.41% (169/170) | 91.61% (142/155) |
 | 32k | 98.26% (169/172) | 92.94% (158/170) |
@@ -196,26 +191,26 @@ Detailed benchmark notes live in `BENCHMARKS.md` and `docs/benchmark_claims/`.
 
 ### LongMemEval-S 500 / NoLiMa / LongBench-v2
 
-| Benchmark | Best | Lane |
+| Benchmark | 最佳 | 口径 |
 |---|---|---|
-| LongMemEval substring (best stable single run) | 75.4% (377/500) | multipass + length-aware |
-| LongMemEval substring (headline) | 61.0% (305/500) | cloud GLM-5 + kimi chain |
-| LongMemEval LLM-judge (headline) | 80.2% (401/500) | judge upgrades FAIL→PASS only |
-| NoLiMa ONLYDirect 4k / 8k | 100% (56/56) | local qwen2.5:7b |
-| NoLiMa ONLYDirect 16k / 32k | 75.0% (2026-04) / **96.43%** (2026-07 v0.16 re-test) | local qwen2.5:7b, MASE chunked |
-| LongBench-v2 short | 33.33% (10/30) | 7B reasoning ceiling, matches official Llama3.1-8B |
+| LongMemEval substring(best stable 单次) | 75.4% (377/500) | multipass + length-aware |
+| LongMemEval substring(头条) | 61.0% (305/500) | 云端 GLM-5 + kimi 链路 |
+| LongMemEval LLM-judge(头条) | 80.2% (401/500) | judge 仅 FAIL→PASS |
+| NoLiMa ONLYDirect 4k / 8k | 100% (56/56) | 本地 qwen2.5:7b |
+| NoLiMa ONLYDirect 16k / 32k | 75.0%(2026-04)/ **96.43%**(2026-07 v0.16 复测) | 本地 qwen2.5:7b,MASE chunked |
+| LongBench-v2 short | 33.33% (10/30) | 7B 推理天花板,与 Llama3.1-8B 官方持平 |
 
-### Hash-backed reproduction on current code
+### 当前代码带哈希复现(固化证据)
 
-- All 10 LV-Eval EN+ZH slices re-run on current code with captured `sample_ids_sha256` hashes; see `MASE-runs-reproduce/lveval_full_sweep_reproduce_*.{json,md}`.
-- EN 256k headline slice: current code deterministically yields **91.94% (114/124)** (`sample_ids_sha256=be9fef61…`, temperature 0, two identical runs).
-- The historical peak 98.39% comes from an earlier code version (before anti-overfit hash instrumentation) and is not literally reproducible on current code — the gap is **code evolution**, not run variance.
+- LV-Eval EN+ZH 全 10 切片已在本机用当前代码重跑并捕获 `sample_ids_sha256` 真实哈希,见 `MASE-runs-reproduce/lveval_full_sweep_reproduce_*.{json,md}`。
+- EN 256k 头条切片:当前代码确定性给 **91.94% (114/124)**(`sample_ids_sha256=be9fef61…`,温度=0,两次跑分一致)。
+- 历史峰值 98.39% 来自更早代码版本(早于反过拟合哈希插桩),当前代码无法字面复现——差异为**代码演进**而非运行方差。
 
-### Reading rules (honest lanes)
+### 读法(诚实口径)
 
-- **Single run vs best-of**: the tables above are peaks within a single result file. Deduplicating best-per-question across 159 LongMemEval batches would reach 89.2% (446/500), but some questions were attempted up to 25 times — that is post-hoc stitching and is **not reported as a single-run score** (consistent with iter4's 84.8% being flagged `uses_failed_slice_retry:true`).
-- **Local vs cloud**: LV-Eval / NoLiMa headlines run on local qwen2.5:7b; the LongMemEval headline relies on cloud GLM-5 + kimi-k2.5. The fully-local qwen2.5:7b lane is **62.6% substring** (2026-07 committed, with a ±5pp cross-service-lifetime drift caveat).
-- **Cluster participation**: the LV-Eval answer path only lights up router (qwen0.5b) + executor (qwen7b); long documents are compressed by retrieval (the executor actually reads ~2.8k EN / ~5.5k ZH tokens), not multi-model collaboration; see `MASE-runs-reproduce/cluster_participation_*.md`.
+- **单次 vs best-of**:上表为单个结果文件内的全量运行峰值。LongMemEval 159 批次「按题去重取 best」可达 89.2% (446/500),但每题最多跑过 25 次,属 post-hoc 拼接,**不作为单次成绩**(与仓库 iter4 84.8% 被标注 `uses_failed_slice_retry:true` 的口径一致)。
+- **本地 vs 云端**:LV-Eval / NoLiMa 头条为本地 qwen2.5:7b;LongMemEval 头条依赖云端 GLM-5 + kimi-k2.5(纯本地 full-500 仅 ~20% substring)。
+- **集群参与度**:LV-Eval 答题路径仅点亮 router(qwen0.5b)+ executor(qwen7b)两个模型,长文由检索压缩(executor 实读 EN ~2.8k / ZH ~5.5k token),非多模型协同;详见 `MASE-runs-reproduce/cluster_participation_*.md`。
 
 
 ## Quick Start
@@ -303,15 +298,15 @@ Known boundaries:
 - large document-level semantic retrieval is not the primary path yet;
 - high-concurrency server-grade deployment requires more runtime hardening;
 - benchmark claims should be read with the documented lane definitions;
-- the governance layer's claim mapping is substring-based by default; an opt-in L2 semantic layer (`MASE_SEMANTIC_VERIFIER=1`, deterministic synonym tables, no LLM) flags paraphrased contradictions, but its synonym coverage is still small;
+- the governance layer's claim mapping is substring-based ("verbatim-quote" claims), not semantic — paraphrased or reworded answer claims are not yet detected;
 - Evidence Pack injection into the executor prompt is opt-in and off by default; the legacy fact-sheet path is still what benchmarks and the default runtime use;
-- conversational write-time extraction into governance facts exists but is opt-in (`MASE_WRITE_TIME_EXTRACTION=1`) and young — verified on real closed loops, not yet on long-horizon daily use.
+- governance facts are wired from multimodal ingestion and the `mase2_upsert_fact` facade; conversational notetaker facts are not yet dual-written into the governance tables.
 
 ## Roadmap
 
 - ✅ Governance layer: Fact Contract, Admission Gate, Conflict Resolver, Evidence Pack, Claim Verifier (P0–P3, done).
 - ✅ Multimodal ingestion for images/PDF/audio with byte-level provenance (S0–S2, done).
-- White-box semantic retrieval: keyword/substring core plus opt-in bge-m3 candidate discovery (calibrated, adversarial-lane banned); embedding-swap for non-literal recall was tested and closed, LLM-relevance-judge pipeline is the live direction (diagnostic 0/68 → 18/68).
+- White-box semantic retrieval: still keyword/substring-based; synonym expansion and embedding-assisted candidate discovery remain future work.
 - Memory Review UI: human-facing approve/reject/edit/merge over the quarantine queue (governance data model is in place; UI is not built yet).
 - Document-level claim memory for large files (page/line-mapped facts beyond current span offsets).
 - More server-grade async/runtime hardening.

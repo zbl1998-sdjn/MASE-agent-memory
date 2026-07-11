@@ -186,14 +186,16 @@ def test_publishable_tracked_evidence_declares_anti_overfit_protocol() -> None:
 
 
 def test_public_docs_reference_tracked_claim_language() -> None:
+    # 2026-07-12 布局重组:根 README.md 为英文公开入口,中文版在 docs/README_zh.md,
+    # docs/README_en.md 降级为跳转 stub(防旧外链断裂),不再承载 claim 口径。
     readme = _read_text("README.md")
-    readme_en = _read_text("docs/README_en.md")
+    readme_zh = _read_text("docs/README_zh.md")
     benchmarks = _read_text("BENCHMARKS.md")
     publish = _read_text("docs/PUBLISH_CHECKLIST.md")
 
     assert "docs/benchmark_claims/" in benchmarks
     assert "official substring" in readme
-    assert "official substring" in readme_en
+    assert "official substring" in readme_zh
     assert "tracked claim manifest" in publish
 
 
