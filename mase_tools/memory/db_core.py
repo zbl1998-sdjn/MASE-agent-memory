@@ -748,6 +748,20 @@ def _create_legacy_schema(db_path: Path) -> None:
             )
         """)
 
+        # LLM 相关性判定缓存(additive):同 (query, content, model) 的 yes/no
+        # 判定确定性可复用(temp 0),重复查询免重判。只服务显式调用的
+        # relevance_judge 批量 API,读路径零依赖。见 src/mase/relevance_judge.py。
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS relevance_judgments (
+                query_hash TEXT NOT NULL,
+                content_hash TEXT NOT NULL,
+                model TEXT NOT NULL,
+                verdict INTEGER NOT NULL,
+                created_at TEXT NOT NULL,
+                PRIMARY KEY (query_hash, content_hash, model)
+            )
+        """)
+
         # 3.12 治理层 P2(additive):检索运行与上下文包审计(每次召回/编译可回放)。
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS retrieval_runs (
