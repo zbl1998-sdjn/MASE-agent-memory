@@ -340,36 +340,19 @@ class BenchmarkNotetaker:
         remaining -= len(history_slice)
         final = primary + history_slice + scored[:remaining]
 
-        # event-log 语义候选发现(opt-in,MASE_EVENT_SEMANTIC_RECALL=1;诊断
-        # lane,见 event_semantic_recall 模块 docstring)。只补关键词完全没
-        # 命中的行,追加在词法结果之后——不重排、不占用、不替换任何词法槽位。
+        # 补充召回 stage 管线(架构切片⑤):词法核心之外的追加候选统一走
+        # retrieval_pipeline 注册表(事件语义发现/llm-judge 两级管道等),
+        # 默认零 stage 启用,默认行为不变;只追加不重排不占用词法槽位。
+        # 排除口径是"已经在返回结果里的行",不是"关键词打过分的行"——
+        # NoLiMa 式 needle 通常与问题共享锚点词,会在 scored 里拿到非零分
+        # 但排不进 top-K;按"打过分即排除"会让补充召回空转(真机取证)。
         if full_query:
-            from .event_semantic_recall import discover_events, event_semantic_enabled
+            from .retrieval_pipeline import run_supplement_stages
 
-            if event_semantic_enabled():
-                # 排除口径是"已经在返回结果里的行"，不是"关键词打过分的行"——
-                # NoLiMa 式 needle 通常与问题共享锚点词（如人名），会在 scored
-                # 里拿到一个非零但排不进 top-K 的分数；若按"打过分即排除"，
-                # 语义发现永远补不到真正缺失的 top-K 位置，功能等于空转。
-                already_seen = {int(item["id"]) for item in scored[:remaining] if item.get("id") is not None}
-                discovered = discover_events(full_query, exclude_ids=already_seen, db_path=self.db_path)
-                if discovered:
-                    discovered_ids = {log_id for log_id, _sim in discovered}
-                    by_id = {
-                        int(row["id"]): row
-                        for row in fetch_memory_rows(db_path=self.db_path, include_superseded=False)
-                        if int(row["id"]) in discovered_ids
-                    }
-                    for log_id, similarity in discovered:
-                        row = by_id.get(log_id)
-                        if row is None:
-                            continue
-                        candidate = dict(row)
-                        candidate["_source"] = "memory_log"
-                        candidate["confidence"] = "low"
-                        candidate["retrieval_reason"] = "event_semantic_discovery"
-                        candidate["semantic_similarity"] = similarity
-                        final.append(candidate)
+            returned_ids = {int(item["id"]) for item in scored[:remaining] if item.get("id") is not None}
+            final.extend(
+                run_supplement_stages(full_query, db_path=self.db_path, existing_ids=returned_ids)
+            )
 
         return final
 
