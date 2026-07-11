@@ -532,3 +532,18 @@ Remaining open: `lme-restore-85`, `mcp-tools-real-impl`, `memory-tri-vault`, `sh
 - **"换 embedding 解 NoLiMa 反字面档"方向关闭**(与 2026-04-18 对抗针、2026-07-11 事件路径两条 bge-m3 负结果构成三连,根因一致:相似度空间不承载常识推理)。
 - 该档位剩余方向仅 LLM-based 相关性判定(每 chunk 一次小模型调用,成本结构完全不同,独立立项,未验证)。
 - 取证方法与数据本会话记录;模型已入本机 ollama(qwen3-embedding 三档)可复跑。
+
+## 2026-07-11 — 本地抽取覆盖率 A/B(写入时抽取线路线判定):qwen3:14b 反超 DeepSeek 参照面,纯本地路线成立
+
+背景:POC 端到端归因"DeepSeek 漏抽 34%"曾是写入时抽取的墙;写入时钩子(c8de1434)落地后需回答"本地模型做抽取器够不够"。
+
+### 取证(78 例 knowledge-update,oracle answer_session 范围,同口径:GT 变体逐字命中抽取 value/evidence)
+- **本地 dialogue_facts→doc_facts(qwen3:14b,默认 config 即钩子真实落点):73.08%**
+- DeepSeek POC 抽取库(既存产物):64.10% —— **本地反超 +9.0pp**
+- 四象限:both 46 / only_deepseek 4 / only_local 11 / neither 17
+- neither 归因:17 例中 15 例(88%)GT 逐字不在 user 轮原文——POC 已定性的"逐字契约 vs LME 归纳式标注"结构性族,任何抽取器无解;真正可及但双方皆漏仅 2 例。本地实际 73.1% 距可及上限(≈80.8%)仅 ~7.7pp。
+
+### 判定
+- **写入时抽取线纯本地推进成立,无需云端**:POC"漏抽 34%"的墙是当时契约/流程的产物(早期轮 doc_facts 单据契约),现管道(dialogue_facts 对话契约 + completeness_pass + qwen3:14b)已越过,且反超当时的云端参照面。
+- 注意口径:此为抽取覆盖率(写入侧),非端到端答题分;端到端还叠加召回对齐与 executor 面。POC DeepSeek 面为 2026-07-08 既存产物,非本轮重跑(当时其分数亦受早期契约影响,对照意义为"POC 当时的实际水平"而非 DeepSeek 模型上限)。
+- 证据:`scratchpad/extraction_coverage_ab_full.json`(本会话)+ 20 例快照(0.70 vs 0.65 同趋势);诊断口径非发布数字。
