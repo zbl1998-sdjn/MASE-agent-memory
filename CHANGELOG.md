@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.18.0] — 2026-07-12 — 治理层读路径切换起步 + 千行判定函数拆分;NoLiMa 反字面档判定层产品化;多模态表格摄入/注入防御/L2 语义验证;写入时抽取全链路首次内生跑通
+
+### Added
+- **架构清单五项全部收尾**(用户批准 punch list,逐项验收+CI 绿):
+  - ①**双真源一致性审计 + 读路径真实切片**:`shadow_read_diff` 补上 governed→legacy 反向对照(active 治理事实对 legacy 读路径不可见的 `governed_only` 清单);在此基础上新增 `MASE_GOVERNED_READ_PATH`(默认关)——`benchmark_notetaker._search_entity_state` 把同一批治理事实追加进真实读路径(append-only、按 key 去重、不占 entity_state 名额),不是默认路径切换
+  - ②**后台任务持久队列**:`pending_jobs` 表(additive)+ `background_jobs` 模块替代裸 daemon 线程,派生任务(写入时抽取)崩溃可恢复(`recover_stale_running`)、失败重试到终态显式留痕
+  - ③**多写者并发压测取证**:真 multiprocessing 4 写者 + 持续读者,150/500 写-每-者两轮零 locked 零丢写,吞吐 ~310 写/s,WAL+busy_timeout=5000 在该量级成立
+  - ④**千行判定函数真拆分**(先做小 helper 搬迁,再做函数级拆分):`_build_multi_session_aggregate_ledger`(985 行/32 分支)→ `fact_sheet_long_memory_aggregate_cases.py`;`_build_temporal_answer_ledger`(1192 行/46 分支)→ `fact_sheet_long_memory_temporal_cases.py`;AST 精确定位分支边界、纯文本搬迁(字节不变)、ruff 未定义名检测作行为保持的构造性证明
+  - ⑤**检索管线显式化**:`retrieval_pipeline.py` `SUPPLEMENT_STAGES` 注册表收编事件语义召回 + 新增 `llm_judge_recall` stage(见下)
+- **NoLiMa 反字面档判定层产品化**(`relevance_judge.py`):两级管道——bge-m3 宽漏斗粗排(阈值 0.30/top30)→ 推理型 LLM(qwen3:14b thinking)逐块精判(cap 8),POC 把反字面档 0/68 提到 **18/68**;归因快验证实检索层无罪(needle-in-sheet 10/10),执行器换 14b thinking 后 8/10 翻 PASS,剩余瓶颈落在 executor 档位。产品化模块含并行批判定(ThreadPoolExecutor)+ `relevance_judgments` 缓存表,接入检索管线 `llm_judge_recall` stage(默认关)
+- **写入时对话抽取全链路首次内生跑通**(`MASE_WRITE_TIME_EXTRACTION`,默认关):engine 在 notetaker 写入后异步触发 LLM 抽取投影,配套修复 dialogue-rows 打包行扫描(`include_dialogue_rows`)与跨调用 category 标签漂移(沿用既有 predicate 的 category 成链);真机验收:改预算 5000→8000 走通 supersede 成链 + 语义桥接 + hybrid pack 注入,首次答出更新后的值
+- **多模态表格摄入**:`TabularExtractor` 纯代码解析 CSV/xlsx(零 LLM),两列表 KV / 多列表行打包,值逐字渲染保证治理层 evidence span 定位;CSV 编码探测(utf-8-sig/gbk)+ 分隔符 Sniffer,xlsx 走可选依赖 openpyxl
+- **多模态注入防御(G6)**:`admission_gate.scan_injection` 治理层门控(命中即 quarantined,不脱敏、保留原文供 review)+ ingest 文件级留痕(`IngestReport.injection_flags`,不阻断转写保真);高特异性中英文注入句式模式集,误杀护栏测试钉死
+- **答案声明验证器 L2 语义层**(`MASE_SEMANTIC_VERIFIER`,默认关):确定性同义表复查 L1 UNTAGGED 句子的矛盾面,只收紧不放宽(L1 已打标句子不覆盖)
+- **视觉转写 v8**:近空转写自动重试(剥离页眉后残余 <10 字符触发),恢复/仍空两种结局都显式留痕,把静默丢页变成可观测
+- **英文优先 README**:根 README 改英文公开入口(治理演示 gif 作首屏钩子),中文版迁 `docs/README_zh.md`,口径全面刷新到当前 committed 状态
+- 测试 **964 → 1043**(+79,含五个架构切片测试 + 判定层产品化 6 例 + 表格摄入/注入防御/L2验证/视觉v8/写入时抽取/读路径切片各自的特征测试)
+
+### Fixed
+- DeepSeek 官方 2026-07-24 停用 `deepseek-chat`/`deepseek-reasoner` legacy 别名(该别名已于 2026-04-24 静默改指向 v4-flash 而非旗舰模型):按角色档位迁移到显式 `deepseek-v4-pro`/`deepseek-v4-flash`,历史证据文件(DECISIONS.md、benchmark_claims)保留原字面量不动
+- CI 依赖/平台缺口收尾:Windows-only `add_dll_directory` 显式平台守卫、`python-multipart` 补进 dev extras、`openpyxl` 平台标记补全
+- `test_write_time_extraction.py` 两例缺 DB 隔离导致跨运行 job 队列污染(单文件跑挂/全量过的顺序依赖),补 `MASE_DB_PATH` 隔离
+
+### 口径说明
+- **NoLiMa 事件路径语义召回三连负结果,方向正式关闭**:bge-m3 事件路径诊断 A/B(hard/onehop/twohop 全零翻转)、四款候选编码器(bge-m3 + qwen3-embedding 0.6b/4b/8b)预注册边距全部低于 0.10 采纳线——MTEB 榜首档本地 embedding 也编码不了该档位的世界知识跳跃,与 2026-04-18 LV-Eval 对抗双针教训同族;剩余唯一有效方向是本轮验证过的 LLM-based 相关性判定(已产品化,见上)
+- 本地写入时抽取覆盖率 A/B:qwen3:14b 73.08% vs DeepSeek POC 参照 64.10%(+9.0pp),写入时抽取线确认纯本地推进、无需云端
+- 多模态 xfund_zh 轮五诊断:剩余失败三分归因(VLM 稳定退化 / 符号保真 / 散布),已进入 7B 级本地 VLM 上限区,停止 prompt 迭代;更强 VLM 是独立立项
+- 架构④拆分副产品:temporal 两个 case 函数在 mypy 单独检查下暴露 2 个类型窄化问题(`_months_between`/`.strftime` 遇 `datetime | None`),经 git-stash 对照确认为原 1192 行函数里本就存在、只是从未被 `pyproject.toml` 的 `[tool.mypy] files` 白名单覆盖到——按"纯搬迁不改行为"原则如实记录,未在本次提交修复
+
 ## [0.17.0] — 2026-07-08 — 治理层"写入时理解"闭环:事件→事实投影三切片 + hybrid 注入;白盒语义召回落地
 
 ### Added
