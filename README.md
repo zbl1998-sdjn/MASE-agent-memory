@@ -13,7 +13,7 @@
 ![Concurrency](https://img.shields.io/badge/concurrency-battle--tested-orange)
 ![Crash-safe](https://img.shields.io/badge/storage-crash--safe-success)
 ![LV-Eval](https://img.shields.io/badge/LV--Eval--256k-91.94%25-red)
-![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--ONLYDirect--32k-96.43%25%20%7C%20hard%200%25-red)
+![NoLiMa-32k](https://img.shields.io/badge/NoLiMa--ONLYDirect--32k-60.71%25%20%7C%20hard%200%25-red)
 ![LongMemEval-S](https://img.shields.io/badge/LongMemEval--S-61.0%25%20official%20%7C%2080.2%25%20judge-blueviolet)
 ![Governance](https://img.shields.io/badge/governance-Fact%20Contract%20%E2%86%92%20Claim%20Verifier-8A2BE2)
 ![Multimodal](https://img.shields.io/badge/multimodal-image%20%7C%20pdf%20%7C%20audio%20%7C%20csv%2Fxlsx-informational)
@@ -151,7 +151,7 @@ MASE has been evaluated across long-context and memory-oriented benchmarks:
 | Benchmark | Model / Setting | MASE | Baseline | Delta |
 | --- | --- | --- | --- | --- |
 | LV-Eval EN 256k | qwen2.5:7b local | **91.94%** | **4.84%** | **+87pp** |
-| NoLiMa **ONLYDirect** 32k (literal tier) | qwen2.5:7b local, MASE chunked | **96.43%** | **0.0%** | **+96.4pp** |
+| NoLiMa **ONLYDirect** 32k (literal tier) | qwen2.5:7b local, MASE chunked | **60.71%** | **1.79%** | **+58.9pp** |
 
 > Honest tier disclosure: ONLYDirect is the **literal tier** — the question and the
 > needle share overlapping words, so keyword retrieval is *supposed* to win it. It proves
@@ -202,7 +202,7 @@ Detailed benchmark notes live in `BENCHMARKS.md` and `docs/benchmark_claims/`.
 | LongMemEval substring (headline) | 61.0% (305/500) | cloud GLM-5 + kimi chain |
 | LongMemEval LLM-judge (headline) | 80.2% (401/500) | judge upgrades FAIL→PASS only |
 | NoLiMa ONLYDirect 4k / 8k | 100% (56/56) | local qwen2.5:7b |
-| NoLiMa ONLYDirect 16k / 32k | 75.0% (2026-04) / **96.43%** (2026-07 v0.16 re-test) | local qwen2.5:7b, MASE chunked |
+| NoLiMa ONLYDirect 16k / 32k | 75.0% at 16k (2026-04) / **60.71%** at 32k (3-way run, see docs/NOLIMA_3WAY.md) | local qwen2.5:7b, MASE chunked |
 | LongBench-v2 short | 33.33% (10/30) | 7B reasoning ceiling, matches official Llama3.1-8B |
 
 ### Hash-backed reproduction on current code
@@ -320,6 +320,10 @@ Known boundaries:
 
 ## Architecture boundaries
 
+Start with the repository maintenance map when deciding where a change belongs:
+
+- `docs/REPOSITORY_STRUCTURE.md`
+
 Stable Core, Compatibility Surface, and Experimental Surface are defined in:
 
 - `docs/ARCHITECTURE_BOUNDARIES.md`
@@ -343,7 +347,7 @@ Issues and pull requests are welcome, especially for:
   title = {{MASE}: Memory-Augmented Session Engine — Schema-less SQLite memory for LLM agents},
   year = {2026},
   url = {https://github.com/zbl1998-sdjn/MASE-agent-memory},
-  note = {Lifts qwen2.5:7b from 0\% (naked, window-bound) to 96.43\% on NoLiMa ONLYDirect-32k (literal tier; non-literal hard tier stays 0\%, disclosed); 61.0\% official substring / 80.2\% LLM-judge on LongMemEval-S}
+  note = {Lifts qwen2.5:7b from 1.79\% (naked, window-bound) to 60.71\% on NoLiMa ONLYDirect-32k (literal tier; non-literal hard tier stays 0\%, disclosed); 61.0\% official substring / 80.2\% LLM-judge on LongMemEval-S}
 }
 ```
 
